@@ -4,11 +4,18 @@ This is the repository for the project "Trafic au CERN". Our professors are Prof
 
 ## Environment
 
-The simulation is running on C++. We are both running on Ubuntu and working with Geany.
+The simulation is running on C++ (version c++11). We are both running on Ubuntu and working with Geany.
 
 ## Model
 
-We will use the model presented by Bastien Chopard and Alexandre Dupuis in "Networks and Spatial Economics, 3: (2003) 9–21". This is a cellular automata for simulation of traffic.
+We will use the model presented by Bastien Chopard and Alexandre Dupuis in "*Networks and Spatial Economics, 3: (2003) 9–21*". This is a **cellular automata for simulation of traffic**.
+
+## Authors
+
+- Pavlos Tserevelakis, Bachelor of Computational Sciences, University of Geneva
+- Raphaël Lutz, Bachelor of Computational Sciences, University of Geneva
+
+-----
 
 ## Personnal reminders
 
