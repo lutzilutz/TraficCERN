@@ -1,2 +1,5 @@
 # Objects file
 *.o
+
+# LaTeX useless files
+CahierDesCharges/*.aux CahierDesCharges/*.log
