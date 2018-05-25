@@ -19,13 +19,13 @@ We will use the model presented by Bastien Chopard and Alexandre Dupuis in "*Net
 
 ## Personnal reminders
 
-### Updating local folder from online repository (repo -> local)
+#### Updating local folder from online repository (repo -> local)
 
 ```sh
   git pull origin master
 ```
 
-### Upload local changes into master branch (local -> repo)
+#### Upload local changes into master branch (local -> repo)
 
 ```sh
   git add .
@@ -33,7 +33,7 @@ We will use the model presented by Bastien Chopard and Alexandre Dupuis in "*Net
   git push origin master
 ```
 
-### Update repo after changing .gitignore (local -> repo)
+#### Update repo after changing .gitignore (local -> repo)
 
 First `add` and `commit` your changes (at least the .gitignore file). Then
 
