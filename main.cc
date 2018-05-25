@@ -3,8 +3,8 @@ using namespace std;
 #include "Cellule.h"
 #include "Route.h"
 #include "RondPoint.h"
-int main()
-{
+
+int main() {
 	Cellule c1 = Cellule();
 	Cellule c2 = Cellule();
 	Cellule c3 = Cellule();
