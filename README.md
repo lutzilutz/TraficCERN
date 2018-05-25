@@ -19,18 +19,56 @@ We will use the model presented by Bastien Chopard and Alexandre Dupuis in "*Net
 
 ## Personnal reminders
 
-#### Updating local folder from online repository (repo -> local)
+#### Updating local folder (repo -> local)
+
+From master branch :
 
 ```sh
   git pull origin master
 ```
 
-#### Upload local changes into master branch (local -> repo)
+From someBranch :
+
+```bash
+  git pull origin someBranch
+```
+
+#### Upload local changes (local -> repo)
+
+From master branch :
 
 ```sh
   git add .
   git commit -m "Some message"
   git push origin master
+```
+
+From someBranch :
+
+```sh
+  git add .
+  git commit -m "Some message"
+  git push origin someBranch
+```
+
+### Branches
+
+Go into someBranch :
+
+```sh
+  git checkout someBranch
+```
+
+Create new branch :
+
+```sh
+  git branch someBranch
+```
+
+Show current branch :
+
+```sh
+  git branch
 ```
 
 #### Update repo after changing .gitignore (local -> repo)
