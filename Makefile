@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -std=c++0x
 EXEC_NAME = main
 INCLUDES = .
 LIBS =
@@ -15,10 +15,10 @@ $(EXEC_NAME) : $(OBJ_FILES)
 	$(CC) -o $(EXEC_NAME) $(OBJ_FILES) $(LIBS)
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< -std=c++0x
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 %.o: %.cc
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< -std=c++0x
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 %.o: %.c
 	gcc $(CFLAGS) $(INCLUDES) -o $@ -c $<
