@@ -15,5 +15,3 @@ void RondPoint::affiche()
 	}
 	cout << endl;
 }
-
-

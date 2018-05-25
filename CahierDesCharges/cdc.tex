@@ -1,9 +1,7 @@
 \documentclass[a4paper,10pt]{extarticle}
 
-%\usepackage{algpseudocode}
 \usepackage{amsmath}
 \usepackage{amssymb}
-%\usepackage[francais]{babel}
 \usepackage{charter}
 \usepackage{color}
 \usepackage{comment}
@@ -14,26 +12,16 @@
 \usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
-%\usepackage{lipsum,booktabs}
 \usepackage[normalem]{ulem}
-%\usepackage{sectsty}
 \usepackage{setspace}
 \usepackage{titlesec}
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 \usetikzlibrary{positioning,decorations.markings}
-%\usepackage{wrapfig}
-%\usepackage{xcolor}
-%\usepackage{listliketab}
-%\usepackage{tabto}
 \usepackage{amsmath}
 \usepackage{pdflscape}
 \usepackage{prftree}
 \usepackage{pdfpages}
-
-\definecolor{vertSec}{rgb}{0,0.3,0}
-\definecolor{vertSSec}{rgb}{0,0.2,0}
-\definecolor{vertSSSec}{rgb}{0,0,0}
 
 \titleformat{\title}
 {\color{black}\normalfont\Large\bfseries\centering}
@@ -43,56 +31,20 @@
 {\color{black}\normalfont\Large\bfseries\centering}
 {\color{black}\thesection}{1em}{\hspace{0cm}}
 
-%\titleformat{name=\subsection}[block]
-%{\color{vertSSec}\normalfont\Large\bfseries}
-%{\hspace*{0.3cm}\thesubsection}
-%{1em}
-%{}
-
-%\titleformat{name=\subsection,numberless}[block]
-%{\color{vertSSec}\normalfont\normalsize\bfseries}
-%{}
-%{1pt}
-%{\hspace*{0.3cm}}
-
 \titleformat{\subsection}
 {\color{black}\normalfont\large\bfseries}
 {\color{black}\thesubsection}{1em}{\hspace{.4cm}}
 
 \titleformat{\subsubsection}
-{\color{vertSSSec}\normalfont\normalsize\bfseries}
-{\color{vertSSSec}\thesubsubsection}{1em}{\hspace{.8cm}}
-
-%\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
-%\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
-
-%\titlespacing{\paragraph}{%
-%  0cm}{%              left margin
-%  .5\baselineskip}{% space before (vertical)
-%  1em}%               space after (horizontal)
-
-%\setlength{\parskip}{2em}
+{\color{black}\normalfont\normalsize\bfseries}
+{\color{black}\thesubsubsection}{1em}{\hspace{.8cm}}
 
 \begin{document}
 
-%\setlength{\parindent}{0cm}
-%\onehalfspacing
 \pagestyle{fancy}
-%\fancyhf{} % sets both header and footer to nothing
-%\renewcommand{\headrulewidth}{5pt}
-%\cfoot{\thepage\ sur \pageref{LastPage}}
-%\renewcommand{\footskip}{12pt}
 \renewcommand{\headheight}{24pt}
 \lhead{Pavlos Tserevelakis et Raphaël Lutz}
 \rhead{\today}
-
-%\makeatletter
-%\renewcommand{\paragraph}{%
-%  \@startsection{paragraph}{4}%
-%  {\z@}{.7em \@plus 1ex \@minus 2em}{-1em}%
-%  {\normalfont\normalsize\bfseries}%
-%}
-%\makeatother
 
 \section*{Trafic au CERN - Cahier des charges}
 
