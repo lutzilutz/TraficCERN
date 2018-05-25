@@ -1,0 +1,142 @@
+\documentclass[a4paper,10pt]{extarticle}
+
+%\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage[francais]{babel}
+\usepackage{charter}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{empheq}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[T1]{fontenc}
+\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+%\usepackage{lipsum,booktabs}
+\usepackage[normalem]{ulem}
+%\usepackage{sectsty}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning,decorations.markings}
+%\usepackage{wrapfig}
+%\usepackage{xcolor}
+%\usepackage{listliketab}
+%\usepackage{tabto}
+\usepackage{amsmath}
+\usepackage{pdflscape}
+\usepackage{prftree}
+\usepackage{pdfpages}
+
+\definecolor{vertSec}{rgb}{0,0.3,0}
+\definecolor{vertSSec}{rgb}{0,0.2,0}
+\definecolor{vertSSSec}{rgb}{0,0,0}
+
+\titleformat{\title}
+{\color{black}\normalfont\Large\bfseries\centering}
+{\color{black}\thesection}{1em}{\hspace{0cm}}
+
+\titleformat{\section}
+{\color{black}\normalfont\Large\bfseries\centering}
+{\color{black}\thesection}{1em}{\hspace{0cm}}
+
+%\titleformat{name=\subsection}[block]
+%{\color{vertSSec}\normalfont\Large\bfseries}
+%{\hspace*{0.3cm}\thesubsection}
+%{1em}
+%{}
+
+%\titleformat{name=\subsection,numberless}[block]
+%{\color{vertSSec}\normalfont\normalsize\bfseries}
+%{}
+%{1pt}
+%{\hspace*{0.3cm}}
+
+\titleformat{\subsection}
+{\color{black}\normalfont\large\bfseries}
+{\color{black}\thesubsection}{1em}{\hspace{.4cm}}
+
+\titleformat{\subsubsection}
+{\color{vertSSSec}\normalfont\normalsize\bfseries}
+{\color{vertSSSec}\thesubsubsection}{1em}{\hspace{.8cm}}
+
+%\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+%\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+
+%\titlespacing{\paragraph}{%
+%  0cm}{%              left margin
+%  .5\baselineskip}{% space before (vertical)
+%  1em}%               space after (horizontal)
+
+%\setlength{\parskip}{2em}
+
+\begin{document}
+
+%\setlength{\parindent}{0cm}
+%\onehalfspacing
+\pagestyle{fancy}
+%\fancyhf{} % sets both header and footer to nothing
+%\renewcommand{\headrulewidth}{5pt}
+%\cfoot{\thepage\ sur \pageref{LastPage}}
+%\renewcommand{\footskip}{12pt}
+\renewcommand{\headheight}{24pt}
+\lhead{Pavlos Tserevelakis et Raphaël Lutz}
+\rhead{\today}
+
+%\makeatletter
+%\renewcommand{\paragraph}{%
+%  \@startsection{paragraph}{4}%
+%  {\z@}{.7em \@plus 1ex \@minus 2em}{-1em}%
+%  {\normalfont\normalsize\bfseries}%
+%}
+%\makeatother
+
+\section*{Trafic au CERN - Cahier des charges}
+
+\subsection*{Modèle}
+
+Nous choisissons d'implémenter un modèle discret du trafic routier, par automate cellulaire. Ce genre de modèle a fait ses preuves, comme présenté par le professeur Bastien Chopard\footnote{\emph{Cellular Automata Simulations of Traffic:
+A Model for the City of Geneva}, A. Dupuis et B. Chopard, Networks and Spatial Economics, 3: (2003) 9–21}.
+
+\subsubsection*{Avantage}
+
+Ce type de modèle est simple à mettre en place, et les simulations devraient être rapides.
+
+\subsection*{Langage}
+
+Pour sa rapidité et son efficacité, nous allons implémenter ce modèle en C++. Cela nous permettra de faire des simulations aisément, et éventuellement d'implémenter une interface afin de visualiser le trafic.
+
+\subsection*{Plateforme}
+
+Pour notre travail, nous utiliserons GitHub afin de garder une trace de l'évolution, et pour permettre un échange facile de nos avancées respectives.
+
+\subsection*{Scénarios envisagés}
+
+Voici la liste des différents scénarios que nous envisageons d'essayer.
+
+\begin{itemize}
+\item Ouverture de l'entrée E 24h/24
+\item Doubler la voix de l'entrée E
+\item Changer la séquence des feux à l'entrée B
+\item Ajouter une déviation pour l'entrée E : de la rue de Genève (France, avant le rond-point), jusqu'à l'entrée E
+\end{itemize}
+
+\subsection*{Calendrier}
+
+Ce calendrier n'est bien évidemment pas définitif. Au fur et à mesure de l'avancée, nous l'adapterons et le mettrons à jour.
+
+\begin{itemize}
+\item 27.05 : implémentation du modèle d'automate cellulaire et test pour un segment de route
+\item 10.06 : implémentation de rond-points et test
+\item 24.06 : implémentation de carrefours/feux et test
+\item 08.07 : implémentation d'une interface pour la visualisation du modèle (commencera dès le 27.05)
+\item 22.07 : implémentation du réseau routier autours du CERN
+\item 05.08 : simulations avec les données mesurées
+\item 19.08 : test des scénarios
+\end{itemize}
+
+
+\end{document}
