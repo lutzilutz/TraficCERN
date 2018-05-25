@@ -12,13 +12,13 @@ We will use the model presented by Bastien Chopard and Alexandre Dupuis in "Netw
 
 ## Personnal reminders
 
-### Updating local folder from online repository
+### Updating local folder from online repository (repo -> local)
 
 ```sh
   git pull origin master
 ```
 
-### Upload local changes into master branch
+### Upload local changes into master branch (local -> repo)
 
 ```sh
   git add .
@@ -26,7 +26,7 @@ We will use the model presented by Bastien Chopard and Alexandre Dupuis in "Netw
   git push origin master
 ```
 
-### Update repo after changing .gitignore
+### Update repo after changing .gitignore (local -> repo)
 
 First `add` and `commit` your changes (at least the .gitignore file). Then
 
