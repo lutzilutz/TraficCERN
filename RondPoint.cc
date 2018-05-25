@@ -1,17 +1,17 @@
 #include "RondPoint.h"
 
 
-RondPoint::RondPoint(vector<Case> &vCases)
-	: Route(vCases)
+RondPoint::RondPoint(vector<Cellule> &vCellules)
+	: Route(vCellules)
 {
-	ajouteCase(*(getCasesRoute().front()));
+	ajouteCellule(*(getCellulesRoute().front()));
 }
 
 void RondPoint::affiche()
 {
-	for (unsigned int i(0); i < getCasesRoute().size()-1; ++i)
+	for (unsigned int i(0); i < getCellulesRoute().size()-1; ++i)
 	{
-		getCasesRoute()[i]->affiche();
+		getCellulesRoute()[i]->affiche();
 	}
 	cout << endl;
 }

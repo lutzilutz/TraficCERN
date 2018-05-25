@@ -4,17 +4,17 @@
 #include <iostream>
 using namespace std;
 
-class Case 
+class Cellule 
 {
 private:
-	Case* caseSuivante;
+	Cellule* celluleSuivante;
 	bool estOccupee;
 	
 public:
-	Case();
+	Cellule();
 	void affiche();
-	Case* &getCaseSuivante();
-	void setCaseSuivante(Case &c);
+	Cellule* &getCelluleSuivante();
+	void setCelluleSuivante(Cellule &c);
 	bool getEstOccupee();
 	void setEstOccupee(bool b);
 	void evolue();

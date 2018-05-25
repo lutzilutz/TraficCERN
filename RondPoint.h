@@ -9,7 +9,7 @@ class RondPoint: public Route
 	private:
 	
 	public:
-		RondPoint(vector<Case> &vCases);
+		RondPoint(vector<Cellule> &vCellules);
 		virtual void affiche();
 };
 

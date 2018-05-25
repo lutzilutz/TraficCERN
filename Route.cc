@@ -1,35 +1,35 @@
 #include "Route.h"
 
-Route::Route(Case &c)
+Route::Route(Cellule &c)
 {
-	casesRoute = {&c};
+	cellulesRoute = {&c};
 };
 
-Route::Route(vector<Case> &vCases)
+Route::Route(vector<Cellule> &vCellules)
 {
-	casesRoute = {&(vCases[0])};
-	for (unsigned int i(1); i < vCases.size(); ++i)
+	cellulesRoute = {&(vCellules[0])};
+	for (unsigned int i(1); i < vCellules.size(); ++i)
 	{
-		ajouteCase(vCases[i]);
+		ajouteCellule(vCellules[i]);
 	}
 }
 
 void Route::affiche()
 {
-	for (unsigned int i(0); i < casesRoute.size(); ++i)
+	for (unsigned int i(0); i < cellulesRoute.size(); ++i)
 	{
-		casesRoute[i]->affiche();
+		cellulesRoute[i]->affiche();
 	}
 	cout << endl;
 }
 
-void Route::ajouteCase(Case &c)
+void Route::ajouteCellule(Cellule &c)
 {
-	casesRoute.back()->setCaseSuivante(c);
-	casesRoute.push_back(&c); 
+	cellulesRoute.back()->setCelluleSuivante(c);
+	cellulesRoute.push_back(&c); 
 }
 
-vector<Case*> &Route::getCasesRoute()
+vector<Cellule*> &Route::getCellulesRoute()
 {
-	return casesRoute;
+	return cellulesRoute;
 }

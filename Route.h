@@ -3,19 +3,19 @@
 
 using namespace std;
 #include <vector>
-#include "Case.h"
+#include "Cellule.h"
 
 class Route 
 {
 private:
-	vector<Case*> casesRoute;
+	vector<Cellule*> cellulesRoute;
 	
 public:
-	Route(Case &c);
-	Route(vector<Case> &vCases);
+	Route(Cellule &c);
+	Route(vector<Cellule> &vCellules);
 	virtual void affiche();
-	void ajouteCase(Case &c);
-	vector<Case*> &getCasesRoute();
+	void ajouteCellule(Cellule &c);
+	vector<Cellule*> &getCellulesRoute();
 	
 };
 
