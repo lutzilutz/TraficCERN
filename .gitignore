@@ -2,4 +2,4 @@
 *.o
 
 # LaTeX useless files
-CahierDesCharges/*.aux CahierDesCharges/*.log
+*.aux *.log
