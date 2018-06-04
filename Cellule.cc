@@ -6,6 +6,7 @@ Cellule::Cellule()
 	estOccupee = false;
 };
 
+
 void Cellule::affiche()
 {
 	if (estOccupee)
