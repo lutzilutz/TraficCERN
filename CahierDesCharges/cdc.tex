@@ -57,9 +57,19 @@ A Model for the City of Geneva}, A. Dupuis et B. Chopard, Networks and Spatial E
 
 Ce type de modèle est simple à mettre en place, et les simulations devraient être rapides.
 
+\subsubsection*{Précision}
+
+\paragraph{Spatiale}
+
+La précision spatiale du modèle sera de 7 mètres. Ceci correspond à la longueur moyenne d'un véhicule sur la route.
+
+\paragraph{Temporelle}
+
+Nous n'avons pas encore pu nous arrêter sur une définition temporelle. Celle-ci serait de l'ordre des secondes.
+
 \subsection*{Langage}
 
-Pour sa rapidité et son efficacité, nous allons implémenter ce modèle en C++. Cela nous permettra de faire des simulations aisément, et éventuellement d'implémenter une interface afin de visualiser le trafic.
+Pour sa rapidité et son efficacité, nous allons implémenter ce modèle en C++. Cela nous permettra de faire des simulations aisément, et d'implémenter une interface afin de visualiser le trafic.
 
 \subsection*{Plateforme}
 
@@ -67,14 +77,21 @@ Pour notre travail, nous utiliserons GitHub afin de garder une trace de l'évolu
 
 \subsection*{Scénarios envisagés}
 
-Voici la liste des différents scénarios que nous envisageons d'essayer.
+Voici la liste des différents scénarios que nous envisageons d'essayer, à partir de la situation actuelle.
 
 \begin{itemize}
 \item Ouverture de l'entrée E 24h/24
 \item Doubler la voix de l'entrée E
 \item Changer la séquence des feux à l'entrée B
-\item Ajouter une déviation pour l'entrée E : de la rue de Genève (France, avant le rond-point), jusqu'à l'entrée E
+\item Remplacer le carrefour de l'entrée B par un rond-point
+\item Ajouter une déviation pour l'entrée E, surélevée ou souterraine (fig. 1)
 \end{itemize}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=5cm]{plan_E_scenario.png}
+\end{center}
+\end{figure}
 
 \subsection*{Calendrier}
 
