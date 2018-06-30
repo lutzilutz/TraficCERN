@@ -53,15 +53,15 @@
 Nous choisissons d'implémenter un modèle discret du trafic routier, par automate cellulaire. Ce genre de modèle a fait ses preuves, comme présenté par le professeur Bastien Chopard\footnote{\emph{Cellular Automata Simulations of Traffic:
 A Model for the City of Geneva}, A. Dupuis et B. Chopard, Networks and Spatial Economics, 3: (2003) 9–21}.
 
-\subsubsection*{Avantage}
+%\subsubsection*{Avantage}
 
-Ce type de modèle est simple à mettre en place, et les simulations devraient être rapides.
+%Ce type de modèle est simple à mettre en place, et les simulations devraient être rapides.
 
 \subsubsection*{Précision}
 
 \paragraph{Spatiale}
 
-La précision spatiale du modèle sera de 7 mètres. Ceci correspond à la longueur moyenne d'un véhicule sur la route.
+La précision spatiale du modèle sera de 7.5 mètres (longueur d'une cellule). Ceci correspond à la longueur moyenne d'un véhicule sur la route.
 
 \paragraph{Temporelle}
 
@@ -80,16 +80,23 @@ Pour notre travail, nous utiliserons GitHub afin de garder une trace de l'évolu
 Voici la liste des différents scénarios que nous envisageons d'essayer, à partir de la situation actuelle.
 
 \begin{itemize}
-\item Ouverture de l'entrée E 24h/24
+\item Situation actuelle
+\item Ouverture de l'entrée E et du tunnel inter-site
 \item Doubler la voix de l'entrée E
 \item Changer la séquence des feux à l'entrée B
 \item Remplacer le carrefour de l'entrée B par un rond-point
 \item Ajouter une déviation pour l'entrée E, surélevée ou souterraine (fig. 1)
+\item Report des véhicules
+\begin{itemize}
+\item de l'entrée E au tunnel inter-site
+\item des véhicules individuels aux transports doux
+\end{itemize}
 \end{itemize}
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=5cm]{plan_E_scenario.png}
+\caption{Déviation}
 \end{center}
 \end{figure}
 
