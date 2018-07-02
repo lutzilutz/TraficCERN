@@ -1,108 +1,108 @@
 using namespace std;
 #include <iostream>
-#include "Cellule.h"
-#include "Route.h"
-#include "RondPoint.h"
+#include "Cell.h"
+#include "Road.h"
+#include "RoundAbout.h"
 
 int main() {
-	Cellule c1 = Cellule();
-	Cellule c2 = Cellule();
-	Cellule c3 = Cellule();
-	Cellule c4 = Cellule();
-	Cellule c5 = Cellule();
-	c1.setCelluleSuivante(c2);
-	Route R = Route(c1);
-	R.ajouteCellule(c2);
-	R.ajouteCellule(c3);
-	R.ajouteCellule(c4);
-	R.ajouteCellule(c5);
+	Cell c1 = Cell();
+	Cell c2 = Cell();
+	Cell c3 = Cell();
+	Cell c4 = Cell();
+	Cell c5 = Cell();
+	c1.setNextCell(c2);
+	Road R = Road(c1);
+	R.addCell(c2);
+	R.addCell(c3);
+	R.addCell(c4);
+	R.addCell(c5);
 	
 	cout << "Voici notre route :" << endl;
-	R.affiche();
+	R.display();
 	cout << "On va essayer d'afficher la cellule après c1 :" << endl;
-	R.getCellulesRoute()[0]->affiche();
+	R.getRoadCells()[0]->display();
 	cout << endl;
 	cout << "Partant de la première cellule, on va rajouter un élément dans la cellule suivante :" << endl;
-	R.getCellulesRoute()[0]->setEstOccupee(true);
-	R.affiche();
+	R.getRoadCells()[0]->setIsOccupied(true);
+	R.display();
 	
 	cout << "L'adresse de c1 est :\t\t\t\t\t" << &c1 << endl;
-	cout << "L'adresse pointée par l'élément 1 de la route est :\t" << R.getCellulesRoute()[0] << endl;
+	cout << "L'adresse pointée par l'élément 1 de la route est :\t" << R.getRoadCells()[0] << endl;
 	
 	cout << "L'adresse de c2 est :\t\t\t\t\t" << &c2 << endl;
-	cout << "L'adresse pointée par l'élément 2 de la route est :\t" << R.getCellulesRoute()[1] << endl;
+	cout << "L'adresse pointée par l'élément 2 de la route est :\t" << R.getRoadCells()[1] << endl;
 	
 	cout << "L'adresse de c3 est :\t\t\t\t\t" << &c3 << endl;
-	cout << "L'adresse pointée par l'élément 3 de la route est :\t" << R.getCellulesRoute()[2] << endl;
+	cout << "L'adresse pointée par l'élément 3 de la route est :\t" << R.getRoadCells()[2] << endl;
 	
 	cout << "L'adresse de c4 est :\t\t\t\t\t" << &c4 << endl;
-	cout << "L'adresse pointée par l'élément 4 de la route est :\t" << R.getCellulesRoute()[3] << endl;
+	cout << "L'adresse pointée par l'élément 4 de la route est :\t" << R.getRoadCells()[3] << endl;
 	
 	cout << "L'adresse de c5 est :\t\t\t\t\t" << &c5 << endl;
-	cout << "L'adresse pointée par l'élément 5 de la route est :\t" << R.getCellulesRoute()[4] << endl;
+	cout << "L'adresse pointée par l'élément 5 de la route est :\t" << R.getRoadCells()[4] << endl;
 	
 	cout << "Essayons de simuler le trafic de la route :" << endl;
-	R.getCellulesRoute()[1]->setEstOccupee(true);
-	R.affiche();
-	vector<int> cellulesPleines = {};
+	R.getRoadCells()[1]->setIsOccupied(true);
+	R.display();
+	vector<int> fullCells = {};
 	for (unsigned int j(1); j<=7; ++j)
 	{
-		cellulesPleines = {};
-		for (unsigned int i(0); i < R.getCellulesRoute().size(); ++i)
+		fullCells = {};
+		for (unsigned int i(0); i < R.getRoadCells().size(); ++i)
 		{
-			if (R.getCellulesRoute()[i]->getEstOccupee())
+			if (R.getRoadCells()[i]->getIsOccupied())
 			{
-				cellulesPleines.push_back(i);
+				fullCells.push_back(i);
 			}
 		}
-		for (unsigned int i(0); i < cellulesPleines.size(); ++i)
+		for (unsigned int i(0); i < fullCells.size(); ++i)
 		{
-			R.getCellulesRoute()[cellulesPleines[i]]->evolue();
+			R.getRoadCells()[fullCells[i]]->evolve();
 		}
-		R.affiche();
+		R.display();
 	}
 	
 	
 	cout << "On va maintenant essayer d'initialiser une nouvelle route avec un vecteur de Cellules !" << endl;
 	
-	vector<Cellule> vectCellules(10);
+	vector<Cell> vectCells(10);
 	
-	cout << "Taille de vectCellules : " << vectCellules.size() << endl;
+	cout << "Taille de vectCellules : " << vectCells.size() << endl;
 	
-	for (Cellule c: vectCellules)
+	for (Cell c: vectCells)
 	{
-		c.affiche();
+		c.display();
 	}
 	cout << endl ;
 	cout << "On crée une route R2 et on l'affiche : " << endl;
-	Route R2(vectCellules);
+	Road R2(vectCells);
 	
-	R2.affiche();
+	R2.display();
 	
 	cout << "On va créer un rond-point de 7 cellules dont les deux premières sont remplies : " << endl;
 	
-	vector<Cellule> vectCellulesRP(7);
-	RondPoint RP(vectCellulesRP);
+	vector<Cell> vectRACells(7);
+	RoundAbout RA(vectRACells);
 	
-	RP.getCellulesRoute()[0]->setEstOccupee(true);
-	RP.getCellulesRoute()[1]->setEstOccupee(true);
-	RP.affiche();
+	RA.getRoadCells()[0]->setIsOccupied(true);
+	RA.getRoadCells()[1]->setIsOccupied(true);
+	RA.display();
 	
 	for (unsigned int j(1); j<=10; ++j)
 	{
-		cellulesPleines = {};
-		for (unsigned int i(0); i < RP.getCellulesRoute().size(); ++i)
+		fullCells = {};
+		for (unsigned int i(0); i < RA.getRoadCells().size(); ++i)
 		{
-			if (RP.getCellulesRoute()[i]->getEstOccupee())
+			if (RA.getRoadCells()[i]->getIsOccupied())
 			{
-				cellulesPleines.push_back(i);
+				fullCells.push_back(i);
 			}
 		}
-		for (unsigned int i(0); i < cellulesPleines.size(); ++i)
+		for (unsigned int i(0); i < fullCells.size(); ++i)
 		{
-			RP.getCellulesRoute()[cellulesPleines[i]]->evolue();
+			RA.getRoadCells()[fullCells[i]]->evolve();
 		}
-		RP.affiche();
+		RA.display();
 	}
 	
 }
