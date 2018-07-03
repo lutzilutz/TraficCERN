@@ -3,7 +3,7 @@ CFLAGS = -g -Wall -std=c++0x
 EXEC_NAME = main
 INCLUDES = .
 LIBS =
-OBJ_FILES = Cell.o Road.o RoundAbout.o main.o
+OBJ_FILES = CrossRoads.o CrossRoadsCell.o Cell.o Road.o RoundAbout.o main.o
 INSTALL_DIR = .
 
 all : $(EXEC_NAME)

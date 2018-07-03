@@ -1,10 +1,9 @@
 #include "Cell.h"
 
-Cell::Cell()
+Cell::Cell() : nextCell(NULL), isOccupied(false)
 {
-	nextCell = NULL;
-	isOccupied = false;
-};
+	
+}
 
 void Cell::display()
 {

@@ -3,6 +3,7 @@ using namespace std;
 #include "Cell.h"
 #include "Road.h"
 #include "RoundAbout.h"
+#include "CrossRoads.h"
 
 int main() {
 	Cell c1 = Cell();
@@ -104,6 +105,63 @@ int main() {
 		}
 		RA.display();
 	}
+	
+	// Tests sur les ronds-points:
+	vector<Cell> vRi1(5);
+	vector<Cell> vRo1(5);
+	Road Ri1(vRi1);
+	Road Ro1(vRo1);
+	CrossRoadsCell C1;
+	
+	vector<Cell> vRi2(5);
+	vector<Cell> vRo2(5);
+	Road Ri2(vRi1);
+	Road Ro2(vRo1);
+	CrossRoadsCell C2;
+	
+	vector<Cell> vRi3(5);
+	vector<Cell> vRo3(5);
+	Road Ri3(vRi1);
+	Road Ro3(vRo1);
+	CrossRoadsCell C3;
+	
+	vector<Cell> vRi4(5);
+	vector<Cell> vRo4(5);
+	Road Ri4(vRi1);
+	Road Ro4(vRo1);
+	CrossRoadsCell C4;
+	
+	CrossRoads RondPoint(Ri1, Ri2, Ri3, Ri4, Ro1, Ro2, Ro3, Ro4, C1, C2, C3, C4);
+	cout << "Comparaison des adresses des routes initialisées plus haut et des routes dans le rond point: " << endl;
+	
+	cout << RondPoint.roadsIN[0] << endl;
+	cout << &(Ri1) << endl;
+	
+	cout << RondPoint.roadsIN[1] << endl;
+	cout << &(Ri2) << endl;
+	
+	cout << RondPoint.roadsIN[2] << endl;
+	cout << &(Ri3) << endl;
+	
+	cout << RondPoint.roadsIN[3] << endl;
+	cout << &(Ri4) << endl;
+	
+	cout << RondPoint.roadsOUT[0] << endl;
+	cout << &(Ro1) << endl;
+	
+	cout << RondPoint.roadsOUT[1] << endl;
+	cout << &(Ro2) << endl;
+	
+	cout << RondPoint.roadsOUT[2] << endl;
+	cout << &(Ro3) << endl;
+	
+	cout << RondPoint.roadsOUT[3] << endl;
+	cout << &(Ro4) << endl;
+	
+	cout << "L'adresse de la cellule suivant C1 devrait être la même que l'adresse de la première cellule de Ro1: " << endl;
+	cout << RondPoint.roadsOUT[0]->getRoadCells()[0] << endl;
+	cout << Ro1.getRoadCells()[0] << endl;
+	cout << RondPoint.cells[0]->getNextCell() << endl;
 	
 }
 
