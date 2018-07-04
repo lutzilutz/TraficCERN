@@ -3,10 +3,11 @@ using namespace std;
 #include "Cell.h"
 #include "Road.h"
 #include "RoundAbout.h"
+#include "RoundAboutCell.h"
 #include "CrossRoads.h"
 
 int main() {
-	Cell c1 = Cell();
+	/*Cell c1 = Cell();
 	Cell c2 = Cell();
 	Cell c3 = Cell();
 	Cell c4 = Cell();
@@ -105,7 +106,7 @@ int main() {
 		}
 		RA.display();
 	}
-	
+	*/
 	// Tests sur les ronds-points:
 	vector<Cell> vRi1(5);
 	vector<Cell> vRo1(5);
