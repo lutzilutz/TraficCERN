@@ -56,6 +56,7 @@ void Cell::evolve()
 	}
 	
 	isOccupiedNext = -1;
+	
 	/*if (isOccupied)
 	{
 		if (not(nextCell==NULL))

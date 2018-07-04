@@ -23,7 +23,6 @@ void Network::setRoundAbout(RoundAbout &ra) {
 
 void Network::evolveRoad() {
 	for (unsigned int i(0); i < road->getRoadCells().size(); ++i) {
-		//cout << i << " - ";
 		road->getRoadCells()[i]->evolve();
 	}
 }
@@ -35,11 +34,11 @@ void Network::computeEvolutionRoad() {
 			// If Cell is occupied
 			if (road->getRoadCells()[i]->getIsOccupied()) {
 				// If next Cell is occupied
-				if (road->getRoadCells()[i+1]->getIsOccupied()) {
+				if (road->getRoadCells()[i]->getNextCell()->getIsOccupied()) {
 					road->getRoadCells()[i]->setIsOccupiedNext(1);
 				} else {
 					road->getRoadCells()[i]->setIsOccupiedNext(0);
-					road->getRoadCells()[i+1]->setIsOccupiedNext(1);
+					road->getRoadCells()[i]->getNextCell()->setIsOccupiedNext(1);
 				}
 			} else {
 				if (road->getRoadCells()[i]->getIsOccupiedNext() == -1) {
@@ -85,7 +84,7 @@ void Network::computeEvolutionRoundAbout() {
 				roundAbout->getRoadCells()[i]->setIsOccupiedNext(0);
 			}
 		}
-		
+		// Checking all Cells are updated
 		if (roundAbout->getRoadCells()[i]->getIsOccupiedNext() == -1) {
 			cout << "Update problem at Cell #" << i << endl;
 		} else {
