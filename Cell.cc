@@ -52,7 +52,7 @@ void Cell::evolve()
 	} else if (isOccupiedNext == 1) {
 		isOccupied = true;
 	} else if (isOccupiedNext == -1) {
-		cout << "ERROR ===" << endl;
+		cout << "ERROR - Unupdated Cell ===" << endl;
 	}
 	
 	isOccupiedNext = -1;

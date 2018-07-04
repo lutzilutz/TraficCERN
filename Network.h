@@ -2,6 +2,7 @@
 #define NETWORK_H
 
 #include "Road.h"
+#include "RoundAbout.h"
 #include <iostream>
 
 using namespace std;
@@ -10,13 +11,17 @@ class Network {
 	
 	private:
 		Road* road;
+		RoundAbout* roundAbout;
 	public:
 		Network();
-		void display();
-		void setRoad(Road &road);
-		void test();
-		void evolve();
-		void computeEvolution();
+		void displayRoad();
+		void displayRoundAbout();
+		void setRoad(Road &r);
+		void setRoundAbout(RoundAbout &ra);
+		void evolveRoad();
+		void computeEvolutionRoad();
+		void evolveRoundAbout();
+		void computeEvolutionRoundAbout();
 };
 
 #endif

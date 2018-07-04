@@ -167,6 +167,7 @@ int main() {
 	cout << RondPoint.cells[0]->getNextCell() << endl;
 	*/
 	
+	// Road evolution test =================================================
 	Cell c1 = Cell();
 	c1.setIsOccupied(true);
 	Cell c2 = Cell();
@@ -186,13 +187,33 @@ int main() {
 	road.addCell(c6);
 	road.addCell(c7);
 	
+	cout << " --- Road evolution ---" << endl;
 	Network net = Network();
 	net.setRoad(road);
-	net.display();
+	net.displayRoad();
+	for (unsigned int j(1); j<=8; ++j) {
+		net.computeEvolutionRoad();
+		net.evolveRoad();
+		net.displayRoad();
+	}
+	
+	// RoundAbout evolution test ===========================================
+	cout << " --- RoundAbout evolution ---" << endl;
+	
+	vector<Cell> vectRACells(7);
+	RoundAbout ra(vectRACells);
+	
+	ra.getRoadCells()[0]->setIsOccupied(true);
+	ra.getRoadCells()[1]->setIsOccupied(true);
+	
+	Network net2 = Network();
+	net2.setRoundAbout(ra);
+	net2.displayRoundAbout();
+	
 	for (unsigned int j(1); j<=15; ++j) {
-		net.computeEvolution();
-		net.evolve();
-		net.display();
+		net2.computeEvolutionRoundAbout();
+		net2.evolveRoundAbout();
+		net2.displayRoundAbout();
 	}
 }
 
