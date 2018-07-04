@@ -47,6 +47,7 @@ void Cell::setIsOccupiedNext(int i)
 
 void Cell::evolve()
 {
+	// Change current state according to next state
 	if (isOccupiedNext == 0) {
 		isOccupied = false;
 	} else if (isOccupiedNext == 1) {
@@ -55,6 +56,7 @@ void Cell::evolve()
 		cout << "ERROR - Unupdated Cell ===" << endl;
 	}
 	
+	// After updating, restart with -1 to see further problems
 	isOccupiedNext = -1;
 	
 	/*if (isOccupied)

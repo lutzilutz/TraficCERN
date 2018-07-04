@@ -9,7 +9,7 @@ class Cell
 	private:
 		Cell* nextCell;
 		bool isOccupied;
-		int isOccupiedNext;//1-yes 0-no -1-error
+		int isOccupiedNext;//1=yes 0=no -1=error
 	public:
 		Cell();
 		void display();
