@@ -10,13 +10,13 @@ class Network {
 	
 	private:
 		Road* road;
-		Road* nextRoad;
 	public:
 		Network();
 		void display();
 		void setRoad(Road &road);
 		void test();
 		void evolve();
+		void computeEvolution();
 };
 
 #endif

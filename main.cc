@@ -5,6 +5,7 @@ using namespace std;
 #include "RoundAbout.h"
 #include "RoundAboutCell.h"
 #include "CrossRoads.h"
+#include "Network.h"
 
 int main() {
 	/*Cell c1 = Cell();
@@ -107,6 +108,7 @@ int main() {
 		RA.display();
 	}
 	*/
+	/*
 	// Tests sur les ronds-points:
 	vector<Cell> vRi1(5);
 	vector<Cell> vRo1(5);
@@ -163,6 +165,34 @@ int main() {
 	cout << RondPoint.roadsOUT[0]->getRoadCells()[0] << endl;
 	cout << Ro1.getRoadCells()[0] << endl;
 	cout << RondPoint.cells[0]->getNextCell() << endl;
+	*/
 	
+	Cell c1 = Cell();
+	c1.setIsOccupied(true);
+	Cell c2 = Cell();
+	c2.setIsOccupied(true);
+	Cell c3 = Cell();
+	c3.setIsOccupied(true);
+	Cell c4 = Cell();
+	Cell c5 = Cell();
+	Cell c6 = Cell();
+	Cell c7 = Cell();
+	c1.setNextCell(c2);
+	Road road = Road(c1);
+	road.addCell(c2);
+	road.addCell(c3);
+	road.addCell(c4);
+	road.addCell(c5);
+	road.addCell(c6);
+	road.addCell(c7);
+	
+	Network net = Network();
+	net.setRoad(road);
+	net.display();
+	for (unsigned int j(1); j<=15; ++j) {
+		net.computeEvolution();
+		net.evolve();
+		net.display();
+	}
 }
 

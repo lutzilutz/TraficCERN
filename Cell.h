@@ -9,7 +9,7 @@ class Cell
 	private:
 		Cell* nextCell;
 		bool isOccupied;
-		
+		int isOccupiedNext;//1-yes 0-no -1-error
 	public:
 		Cell();
 		void display();
@@ -17,6 +17,8 @@ class Cell
 		void setNextCell(Cell &c);
 		bool getIsOccupied();
 		void setIsOccupied(bool b);
+		int getIsOccupiedNext();
+		void setIsOccupiedNext(int i);
 		void evolve();
 };
 
