@@ -5,6 +5,7 @@ public class Cell {
 	// Simulation
 	private boolean isOccupied;
 	private int isOccupiedNext;
+	private Cell previousCell;
 	private Cell nextCell;
 	private Cell outCell;
 	
@@ -14,6 +15,7 @@ public class Cell {
 	public Cell() {
 		isOccupied = false;
 		isOccupiedNext = -1;
+		previousCell = null;
 		nextCell = null;
 		outCell = null;
 	}
@@ -50,6 +52,12 @@ public class Cell {
 	public void setY(int y) {
 		this.y = y;
 	}
+	public Cell getPreviousCell() {
+		return previousCell;
+	}
+	public void setPreviousCell(Cell previousCell) {
+		this.previousCell = previousCell;
+	}
 	public Cell getNextCell() {
 		return nextCell;
 	}
@@ -71,7 +79,6 @@ public class Cell {
 	public Cell getOutCell() {
 		return outCell;
 	}
-
 	public void setOutCell(Cell outCell) {
 		this.outCell = outCell;
 	}

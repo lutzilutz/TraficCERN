@@ -19,31 +19,26 @@ public class Network {
 	
 	public Network(Simulation sim) {
 		this.sim = sim;
-		Road r1 = new Road(50);
-		r1.setX(50);
-		r1.setY(50);
-		r1.setDirection(90);
+		Road r1 = new Road(10);
+		r1.setX(200);
+		r1.setY(200);
+		r1.setDirection(110);
+		r1.setGenerateVehicules(true);
 		roads.add(r1);
-		Road r2 = new Road(20);
-		r2.setX(50);
-		r2.setY(100);
-		r2.setDirection(105);
-		roads.add(r2);
-		Road r3 = new Road(30);
-		r3.setX(50);
-		r3.setY(150);
-		r3.setDirection(180);
-		roads.add(r3);
-		Road r4 = new Road(50);
-		r4.setX(700);
-		r4.setY(450);
-		r4.setDirection(315);
-		roads.add(r4);
 		RoundAbout ra1 = new RoundAbout(30);
-		ra1.setX(400);
-		ra1.setY(300);
-		ra1.setDirection(r1.getDirection()+180);
+		ra1.setX((int) (cellWidth/2 + r1.getX()+(r1.getLength()*cellWidth + ra1.getLength()*cellWidth/(2*Math.PI) )*Math.sin(2*Math.PI*r1.getDirection()/360)));
+		ra1.setY((int) (r1.getY()-(r1.getLength()*cellWidth + ra1.getLength()*cellWidth/(2*Math.PI))*Math.cos(2*Math.PI*r1.getDirection()/360) + cellHeight/2));
+		ra1.setDirection(180-r1.getDirection());
 		roundAbouts.add(ra1);
+		Road r2 = new Road(20);
+		r2.setX(200);
+		r2.setY(250);
+		r2.setDirection(290);
+		roads.add(r2);
+		
+		r1.getRoadCells().get(r1.getLength()-1).setNextCell(ra1.getRoadCells().get(0));
+		ra1.getRoadCells().get(ra1.getLength()-5).setOutCell(r2.getRoadCells().get(0));
+		
 	}
 	public void display() {
 		for (Road r: roads) {
@@ -81,13 +76,13 @@ public class Network {
 			gg.drawOval(r.getX()-inRadius, r.getY()-inRadius, inRadius*2, inRadius*2);
 			
 			for (int i=0 ; i<r.getLength() ; i++) {
-				int x1 = (int) (r.getX()+inRadius*Math.sin(2*Math.PI*i/r.getLength()));
-				int y1 = (int) (r.getY()+inRadius*Math.cos(2*Math.PI*i/r.getLength()));
-				int x2 = (int) (r.getX()+outRadius*Math.sin(2*Math.PI*i/r.getLength()));
-				int y2 = (int) (r.getY()+outRadius*Math.cos(2*Math.PI*i/r.getLength()));
+				int x1 = (int) (r.getX()-inRadius*Math.sin(2*Math.PI*i/r.getLength() + 2*Math.PI*r.getDirection()/360 + 2*Math.PI/(2*r.getLength())));
+				int y1 = (int) (r.getY()-inRadius*Math.cos(2*Math.PI*i/r.getLength() + 2*Math.PI*r.getDirection()/360 + 2*Math.PI/(2*r.getLength())));
+				int x2 = (int) (r.getX()-outRadius*Math.sin(2*Math.PI*i/r.getLength() + 2*Math.PI*r.getDirection()/360 + 2*Math.PI/(2*r.getLength())));
+				int y2 = (int) (r.getY()-outRadius*Math.cos(2*Math.PI*i/r.getLength() + 2*Math.PI*r.getDirection()/360 + 2*Math.PI/(2*r.getLength())));
 				gg.drawLine(x1, y1, x2, y2);
-				r.getRoadCells().get(i).setX((int) (r.getX()+radius*Math.sin(2*Math.PI/(2*r.getLength()) + 2*Math.PI*i/r.getLength())));
-				r.getRoadCells().get(i).setY((int) (r.getY()+radius*Math.cos(2*Math.PI/(2*r.getLength()) + 2*Math.PI*i/r.getLength())));
+				r.getRoadCells().get(i).setX((int) (r.getX()-radius*Math.sin(2*Math.PI*r.getDirection()/360 + 2*Math.PI*i/r.getLength())));
+				r.getRoadCells().get(i).setY((int) (r.getY()-radius*Math.cos(2*Math.PI*r.getDirection()/360 + 2*Math.PI*i/r.getLength())));
 			}
 			gg.dispose();
 		}
@@ -138,25 +133,35 @@ public class Network {
 					
 					if (r.getRoadCells().get(i).isOccupied()) {
 						
-						if (r.getRoadCells().get(i+1).isOccupied()) {
+						if (r.getRoadCells().get(i).getNextCell().isOccupied()) {
 							
 							r.getRoadCells().get(i).setIsOccupiedNext(1);
 							
 						} else {
 							r.getRoadCells().get(i).setIsOccupiedNext(0);
-							r.getRoadCells().get(i+1).setIsOccupiedNext(1);
+							r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
 							
 						}
 					} else {
 						
 						if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
 							// Cell stay inoccupied
-							r.getRoadCells().get(i).setIsOccupiedNext(0);;
+							r.getRoadCells().get(i).setIsOccupiedNext(0);
 						}
 					}
 				}
 				// If Cell is at the end of the road
 				else {
+					if (r.getRoadCells().get(i).getNextCell() != null) {
+						if (r.getRoadCells().get(i).isOccupied()) {
+							if (r.getRoadCells().get(i).getNextCell().isOccupied() || r.getRoadCells().get(i).getNextCell().getPreviousCell().isOccupied()) {
+								r.getRoadCells().get(i).setIsOccupiedNext(1);
+							} else {
+								r.getRoadCells().get(i).setIsOccupiedNext(0);
+								r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
+							}
+						}
+					}
 					// If Cell has not been visited
 					if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
 						// Cell stay inoccupied
@@ -165,7 +170,7 @@ public class Network {
 				}
 			}
 			// Random generation
-			if (r.getRoadCells().get(0).getIsOccupiedNext() != 1) {
+			if (r.getRoadCells().get(0).getIsOccupiedNext() != 1 && r.getGenerateVehicules()) {
 				if (Math.random()<0.4) {
 					r.getRoadCells().get(0).setIsOccupiedNext(1);
 				}
@@ -173,32 +178,53 @@ public class Network {
 		}
 		for (RoundAbout r: roundAbouts) {
 			for (int i=0; i < r.getLength(); ++i) {
-					
-				if (r.getRoadCells().get(i).isOccupied()) {
-					
-					if (r.getRoadCells().get(i).getNextCell().isOccupied()) {
+				
+				if (r.getRoadCells().get(i).getOutCell() == null) {
+					if (r.getRoadCells().get(i).isOccupied()) {
 						
-						r.getRoadCells().get(i).setIsOccupiedNext(1);
-						
+						if (r.getRoadCells().get(i).getNextCell().isOccupied()) {
+							
+							r.getRoadCells().get(i).setIsOccupiedNext(1);
+							
+						} else {
+							r.getRoadCells().get(i).setIsOccupiedNext(0);
+							r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
+							
+						}
 					} else {
-						r.getRoadCells().get(i).setIsOccupiedNext(0);
-						r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
 						
+						if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
+							// Cell stay inoccupied
+							r.getRoadCells().get(i).setIsOccupiedNext(0);
+						}
 					}
 				} else {
-					
-					if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
-						// Cell stay inoccupied
-						r.getRoadCells().get(i).setIsOccupiedNext(0);;
+					if (r.getRoadCells().get(i).isOccupied()) {
+						
+						if (r.getRoadCells().get(i).getOutCell().isOccupied()) {
+							
+							r.getRoadCells().get(i).setIsOccupiedNext(1);
+							
+						} else {
+							r.getRoadCells().get(i).setIsOccupiedNext(0);
+							r.getRoadCells().get(i).getOutCell().setIsOccupiedNext(1);
+							
+						}
+					} else {
+						
+						if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
+							// Cell stay inoccupied
+							r.getRoadCells().get(i).setIsOccupiedNext(0);
+						}
 					}
 				}
 			}
 			// Random generation
-			if (r.getRoadCells().get(0).getIsOccupiedNext() != 1) {
+			/*if (r.getRoadCells().get(0).getIsOccupiedNext() != 1) {
 				if (Math.random()<0.1) {
 					r.getRoadCells().get(0).setIsOccupiedNext(1);
 				}
-			}
+			}*/
 		}
 	}
 	// Compute future state of the Cells of the RoundAbout
