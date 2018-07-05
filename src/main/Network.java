@@ -32,9 +32,11 @@ public class Network {
 	}
 	
 	public void render(Graphics g) {
+		// Print big gray rectangle
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
 		
+		// Print cells
 		g.setColor(Color.white);
 		for (Road r: roads) {
 			for (int i=0 ; i<r.getLength() ; i++) {
@@ -46,6 +48,7 @@ public class Network {
 			}
 		}
 		
+		// Print actual step
 		g.drawString(Integer.toString(sim.getStep()), 20, 20);
 	}
 	// Update Cell of the Road according to the next state

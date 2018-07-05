@@ -36,7 +36,7 @@ public class Display {
         int y = 0;
 		
         frame.setLocation(x, y);
-		//frame.setLocationRelativeTo(null);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
 		canvas = new Canvas();
