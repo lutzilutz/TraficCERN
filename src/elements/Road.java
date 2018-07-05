@@ -2,8 +2,12 @@ package elements;
 
 import java.util.ArrayList;
 
+import main.Network;
+
 public class Road {
 
+	protected Network n;
+	
 	// Simulation
 	private int length;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
@@ -13,7 +17,8 @@ public class Road {
 	private int x,y; // position in pixels from left upper corner
 	private int direction; // from 0 to 360 (north)
 	
-	public Road(int length) {
+	public Road(Network n, int length) {
+		this.n = n;
 		this.length = length;
 		for (int i=0; i<length; i++) {
 			
@@ -27,7 +32,15 @@ public class Road {
 			roadCells.add(tmp);
 		}
 	}
-	
+	public void setPositionFrom(RoundAbout ra, int i) {
+		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360);
+		System.out.println(this.getDirection()/360.0);
+		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellWidth()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
+		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellHeight()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
+	}
+	public void connectTo(RoundAbout ra, int i) {
+		this.getRoadCells().get(this.getLength()-1).setNextCell(ra.getRoadCells().get(i));
+	}
 	public void display() {
 		for (Cell c: roadCells) {
 			c.display();
