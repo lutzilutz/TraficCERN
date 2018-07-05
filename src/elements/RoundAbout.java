@@ -12,6 +12,7 @@ public class RoundAbout extends Road {
 	}
 	public void connectTo(Road r, int i) {
 		this.getRoadCells().get(i).setOutCell(r.getRoadCells().get(0));
+		r.getRoadCells().get(0).setPreviousCell(getRoadCells().get(i));
 	}
 	public void setPositionFrom(Road r) {
 		this.setX((int) (r.getX()+(r.getLength()*n.getCellWidth() + n.getCellWidth()/2 + this.getLength()*n.getCellWidth()/(2*Math.PI) )*Math.sin(2*Math.PI*r.getDirection()/360)));

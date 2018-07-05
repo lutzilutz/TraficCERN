@@ -21,7 +21,8 @@ public class Road {
 	
 	public Road(Network n, int length) {
 		this.n = n;
-		id = idCounter++;
+		id = idCounter;
+		idCounter++;
 		this.length = length;
 		for (int i=0; i<length; i++) {
 			

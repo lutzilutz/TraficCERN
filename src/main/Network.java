@@ -19,30 +19,26 @@ public class Network {
 	
 	public Network(Simulation sim) {
 		this.sim = sim;
-		Road r1 = new Road(this, 10);
-		r1.setX(200);
-		r1.setY(200);
-		r1.setDirection(110);
+		Road r1 = new Road(this, 15);
+		r1.setX(100);
+		r1.setY(150);
+		r1.setDirection(113);
 		r1.setGenerateVehicules(true);
 		roads.add(r1);
 		
-		RoundAbout ra1 = new RoundAbout(this, 30);
+		RoundAbout ra1 = new RoundAbout(this, 48);
 		ra1.setPositionFrom(r1);
 		ra1.setDirection(180+r1.getDirection());
 		roundAbouts.add(ra1);
 		
 		Road r2 = new Road(this, 15);
-		r2.setPositionFrom(ra1, ra1.getLength()-5);
+		r2.setPositionFrom(ra1, ra1.getLength()-12);
+		System.out.println(r2.getDirection());
 		roads.add(r2);
 		
 		r1.connectTo(ra1, 0);
-		ra1.connectTo(r2, ra1.getLength()-5);
+		ra1.connectTo(r2, ra1.getLength()-12);
 		
-		Vehicle v1 = new Vehicle();
-		Vehicle v2 = new Vehicle();
-		Vehicle v3 = new Vehicle();
-		
-		System.out.println(v1.getId() + " ; " + v2.getId() + " ; " + v3.getId());
 	}
 	public void display() {
 		for (Road r: roads) {
@@ -61,9 +57,17 @@ public class Network {
 		// Print cells
 		for (Road r: roads) {
 			Graphics2D gg = (Graphics2D) g.create();
-			gg.setColor(Color.white);
 			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
 			for (int i=0 ; i<r.getLength() ; i++) {
+				if (r.getRoadCells().get(i).getPreviousCell()==null) {
+					gg.setColor(Color.green);
+				} else if (r.getRoadCells().get(i).getNextCell()==null) {
+					gg.setColor(Color.red);
+				} else if (r.getRoadCells().get(i).getOutCell()!=null){
+					gg.setColor(Color.blue);
+				} else {
+					gg.setColor(Color.white);
+				}
 				gg.drawRect(r.getX()+i*cellWidth, r.getY() - cellHeight/2, cellWidth, cellHeight);
 				r.getRoadCells().get(i).setX((int) (r.getX()-cellWidth/2+(i*cellWidth + cellWidth/2)*Math.sin(2*Math.PI*r.getDirection()/360)));
 				r.getRoadCells().get(i).setY((int) (r.getY()-cellHeight/2-(i*cellWidth + cellWidth/2)*Math.cos(2*Math.PI*r.getDirection()/360)));
@@ -86,7 +90,7 @@ public class Network {
 			gg.drawOval(r.getX()-outRadius, r.getY()-outRadius, outRadius*2, outRadius*2);
 			gg.drawOval(r.getX()-inRadius, r.getY()-inRadius, inRadius*2, inRadius*2);
 			
-			for (int i=0 ; i<r.getLength() ; i++) {
+			for (int i=0 ; i<r.getLength() ; i++) {				
 				double angle = 2*Math.PI*i/r.getLength() - 2*Math.PI*r.getDirection()/360;
 				double delta = 2*Math.PI/(2*r.getLength());
 				int x1 = (int) (r.getX()-inRadius*Math.sin(angle + delta));
