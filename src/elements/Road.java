@@ -15,10 +15,13 @@ public class Road {
 	public Road(int length) {
 		this.length = length;
 		for (int i=0; i<length; i++) {
+			
 			Cell tmp = new Cell();
-			//if (i==0 || i==1 || i==2) {
-			//	tmp.setOccupied(true);
-			//}
+			
+			if (i>0) {
+				roadCells.get(i-1).setNextCell(tmp);
+			}
+			
 			roadCells.add(tmp);
 		}
 	}
@@ -28,7 +31,6 @@ public class Road {
 			c.display();
 		}
 	}
-	
 	public int getX() {
 		return x;
 	}

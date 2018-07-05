@@ -2,12 +2,18 @@ package elements;
 
 public class Cell {
 	
+	// Simulation
 	private boolean isOccupied;
 	private int isOccupiedNext;
+	private Cell nextCell;
+	
+	// Display
+	private int x,y; // center of the Cell
 	
 	public Cell() {
 		isOccupied = false;
 		isOccupiedNext = -1;
+		nextCell = null;
 	}
 
 	public void evolve() {
@@ -27,6 +33,24 @@ public class Cell {
 		} else {
 			System.out.print("[ ]");
 		}
+	}
+	public int getX() {
+		return x;
+	}
+	public void setX(int x) {
+		this.x = x;
+	}
+	public int getY() {
+		return y;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	public Cell getNextCell() {
+		return nextCell;
+	}
+	public void setNextCell(Cell nextCell) {
+		this.nextCell = nextCell;
 	}
 	public boolean isOccupied() {
 		return isOccupied;

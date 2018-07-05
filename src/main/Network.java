@@ -38,22 +38,17 @@ public class Network {
 		r4.setY(450);
 		r4.setDirection(315);
 		roads.add(r4);
-		RoundAbout ra1 = new RoundAbout(20);
+		RoundAbout ra1 = new RoundAbout(30);
 		ra1.setX(400);
 		ra1.setY(300);
 		ra1.setDirection(r1.getDirection()+180);
 		roundAbouts.add(ra1);
-		RoundAbout ra2 = new RoundAbout(40);
-		ra2.setX(400);
-		ra2.setY(300);
-		ra2.setDirection(r1.getDirection()+180);
-		roundAbouts.add(ra2);
 	}
 	public void display() {
 		for (Road r: roads) {
-			r.display();
+			//r.display();
 		}
-		System.out.print("\n");
+		//System.out.print("\n");
 		for (RoundAbout r: roundAbouts) {
 			r.display();
 		}
@@ -75,10 +70,7 @@ public class Network {
 		}
 		for (RoundAbout r: roundAbouts) {
 			Graphics2D gg = (Graphics2D) g.create();
-			//gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX()+cellWidth/2, r.getY()+cellHeight/2);
-			//for (int i=0 ; i<r.getLength() ; i++) {
-			//	gg.drawOval(r.getX()+i*cellWidth, r.getY(), cellWidth, cellHeight);
-			//}
+			
 			int radius = (int) ((r.getLength()*cellWidth)/(2*Math.PI));
 			int outRadius = radius+cellWidth/2;
 			int inRadius = radius-cellWidth/2;
@@ -86,11 +78,13 @@ public class Network {
 			gg.drawOval(r.getX()-inRadius, r.getY()-inRadius, inRadius*2, inRadius*2);
 			
 			for (int i=0 ; i<r.getLength() ; i++) {
-				int x1 = (int) (r.getX()+inRadius*Math.sin(2*Math.PI*i/(r.getLength()-1)));
-				int y1 = (int) (r.getY()+inRadius*Math.cos(2*Math.PI*i/(r.getLength()-1)));
-				int x2 = (int) (r.getX()+outRadius*Math.sin(2*Math.PI*i/(r.getLength()-1)));
-				int y2 = (int) (r.getY()+outRadius*Math.cos(2*Math.PI*i/(r.getLength()-1)));
+				int x1 = (int) (r.getX()+inRadius*Math.sin(2*Math.PI*i/r.getLength()));
+				int y1 = (int) (r.getY()+inRadius*Math.cos(2*Math.PI*i/r.getLength()));
+				int x2 = (int) (r.getX()+outRadius*Math.sin(2*Math.PI*i/r.getLength()));
+				int y2 = (int) (r.getY()+outRadius*Math.cos(2*Math.PI*i/r.getLength()));
 				gg.drawLine(x1, y1, x2, y2);
+				r.getRoadCells().get(i).setX((int) (r.getX()+radius*Math.sin(2*Math.PI/(2*r.getLength()) + 2*Math.PI*i/r.getLength())));
+				r.getRoadCells().get(i).setY((int) (r.getY()+radius*Math.cos(2*Math.PI/(2*r.getLength()) + 2*Math.PI*i/r.getLength())));
 			}
 			gg.dispose();
 		}
@@ -107,6 +101,13 @@ public class Network {
 			}
 		}
 		
+		for (RoundAbout r: roundAbouts) {
+			for (int i=0 ; i<r.getLength() ; i++) {
+				if (r.getRoadCells().get(i).isOccupied()) {
+					g.fillOval(r.getRoadCells().get(i).getX()-cellWidth/2, r.getRoadCells().get(i).getY()-cellHeight/2, cellWidth, cellHeight);
+				}
+			}
+		}
 		// Print actual step
 		g.setColor(Color.white);
 		g.drawString(Integer.toString(sim.getStep()), 20, 20);
@@ -168,35 +169,30 @@ public class Network {
 		}
 		for (RoundAbout r: roundAbouts) {
 			for (int i=0; i < r.getLength(); ++i) {
-				
-				if (i < r.getLength()-1) {
 					
-					if (r.getRoadCells().get(i).isOccupied()) {
+				if (r.getRoadCells().get(i).isOccupied()) {
+					
+					if (r.getRoadCells().get(i).getNextCell().isOccupied()) {
 						
-						if (r.getRoadCells().get(i+1).isOccupied()) {
-							
-							r.getRoadCells().get(i).setIsOccupiedNext(1);
-							
-						} else {
-							r.getRoadCells().get(i).setIsOccupiedNext(0);
-							r.getRoadCells().get(i+1).setIsOccupiedNext(1);
-							
-						}
+						r.getRoadCells().get(i).setIsOccupiedNext(1);
+						
 					} else {
+						r.getRoadCells().get(i).setIsOccupiedNext(0);
+						r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
 						
-						if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
-							// Cell stay inoccupied
-							r.getRoadCells().get(i).setIsOccupiedNext(0);;
-						}
 					}
-				}
-				// If Cell is at the end of the road
-				else {
-					// If Cell has not been visited
+				} else {
+					
 					if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
 						// Cell stay inoccupied
 						r.getRoadCells().get(i).setIsOccupiedNext(0);;
 					}
+				}
+			}
+			// Random generation
+			if (r.getRoadCells().get(0).getIsOccupiedNext() != 1) {
+				if (Math.random()<0.1) {
+					r.getRoadCells().get(0).setIsOccupiedNext(1);
 				}
 			}
 		}

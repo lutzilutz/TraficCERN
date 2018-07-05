@@ -4,7 +4,7 @@ public class RoundAbout extends Road {
 
 	public RoundAbout(int length) {
 		super(length);
-		// TODO Auto-generated constructor stub
+		this.getRoadCells().get(this.getLength()-1).setNextCell(this.getRoadCells().get(0));;
 	}
 
 }
