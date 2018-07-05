@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import elements.Road;
 import elements.RoundAbout;
@@ -65,6 +66,8 @@ public class Network {
 			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX()+cellWidth/2, r.getY()+cellHeight/2);
 			for (int i=0 ; i<r.getLength() ; i++) {
 				gg.drawRect(r.getX()+i*cellWidth, r.getY(), cellWidth, cellHeight);
+				r.getRoadCells().get(i).setX((int) (r.getX()+i*cellWidth*Math.sin(2*Math.PI*r.getDirection()/360)));
+				r.getRoadCells().get(i).setY((int) (r.getY()-i*cellWidth*Math.cos(2*Math.PI*r.getDirection()/360)));
 			}
 			gg.dispose();
 		}
@@ -96,12 +99,13 @@ public class Network {
 		for (Road r: roads) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillOval((int) (r.getX()+i*cellWidth*Math.sin(2*Math.PI*r.getDirection()/360)), (int) (r.getY()-i*cellWidth*Math.cos(2*Math.PI*r.getDirection()/360)), 10, 10);
+					g.fillOval(r.getRoadCells().get(i).getX(), r.getRoadCells().get(i).getY(), 10, 10);
 				}
 			}
 		}
 		
 		for (RoundAbout r: roundAbouts) {
+			Random random = new Random();
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
 					g.fillOval(r.getRoadCells().get(i).getX()-cellWidth/2, r.getRoadCells().get(i).getY()-cellHeight/2, cellWidth, cellHeight);
