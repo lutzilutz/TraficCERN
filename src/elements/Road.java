@@ -7,6 +7,7 @@ public class Road {
 	// Simulation
 	private int length;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
+	private boolean generateVehicules = false;
 	
 	// Display
 	private int x,y; // position in pixels from left upper corner
@@ -19,6 +20,7 @@ public class Road {
 			Cell tmp = new Cell();
 			
 			if (i>0) {
+				tmp.setPreviousCell(roadCells.get(i-1));
 				roadCells.get(i-1).setNextCell(tmp);
 			}
 			
@@ -30,6 +32,12 @@ public class Road {
 		for (Cell c: roadCells) {
 			c.display();
 		}
+	}
+	public boolean getGenerateVehicules() {
+		return this.generateVehicules;
+	}
+	public void setGenerateVehicules(boolean b) {
+		generateVehicules = b;
 	}
 	public int getX() {
 		return x;
