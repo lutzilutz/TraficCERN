@@ -6,6 +6,7 @@ public class Cell {
 	private boolean isOccupied;
 	private int isOccupiedNext;
 	private Cell nextCell;
+	private Cell outCell;
 	
 	// Display
 	private int x,y; // center of the Cell
@@ -14,6 +15,7 @@ public class Cell {
 		isOccupied = false;
 		isOccupiedNext = -1;
 		nextCell = null;
+		outCell = null;
 	}
 
 	public void evolve() {
@@ -23,6 +25,8 @@ public class Cell {
 			isOccupied = true;
 		} else if (isOccupiedNext == -1) {
 			System.out.println("Error - Unupdated Cell ========");
+		} else {
+			System.out.println("Error - Invalid value (isOccupiedNext) ========");
 		}
 		
 		isOccupiedNext = -1;
@@ -64,5 +68,11 @@ public class Cell {
 	public void setIsOccupiedNext(int isOccupiedNext) {
 		this.isOccupiedNext = isOccupiedNext;
 	}
-	
+	public Cell getOutCell() {
+		return outCell;
+	}
+
+	public void setOutCell(Cell outCell) {
+		this.outCell = outCell;
+	}
 }
