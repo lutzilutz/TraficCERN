@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 import elements.Road;
@@ -7,11 +9,13 @@ import elements.RoundAbout;
 
 public class Network {
 
+	private Simulation sim;
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	
-	public Network() {
-		Road r1 = new Road(10);
+	public Network(Simulation sim) {
+		this.sim = sim;
+		Road r1 = new Road(40);
 		roads.add(r1);
 		RoundAbout r2 = new RoundAbout(8);
 		roundAbouts.add(r2);
@@ -27,6 +31,23 @@ public class Network {
 		System.out.print("\n");
 	}
 	
+	public void render(Graphics g) {
+		g.setColor(Color.gray);
+		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
+		
+		g.setColor(Color.white);
+		for (Road r: roads) {
+			for (int i=0 ; i<r.getLength() ; i++) {
+				if (r.getRoadCells().get(i).isOccupied()) {
+					g.fillRect(50+i*10, 50, 8, 10);
+				} else {
+					g.drawRect(50+i*10, 50, 8, 10);
+				}
+			}
+		}
+		
+		g.drawString(Integer.toString(sim.getStep()), 20, 20);
+	}
 	// Update Cell of the Road according to the next state
 	public void evolve() {
 		for (Road r: roads) {
@@ -73,6 +94,12 @@ public class Network {
 						// Cell stay inoccupied
 						r.getRoadCells().get(i).setIsOccupiedNext(0);;
 					}
+				}
+			}
+			// Random generation
+			if (r.getRoadCells().get(0).getIsOccupiedNext() != 1) {
+				if (Math.random()<0.4) {
+					r.getRoadCells().get(0).setIsOccupiedNext(1);
 				}
 			}
 		}
