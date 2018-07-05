@@ -4,7 +4,7 @@ This is the repository for the project "Trafic au CERN". Our professors are Prof
 
 ## Environment
 
-The simulation is running on C++ (version c++11). We are both running on Ubuntu and working with Geany.
+The simulation is running on Java (version 1.8). We are both running on Ubuntu and working with Eclipse.
 
 ## Model
 
@@ -21,21 +21,11 @@ We will use the model presented by Bastien Chopard and Alexandre Dupuis in "*Net
 
 #### Updating local folder (repo -> local)
 
-From master branch :
-
 ```sh
   git pull origin master
 ```
 
-From someBranch :
-
-```bash
-  git pull origin someBranch
-```
-
 #### Upload local changes (local -> repo)
-
-From master branch :
 
 ```sh
   git add .
@@ -43,12 +33,15 @@ From master branch :
   git push origin master
 ```
 
-From someBranch :
+#### Update repo after changing .gitignore (local -> repo)
+
+First `add` and `commit` your changes (at least the .gitignore file). Then
 
 ```sh
+  rm -r --cached .
   git add .
-  git commit -m "Some message"
-  git push origin someBranch
+  git commit -m "Fixed untracked files"
+  git push origin master
 ```
 
 ### Branches
@@ -71,13 +64,3 @@ Show current branch :
   git branch
 ```
 
-#### Update repo after changing .gitignore (local -> repo)
-
-First `add` and `commit` your changes (at least the .gitignore file). Then
-
-```sh
-  rm -r --cached .
-  git add .
-  git commit -m "Fixed untracked files"
-  git push origin master
-```
