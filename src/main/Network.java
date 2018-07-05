@@ -33,7 +33,6 @@ public class Network {
 		
 		Road r2 = new Road(this, 15);
 		r2.setPositionFrom(ra1, ra1.getLength()-12);
-		System.out.println(r2.getDirection());
 		roads.add(r2);
 		
 		r1.connectTo(ra1, 0);
