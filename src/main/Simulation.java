@@ -1,8 +1,10 @@
 package main;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import graphics.Display;
 
@@ -23,6 +25,7 @@ public class Simulation implements Runnable {
 	// Graphics
 	private BufferStrategy bs;
 	private Graphics g;
+	private BufferedImage background;
 	
 	public Simulation(String title, int width, int height) {
 		this.title = title;
@@ -33,8 +36,16 @@ public class Simulation implements Runnable {
 	
 	private void init() {
 		
-		display = new Display(title,width,height);
 		network = new Network(this);
+		
+		// Rendering background ---------------------------------------------------
+		background = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = background.createGraphics();
+		network.renderBG(g2d);
+		g2d.dispose();
+		// ------------------------------------------------------------------------
+		
+		display = new Display(title,width,height);
 		
 	}
 	private void tick() {
@@ -59,6 +70,7 @@ public class Simulation implements Runnable {
 		
 		// start drawing =========
 		
+		g.drawImage(background, 0, 0, null);
 		network.render(g);
 		
 		// end drawing ===========

@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import elements.Road;
@@ -13,12 +14,32 @@ public class Network {
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	
+	private int cellWidth=10, cellHeight=10;
+	
 	public Network(Simulation sim) {
 		this.sim = sim;
-		Road r1 = new Road(40);
+		Road r1 = new Road(50);
+		r1.setX(50);
+		r1.setY(50);
+		r1.setDirection(90);
 		roads.add(r1);
-		RoundAbout r2 = new RoundAbout(8);
-		roundAbouts.add(r2);
+		Road r2 = new Road(20);
+		r2.setX(50);
+		r2.setY(100);
+		r2.setDirection(105);
+		roads.add(r2);
+		Road r3 = new Road(30);
+		r3.setX(50);
+		r3.setY(150);
+		r3.setDirection(180);
+		roads.add(r3);
+		Road r4 = new Road(50);
+		r4.setX(700);
+		r4.setY(450);
+		r4.setDirection(315);
+		roads.add(r4);
+		RoundAbout ra1 = new RoundAbout(8);
+		roundAbouts.add(ra1);
 	}
 	public void display() {
 		for (Road r: roads) {
@@ -30,25 +51,39 @@ public class Network {
 		}
 		System.out.print("\n");
 	}
-	
-	public void render(Graphics g) {
-		// Print big gray rectangle
+	public void renderBG(Graphics g) {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
+		
+		
+		// gg.drawRect(rect.x, rect.y, rect.width, rect.height);
+		// gg.dispose();
+
+		// Print cells
+		g.setColor(Color.white);
+		for (Road r: roads) {
+			Graphics2D gg = (Graphics2D) g.create();
+			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX()+cellWidth/2, r.getY()+cellHeight/2);
+			for (int i=0 ; i<r.getLength() ; i++) {
+				gg.drawRect(r.getX()+i*cellWidth, r.getY(), cellWidth, cellHeight);
+			}
+			gg.dispose();
+		}
+	}
+	public void render(Graphics g) {
 		
 		// Print cells
 		g.setColor(Color.white);
 		for (Road r: roads) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillRect(50+i*10, 50, 8, 10);
-				} else {
-					g.drawRect(50+i*10, 50, 8, 10);
+					g.fillOval((int) (r.getX()+i*cellWidth*Math.sin(2*Math.PI*r.getDirection()/360)), (int) (r.getY()-i*cellWidth*Math.cos(2*Math.PI*r.getDirection()/360)), 10, 10);
 				}
 			}
 		}
 		
 		// Print actual step
+		g.setColor(Color.white);
 		g.drawString(Integer.toString(sim.getStep()), 20, 20);
 	}
 	// Update Cell of the Road according to the next state
