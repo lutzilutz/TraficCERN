@@ -38,8 +38,16 @@ public class Network {
 		r4.setY(450);
 		r4.setDirection(315);
 		roads.add(r4);
-		RoundAbout ra1 = new RoundAbout(8);
+		RoundAbout ra1 = new RoundAbout(20);
+		ra1.setX(400);
+		ra1.setY(300);
+		ra1.setDirection(r1.getDirection()+180);
 		roundAbouts.add(ra1);
+		RoundAbout ra2 = new RoundAbout(40);
+		ra2.setX(400);
+		ra2.setY(300);
+		ra2.setDirection(r1.getDirection()+180);
+		roundAbouts.add(ra2);
 	}
 	public void display() {
 		for (Road r: roads) {
@@ -55,10 +63,6 @@ public class Network {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
 		
-		
-		// gg.drawRect(rect.x, rect.y, rect.width, rect.height);
-		// gg.dispose();
-
 		// Print cells
 		g.setColor(Color.white);
 		for (Road r: roads) {
@@ -66,6 +70,27 @@ public class Network {
 			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX()+cellWidth/2, r.getY()+cellHeight/2);
 			for (int i=0 ; i<r.getLength() ; i++) {
 				gg.drawRect(r.getX()+i*cellWidth, r.getY(), cellWidth, cellHeight);
+			}
+			gg.dispose();
+		}
+		for (RoundAbout r: roundAbouts) {
+			Graphics2D gg = (Graphics2D) g.create();
+			//gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX()+cellWidth/2, r.getY()+cellHeight/2);
+			//for (int i=0 ; i<r.getLength() ; i++) {
+			//	gg.drawOval(r.getX()+i*cellWidth, r.getY(), cellWidth, cellHeight);
+			//}
+			int radius = (int) ((r.getLength()*cellWidth)/(2*Math.PI));
+			int outRadius = radius+cellWidth/2;
+			int inRadius = radius-cellWidth/2;
+			gg.drawOval(r.getX()-outRadius, r.getY()-outRadius, outRadius*2, outRadius*2);
+			gg.drawOval(r.getX()-inRadius, r.getY()-inRadius, inRadius*2, inRadius*2);
+			
+			for (int i=0 ; i<r.getLength() ; i++) {
+				int x1 = (int) (r.getX()+inRadius*Math.sin(2*Math.PI*i/(r.getLength()-1)));
+				int y1 = (int) (r.getY()+inRadius*Math.cos(2*Math.PI*i/(r.getLength()-1)));
+				int x2 = (int) (r.getX()+outRadius*Math.sin(2*Math.PI*i/(r.getLength()-1)));
+				int y2 = (int) (r.getY()+outRadius*Math.cos(2*Math.PI*i/(r.getLength()-1)));
+				gg.drawLine(x1, y1, x2, y2);
 			}
 			gg.dispose();
 		}

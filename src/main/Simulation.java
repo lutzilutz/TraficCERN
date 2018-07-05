@@ -53,7 +53,7 @@ public class Simulation implements Runnable {
 		step++;
 		network.computeEvolution();
 		network.evolve();
-		network.display();
+		//network.display();
 		
 	}
 	private void render() {
