@@ -3,17 +3,25 @@ package main;
 import java.util.ArrayList;
 
 import elements.Road;
+import elements.RoundAbout;
 
 public class Network {
 
-	ArrayList<Road> roads = new ArrayList<Road>();
+	private ArrayList<Road> roads = new ArrayList<Road>();
+	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	
 	public Network() {
 		Road r1 = new Road(10);
 		roads.add(r1);
+		RoundAbout r2 = new RoundAbout(8);
+		roundAbouts.add(r2);
 	}
 	public void display() {
 		for (Road r: roads) {
+			r.display();
+		}
+		System.out.print("\n");
+		for (RoundAbout r: roundAbouts) {
 			r.display();
 		}
 		System.out.print("\n");
@@ -26,10 +34,49 @@ public class Network {
 				r.getRoadCells().get(i).evolve();
 			}
 		}
+		for (RoundAbout r: roundAbouts) {
+			for (int i=0; i < r.getLength(); ++i) {
+				r.getRoadCells().get(i).evolve();
+			}
+		}
 	}
 	// Compute future state of the Cells of the Road
 	public void computeEvolution() {
 		for (Road r: roads) {
+			for (int i=0; i < r.getLength(); ++i) {
+				
+				if (i < r.getLength()-1) {
+					
+					if (r.getRoadCells().get(i).isOccupied()) {
+						
+						if (r.getRoadCells().get(i+1).isOccupied()) {
+							
+							r.getRoadCells().get(i).setIsOccupiedNext(1);
+							
+						} else {
+							r.getRoadCells().get(i).setIsOccupiedNext(0);
+							r.getRoadCells().get(i+1).setIsOccupiedNext(1);
+							
+						}
+					} else {
+						
+						if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
+							// Cell stay inoccupied
+							r.getRoadCells().get(i).setIsOccupiedNext(0);;
+						}
+					}
+				}
+				// If Cell is at the end of the road
+				else {
+					// If Cell has not been visited
+					if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
+						// Cell stay inoccupied
+						r.getRoadCells().get(i).setIsOccupiedNext(0);;
+					}
+				}
+			}
+		}
+		for (RoundAbout r: roundAbouts) {
 			for (int i=0; i < r.getLength(); ++i) {
 				
 				if (i < r.getLength()-1) {

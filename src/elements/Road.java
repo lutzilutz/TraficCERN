@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Road {
 
-	int length;
-	ArrayList<Cell> roadCells = new ArrayList<Cell>();
+	private int length;
+	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
 	
 	public Road(int length) {
 		this.length = length;
