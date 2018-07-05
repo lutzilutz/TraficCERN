@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import elements.Road;
 import elements.RoundAbout;
+import elements.Vehicle;
 
 public class Network {
 
@@ -31,15 +32,17 @@ public class Network {
 		roundAbouts.add(ra1);
 		
 		Road r2 = new Road(this, 15);
-		r2.setX(200);
-		r2.setY(250);
-		r2.setDirection(ra1.getDirection()-90);
+		r2.setPositionFrom(ra1, ra1.getLength()-5);
 		roads.add(r2);
 		
-		r2.setPositionFrom(ra1, ra1.getLength()-5);
 		r1.connectTo(ra1, 0);
 		ra1.connectTo(r2, ra1.getLength()-5);
 		
+		Vehicle v1 = new Vehicle();
+		Vehicle v2 = new Vehicle();
+		Vehicle v3 = new Vehicle();
+		
+		System.out.println(v1.getId() + " ; " + v2.getId() + " ; " + v3.getId());
 	}
 	public void display() {
 		for (Road r: roads) {
@@ -56,7 +59,6 @@ public class Network {
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
 		
 		// Print cells
-		
 		for (Road r: roads) {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setColor(Color.white);
@@ -67,6 +69,8 @@ public class Network {
 				r.getRoadCells().get(i).setY((int) (r.getY()-cellHeight/2-(i*cellWidth + cellWidth/2)*Math.cos(2*Math.PI*r.getDirection()/360)));
 			}
 			gg.dispose();
+			g.setColor(Color.black);
+			g.drawString(Integer.toString(r.getId()), r.getX()+10, r.getY()-10);
 			/*g.setColor(Color.red);
 			g.fillRect(r.getX()-1, r.getY()-5, 2, 10);
 			g.fillRect(r.getX()-5, r.getY()-1, 10, 2);*/
@@ -93,6 +97,9 @@ public class Network {
 				r.getRoadCells().get(i).setX((int) (r.getX()-radius*Math.sin(angle)));
 				r.getRoadCells().get(i).setY((int) (r.getY()-radius*Math.cos(angle)));
 			}
+			g.setColor(Color.black);
+			g.drawString(Integer.toString(r.getId()), r.getX()+10, r.getY()-10);
+			
 			/*gg.setColor(Color.red);
 			gg.fillRect(r.getX()-1, r.getY()-5, 2, 10);
 			gg.fillRect(r.getX()-5, r.getY()-1, 10, 2);*/
