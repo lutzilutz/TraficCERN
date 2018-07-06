@@ -35,9 +35,15 @@ public class Network {
 		r2.setPositionFrom(ra1, ra1.getLength()-12);
 		roads.add(r2);
 		
+		Road r3 = new Road(this, 15);
+		r3.setPositionFrom(ra1, ra1.getLength()-1);
+		roads.add(r3);
+		
+		
 		r1.connectTo(ra1, 0);
 		ra1.connectTo(r2, ra1.getLength()-12);
-		
+		ra1.connectTo(r3, ra1.getLength()-1);
+		r3.setDirection(r1.getDirection()+180);
 	}
 	public void display() {
 		for (Road r: roads) {
@@ -221,16 +227,28 @@ public class Network {
 					}
 				} else {
 					if (r.getRoadCells().get(i).isOccupied()) {
-						
-						if (r.getRoadCells().get(i).getOutCell().isOccupied()) {
-							
-							r.getRoadCells().get(i).setIsOccupiedNext(1);
-							
+						if ((int)(Math.random()*2)==1) {
+							if (r.getRoadCells().get(i).getOutCell().isOccupied()) {
+								
+								r.getRoadCells().get(i).setIsOccupiedNext(1);
+								
+							} else {
+								r.getRoadCells().get(i).setIsOccupiedNext(0);
+								r.getRoadCells().get(i).getOutCell().setIsOccupiedNext(1);
+								
+							}
 						} else {
-							r.getRoadCells().get(i).setIsOccupiedNext(0);
-							r.getRoadCells().get(i).getOutCell().setIsOccupiedNext(1);
-							
+							if (r.getRoadCells().get(i).getNextCell().isOccupied()) {
+								
+								r.getRoadCells().get(i).setIsOccupiedNext(1);
+								
+							} else {
+								r.getRoadCells().get(i).setIsOccupiedNext(0);
+								r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
+								
+							}
 						}
+						
 					} else {
 						
 						if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {

@@ -3,23 +3,12 @@ package elements;
 import main.Network;
 
 public class CrossRoad {
-	
-	private RoundAbout middle;
 	private Road[] roadsIN;
 	private Road[] roadsOUT;
 
 	public CrossRoad(Network n) {
-		middle = new RoundAbout(n, 4);
 		roadsIN = new Road[4];
 		roadsOUT = new Road[4];
-	}
-
-	public RoundAbout getMiddle() {
-		return middle;
-	}
-
-	public void setMiddle(RoundAbout middle) {
-		this.middle = middle;
 	}
 
 	public Road[] getRoadsIN() {
