@@ -17,7 +17,7 @@ public class Road {
 	
 	// Display
 	private int x,y; // position in pixels from left upper corner
-	private int direction; // from 0 to 360 (north)
+	private int direction; // from 0 to 360 (north), 90 (east), 180 (south), 270 (west)
 	
 	public Road(Network n, int length) {
 		this.n = n;

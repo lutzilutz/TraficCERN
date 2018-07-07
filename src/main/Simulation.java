@@ -15,6 +15,8 @@ public class Simulation implements Runnable {
 	private String versionID;
 	private int width, height;
 	private int step = 0;
+	private double stepSize = 1; // in seconds
+	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 	
 	private Network network;
 	
@@ -31,7 +33,7 @@ public class Simulation implements Runnable {
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.versionID = "v 0.1";		
+		this.versionID = "v 0.1";
 	}
 	
 	private void init() {
@@ -90,7 +92,7 @@ public class Simulation implements Runnable {
 		long now;
 		long lastTime = System.nanoTime();
 		long timer = 0;
-		int ticks = 0;
+		//int ticks = 0;
 		
 		while(running) {
 			
@@ -105,13 +107,13 @@ public class Simulation implements Runnable {
 				render();
 				Toolkit.getDefaultToolkit().sync();
 				delta--;
-				ticks++;
+				//ticks++;
 			}
 			
 			if (timer >= 1000000000) {
 				//System.out.println("FPS : " + ticks);
 				//realTicks = ticks;
-				ticks=0;
+				//ticks=0;
 				timer=0;
 			}
 			
@@ -157,6 +159,35 @@ public class Simulation implements Runnable {
 	}
 	public String getVersionID() {
 		return this.versionID;
+	}
+	// Return time in format "DDD hh:mm:ss"
+	public String getTime() {
+		int time = (int) (step*stepSize);
+		int sec = time % 60;
+		int min = ((time - sec)/60) % 60;
+		int hr = ((((time - sec)/60) - min)/60) % 24;
+		
+		String secStr = Integer.toString(sec);
+		if (sec < 10) {
+			secStr = "0" + secStr;
+		}
+		
+		String minStr = Integer.toString(min);
+		if (min < 10) {
+			minStr = "0" + minStr;
+		}
+		
+		String hrStr = Integer.toString(hr);
+		if (hr < 10) {
+			hrStr = "0" + hrStr;
+		}
+		
+		String dayStr = daysOfWeek[(time/(60*60*24)) % 7];
+		
+		return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
+	}
+	public double getStepSize() {
+		return stepSize;
 	}
 	public int getStep() {
 		return step;

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import elements.Road;
 import elements.RoundAbout;
-import elements.Vehicle;
 
 public class Network {
 
@@ -15,7 +14,7 @@ public class Network {
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	
-	private int cellWidth=10, cellHeight=10;
+	private int cellWidth=10, cellHeight=cellWidth;
 	
 	public Network(Simulation sim) {
 		this.sim = sim;
@@ -134,9 +133,11 @@ public class Network {
 				}
 			}
 		}
-		// Print actual step
+		// Print actual informations (upper-left corner)
 		g.setColor(Color.white);
-		g.drawString("Step " + Integer.toString(sim.getStep()), 20, 20);
+		g.drawString("Step :    " + Integer.toString(sim.getStep()), 15, 20);
+		g.drawString("Time :    " + sim.getTime(), 15, 40);
+		g.drawString("Speed : " + ((int) (10*3.6*7.5/sim.getStepSize())/10.0) + " km/h", 15, 60);
 	}
 	// Update Cell of the Road according to the next state
 	public void evolve() {
