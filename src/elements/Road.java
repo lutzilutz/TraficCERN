@@ -6,14 +6,14 @@ import main.Network;
 
 public class Road {
 
-	private static int idCounter = 1;
+	private static int idCounter = 1; // Roads ID counter
 	protected Network n;
 	
 	// Simulation
-	private int id;
+	private int id; // Roads ID
 	private int length;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
-	private boolean generateVehicules = false;
+	private boolean generateVehicules = false; // if generate Vehicles
 	
 	// Display
 	private int x,y; // position in pixels from left upper corner
@@ -36,11 +36,13 @@ public class Road {
 			roadCells.add(tmp);
 		}
 	}
+	// Set position and direction from a RoundAbout cell
 	public void setPositionFrom(RoundAbout ra, int i) {
 		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360);
 		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellWidth()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
 		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellHeight()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
 	}
+	// Connect "pointer" of last Cell to Cell i of RoundAbout
 	public void connectTo(RoundAbout ra, int i) {
 		this.getRoadCells().get(this.getLength()-1).setNextCell(ra.getRoadCells().get(i));
 	}

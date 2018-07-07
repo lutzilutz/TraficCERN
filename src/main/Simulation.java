@@ -14,8 +14,8 @@ public class Simulation implements Runnable {
 	private String title;
 	private String versionID;
 	private int width, height;
-	private int step = 0;
-	private double stepSize = 1; // in seconds
+	private int step = 0; // step counter
+	private double stepSize = 1; // duration of one step in seconds
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 	
 	private Network network;

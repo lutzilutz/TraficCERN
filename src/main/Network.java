@@ -54,6 +54,7 @@ public class Network {
 		}
 		System.out.print("\n");
 	}
+	// Compute Background (one-time operation)
 	public void renderBG(Graphics g) {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
@@ -63,13 +64,14 @@ public class Network {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
 			for (int i=0 ; i<r.getLength() ; i++) {
-				if (r.getRoadCells().get(i).getPreviousCell()==null) {
+				
+				if (r.getRoadCells().get(i).getPreviousCell()==null) { // Start Cell
 					gg.setColor(Color.green);
-				} else if (r.getRoadCells().get(i).getNextCell()==null) {
+				} else if (r.getRoadCells().get(i).getNextCell()==null) { // End Cell
 					gg.setColor(Color.red);
-				} else if (r.getRoadCells().get(i).getOutCell()!=null){
+				} else if (r.getRoadCells().get(i).getOutCell()!=null){ // Out Cell
 					gg.setColor(Color.blue);
-				} else {
+				} else { // Standard Cell
 					gg.setColor(Color.white);
 				}
 				gg.drawRect(r.getX()+i*cellWidth, r.getY() - cellHeight/2, cellWidth, cellHeight);
@@ -77,8 +79,10 @@ public class Network {
 				r.getRoadCells().get(i).setY((int) (r.getY()-cellHeight/2-(i*cellWidth + cellWidth/2)*Math.cos(2*Math.PI*r.getDirection()/360)));
 			}
 			gg.dispose();
+			// Render ID
 			g.setColor(Color.black);
 			g.drawString(Integer.toString(r.getId()), r.getX()+10, r.getY()-10);
+			// Render x,y position of Road
 			/*g.setColor(Color.red);
 			g.fillRect(r.getX()-1, r.getY()-5, 2, 10);
 			g.fillRect(r.getX()-5, r.getY()-1, 10, 2);*/
@@ -105,15 +109,18 @@ public class Network {
 				r.getRoadCells().get(i).setX((int) (r.getX()-radius*Math.sin(angle)));
 				r.getRoadCells().get(i).setY((int) (r.getY()-radius*Math.cos(angle)));
 			}
+			// Render ID
 			g.setColor(Color.black);
 			g.drawString(Integer.toString(r.getId()), r.getX()+10, r.getY()-10);
 			
+			// Render x,y position of RoundAbout
 			/*gg.setColor(Color.red);
 			gg.fillRect(r.getX()-1, r.getY()-5, 2, 10);
 			gg.fillRect(r.getX()-5, r.getY()-1, 10, 2);*/
 			gg.dispose();
 		}
 	}
+	// Render Vehicles according to Cells
 	public void render(Graphics g) {
 		
 		// Print cells
