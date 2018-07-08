@@ -32,16 +32,23 @@ public class Network {
 		roundAbouts.add(ra1);
 		
 		Road r2 = new Road(this, 15);
-		r2.setPositionFrom(ra1, ra1.getLength()-12);
+		r2.setPositionFrom(ra1, ra1.getLength()-14);
 		roads.add(r2);
 		
 		Road r3 = new Road(this, 15);
 		r3.setPositionFrom(ra1, ra1.getLength()-1);
 		roads.add(r3);
 		
+		Road r4 = new Road(this, 15);
+		r4.setPositionFrom(ra1, 10);
+		roads.add(r4);
+		
+		Road r5 = new Road(this, 15);
+		r5.setPositionFrom(ra1, 24);
+		roads.add(r5);
 		
 		r1.connectTo(ra1, 0);
-		ra1.connectTo(r2, ra1.getLength()-12);
+		ra1.connectTo(r2, ra1.getLength()-14);
 		ra1.connectTo(r3, ra1.getLength()-1);
 		r3.setDirection(r1.getDirection()+180);
 		
@@ -95,12 +102,12 @@ public class Network {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setColor(Color.white);
 			
-			int radius = (int) ((r.getLength()*cellWidth)/(2*Math.PI));
-			int outRadius = radius+cellWidth/2;
-			int inRadius = radius-cellWidth/2;
+			double radius = (r.getLength()*cellWidth)/(2*Math.PI);
+			double outRadius = radius+cellWidth/2;
+			double inRadius = radius-cellWidth/2;
 			
-			gg.drawOval(r.getX()-outRadius, r.getY()-outRadius, outRadius*2, outRadius*2);
-			gg.drawOval(r.getX()-inRadius, r.getY()-inRadius, inRadius*2, inRadius*2);
+			gg.drawOval((int) (r.getX()-outRadius), (int) (r.getY()-outRadius), (int) (outRadius*2), (int) (outRadius*2));
+			gg.drawOval((int) (r.getX()-inRadius), (int) (r.getY()-inRadius), (int) (inRadius*2), (int) (inRadius*2));
 			
 			for (int i=0 ; i<r.getLength() ; i++) {				
 				double angle = 2*Math.PI*i/r.getLength() - 2*Math.PI*r.getDirection()/360;

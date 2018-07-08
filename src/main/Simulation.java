@@ -86,7 +86,7 @@ public class Simulation implements Runnable {
 		
 		init();
 	
-		int fps = 2;
+		int fps = 10;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
 		long now;
