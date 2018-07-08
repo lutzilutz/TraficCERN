@@ -31,26 +31,38 @@ public class Network {
 		ra1.setDirection(180+r1.getDirection());
 		roundAbouts.add(ra1);
 		
-		Road r2 = new Road(this, 15);
-		r2.setPositionFrom(ra1, ra1.getLength()-14);
-		roads.add(r2);
+		Road r1Out = new Road(this, 15);
+		r1Out.setStartPositionFrom(ra1, ra1.getLength()-1);
+		roads.add(r1Out);
 		
-		Road r3 = new Road(this, 15);
-		r3.setPositionFrom(ra1, ra1.getLength()-1);
-		roads.add(r3);
+		// N-E road
+		Road r2Out = new Road(this, 15);
+		r2Out.setStartPositionFrom(ra1, ra1.getLength()-14);
+		roads.add(r2Out);
+		Road r2In = new Road(this, 15);
+		r2In.setEndPositionFrom(ra1, ra1.getLength()-13);
+		roads.add(r2In);
 		
-		Road r4 = new Road(this, 15);
-		r4.setPositionFrom(ra1, 10);
-		roads.add(r4);
+		// S-E road
+		Road r3Out = new Road(this, 15);
+		r3Out.setStartPositionFrom(ra1, 24);
+		roads.add(r3Out);
+		Road r3In = new Road(this, 15);
+		r3In.setEndPositionFrom(ra1, 25);
+		roads.add(r3In);
 		
-		Road r5 = new Road(this, 15);
-		r5.setPositionFrom(ra1, 24);
-		roads.add(r5);
+		// S-W road
+		Road r4Out = new Road(this, 15);
+		r4Out.setStartPositionFrom(ra1, 10);
+		roads.add(r4Out);
+		Road r4In = new Road(this, 15);
+		r4In.setEndPositionFrom(ra1, 11);
+		roads.add(r4In);
 		
 		r1.connectTo(ra1, 0);
-		ra1.connectTo(r2, ra1.getLength()-14);
-		ra1.connectTo(r3, ra1.getLength()-1);
-		r3.setDirection(r1.getDirection()+180);
+		ra1.connectTo(r2Out, ra1.getLength()-14);
+		ra1.connectTo(r1Out, ra1.getLength()-1);
+		r1Out.setDirection(r1.getDirection()+180);
 		
 		CrossRoad CR = new CrossRoad(this, 600, 400, 60, 3);
 		crossRoads.add(CR);
