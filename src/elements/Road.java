@@ -14,6 +14,7 @@ public class Road {
 	private int length;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
 	private boolean generateVehicules = false; // if generate Vehicles
+	private boolean isTrafficLightRed = false;
 	
 	// Display
 	private int x,y; // position in pixels from left upper corner
@@ -92,4 +93,11 @@ public class Road {
 	public void setRoadCells(ArrayList<Cell> roadCells) {
 		this.roadCells = roadCells;
 	}
+	public boolean isTrafficLightRed() {
+		return isTrafficLightRed;
+	}
+	public void setTrafficLightRed(boolean isTrafficLightRed) {
+		this.isTrafficLightRed = isTrafficLightRed;
+	}
+	
 }

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
 
@@ -13,7 +14,7 @@ public class Network {
 	private Simulation sim;
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
-	
+	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
 	private int cellWidth=10, cellHeight=cellWidth;
 	
 	public Network(Simulation sim) {
@@ -43,6 +44,9 @@ public class Network {
 		ra1.connectTo(r2, ra1.getLength()-12);
 		ra1.connectTo(r3, ra1.getLength()-1);
 		r3.setDirection(r1.getDirection()+180);
+		
+		CrossRoad CR = new CrossRoad(this, 600, 400, 60, 3);
+		crossRoads.add(CR);
 	}
 	public void display() {
 		for (Road r: roads) {
@@ -119,6 +123,20 @@ public class Network {
 			gg.fillRect(r.getX()-5, r.getY()-1, 10, 2);*/
 			gg.dispose();
 		}
+		for (CrossRoad CR: crossRoads) {
+			Graphics2D gg = (Graphics2D) g.create();
+			gg.setColor(Color.white);
+			gg.rotate(((CR.getDirection())/360.0)*2*Math.PI- Math.PI/2, CR.getMiddleCells()[0].getX(), CR.getMiddleCells()[0].getY());
+			//gg.drawRect(CR.getMiddleCells()[0].getX() - cellWidth/2, CR.getMiddleCells()[0].getY() - cellHeight/2, cellWidth, cellHeight);
+			//gg.drawRect(CR.getMiddleCells()[1].getX() - cellWidth/2, CR.getMiddleCells()[1].getY() - 3*cellHeight/2, cellWidth, cellHeight);
+			//gg.drawRect(CR.getMiddleCells()[2].getX() - cellWidth/2, CR.getMiddleCells()[2].getY() - cellHeight/2, cellWidth, cellHeight);
+			//gg.drawRect(CR.getMiddleCells()[3].getX() - cellWidth/2, CR.getMiddleCells()[3].getY() - cellHeight/2, cellWidth, cellHeight);
+			
+			gg.drawRect(CR.getMiddleCells()[0].getX() - cellWidth/2, CR.getMiddleCells()[0].getY() - cellHeight/2, cellWidth, cellHeight);
+			gg.drawRect(CR.getMiddleCells()[0].getX() + cellWidth/2, CR.getMiddleCells()[0].getY() - cellHeight/2, cellWidth, cellHeight);
+			gg.drawRect(CR.getMiddleCells()[0].getX() + cellWidth/2, CR.getMiddleCells()[0].getY() - 3*cellHeight/2, cellWidth, cellHeight);
+			gg.drawRect(CR.getMiddleCells()[0].getX() - cellWidth/2, CR.getMiddleCells()[0].getY() - 3*cellHeight/2, cellWidth, cellHeight);
+		}
 	}
 	// Render Vehicles according to Cells
 	public void render(Graphics g) {
@@ -189,7 +207,7 @@ public class Network {
 				else {
 					if (r.getRoadCells().get(i).getNextCell() != null) {
 						if (r.getRoadCells().get(i).isOccupied()) {
-							if (r.getRoadCells().get(i).getNextCell().isOccupied() || r.getRoadCells().get(i).getNextCell().getPreviousCell().isOccupied()) {
+							if (r.getRoadCells().get(i).getNextCell().isOccupied() || r.getRoadCells().get(i).getNextCell().getPreviousCell().isOccupied() || r.isTrafficLightRed()) {
 								r.getRoadCells().get(i).setIsOccupiedNext(1);
 							} else {
 								r.getRoadCells().get(i).setIsOccupiedNext(0);
@@ -274,6 +292,11 @@ public class Network {
 			}*/
 		}
 	}
+	
+	public void addRoadtoRoads(Road r) {
+		this.roads.add(r);
+	}
+	
 	public int getCellWidth() {
 		return cellWidth;
 	}
