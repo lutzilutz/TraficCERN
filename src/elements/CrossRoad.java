@@ -83,6 +83,12 @@ public class CrossRoad {
 			middleCells[3].setNextCell(middleCells[0]);
 			middleCells[0].setPreviousCell(middleCells[3]);
 			
+			// --------------------------------------------------------------------
+			// int nCell = 4;
+			// middleCells[i].setNextCell(middleCells[(i+1)%nCell])
+			// middleCells[i].setPreviousCell(middleCells[(i+(nCell-1))%nCell])
+			// --------------------------------------------------------------------
+			
 			/*middleCells[0].setOutCell(r1OUT.getRoadCells().get(0));
 			r1OUT.getRoadCells().get(0).setPreviousCell(middleCells[0]);
 			middleCells[1].setOutCell(r2OUT.getRoadCells().get(0));
