@@ -91,12 +91,12 @@ public class Network {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setColor(Color.white);
 			
-			double radius = (r.getLength()*cellWidth)/(2*Math.PI);
-			double outRadius = radius+cellWidth/2;
-			double inRadius = radius-cellWidth/2;
+			int radius = (int) ((r.getLength()*cellWidth)/(2*Math.PI));
+			int outRadius = radius+cellWidth/2;
+			int inRadius = radius-cellWidth/2;
 			
-			gg.drawOval((int) (r.getX()-outRadius), (int) (r.getY()-outRadius), (int) (outRadius*2), (int) (outRadius*2));
-			gg.drawOval((int) (r.getX()-inRadius), (int) (r.getY()-inRadius), (int) (inRadius*2), (int) (inRadius*2));
+			gg.drawOval(r.getX()-outRadius, r.getY()-outRadius, outRadius*2, outRadius*2);
+			gg.drawOval(r.getX()-inRadius, r.getY()-inRadius, inRadius*2, inRadius*2);
 			
 			for (int i=0 ; i<r.getLength() ; i++) {				
 				double angle = 2*Math.PI*i/r.getLength() - 2*Math.PI*r.getDirection()/360;
