@@ -14,33 +14,33 @@ public class CrossRoad {
 	public CrossRoad(Network n, int x, int y, int dir, int type) {
 		if (type == 3) {
 			this.direction = dir % 360;
-			this.type = type;
-			roadsIN = new Road[3];
-			roadsOUT = new Road[3];
+			//this.type = type;
+			//roadsIN = new Road[3];
+			//roadsOUT = new Road[3];
 			middleCells = new Cell[4];
 			
-			Road r1IN = new Road(n, 10);
+			/*Road r1IN = new Road(n, 10);
 			r1IN.setX(x);
 			r1IN.setY(y);
-			r1IN.setDirection(dir % 360);
+			r1IN.setDirection(dir % 360);*/
 			
 			middleCells[0] = new Cell();
-			middleCells[0].setX((int) (r1IN.getX()+(r1IN.getLength()*n.getCellWidth() + n.getCellWidth()/2)*Math.sin(2*Math.PI*direction/360.0)));
-			middleCells[0].setY((int) (r1IN.getY()-(r1IN.getLength()*n.getCellHeight() + n.getCellHeight()/2)*Math.cos(2*Math.PI*direction/360.0)));
+			//middleCells[0].setX((int) (r1IN.getX()+(r1IN.getLength()*n.getCellWidth() + n.getCellWidth()/2)*Math.sin(2*Math.PI*direction/360.0)));
+			//middleCells[0].setY((int) (r1IN.getY()-(r1IN.getLength()*n.getCellHeight() + n.getCellHeight()/2)*Math.cos(2*Math.PI*direction/360.0)));
 			
 			middleCells[1] = new Cell();
-			middleCells[1].setX((int) (middleCells[0].getX()+(3*n.getCellWidth()/2)*Math.sin(2*Math.PI*direction/360.0)));
-			middleCells[1].setY((int) (middleCells[0].getY()-(3*n.getCellHeight()/2)*Math.cos(2*Math.PI*direction/360.0)));
+			//middleCells[1].setX((int) (middleCells[0].getX()+(3*n.getCellWidth()/2)*Math.sin(2*Math.PI*direction/360.0)));
+			//middleCells[1].setY((int) (middleCells[0].getY()-(3*n.getCellHeight()/2)*Math.cos(2*Math.PI*direction/360.0)));
 			
 			middleCells[2] = new Cell();
-			middleCells[2].setX((int) (middleCells[1].getX()+(n.getCellWidth()/2)*Math.sin(2*Math.PI*((direction-90)%360)/360.0)));
-			middleCells[2].setY((int) (middleCells[1].getY()-(n.getCellHeight()/2)*Math.cos(2*Math.PI*((direction-90)%360)/360.0)));
+			//middleCells[2].setX((int) (middleCells[1].getX()+(n.getCellWidth()/2)*Math.sin(2*Math.PI*((direction-90)%360)/360.0)));
+			//middleCells[2].setY((int) (middleCells[1].getY()-(n.getCellHeight()/2)*Math.cos(2*Math.PI*((direction-90)%360)/360.0)));
 			
 			middleCells[3] = new Cell();
-			middleCells[3].setX((int) (middleCells[0].getX()+(n.getCellWidth()/2)*Math.sin(2*Math.PI*((direction)%360)/360.0)));
-			middleCells[3].setY((int) (middleCells[0].getY()-(3*n.getCellHeight()/2)*Math.cos(2*Math.PI*((direction)%360)/360.0)));
+			//middleCells[3].setX((int) (middleCells[0].getX()+(n.getCellWidth()/2)*Math.sin(2*Math.PI*((direction)%360)/360.0)));
+			//middleCells[3].setY((int) (middleCells[0].getY()-(3*n.getCellHeight()/2)*Math.cos(2*Math.PI*((direction)%360)/360.0)));
 			
-			Road r1OUT = new Road(n, 10);
+			/*Road r1OUT = new Road(n, 10);
 			r1OUT.setDirection((direction+90)%360);
 			r1OUT.setX((int) (x+(r1OUT.getLength()*n.getCellWidth()+3*n.getCellWidth()/2)*Math.sin(2*Math.PI*(direction)/360.0)+n.getCellWidth()/2*Math.sin(2*Math.PI*((direction+90)%360)/360.0)));
 			r1OUT.setY((int) (y-(r1OUT.getLength()*n.getCellHeight()+3*n.getCellHeight()/2)*Math.cos(2*Math.PI*(direction)/360.0)+n.getCellWidth()/2*Math.cos(2*Math.PI*((direction+90)%360)/360.0)));
@@ -72,7 +72,7 @@ public class CrossRoad {
 			
 			roadsOUT[0] = r1OUT;
 			roadsOUT[1] = r2OUT;
-			roadsOUT[2] = r3OUT;
+			roadsOUT[2] = r3OUT;*/
 			
 			middleCells[0].setNextCell(middleCells[1]);
 			middleCells[1].setPreviousCell(middleCells[0]);
@@ -83,7 +83,7 @@ public class CrossRoad {
 			middleCells[3].setNextCell(middleCells[0]);
 			middleCells[0].setPreviousCell(middleCells[3]);
 			
-			middleCells[0].setOutCell(r1OUT.getRoadCells().get(0));
+			/*middleCells[0].setOutCell(r1OUT.getRoadCells().get(0));
 			r1OUT.getRoadCells().get(0).setPreviousCell(middleCells[0]);
 			middleCells[1].setOutCell(r2OUT.getRoadCells().get(0));
 			r2OUT.getRoadCells().get(0).setPreviousCell(middleCells[1]);
@@ -103,7 +103,7 @@ public class CrossRoad {
 			n.addRoadtoRoads(r2OUT);
 			n.addRoadtoRoads(r3OUT);
 			
-			r1IN.setGenerateVehicules(true);
+			r1IN.setGenerateVehicules(true);*/
 			
 			
 		} else {
