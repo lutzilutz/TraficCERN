@@ -20,7 +20,7 @@ public class Network {
 	
 	public Network(Simulation sim) {
 		this.setCellHeight(8);
-		this.setCellWidth(8);
+		this.setCellWidth(16);
 		
 		
 		this.sim = sim;
@@ -132,8 +132,8 @@ public class Network {
 			gg.setColor(Color.white);
 			
 			double radius = (r.getLength()*cellWidth)/(2*Math.PI);
-			double outRadius = radius+cellWidth/2;
-			double inRadius = radius-cellWidth/2;
+			double outRadius = radius+cellHeight/2;
+			double inRadius = radius-cellHeight/2;
 			
 			gg.drawOval((int) (r.getX()-outRadius), (int) (r.getY()-outRadius), (int) (outRadius*2), (int) (outRadius*2));
 			gg.drawOval((int) (r.getX()-inRadius), (int) (r.getY()-inRadius), (int) (inRadius*2), (int) (inRadius*2));
