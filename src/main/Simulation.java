@@ -110,7 +110,7 @@ public class Simulation implements Runnable {
 		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Max speed", new ClickListener(){
 			@Override
 			public void onClick() {
-				simSpeed = 60;
+				simSpeed = 360;
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();
@@ -162,7 +162,7 @@ public class Simulation implements Runnable {
 		
 		lastTick = System.nanoTime();
 	
-		int fps = 80;
+		int fps = 360;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
 		long now;
