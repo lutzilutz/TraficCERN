@@ -24,7 +24,6 @@ public class Network {
 		r1.setX(100);
 		r1.setY(200);
 		r1.setDirection(113);
-		r1.setGenerateVehicules(true);
 		roads.add(r1);
 		
 		RoundAbout ra1 = new RoundAbout(this, 48);
@@ -34,6 +33,7 @@ public class Network {
 		
 		Road r1Out = new Road(this, 15);
 		r1Out.setStartPositionFrom(ra1, ra1.getLength()-1);
+		r1Out.setDirection(r1.getDirection()+180);
 		roads.add(r1Out);
 		
 		// N-E road
@@ -43,6 +43,7 @@ public class Network {
 		Road r2In = new Road(this, 15);
 		r2In.setEndPositionFrom(ra1, ra1.getLength()-13);
 		roads.add(r2In);
+		r2Out.setDirection((r2In.getDirection()+180)%360);
 		
 		// S-E road
 		Road r3Out = new Road(this, 15);
@@ -51,7 +52,8 @@ public class Network {
 		Road r3In = new Road(this, 15);
 		r3In.setEndPositionFrom(ra1, 25);
 		roads.add(r3In);
-		
+		r3Out.setDirection((r3In.getDirection()+180)%360);
+
 		// S-W road
 		Road r4Out = new Road(this, 15);
 		r4Out.setStartPositionFrom(ra1, 10);
@@ -59,11 +61,23 @@ public class Network {
 		Road r4In = new Road(this, 15);
 		r4In.setEndPositionFrom(ra1, 11);
 		roads.add(r4In);
+		r4Out.setDirection((r4In.getDirection()+180)%360);
+
 		
 		r1.connectTo(ra1, 0);
+		r2In.connectTo(ra1, ra1.getLength()-13);
+		r3In.connectTo(ra1, 25);
+		r4In.connectTo(ra1, 11);
+		
+		ra1.connectTo(r4Out, 10);
+		ra1.connectTo(r3Out, 24);
 		ra1.connectTo(r2Out, ra1.getLength()-14);
 		ra1.connectTo(r1Out, ra1.getLength()-1);
-		r1Out.setDirection(r1.getDirection()+180);
+		
+		r1.setGenerateVehicules(true);
+		r2In.setGenerateVehicules(true);
+		r3In.setGenerateVehicules(true);
+		r4In.setGenerateVehicules(true);
 		
 		CrossRoad CR = new CrossRoad(this, 600, 400, 60, 3);
 		crossRoads.add(CR);
@@ -244,7 +258,7 @@ public class Network {
 			}
 			// Random generation
 			if (r.getRoadCells().get(0).getIsOccupiedNext() != 1 && r.getGenerateVehicules()) {
-				if (Math.random()<0.4) {
+				if (Math.random()<0.1) {
 					r.getRoadCells().get(0).setIsOccupiedNext(1);
 				}
 			}
