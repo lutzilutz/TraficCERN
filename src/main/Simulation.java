@@ -6,7 +6,12 @@ import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+import graphics.Assets;
 import graphics.Display;
+import ui.ClickListener;
+import ui.UIManager;
+import ui.UITextButton;
+import ui.MouseManager;
 
 public class Simulation implements Runnable {
 
@@ -15,8 +20,11 @@ public class Simulation implements Runnable {
 	private String versionID;
 	private int width, height;
 	private int step = 0; // step counter
-	private double stepSize = 1; // duration of one step in seconds
+	private double stepSize = 1; // duration of one step in seconds-
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+	private boolean paused = false;
+	private long lastTick;
+	private double simSpeed = 10;
 	
 	private Network network;
 	
@@ -29,11 +37,19 @@ public class Simulation implements Runnable {
 	private Graphics g;
 	private BufferedImage background;
 	
+	// UI
+	private MouseManager mouseManager;
+	private UIManager uiManager;
+	private UITextButton stepByStep;
+	
 	public Simulation(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
 		this.versionID = "v 0.1";
+		this.uiManager = new UIManager();
+		this.mouseManager = new MouseManager();
+		this.mouseManager.setUIManager(this.uiManager);
 	}
 	
 	private void init() {
@@ -49,13 +65,70 @@ public class Simulation implements Runnable {
 		
 		display = new Display(title,width,height);
 		
+		display.getFrame().addMouseListener(mouseManager);
+		display.getFrame().addMouseMotionListener(mouseManager);
+		display.getCanvas().addMouseListener(mouseManager);
+		display.getCanvas().addMouseMotionListener(mouseManager);
+		
+		stepByStep = new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*1, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Next step", new ClickListener(){
+			@Override
+			public void onClick() {
+				step++;
+				network.computeEvolution();
+				network.evolve();
+			}
+		});
+		stepByStep.switchActivable();
+		this.uiManager.addObject(new UITextButton(Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Pause/Play", new ClickListener(){
+			@Override
+			public void onClick() {
+				switchPause();
+				stepByStep.switchActivable();
+			}
+		}));
+		this.uiManager.addObject(stepByStep);
+		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Real-time", new ClickListener(){
+			@Override
+			public void onClick() {
+				simSpeed = 1;
+				if (paused) {
+					stepByStep.switchActivable();
+					switchPause();
+				}
+			}
+		}));
+		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "1/6 max speed", new ClickListener(){
+			@Override
+			public void onClick() {
+				simSpeed = 10;
+				if (paused) {
+					stepByStep.switchActivable();
+					switchPause();
+				}
+			}
+		}));
+		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Max speed", new ClickListener(){
+			@Override
+			public void onClick() {
+				simSpeed = 60;
+				if (paused) {
+					stepByStep.switchActivable();
+					switchPause();
+				}
+			}
+		}));
+		
 	}
 	private void tick() {
 		
-		step++;
-		network.computeEvolution();
-		network.evolve();
-		//network.display();
+		if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
+			step++;
+			network.computeEvolution();
+			network.evolve();
+			//network.display();
+			lastTick = System.nanoTime();
+		}
+		uiManager.tick();
 		
 	}
 	private void render() {
@@ -74,6 +147,7 @@ public class Simulation implements Runnable {
 		
 		g.drawImage(background, 0, 0, null);
 		network.render(g);
+		uiManager.render(g);
 		
 		// end drawing ===========
 		
@@ -85,8 +159,10 @@ public class Simulation implements Runnable {
 	public void run() {
 		
 		init();
+		
+		lastTick = System.nanoTime();
 	
-		int fps = 10;
+		int fps = 80;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
 		long now;
@@ -103,7 +179,9 @@ public class Simulation implements Runnable {
 			lastTime = System.nanoTime();
 			
 			if (delta >= 1) {
-				tick();
+				if (!paused) {
+					tick();
+				}
 				render();
 				Toolkit.getDefaultToolkit().sync();
 				delta--;
@@ -191,5 +269,17 @@ public class Simulation implements Runnable {
 	}
 	public int getStep() {
 		return step;
+	}
+	public boolean getPause() {
+		return paused;
+	}
+	public void switchPause() {
+		paused = !paused;
+	}
+	public void disableUIManager() {
+		mouseManager.setUIManager(null);
+	}
+	public void enableUIManager() {
+		mouseManager.setUIManager(this.uiManager);
 	}
 }

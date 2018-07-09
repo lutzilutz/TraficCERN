@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
+import graphics.Assets;
 
 public class Network {
 
@@ -21,7 +22,7 @@ public class Network {
 		this.sim = sim;
 		Road r1 = new Road(this, 15);
 		r1.setX(100);
-		r1.setY(150);
+		r1.setY(200);
 		r1.setDirection(113);
 		r1.setGenerateVehicules(true);
 		roads.add(r1);
@@ -79,7 +80,7 @@ public class Network {
 	}
 	// Compute Background (one-time operation)
 	public void renderBG(Graphics g) {
-		g.setColor(Color.gray);
+		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
 		
 		// Print cells
@@ -179,9 +180,9 @@ public class Network {
 		}
 		// Print actual informations (upper-left corner)
 		g.setColor(Color.white);
-		g.drawString("Step :    " + Integer.toString(sim.getStep()), 15, 20);
-		g.drawString("Time :    " + sim.getTime(), 15, 40);
-		g.drawString("Speed : " + ((int) (10*3.6*7.5/sim.getStepSize())/10.0) + " km/h", 15, 60);
+		g.drawString("Step :    " + Integer.toString(sim.getStep()), 630, 75);
+		g.drawString("Time :    " + sim.getTime(), 630, 95);
+		g.drawString("Speed : " + ((int) (10*3.6*7.5/sim.getStepSize())/10.0) + " km/h", 630, 115);
 	}
 	// Update Cell of the Road according to the next state
 	public void evolve() {
