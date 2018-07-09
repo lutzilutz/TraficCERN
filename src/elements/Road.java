@@ -40,14 +40,14 @@ public class Road {
 	// Set position and direction from a RoundAbout cell (out road)
 	public void setStartPositionFrom(RoundAbout ra, int i) {
 		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360);
-		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellWidth()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
-		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellHeight()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
+		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
+		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
 	}
 	// Set position and direction from a RoundAbout cell (in road)
 	public void setEndPositionFrom(RoundAbout ra, int i) {
 		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360 + 180);
-		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellWidth()/2 + length*n.getCellWidth()) * Math.sin(Math.PI + 2*Math.PI*this.getDirection()/360.0)));
-		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellHeight()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellHeight()) * Math.cos(Math.PI + 2*Math.PI*this.getDirection()/360.0)));
+		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.sin(Math.PI + 2*Math.PI*this.getDirection()/360.0)));
+		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.cos(Math.PI + 2*Math.PI*this.getDirection()/360.0)));
 	}
 	// Connect "pointer" of last Cell to Cell i of RoundAbout
 	public void connectTo(RoundAbout ra, int i) {

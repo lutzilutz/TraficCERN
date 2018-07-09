@@ -19,7 +19,8 @@ public class Network {
 	private int cellWidth=10, cellHeight=cellWidth;
 	
 	public Network(Simulation sim) {
-		this.setCellWidth(20);
+		this.setCellHeight(8);
+		this.setCellWidth(8);
 		
 		
 		this.sim = sim;

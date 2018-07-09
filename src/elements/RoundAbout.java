@@ -15,7 +15,7 @@ public class RoundAbout extends Road {
 		r.getRoadCells().get(0).setPreviousCell(getRoadCells().get(i));
 	}
 	public void setPositionFrom(Road r) {
-		this.setX((int) (r.getX()+(r.getLength()*n.getCellWidth() + n.getCellWidth()/2 + this.getLength()*n.getCellWidth()/(2*Math.PI) )*Math.sin(2*Math.PI*r.getDirection()/360)));
-		this.setY((int) (r.getY()-(r.getLength()*n.getCellHeight() + n.getCellHeight()/2 + this.getLength()*n.getCellHeight()/(2*Math.PI))*Math.cos(2*Math.PI*r.getDirection()/360) ));
+		this.setX((int) (r.getX()+(r.getLength()*n.getCellWidth() + n.getCellHeight()/2 + this.getLength()*n.getCellWidth()/(2*Math.PI) )*Math.sin(2*Math.PI*r.getDirection()/360)));
+		this.setY((int) (r.getY()-(r.getLength()*n.getCellWidth() + n.getCellHeight()/2 + this.getLength()*n.getCellWidth()/(2*Math.PI))*Math.cos(2*Math.PI*r.getDirection()/360) ));
 	}
 }
