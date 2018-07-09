@@ -19,6 +19,9 @@ public class Network {
 	private int cellWidth=10, cellHeight=cellWidth;
 	
 	public Network(Simulation sim) {
+		this.setCellWidth(20);
+		
+		
 		this.sim = sim;
 		Road r1 = new Road(this, 15);
 		r1.setX(100);
@@ -79,8 +82,6 @@ public class Network {
 		r3In.setGenerateVehicules(true);
 		r4In.setGenerateVehicules(true);
 		
-		CrossRoad CR = new CrossRoad(this, 600, 400, 60, 3);
-		crossRoads.add(CR);
 	}
 	public void display() {
 		for (Road r: roads) {
