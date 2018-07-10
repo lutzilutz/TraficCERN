@@ -8,7 +8,7 @@ public class Assets {
 
 	// Dimensions
 	public static int buttonW = 110, buttonH = 34;
-	public static int buttonXStart = 20, buttonYStart = 20;
+	public static int buttonXStart = 20, buttonYStart = 30;
 	public static int buttonSpacing = 10;
 	
 	// Colors

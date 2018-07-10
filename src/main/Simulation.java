@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 import graphics.Assets;
 import graphics.Display;
+import graphics.Text;
 import ui.ClickListener;
 import ui.MouseManager;
 import ui.UIImageButton;
@@ -158,12 +159,30 @@ public class Simulation implements Runnable {
 		g.drawImage(background, 0, 0, null);
 		network.render(g);
 		uiManager.render(g);
+		renderButtonsHeader(g);
 		
 		// end drawing ===========
 		
 		bs.show();
 		g.dispose();
 		
+	}
+	public void renderButtonsHeader(Graphics g) {
+		g.setColor(Assets.idleCol);
+		
+		// "Controls"
+		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 80, 2);
+		Text.drawString(g, "controls", Assets.idleCol, Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing/2, Assets.buttonYStart-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing-80, Assets.buttonYStart-15, 80, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing-1, Assets.buttonYStart-15, 2, 12);
+		
+		// "Speed"
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing*2, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing*2, Assets.buttonYStart-15, 140, 2);
+		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*3.5+Assets.buttonSpacing*3), Assets.buttonYStart-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4-140, Assets.buttonYStart-15, 140, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4-1, Assets.buttonYStart-15, 2, 12);
 	}
 	@Override
 	public void run() {
