@@ -9,9 +9,10 @@ import java.awt.image.BufferedImage;
 import graphics.Assets;
 import graphics.Display;
 import ui.ClickListener;
+import ui.MouseManager;
+import ui.UIImageButton;
 import ui.UIManager;
 import ui.UITextButton;
-import ui.MouseManager;
 
 public class Simulation implements Runnable {
 
@@ -54,6 +55,8 @@ public class Simulation implements Runnable {
 	
 	private void init() {
 		
+		Assets.init();
+		
 		network = new Network(this);
 		
 		// Rendering background ---------------------------------------------------
@@ -79,7 +82,7 @@ public class Simulation implements Runnable {
 			}
 		});
 		stepByStep.switchActivable();
-		this.uiManager.addObject(new UITextButton(Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Pause/Play", new ClickListener(){
+		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.pauseIdle, Assets.pauseActive, new ClickListener(){
 			@Override
 			public void onClick() {
 				switchPause();
@@ -97,7 +100,7 @@ public class Simulation implements Runnable {
 				}
 			}
 		}));
-		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "1/6 max speed", new ClickListener(){
+		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "10x real-time", new ClickListener(){
 			@Override
 			public void onClick() {
 				simSpeed = 10;
@@ -110,7 +113,7 @@ public class Simulation implements Runnable {
 		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Max speed", new ClickListener(){
 			@Override
 			public void onClick() {
-				simSpeed = 360;
+				simSpeed = 600;
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();
@@ -119,12 +122,14 @@ public class Simulation implements Runnable {
 		}));
 		
 	}
-	private void tick() {
+	private void tick(int n) {
 		
 		if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
-			step++;
-			network.computeEvolution();
-			network.evolve();
+			for (int i=0 ; i<n ; i++) {
+				step++;
+				network.computeEvolution();
+				network.evolve();
+			}
 			//network.display();
 			lastTick = System.nanoTime();
 		}
@@ -162,7 +167,7 @@ public class Simulation implements Runnable {
 		
 		lastTick = System.nanoTime();
 	
-		int fps = 360;
+		int fps = 60;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
 		long now;
@@ -180,7 +185,8 @@ public class Simulation implements Runnable {
 			
 			if (delta >= 1) {
 				if (!paused) {
-					tick();
+					int tickNumber = (int) Math.max(1, simSpeed/fps);
+					tick(tickNumber);
 				}
 				render();
 				Toolkit.getDefaultToolkit().sync();

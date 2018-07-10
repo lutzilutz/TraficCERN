@@ -2,6 +2,7 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
 
 public class Assets {
 
@@ -17,5 +18,15 @@ public class Assets {
 	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);
+	
+	// Images
+	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, fastIdle, fastActive, fastFastIdle, fastFastActive;
+	
+	public static void init() {
+		
+		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/img/buttons_spritesheet.png"));
+		
+		pauseIdle = sheet.crop(0, 0, buttonW, buttonH);
+	}
 	
 }
