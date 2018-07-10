@@ -9,16 +9,27 @@ import graphics.Text;
 
 public class UIImageButton extends UIObject {
 	
-	private BufferedImage imgIdle, imgActive;
+	private BufferedImage imgIdle1, imgActive1, imgIdle2, imgActive2;
 	private ClickListener clicker;
 	private boolean isActivable = true;
 	private boolean isVisible = true;
+	private boolean oneMode = true;
+	private boolean isMode1 = true;
 
 	public UIImageButton(float x, float y, int width, int height, BufferedImage imgIdle, BufferedImage imgActive, ClickListener clicker) {
 		super(x, y, width, height);
-		this.imgIdle = imgIdle;
-		this.imgActive = imgActive;
+		this.imgIdle1 = imgIdle;
+		this.imgActive1 = imgActive;
 		this.clicker = clicker;
+	}
+	public UIImageButton(float x, float y, int width, int height, BufferedImage imgIdle1, BufferedImage imgActive1, BufferedImage imgIdle2, BufferedImage imgActive2, ClickListener clicker) {
+		super(x, y, width, height);
+		this.imgIdle1 = imgIdle1;
+		this.imgActive1 = imgActive1;
+		this.imgIdle2 = imgIdle2;
+		this.imgActive2 = imgActive2;
+		this.clicker = clicker;
+		this.oneMode = false;
 	}
 
 	@Override
@@ -29,24 +40,23 @@ public class UIImageButton extends UIObject {
 	@Override
 	public void render(Graphics g) {
 		if (isVisible) {
-			//g.setColor(Assets.vert4Col);
-			//g.fillRect((int) this.x, (int) this.y, this.width, this.height);
 			
-			//g.setFont(this.font);
 			if (hovering && isActivable) {
 				g.setColor(Assets.textCol);
 				g.drawRect((int) this.x, (int) this.y, this.width, this.height);
-				g.drawImage(imgIdle, (int) x, (int) y, null);
-				//g.setColor(activeColor);
+				if (isMode1) {
+					g.drawImage(imgActive1, (int) x, (int) y, null);
+				} else {
+					g.drawImage(imgActive2, (int) x, (int) y, null);
+				}
 			} else if (!hovering || !isActivable) {
-				//if (!isActivable) {
-					g.setColor(Assets.idleCol);
-					g.drawImage(imgActive, (int) x, (int) y, null);
-					
-				//} /*else {
-					//g.setColor(Assets.idleCol);
-					//Text.drawString(g, text, Assets.idleCol, (int) (this.x + (width/2)), (int) (this.y + (height/2)), true, Assets.normalFont);
-				//}*/
+				g.setColor(Assets.idleCol);
+				
+				if (isMode1) {
+					g.drawImage(imgIdle1, (int) x, (int) y, null);
+				} else {
+					g.drawImage(imgIdle2, (int) x, (int) y, null);
+				}
 				g.drawRect((int) this.x, (int) this.y, this.width, this.height);
 			}
 		}
@@ -55,8 +65,14 @@ public class UIImageButton extends UIObject {
 	@Override
 	public void onClick() {
 		if (isActivable) {
+			if (!oneMode) {
+				isMode1 = !isMode1;
+			}
 			clicker.onClick();
 		}
+	}
+	public void switchMode() {
+		isMode1 = !isMode1;
 	}
 	public void setVisible(boolean isVisible) {
 		this.isVisible = isVisible;

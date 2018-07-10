@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 public class Assets {
 
 	// Dimensions
-	public static int buttonW = 115, buttonH = 35;
+	public static int buttonW = 110, buttonH = 34;
 	public static int buttonXStart = 20, buttonYStart = 20;
 	public static int buttonSpacing = 10;
 	
@@ -27,6 +27,13 @@ public class Assets {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/img/buttons_spritesheet.png"));
 		
 		pauseIdle = sheet.crop(0, 0, buttonW, buttonH);
+		pauseActive = sheet.crop(buttonW*1, 0, buttonW, buttonH);
+		playIdle = sheet.crop(buttonW*2, 0, buttonW, buttonH);
+		playActive = sheet.crop(buttonW*3, 0, buttonW, buttonH);
+		fastIdle = sheet.crop(buttonW*0, buttonH*1, buttonW, buttonH);
+		fastActive = sheet.crop(buttonW*1, buttonH*1, buttonW, buttonH);
+		fastFastIdle = sheet.crop(buttonW*2, buttonH*1, buttonW, buttonH);
+		fastFastActive = sheet.crop(buttonW*3, buttonH*1, buttonW, buttonH);
 	}
 	
 }

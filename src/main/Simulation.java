@@ -42,6 +42,7 @@ public class Simulation implements Runnable {
 	private MouseManager mouseManager;
 	private UIManager uiManager;
 	private UITextButton stepByStep;
+	private UIImageButton playPause;
 	
 	public Simulation(String title, int width, int height) {
 		this.title = title;
@@ -82,13 +83,14 @@ public class Simulation implements Runnable {
 			}
 		});
 		stepByStep.switchActivable();
-		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.pauseIdle, Assets.pauseActive, new ClickListener(){
+		playPause = new UIImageButton(Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.pauseIdle, Assets.pauseActive, Assets.playIdle, Assets.playActive, new ClickListener(){
 			@Override
 			public void onClick() {
 				switchPause();
 				stepByStep.switchActivable();
 			}
-		}));
+		});
+		this.uiManager.addObject(playPause);
 		this.uiManager.addObject(stepByStep);
 		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Real-time", new ClickListener(){
 			@Override
@@ -97,26 +99,29 @@ public class Simulation implements Runnable {
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();
+					playPause.switchMode();
 				}
 			}
 		}));
-		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "10x real-time", new ClickListener(){
+		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastIdle, Assets.fastActive, new ClickListener(){
 			@Override
 			public void onClick() {
 				simSpeed = 10;
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();
+					playPause.switchMode();
 				}
 			}
 		}));
-		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Max speed", new ClickListener(){
+		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastFastIdle, Assets.fastFastActive, new ClickListener(){
 			@Override
 			public void onClick() {
-				simSpeed = 600;
+				simSpeed = 6000;
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();
+					playPause.switchMode();
 				}
 			}
 		}));
