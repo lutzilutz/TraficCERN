@@ -185,7 +185,6 @@ public class Network {
 		
 		// Print cells
 		for (CrossRoad CR: crossRoads) {
-			// A corriger
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setColor(Color.cyan);
 			gg.rotate(((CR.getDirection())/360.0)*2*Math.PI- Math.PI/2, CR.getX(), CR.getY());
@@ -271,7 +270,6 @@ public class Network {
 		for (CrossRoad CR: crossRoads) {
 			for (int i=0; i<4; ++i) {
 				if (CR.getMiddleCells()[i].isOccupied()) {
-					// A corriger
 					g.fillOval(CR.getMiddleCells()[i].getX(), CR.getMiddleCells()[i].getY(), cellWidth, cellHeight);
 				}
 			}
@@ -386,12 +384,6 @@ public class Network {
 				
 				
 			}
-			
-			for (int i=0 ; i<4 ; i++) {
-				System.out.print(i + ":" + CR.getMiddleCells()[i].isOccupied() + " ");
-			}
-			
-			System.out.print("\n");
 		}
 		for (Road r: roads) {
 			for (int i=0; i < r.getLength(); ++i) {
