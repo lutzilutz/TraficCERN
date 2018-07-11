@@ -26,7 +26,7 @@ public class Simulation implements Runnable {
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 	private boolean paused = false;
 	private long lastTick;
-	private double simSpeed = 10;
+	private double simSpeed = 20;
 	
 	private Network network;
 	
@@ -107,7 +107,7 @@ public class Simulation implements Runnable {
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastIdle, Assets.fastActive, new ClickListener(){
 			@Override
 			public void onClick() {
-				simSpeed = 10;
+				simSpeed = 20;
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();

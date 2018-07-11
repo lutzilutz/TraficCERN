@@ -87,7 +87,7 @@ public class Network {
 		CrossRoad CR = new CrossRoad(this);
 		CR.setX(300);
 		CR.setY(300);
-		CR.setDirection(100);
+		CR.setDirection(110);
 		crossRoads.add(CR);
 
 		Road ri1 = new Road(this, 8);
@@ -190,22 +190,15 @@ public class Network {
 			gg.setColor(Color.cyan);
 			gg.rotate(((CR.getDirection())/360.0)*2*Math.PI- Math.PI/2, CR.getX(), CR.getY());
 			
-			gg.drawRect(CR.getX(), CR.getY() -cellHeight, cellHeight, cellHeight);
-			CR.getMiddleCells()[0].setX((int) (CR.getX()-cellHeight/2+cellHeight/2*Math.sin(2*Math.PI*(CR.getDirection()-90)/360)));
-			CR.getMiddleCells()[0].setY((int) (CR.getY()-cellHeight/2+cellHeight/2*Math.cos(2*Math.PI*(CR.getDirection()-90)/360)));
-			
+			gg.drawRect(CR.getX(), CR.getY() - cellHeight, cellHeight, cellHeight);
 			gg.drawRect(CR.getX() - cellWidth, CR.getY() -cellHeight , cellHeight, cellHeight);
-			CR.getMiddleCells()[1].setX((int) (CR.getX()+Math.sqrt(2.0)*cellHeight*Math.sin(2*Math.PI*(CR.getDirection()-135)/360 - Math.atan(2.0))));
-			CR.getMiddleCells()[1].setY((int) (CR.getY()-Math.sqrt(2.0)*cellHeight*Math.cos(2*Math.PI*(CR.getDirection()-135)/360 - Math.atan(2.0))));
-			
 			gg.drawRect(CR.getX() - cellWidth, CR.getY(), cellHeight, cellHeight);
-			CR.getMiddleCells()[2].setX((int) (CR.getX()+Math.sqrt(2.0)*cellHeight*Math.sin(2*Math.PI*(CR.getDirection()-180)/360 - Math.atan(2.0))));
-			CR.getMiddleCells()[2].setY((int) (CR.getY()-Math.sqrt(2.0)*cellHeight*Math.cos(2*Math.PI*(CR.getDirection()-180)/360 - Math.atan(2.0))));
-			
 			gg.drawRect(CR.getX(), CR.getY(), cellHeight, cellHeight);
-			CR.getMiddleCells()[3].setX((int) (CR.getX()+cellHeight/2*Math.sin(2*Math.PI*(CR.getDirection()+90)/360)));
-			CR.getMiddleCells()[3].setY((int) (CR.getY()-cellHeight/2*Math.cos(2*Math.PI*(CR.getDirection()+90)/360)));
 			
+			for (int i=0 ; i<4 ; i++) {
+				CR.getMiddleCells()[i].setX((int) (CR.getX() - cellWidth/2 - cellWidth/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-CR.getDirection() - 90 + 45 + i*90)/360)));
+				CR.getMiddleCells()[i].setY((int) (CR.getY() - cellHeight/2 - cellWidth/2*Math.sqrt(2.0)*Math.cos(2*Math.PI*(-CR.getDirection() - 90 + 45 + i*90)/360)));
+			}
 			
 			gg.dispose();
 		}
@@ -279,7 +272,7 @@ public class Network {
 			for (int i=0; i<4; ++i) {
 				if (CR.getMiddleCells()[i].isOccupied()) {
 					// A corriger
-					// g.fillOval(CR.getMiddleCells()[i].getX(), CR.getMiddleCells()[i].getY(), cellWidth, cellHeight);
+					g.fillOval(CR.getMiddleCells()[i].getX(), CR.getMiddleCells()[i].getY(), cellWidth, cellHeight);
 				}
 			}
 		}
@@ -393,6 +386,12 @@ public class Network {
 				
 				
 			}
+			
+			for (int i=0 ; i<4 ; i++) {
+				System.out.print(i + ":" + CR.getMiddleCells()[i].isOccupied() + " ");
+			}
+			
+			System.out.print("\n");
 		}
 		for (Road r: roads) {
 			for (int i=0; i < r.getLength(); ++i) {
