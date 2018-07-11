@@ -19,11 +19,12 @@ public class Network {
 	private int cellWidth=10, cellHeight=cellWidth;
 	
 	public Network(Simulation sim) {
-		this.setCellHeight(8);
-		this.setCellWidth(16);
-		
+		this.setCellHeight(12);
+		this.setCellWidth(12);
 		
 		this.sim = sim;
+		
+		/*
 		Road r1 = new Road(this, 15);
 		r1.setX(100);
 		r1.setY(200);
@@ -82,6 +83,89 @@ public class Network {
 		r2In.setGenerateVehicules(true);
 		r3In.setGenerateVehicules(true);
 		r4In.setGenerateVehicules(true);
+		*/
+		CrossRoad CR = new CrossRoad(this);
+		CR.setX(300);
+		CR.setY(300);
+		CR.setDirection(100);
+		crossRoads.add(CR);
+
+		Road ri1 = new Road(this, 8);
+		ri1.setX(250);
+		ri1.setY(250);
+		ri1.setDirection(135);
+		roads.add(ri1);
+		
+		ri1.connectTo(CR, 1);
+		ri1.setPositionInFrom(CR, 1);
+		
+		Road ri2 = new Road(this, 17);
+		roads.add(ri2);
+		ri2.connectTo(CR, 2);
+		ri2.setPositionInFrom(CR, 2);
+		
+		Road ri3 = new Road(this, 20);
+		roads.add(ri3);
+		ri3.connectTo(CR, 3);
+		ri3.setPositionInFrom(CR, 3);
+		
+		Road ri4 = new Road(this, 8);
+		roads.add(ri4);
+		ri4.connectTo(CR, 4);
+		ri4.setPositionInFrom(CR, 4);
+		
+		//ri1.setGenerateVehicules(true);
+		ri2.setGenerateVehicules(true);
+		ri3.setGenerateVehicules(true);
+		//ri4.setGenerateVehicules(true);
+		
+		
+		Road ro1 = new Road(this, 17);
+		roads.add(ro1);
+		CR.connectTo(ro1, 1);
+		ro1.setPositionOutFrom(CR, 1);
+		
+		Road ro2 = new Road(this, 20);
+		roads.add(ro2);
+		CR.connectTo(ro2, 2);
+		ro2.setPositionOutFrom(CR, 2);
+		
+		Road ro3 = new Road(this, 8);
+		roads.add(ro3);
+		CR.connectTo(ro3, 3);
+		ro3.setPositionOutFrom(CR, 3);
+		
+		Road ro4 = new Road(this, 8);
+		roads.add(ro4);
+		CR.connectTo(ro4, 4);
+		ro4.setPositionOutFrom(CR, 4);
+		
+		RoundAbout RA1 = new RoundAbout(this, 30);
+		RA1.setPositionFrom(ro4);
+		RA1.setDirection(180+ro4.getDirection());
+		this.roundAbouts.add(RA1);
+		
+		Road rlol = new Road(this, 10);
+		rlol.setEndPositionFrom(RA1, 4);
+		this.roads.add(rlol);
+		
+		RoundAbout RA2 = new RoundAbout(this, 30);
+		RA2.setPositionFrom(ro3);
+		RA2.setDirection(180+ro3.getDirection());
+		this.roundAbouts.add(RA2);
+		
+		ro4.connectTo(RA1, 0);
+		RA1.connectTo(ri1, 29);
+		rlol.connectTo(RA1, 4);
+		ro3.connectTo(RA2, 0);
+		RA2.connectTo(ri4, 29);
+		RA2.connectTo(rlol, 25);
+		
+		Road R = new Road(this, 17);
+		R.setStartPositionFrom(RA1, 25);
+		RA1.connectTo(R, 25);
+		this.roads.add(R);
+		//CR.setTimeTrafficLight(20);
 		
 	}
 	public void display() {
@@ -100,6 +184,31 @@ public class Network {
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
 		
 		// Print cells
+		for (CrossRoad CR: crossRoads) {
+			// A corriger
+			Graphics2D gg = (Graphics2D) g.create();
+			gg.setColor(Color.cyan);
+			gg.rotate(((CR.getDirection())/360.0)*2*Math.PI- Math.PI/2, CR.getX(), CR.getY());
+			
+			gg.drawRect(CR.getX(), CR.getY() -cellHeight, cellHeight, cellHeight);
+			CR.getMiddleCells()[0].setX((int) (CR.getX()-cellHeight/2+cellHeight/2*Math.sin(2*Math.PI*(CR.getDirection()-90)/360)));
+			CR.getMiddleCells()[0].setY((int) (CR.getY()-cellHeight/2+cellHeight/2*Math.cos(2*Math.PI*(CR.getDirection()-90)/360)));
+			
+			gg.drawRect(CR.getX() - cellWidth, CR.getY() -cellHeight , cellHeight, cellHeight);
+			CR.getMiddleCells()[1].setX((int) (CR.getX()+Math.sqrt(2.0)*cellHeight*Math.sin(2*Math.PI*(CR.getDirection()-135)/360 - Math.atan(2.0))));
+			CR.getMiddleCells()[1].setY((int) (CR.getY()-Math.sqrt(2.0)*cellHeight*Math.cos(2*Math.PI*(CR.getDirection()-135)/360 - Math.atan(2.0))));
+			
+			gg.drawRect(CR.getX() - cellWidth, CR.getY(), cellHeight, cellHeight);
+			CR.getMiddleCells()[2].setX((int) (CR.getX()+Math.sqrt(2.0)*cellHeight*Math.sin(2*Math.PI*(CR.getDirection()-180)/360 - Math.atan(2.0))));
+			CR.getMiddleCells()[2].setY((int) (CR.getY()-Math.sqrt(2.0)*cellHeight*Math.cos(2*Math.PI*(CR.getDirection()-180)/360 - Math.atan(2.0))));
+			
+			gg.drawRect(CR.getX(), CR.getY(), cellHeight, cellHeight);
+			CR.getMiddleCells()[3].setX((int) (CR.getX()+cellHeight/2*Math.sin(2*Math.PI*(CR.getDirection()+90)/360)));
+			CR.getMiddleCells()[3].setY((int) (CR.getY()-cellHeight/2*Math.cos(2*Math.PI*(CR.getDirection()+90)/360)));
+			
+			
+			gg.dispose();
+		}
 		for (Road r: roads) {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
@@ -122,6 +231,7 @@ public class Network {
 			// Render ID
 			g.setColor(Color.black);
 			g.drawString(Integer.toString(r.getId()), r.getX()+10, r.getY()-10);
+			
 			// Render x,y position of Road
 			/*g.setColor(Color.red);
 			g.fillRect(r.getX()-1, r.getY()-5, 2, 10);
@@ -159,26 +269,20 @@ public class Network {
 			gg.fillRect(r.getX()-5, r.getY()-1, 10, 2);*/
 			gg.dispose();
 		}
-		for (CrossRoad CR: crossRoads) {
-			Graphics2D gg = (Graphics2D) g.create();
-			gg.setColor(Color.white);
-			gg.rotate(((CR.getDirection())/360.0)*2*Math.PI- Math.PI/2, CR.getMiddleCells()[0].getX(), CR.getMiddleCells()[0].getY());
-			//gg.drawRect(CR.getMiddleCells()[0].getX() - cellWidth/2, CR.getMiddleCells()[0].getY() - cellHeight/2, cellWidth, cellHeight);
-			//gg.drawRect(CR.getMiddleCells()[1].getX() - cellWidth/2, CR.getMiddleCells()[1].getY() - 3*cellHeight/2, cellWidth, cellHeight);
-			//gg.drawRect(CR.getMiddleCells()[2].getX() - cellWidth/2, CR.getMiddleCells()[2].getY() - cellHeight/2, cellWidth, cellHeight);
-			//gg.drawRect(CR.getMiddleCells()[3].getX() - cellWidth/2, CR.getMiddleCells()[3].getY() - cellHeight/2, cellWidth, cellHeight);
-			
-			gg.drawRect(CR.getMiddleCells()[0].getX() - cellWidth/2, CR.getMiddleCells()[0].getY() - cellHeight/2, cellWidth, cellHeight);
-			gg.drawRect(CR.getMiddleCells()[0].getX() + cellWidth/2, CR.getMiddleCells()[0].getY() - cellHeight/2, cellWidth, cellHeight);
-			gg.drawRect(CR.getMiddleCells()[0].getX() + cellWidth/2, CR.getMiddleCells()[0].getY() - 3*cellHeight/2, cellWidth, cellHeight);
-			gg.drawRect(CR.getMiddleCells()[0].getX() - cellWidth/2, CR.getMiddleCells()[0].getY() - 3*cellHeight/2, cellWidth, cellHeight);
-		}
 	}
 	// Render Vehicles according to Cells
 	public void render(Graphics g) {
 		
 		// Print cells
 		g.setColor(Color.white);
+		for (CrossRoad CR: crossRoads) {
+			for (int i=0; i<4; ++i) {
+				if (CR.getMiddleCells()[i].isOccupied()) {
+					// A corriger
+					// g.fillOval(CR.getMiddleCells()[i].getX(), CR.getMiddleCells()[i].getY(), cellWidth, cellHeight);
+				}
+			}
+		}
 		for (Road r: roads) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
@@ -202,6 +306,11 @@ public class Network {
 	}
 	// Update Cell of the Road according to the next state
 	public void evolve() {
+		for (CrossRoad CR: crossRoads) {
+			for (int i=0; i < 4; ++i) {
+				CR.getMiddleCells()[i].evolve();
+			}
+		}
 		for (Road r: roads) {
 			for (int i=0; i < r.getLength(); ++i) {
 				r.getRoadCells().get(i).evolve();
@@ -215,6 +324,76 @@ public class Network {
 	}
 	// Compute future state of the Cells of the Road
 	public void computeEvolution() {
+		for (CrossRoad CR: crossRoads) {
+			if (!CR.getRoadsIN()[(CR.getStateOfTrafficLight()+1)%4].isTrafficLightRed()) {
+				CR.setTrafficLightState(CR.getStateOfTrafficLight()%4);
+			}
+			for (int i=0; i < 4; ++i) {
+				if (CR.getMiddleCells()[i].getOutCell() == null) {
+					if (CR.getMiddleCells()[i].isOccupied()) {
+						
+						if (CR.getMiddleCells()[i].getNextCell().isOccupied()) {
+							
+							CR.getMiddleCells()[i].setIsOccupiedNext(1);
+							
+						} else {
+							CR.getMiddleCells()[i].setIsOccupiedNext(0);
+							CR.getMiddleCells()[i].getNextCell().setIsOccupiedNext(1);
+							
+						}
+					} else {
+						
+						if (CR.getMiddleCells()[i].getIsOccupiedNext() == -1) {
+							// Cell stay inoccupied
+							CR.getMiddleCells()[i].setIsOccupiedNext(0);
+						}
+					}
+				} else {
+					if (CR.getMiddleCells()[i].isOccupied()) {
+						if ((int)(Math.random()*2)==1) {
+							if (CR.getMiddleCells()[i].getOutCell().isOccupied()) {
+								
+								CR.getMiddleCells()[i].setIsOccupiedNext(1);
+								
+							} else {
+								CR.getMiddleCells()[i].setIsOccupiedNext(0);
+								CR.getMiddleCells()[i].getOutCell().setIsOccupiedNext(1);
+								
+							}
+						} else {
+							if (CR.getMiddleCells()[i].getNextCell().isOccupied()) {
+								
+								CR.getMiddleCells()[i].setIsOccupiedNext(1);
+								
+							} else {
+								CR.getMiddleCells()[i].setIsOccupiedNext(0);
+								CR.getMiddleCells()[i].getNextCell().setIsOccupiedNext(1);
+								
+							}
+						}
+						
+					} else {
+						
+						if (CR.getMiddleCells()[i].getIsOccupiedNext() == -1) {
+							// Cell stay inoccupied
+							CR.getMiddleCells()[i].setIsOccupiedNext(0);
+						}
+					}
+				}
+			}
+			CR.setCounter(CR.getCounter()+1);
+			if (CR.getCounter()>=CR.getTimeTrafficLight()) {
+				if (CR.getCounter()>=CR.getTimeTrafficLight()+5) {
+					CR.setStateOfTrafficLight((CR.getStateOfTrafficLight()+1)%4);
+					CR.setTrafficLightState(CR.getStateOfTrafficLight());
+					CR.setCounter(0);
+				} else if (CR.getCounter()==CR.getTimeTrafficLight()) {
+					CR.setAllTrafficLightsRed();
+				}
+				
+				
+			}
+		}
 		for (Road r: roads) {
 			for (int i=0; i < r.getLength(); ++i) {
 				
