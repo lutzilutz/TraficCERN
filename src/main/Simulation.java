@@ -135,7 +135,7 @@ public class Simulation implements Runnable {
 		}));
 		
 		// Bottom buttons ============================================================================================
-		colorOn = new UITextSwitch(20f, 550f, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", true, new ClickListener(){
+		colorOn = new UITextSwitch(Assets.buttonXStart, getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", true, new ClickListener(){
 			@Override
 			public void onClick() {
 				colorOn.switchIt();
@@ -143,7 +143,7 @@ public class Simulation implements Runnable {
 				currentBackground = backgrounds[currentBackgroundID];
 			}
 		});
-		wireOn = new UITextSwitch(140f, 550f, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", true, new ClickListener(){
+		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", true, new ClickListener(){
 			@Override
 			public void onClick() {
 				wireOn.switchIt();
@@ -151,7 +151,7 @@ public class Simulation implements Runnable {
 				currentBackground = backgrounds[currentBackgroundID];
 			}
 		});
-		idOn = new UITextSwitch(260f, 550f, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", true, new ClickListener(){
+		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", true, new ClickListener(){
 			@Override
 			public void onClick() {
 				idOn.switchIt();

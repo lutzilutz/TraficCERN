@@ -387,9 +387,9 @@ public class Network {
 		}
 		// Print actual informations (upper-left corner)
 		g.setColor(Color.white);
-		g.drawString("Step :    " + Integer.toString(sim.getStep()), 630, 75);
-		g.drawString("Time :    " + sim.getTime(), 630, 95);
-		g.drawString("Speed : " + ((int) (10*3.6*7.5/sim.getStepSize())/10.0) + " km/h", 630, 115);
+		g.drawString("Step :    " + Integer.toString(sim.getStep()), 630, 30);
+		g.drawString("Time :    " + sim.getTime(), 630, 50);
+		g.drawString("Speed : " + ((int) (10*3.6*7.5/sim.getStepSize())/10.0) + " km/h", 630, 70);
 	}
 	// Update Cell of the Road according to the next state
 	public void evolve() {
