@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 import graphics.Assets;
 import graphics.Display;
-import graphics.Text;
 import network.Network;
 import network.NetworkComputing;
 import network.NetworkRendering;
@@ -217,15 +216,11 @@ public class Simulation implements Runnable {
 		// Clear screen
 		g.clearRect(0, 0, this.width, this.height);
 		
-		// start drawing =========
-		
+		// start drawing =========================================
 		g.drawImage(currentBackground, 0, 0, null);
-		//network.render(g);
 		NetworkRendering.render(network, g);
 		uiManager.render(g);
-		renderButtonsHeader(g);
-		
-		// end drawing ===========
+		// end drawing ===========================================
 		
 		bs.show();
 		g.dispose();
@@ -246,30 +241,6 @@ public class Simulation implements Runnable {
 		}
 		currentBackground = this.backgrounds[currentBackgroundID];
 	}
-	public void renderButtonsHeader(Graphics g) {
-		g.setColor(Assets.idleCol);
-		
-		// "Controls"
-		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 2, 12);
-		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 100, 2);
-		Text.drawString(g, "controls", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*1.5)+Assets.buttonSpacing, Assets.buttonYStart-17, true, Assets.normalFont);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-100, Assets.buttonYStart-15, 100, 2);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-1, Assets.buttonYStart-15, 2, 12);
-		
-		// "Speed"
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 2, 12);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 140, 2);
-		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4.5), Assets.buttonYStart-17, true, Assets.normalFont);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-140, Assets.buttonYStart-15, 140, 2);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-1, Assets.buttonYStart-15, 2, 12);
-		
-		// "Visuals"
-		g.fillRect(Assets.buttonXStart, getHeight()-Assets.buttonH-20-15, 2, 12);
-		g.fillRect(Assets.buttonXStart, getHeight()-Assets.buttonH-20-15, 100, 2);
-		Text.drawString(g, "visuals", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*1.5)+Assets.buttonSpacing, getHeight()-Assets.buttonH-20-17, true, Assets.normalFont);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-100, getHeight()-Assets.buttonH-20-15, 100, 2);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-1, getHeight()-Assets.buttonH-20-15, 2, 12);
-	}
 	@Override
 	public void run() {
 		
@@ -282,15 +253,12 @@ public class Simulation implements Runnable {
 		double delta = 0;
 		long now;
 		long lastTime = System.nanoTime();
-		long timer = 0;
-		//int ticks = 0;
 		
 		while(running) {
 			
 			now = System.nanoTime();
 			delta += (now - lastTime) / timePerTick;
 			
-			timer += now - lastTime; 
 			lastTime = System.nanoTime();
 			
 			if (delta >= 1) {
@@ -301,14 +269,6 @@ public class Simulation implements Runnable {
 				render();
 				Toolkit.getDefaultToolkit().sync();
 				delta--;
-				//ticks++;
-			}
-			
-			if (timer >= 1000000000) {
-				//System.out.println("FPS : " + ticks);
-				//realTicks = ticks;
-				//ticks=0;
-				timer=0;
 			}
 			
 			try {

@@ -13,6 +13,7 @@ import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
 import graphics.Assets;
+import graphics.Text;
 
 public class NetworkRendering {
 
@@ -165,6 +166,7 @@ public class NetworkRendering {
 		if (drawRoadID) {
 			renderIDs(n, g);
 		}
+		renderButtonsHeader(n, g);
 	}
 	public static void renderIDs(Network n, Graphics g) {
 		g.setColor(Color.blue);
@@ -174,6 +176,30 @@ public class NetworkRendering {
 		for (RoundAbout r: n.getRoundAbouts()) {
 			g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
 		}
+	}
+	public static void renderButtonsHeader(Network n, Graphics g) {
+		g.setColor(Assets.idleCol);
+		
+		// "Controls"
+		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 100, 2);
+		Text.drawString(g, "controls", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*1.5)+Assets.buttonSpacing, Assets.buttonYStart-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-100, Assets.buttonYStart-15, 100, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-1, Assets.buttonYStart-15, 2, 12);
+		
+		// "Speed"
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 140, 2);
+		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4.5), Assets.buttonYStart-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-140, Assets.buttonYStart-15, 140, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-1, Assets.buttonYStart-15, 2, 12);
+		
+		// "Visuals"
+		g.fillRect(Assets.buttonXStart, n.getSimulation().getHeight()-Assets.buttonH-20-15, 2, 12);
+		g.fillRect(Assets.buttonXStart, n.getSimulation().getHeight()-Assets.buttonH-20-15, 100, 2);
+		Text.drawString(g, "visuals", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*1.5)+Assets.buttonSpacing, n.getSimulation().getHeight()-Assets.buttonH-20-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-100, n.getSimulation().getHeight()-Assets.buttonH-20-15, 100, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-1, n.getSimulation().getHeight()-Assets.buttonH-20-15, 2, 12);
 	}
 	
 	// Every-frame operations #######################################################################################################################
