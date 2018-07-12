@@ -257,6 +257,13 @@ public class Simulation implements Runnable {
 		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4.5), Assets.buttonYStart-17, true, Assets.normalFont);
 		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-140, Assets.buttonYStart-15, 140, 2);
 		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-1, Assets.buttonYStart-15, 2, 12);
+		
+		// "Visuals"
+		g.fillRect(Assets.buttonXStart, getHeight()-Assets.buttonH-20-15, 2, 12);
+		g.fillRect(Assets.buttonXStart, getHeight()-Assets.buttonH-20-15, 100, 2);
+		Text.drawString(g, "visuals", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*1.5)+Assets.buttonSpacing, getHeight()-Assets.buttonH-20-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-100, getHeight()-Assets.buttonH-20-15, 100, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-1, getHeight()-Assets.buttonH-20-15, 2, 12);
 	}
 	@Override
 	public void run() {
