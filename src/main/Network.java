@@ -3,6 +3,10 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
@@ -17,6 +21,10 @@ public class Network {
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
 	private int cellWidth=10, cellHeight=cellWidth;
+	
+	private boolean drawWire = true; // true for rendering the border of the cells
+	private boolean drawColors = true; // true for rendering color codes (end of road, out cells, ...)
+	private boolean drawRoadID = false; // true for rendering roads ID
 	
 	public Network(Simulation sim) {
 		this.setCellHeight(12);
@@ -184,27 +192,63 @@ public class Network {
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
 		
 		// Print cells
-		for (CrossRoad CR: crossRoads) {
+		for (CrossRoad cr: crossRoads) {
 			Graphics2D gg = (Graphics2D) g.create();
-			gg.setColor(Color.cyan);
-			gg.rotate(((CR.getDirection())/360.0)*2*Math.PI- Math.PI/2, CR.getX(), CR.getY());
+			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			if (drawColors) {
+				gg.setColor(Color.cyan);
+			} else {
+				gg.setColor(Color.white);
+			}
 			
-			gg.drawRect(CR.getX(), CR.getY() - cellHeight, cellHeight, cellHeight);
-			gg.drawRect(CR.getX() - cellWidth, CR.getY() -cellHeight , cellHeight, cellHeight);
-			gg.drawRect(CR.getX() - cellWidth, CR.getY(), cellHeight, cellHeight);
-			gg.drawRect(CR.getX(), CR.getY(), cellHeight, cellHeight);
+			gg.rotate(((cr.getDirection())/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
 			
+			if (drawWire) {
+				if (drawColors) {
+					gg.setColor(Color.cyan);
+				} else {
+					gg.setColor(Color.gray);
+				}
+				gg.fillRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
+				gg.setColor(Color.white);
+				gg.drawRect((int) (cr.getX()), (int) (cr.getY() - cellHeight), cellHeight, cellHeight);
+				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY() -cellHeight ), cellHeight, cellHeight);
+				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY()), cellHeight, cellHeight);
+				gg.drawRect((int) (cr.getX()), (int) (cr.getY()), cellHeight, cellHeight);
+			} else {
+				/*gg.fillRect((int) (cr.getX()), (int) (cr.getY() - cellHeight), cellHeight, cellHeight);
+				gg.fillRect((int) (cr.getX() - cellWidth), (int) (cr.getY() -cellHeight ), cellHeight, cellHeight);
+				gg.fillRect((int) (cr.getX() - cellWidth), (int) (cr.getY()), cellHeight, cellHeight);
+				gg.fillRect((int) (cr.getX()), (int) (cr.getY()), cellHeight, cellHeight);
+				gg.drawRect((int) (cr.getX()), (int) (cr.getY() - cellHeight), cellHeight, cellHeight);
+				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY() -cellHeight ), cellHeight, cellHeight);
+				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY()), cellHeight, cellHeight);
+				gg.drawRect((int) (cr.getX()), (int) (cr.getY()), cellHeight, cellHeight);*/
+				gg.fillRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
+				gg.drawRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
+			}
 			for (int i=0 ; i<4 ; i++) {
-				CR.getMiddleCells()[i].setX((int) (CR.getX() - cellWidth/2 - cellWidth/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-CR.getDirection() - 90 + 45 + i*90)/360)));
-				CR.getMiddleCells()[i].setY((int) (CR.getY() - cellHeight/2 - cellWidth/2*Math.sqrt(2.0)*Math.cos(2*Math.PI*(-CR.getDirection() - 90 + 45 + i*90)/360)));
+				cr.getMiddleCells()[i].setX((int) (cr.getX() - cellWidth/2 - cellWidth/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360)));
+				cr.getMiddleCells()[i].setY((int) (cr.getY() - cellHeight/2 - cellWidth/2*Math.sqrt(2.0)*Math.cos(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360)));
 			}
 			
 			gg.dispose();
 		}
 		for (Road r: roads) {
 			Graphics2D gg = (Graphics2D) g.create();
+			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
+			
+			if (drawWire) {
+				gg.setColor(Color.gray);
+				gg.fillRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
+			}
+			
 			for (int i=0 ; i<r.getLength() ; i++) {
+				if (drawWire) {
+					gg.setColor(Color.white);
+					gg.drawRect((int) (r.getX()+i*cellWidth), (int) (r.getY() - cellHeight/2.0), cellWidth, cellHeight);
+				}
 				
 				if (r.getRoadCells().get(i).getPreviousCell()==null) { // Start Cell
 					gg.setColor(Color.green);
@@ -215,15 +259,22 @@ public class Network {
 				} else { // Standard Cell
 					gg.setColor(Color.white);
 				}
-				gg.drawRect(r.getX()+i*cellWidth, r.getY() - cellHeight/2, cellWidth, cellHeight);
+				
 				r.getRoadCells().get(i).setX((int) (r.getX()-cellWidth/2+(i*cellWidth + cellWidth/2)*Math.sin(2*Math.PI*r.getDirection()/360)));
 				r.getRoadCells().get(i).setY((int) (r.getY()-cellHeight/2-(i*cellWidth + cellWidth/2)*Math.cos(2*Math.PI*r.getDirection()/360)));
 			}
+			if (!drawWire) {
+				gg.setColor(Color.white);
+				gg.fillRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
+				gg.drawRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
+			}
+			
 			gg.dispose();
 			// Render ID
-			g.setColor(Color.black);
-			g.drawString(Integer.toString(r.getId()), r.getX()+10, r.getY()-10);
-			
+			if (drawRoadID) {
+				g.setColor(Color.black);
+				g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
+			}
 			// Render x,y position of Road
 			/*g.setColor(Color.red);
 			g.fillRect(r.getX()-1, r.getY()-5, 2, 10);
@@ -231,42 +282,79 @@ public class Network {
 		}
 		for (RoundAbout r: roundAbouts) {
 			Graphics2D gg = (Graphics2D) g.create();
-			gg.setColor(Color.white);
+			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
 			double radius = (r.getLength()*cellWidth)/(2*Math.PI);
 			double outRadius = radius+cellHeight/2;
 			double inRadius = radius-cellHeight/2;
 			
-			gg.drawOval((int) (r.getX()-outRadius), (int) (r.getY()-outRadius), (int) (outRadius*2), (int) (outRadius*2));
-			gg.drawOval((int) (r.getX()-inRadius), (int) (r.getY()-inRadius), (int) (inRadius*2), (int) (inRadius*2));
+			double innerSize = 2*outRadius - (2 * cellHeight);
 			
-			for (int i=0 ; i<r.getLength() ; i++) {				
+			Shape outer = new Ellipse2D.Double(0, 0, 2*outRadius, 2*outRadius);
+			Shape inner = new Ellipse2D.Double(cellHeight, cellHeight, innerSize, innerSize);
+			
+			Area circle = new Area( outer );
+			circle.subtract( new Area(inner) );
+			
+			gg.translate(r.getX()-outRadius, r.getY()-outRadius);
+			
+			if (!drawWire) {
+				gg.setColor(Color.white);
+				gg.fill(circle);
+				
+			} else {
+				gg.setColor(Color.gray);
+				gg.fill(circle);
+				gg.setColor(Color.white);
+				gg.draw(circle);
+			}
+			
+			gg.dispose();
+			
+			gg = (Graphics2D) g.create();
+			
+			if (drawWire) {
+				//gg.setColor(Color.white);
+				//gg.drawOval((int) (r.getX()-outRadius), (int) (r.getY()-outRadius), (int) (outRadius*2), (int) (outRadius*2));
+				//gg.drawOval((int) (r.getX()-inRadius), (int) (r.getY()-inRadius), (int) (inRadius*2), (int) (inRadius*2));
+			}
+			for (int i=0 ; i<r.getLength() ; i++) {
+				gg.setColor(Color.white);
+				//gg.fillRect((int) (r.getX()-outRadius), (int) (r.getY()-cellHeight/2-1), cellWidth, cellHeight+2);
 				double angle = 2*Math.PI*i/r.getLength() - 2*Math.PI*r.getDirection()/360;
 				double delta = 2*Math.PI/(2*r.getLength());
 				int x1 = (int) (r.getX()-inRadius*Math.sin(angle + delta));
 				int y1 = (int) (r.getY()-inRadius*Math.cos(angle + delta));
 				int x2 = (int) (r.getX()-outRadius*Math.sin(angle + delta));
 				int y2 = (int) (r.getY()-outRadius*Math.cos(angle + delta));
-				gg.drawLine(x1, y1, x2, y2);
+				if (drawWire) {
+					gg.drawLine(x1, y1, x2, y2);
+				}
 				r.getRoadCells().get(i).setX((int) (r.getX()-radius*Math.sin(angle)));
 				r.getRoadCells().get(i).setY((int) (r.getY()-radius*Math.cos(angle)));
 			}
-			// Render ID
-			g.setColor(Color.black);
-			g.drawString(Integer.toString(r.getId()), r.getX()+10, r.getY()-10);
 			
+			//gg.setColor(Color.BLACK);
+			//gg.draw(circle);
+			
+			gg.dispose();
+			// Render ID
+			if (drawRoadID) {
+				g.setColor(Color.black);
+				g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
+			}
 			// Render x,y position of RoundAbout
 			/*gg.setColor(Color.red);
 			gg.fillRect(r.getX()-1, r.getY()-5, 2, 10);
 			gg.fillRect(r.getX()-5, r.getY()-1, 10, 2);*/
-			gg.dispose();
+			//gg.dispose();
 		}
 	}
 	// Render Vehicles according to Cells
 	public void render(Graphics g) {
 		
 		// Print cells
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 		for (CrossRoad CR: crossRoads) {
 			for (int i=0; i<4; ++i) {
 				if (CR.getMiddleCells()[i].isOccupied()) {

@@ -13,7 +13,7 @@ public class CrossRoad {
 	private int stateOfTrafficLight = 0;
 	private int numberOfRoadsIn = 0;
 	private int direction;
-	private int x,y;
+	private double x,y;
 
 	public CrossRoad(Network n) {
 		this.n = n;
@@ -101,95 +101,71 @@ public class CrossRoad {
 		this.roadsOUT[i] = r;
 	}
 	
-	// Getters and setters:
-	
+	// Getters and setters ================================================================
 	public Road[] getRoadsIN() {
 		return roadsIN;
 	}
-
 	public void setRoadsIN(Road[] roadsIN) {
 		this.roadsIN = roadsIN;
 	}
-
 	public Road[] getRoadsOUT() {
 		return roadsOUT;
 	}
-
 	public void setRoadsOUT(Road[] roadsOUT) {
 		this.roadsOUT = roadsOUT;
 	}
-
 	public Cell[] getMiddleCells() {
 		return middleCells;
 	}
-
 	public void setMiddleCells(Cell[] middleCells) {
 		this.middleCells = middleCells;
 	}
-
 	public int getGreenTrafficLight() {
 		return greenTrafficLight;
 	}
-
 	public void setGreenTrafficLight(int greenTrafficLight) {
 		this.greenTrafficLight = greenTrafficLight;
 	}
-
 	public int getTimeTrafficLight() {
 		return timeTrafficLight;
 	}
-
 	public void setTimeTrafficLight(int timeTrafficLight) {
 		this.timeTrafficLight = timeTrafficLight;
 	}
-
 	public int getNumberOfRoadsIn() {
 		return numberOfRoadsIn;
 	}
-
 	public void setNumberOfRoadsIn(int numberOfRoadsIn) {
 		this.numberOfRoadsIn = numberOfRoadsIn;
 	}
-
 	public int getDirection() {
 		return direction;
 	}
-
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
-
-	public int getX() {
+	public double getX() {
 		return x;
 	}
-
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
-
-	public int getY() {
+	public double getY() {
 		return y;
 	}
-
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
-
 	public int getCounter() {
 		return counter;
 	}
-
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
-
 	public int getStateOfTrafficLight() {
 		return stateOfTrafficLight;
 	}
-
 	public void setStateOfTrafficLight(int stateOfTrafficLight) {
 		this.stateOfTrafficLight = stateOfTrafficLight;
 	}
-	
-
 }

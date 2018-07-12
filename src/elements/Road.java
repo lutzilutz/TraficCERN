@@ -17,7 +17,7 @@ public class Road {
 	private boolean isTrafficLightRed = false;
 	
 	// Display
-	private int x,y; // position in pixels from left upper corner
+	private double x,y; // position in pixels from left upper corner
 	private int direction; // from 0 to 360 (north), 90 (east), 180 (south), 270 (west)
 	
 	public Road(Network n, int length) {
@@ -102,16 +102,16 @@ public class Road {
 	public void setGenerateVehicules(boolean b) {
 		generateVehicules = b;
 	}
-	public int getX() {
+	public double getX() {
 		return x;
 	}
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
-	public int getY() {
+	public double getY() {
 		return y;
 	}
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 	public int getDirection() {
