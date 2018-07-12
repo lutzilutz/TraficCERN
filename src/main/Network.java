@@ -579,11 +579,21 @@ public class Network {
 			}*/
 		}
 	}
-	
+	public void switchDrawWire() {
+		drawWire = !drawWire;
+		sim.renderBG();
+	}
+	public void switchDrawColors() {
+		drawColors = !drawColors;
+		sim.renderBG();
+	}
+	public void switchDrawRoadID() {
+		drawRoadID = !drawRoadID;
+		sim.renderBG();
+	}
 	public void addRoadtoRoads(Road r) {
 		this.roads.add(r);
 	}
-	
 	public int getCellWidth() {
 		return cellWidth;
 	}

@@ -14,6 +14,7 @@ import ui.MouseManager;
 import ui.UIImageButton;
 import ui.UIManager;
 import ui.UITextButton;
+import ui.UITextSwitch;
 
 public class Simulation implements Runnable {
 
@@ -44,6 +45,9 @@ public class Simulation implements Runnable {
 	private UIManager uiManager;
 	private UITextButton stepByStep;
 	private UIImageButton playPause;
+	private UITextSwitch colorOn;
+	private UITextSwitch wireOn;
+	private UITextSwitch idOn;
 	
 	public Simulation(String title, int width, int height) {
 		this.title = title;
@@ -63,9 +67,7 @@ public class Simulation implements Runnable {
 		
 		// Rendering background ---------------------------------------------------
 		background = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2d = background.createGraphics();
-		network.renderBG(g2d);
-		g2d.dispose();
+		renderBG();
 		// ------------------------------------------------------------------------
 		
 		display = new Display(title,width,height);
@@ -127,6 +129,31 @@ public class Simulation implements Runnable {
 			}
 		}));
 		
+		// Bottom buttons ============================================================================================
+		colorOn = new UITextSwitch(20f, 550f, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", true, new ClickListener(){
+			@Override
+			public void onClick() {
+				colorOn.switchIt();
+				network.switchDrawColors();
+			}
+		});
+		wireOn = new UITextSwitch(140f, 550f, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", true, new ClickListener(){
+			@Override
+			public void onClick() {
+				wireOn.switchIt();
+				network.switchDrawWire();
+			}
+		});
+		idOn = new UITextSwitch(260f, 550f, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", true, new ClickListener(){
+			@Override
+			public void onClick() {
+				idOn.switchIt();
+				network.switchDrawRoadID();
+			}
+		});
+		this.uiManager.addObject(colorOn);
+		this.uiManager.addObject(wireOn);
+		this.uiManager.addObject(idOn);
 	}
 	private void tick(int n) {
 		
@@ -166,6 +193,11 @@ public class Simulation implements Runnable {
 		bs.show();
 		g.dispose();
 		
+	}
+	public void renderBG() {
+		Graphics2D g2d = background.createGraphics();
+		network.renderBG(g2d);
+		g2d.dispose();
 	}
 	public void renderButtonsHeader(Graphics g) {
 		g.setColor(Assets.idleCol);

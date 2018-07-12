@@ -28,15 +28,11 @@ public class UITextButton extends UIObject {
 	@Override
 	public void render(Graphics g) {
 		if (isVisible) {
-			//g.setColor(Assets.vert4Col);
-			//g.fillRect((int) this.x, (int) this.y, this.width, this.height);
-			
-			//g.setFont(this.font);
 			if (hovering && isActivable) {
 				g.setColor(Assets.textCol);
 				g.drawRect((int) this.x, (int) this.y, this.width, this.height);
 				Text.drawString(g, text, Assets.textCol, (int) (this.x + (width/2)), (int) (this.y + (height/2)), true, Assets.normalFont);
-				//g.setColor(activeColor);
+				
 			} else if (!hovering || !isActivable) {
 				if (!isActivable) {
 					g.setColor(Color.black);
