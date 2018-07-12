@@ -112,13 +112,7 @@ public class NetworkRendering {
 					gg.drawLine((int) (r.getX()+i*n.getCellWidth()), (int) (r.getY() - n.getCellHeight()/2.0), (int) (r.getX()+i*n.getCellWidth()), (int) (r.getY() + n.getCellHeight()/2.0));
 				}
 			}
-			
 			gg.dispose();
-			// Render ID
-			if (drawRoadID) {
-				g.setColor(Assets.idleCol);
-				g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
-			}
 		}
 		// RoundAbouts ================================================================================================
 		for (RoundAbout r: n.getRoundAbouts()) {
@@ -167,11 +161,18 @@ public class NetworkRendering {
 			}
 			
 			gg.dispose();
-			// Render ID
-			if (drawRoadID) {
-				g.setColor(Assets.idleCol);
-				g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
-			}
+		}
+		if (drawRoadID) {
+			renderIDs(n, g);
+		}
+	}
+	public static void renderIDs(Network n, Graphics g) {
+		g.setColor(Color.blue);
+		for (Road r: n.getRoads()) {
+			g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
+		}
+		for (RoundAbout r: n.getRoundAbouts()) {
+			g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
 		}
 	}
 	
