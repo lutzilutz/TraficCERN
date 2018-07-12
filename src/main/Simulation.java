@@ -38,7 +38,9 @@ public class Simulation implements Runnable {
 	// Graphics
 	private BufferStrategy bs;
 	private Graphics g;
-	private BufferedImage background;
+	private BufferedImage[] backgrounds;
+	private BufferedImage currentBackground;
+	private int currentBackgroundID = 0;
 	
 	// UI
 	private MouseManager mouseManager;
@@ -66,8 +68,11 @@ public class Simulation implements Runnable {
 		network = new Network(this);
 		
 		// Rendering background ---------------------------------------------------
-		background = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		renderBG();
+		backgrounds = new BufferedImage[8];
+		for (int i=0 ; i<8 ; i++) {
+			backgrounds[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		}
+		renderBG(backgrounds);
 		// ------------------------------------------------------------------------
 		
 		display = new Display(title,width,height);
@@ -134,21 +139,24 @@ public class Simulation implements Runnable {
 			@Override
 			public void onClick() {
 				colorOn.switchIt();
-				network.switchDrawColors();
+				currentBackgroundID = (currentBackgroundID+4)%8;
+				currentBackground = backgrounds[currentBackgroundID];
 			}
 		});
 		wireOn = new UITextSwitch(140f, 550f, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", true, new ClickListener(){
 			@Override
 			public void onClick() {
 				wireOn.switchIt();
-				network.switchDrawWire();
+				currentBackgroundID = (currentBackgroundID-currentBackgroundID%4)+(currentBackgroundID+2)%4;
+				currentBackground = backgrounds[currentBackgroundID];
 			}
 		});
 		idOn = new UITextSwitch(260f, 550f, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", true, new ClickListener(){
 			@Override
 			public void onClick() {
 				idOn.switchIt();
-				network.switchDrawRoadID();
+				currentBackgroundID = (currentBackgroundID-currentBackgroundID%2)+(currentBackgroundID+1)%2;
+				currentBackground = backgrounds[currentBackgroundID];
 			}
 		});
 		this.uiManager.addObject(colorOn);
@@ -183,7 +191,7 @@ public class Simulation implements Runnable {
 		
 		// start drawing =========
 		
-		g.drawImage(background, 0, 0, null);
+		g.drawImage(currentBackground, 0, 0, null);
 		network.render(g);
 		uiManager.render(g);
 		renderButtonsHeader(g);
@@ -194,10 +202,11 @@ public class Simulation implements Runnable {
 		g.dispose();
 		
 	}
-	public void renderBG() {
-		Graphics2D g2d = background.createGraphics();
-		network.renderBG(g2d);
-		g2d.dispose();
+	public void renderBG(BufferedImage[] backgrounds) {
+		//Graphics2D g2d = background.createGraphics();
+		network.renderAllBGs(backgrounds);
+		currentBackground = this.backgrounds[0];
+		//g2d.dispose();
 	}
 	public void renderButtonsHeader(Graphics g) {
 		g.setColor(Assets.idleCol);

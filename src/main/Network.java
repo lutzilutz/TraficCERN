@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
@@ -187,7 +188,26 @@ public class Network {
 		System.out.print("\n");
 	}
 	// Compute Background (one-time operation)
-	public void renderBG(Graphics g) {
+	public void renderAllBGs(BufferedImage[] backgrounds) {
+		
+		Graphics2D g2d = backgrounds[0].createGraphics();
+		renderBG(g2d, false, false, false);
+		g2d = backgrounds[1].createGraphics();
+		renderBG(g2d, false, false, true);
+		g2d = backgrounds[2].createGraphics();
+		renderBG(g2d, false, true, false);
+		g2d = backgrounds[3].createGraphics();
+		renderBG(g2d, false, true, true);
+		g2d = backgrounds[4].createGraphics();
+		renderBG(g2d, true, false, false);
+		g2d = backgrounds[5].createGraphics();
+		renderBG(g2d, true, false, true);
+		g2d = backgrounds[6].createGraphics();
+		renderBG(g2d, true, true, false);
+		g2d = backgrounds[7].createGraphics();
+		renderBG(g2d, true, true, true);
+	}
+	public void renderBG(Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, sim.getWidth(), sim.getHeight());
 		
@@ -195,26 +215,30 @@ public class Network {
 		for (CrossRoad cr: crossRoads) {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			
 			gg.rotate(((cr.getDirection())/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
 			
+			// Background -------------------------------------------------------------------------------------------
 			if (drawColors) {
 				gg.setColor(Color.cyan);
 			} else {
-				gg.setColor(Color.gray);
+				if (drawWire) {
+					gg.setColor(Color.gray);
+				} else {
+					gg.setColor(Color.white);
+				}
 			}
 			gg.fillRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
+			gg.drawRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
 			
+			// Wires ------------------------------------------------------------------------------------------------
 			if (drawWire) {
 				gg.setColor(Color.white);
 				gg.drawRect((int) (cr.getX()), (int) (cr.getY() - cellHeight), cellHeight, cellHeight);
 				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY() -cellHeight ), cellHeight, cellHeight);
 				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY()), cellHeight, cellHeight);
 				gg.drawRect((int) (cr.getX()), (int) (cr.getY()), cellHeight, cellHeight);
-			} else {
-				gg.fillRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
-				gg.drawRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
 			}
+			
 			for (int i=0 ; i<4 ; i++) {
 				cr.getMiddleCells()[i].setX((int) (cr.getX() - cellWidth/2 - cellWidth/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360)));
 				cr.getMiddleCells()[i].setY((int) (cr.getY() - cellHeight/2 - cellWidth/2*Math.sqrt(2.0)*Math.cos(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360)));
@@ -305,15 +329,9 @@ public class Network {
 			gg.dispose();
 			
 			gg = (Graphics2D) g.create();
+			gg.setColor(Color.white);
 			
-			if (drawWire) {
-				//gg.setColor(Color.white);
-				//gg.drawOval((int) (r.getX()-outRadius), (int) (r.getY()-outRadius), (int) (outRadius*2), (int) (outRadius*2));
-				//gg.drawOval((int) (r.getX()-inRadius), (int) (r.getY()-inRadius), (int) (inRadius*2), (int) (inRadius*2));
-			}
 			for (int i=0 ; i<r.getLength() ; i++) {
-				gg.setColor(Color.white);
-				//gg.fillRect((int) (r.getX()-outRadius), (int) (r.getY()-cellHeight/2-1), cellWidth, cellHeight+2);
 				double angle = 2*Math.PI*i/r.getLength() - 2*Math.PI*r.getDirection()/360;
 				double delta = 2*Math.PI/(2*r.getLength());
 				int x1 = (int) (r.getX()-inRadius*Math.sin(angle + delta));
@@ -326,9 +344,6 @@ public class Network {
 				r.getRoadCells().get(i).setX((int) (r.getX()-radius*Math.sin(angle)));
 				r.getRoadCells().get(i).setY((int) (r.getY()-radius*Math.cos(angle)));
 			}
-			
-			//gg.setColor(Color.BLACK);
-			//gg.draw(circle);
 			
 			gg.dispose();
 			// Render ID
@@ -581,15 +596,12 @@ public class Network {
 	}
 	public void switchDrawWire() {
 		drawWire = !drawWire;
-		sim.renderBG();
 	}
 	public void switchDrawColors() {
 		drawColors = !drawColors;
-		sim.renderBG();
 	}
 	public void switchDrawRoadID() {
 		drawRoadID = !drawRoadID;
-		sim.renderBG();
 	}
 	public void addRoadtoRoads(Road r) {
 		this.roads.add(r);
