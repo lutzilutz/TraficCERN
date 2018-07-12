@@ -13,8 +13,8 @@ public class Assets {
 	
 	// Colors
 	public static Color bgCol = new Color(50,50,50);
-	public static Color textCol = new Color(220,220,220);
-	public static Color idleCol = new Color(120,120,120);
+	public static Color textCol = new Color(250,250,250);
+	public static Color idleCol = new Color(150,150,150);
 	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);

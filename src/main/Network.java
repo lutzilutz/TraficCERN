@@ -240,8 +240,8 @@ public class Network {
 			}
 			
 			for (int i=0 ; i<4 ; i++) {
-				cr.getMiddleCells()[i].setX((int) (cr.getX() - cellWidth/2 - cellWidth/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360)));
-				cr.getMiddleCells()[i].setY((int) (cr.getY() - cellHeight/2 - cellWidth/2*Math.sqrt(2.0)*Math.cos(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360)));
+				cr.getMiddleCells()[i].setX(cr.getX() - cellWidth/2 - cellWidth/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360));
+				cr.getMiddleCells()[i].setY(cr.getY() - cellHeight/2 - cellWidth/2*Math.sqrt(2.0)*Math.cos(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360));
 			}
 			
 			gg.dispose();
@@ -282,14 +282,14 @@ public class Network {
 					gg.drawLine((int) (r.getX()+i*cellWidth), (int) (r.getY() - cellHeight/2.0), (int) (r.getX()+i*cellWidth), (int) (r.getY() + cellHeight/2.0));
 				}
 				
-				r.getRoadCells().get(i).setX((int) (r.getX()-cellWidth/2+(i*cellWidth + cellWidth/2)*Math.sin(2*Math.PI*r.getDirection()/360)));
-				r.getRoadCells().get(i).setY((int) (r.getY()-cellHeight/2-(i*cellWidth + cellWidth/2)*Math.cos(2*Math.PI*r.getDirection()/360)));
+				r.getRoadCells().get(i).setX(r.getX()-cellWidth/2+(i*cellWidth + cellWidth/2)*Math.sin(2*Math.PI*r.getDirection()/360));
+				r.getRoadCells().get(i).setY(r.getY()-cellHeight/2-(i*cellWidth + cellWidth/2)*Math.cos(2*Math.PI*r.getDirection()/360));
 			}
 			
 			gg.dispose();
 			// Render ID
 			if (drawRoadID) {
-				g.setColor(Color.black);
+				g.setColor(Assets.idleCol);
 				g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
 			}
 			// Render x,y position of Road
@@ -341,14 +341,14 @@ public class Network {
 				if (drawWire) {
 					gg.drawLine(x1, y1, x2, y2);
 				}
-				r.getRoadCells().get(i).setX((int) (r.getX()-radius*Math.sin(angle)));
-				r.getRoadCells().get(i).setY((int) (r.getY()-radius*Math.cos(angle)));
+				r.getRoadCells().get(i).setX(r.getX()-radius*Math.sin(angle));
+				r.getRoadCells().get(i).setY(r.getY()-radius*Math.cos(angle));
 			}
 			
 			gg.dispose();
 			// Render ID
 			if (drawRoadID) {
-				g.setColor(Color.black);
+				g.setColor(Assets.idleCol);
 				g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
 			}
 			// Render x,y position of RoundAbout
@@ -366,14 +366,14 @@ public class Network {
 		for (CrossRoad CR: crossRoads) {
 			for (int i=0; i<4; ++i) {
 				if (CR.getMiddleCells()[i].isOccupied()) {
-					g.fillOval(CR.getMiddleCells()[i].getX(), CR.getMiddleCells()[i].getY(), cellWidth, cellHeight);
+					g.fillOval((int) (CR.getMiddleCells()[i].getX()), (int) (CR.getMiddleCells()[i].getY()), cellWidth, cellHeight);
 				}
 			}
 		}
 		for (Road r: roads) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillOval(r.getRoadCells().get(i).getX(), r.getRoadCells().get(i).getY(), cellWidth, cellHeight);
+					g.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), cellWidth, cellHeight);
 				}
 			}
 		}
@@ -381,7 +381,7 @@ public class Network {
 		for (RoundAbout r: roundAbouts) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillOval(r.getRoadCells().get(i).getX()-cellWidth/2, r.getRoadCells().get(i).getY()-cellHeight/2, cellWidth, cellHeight);
+					g.fillOval((int) (r.getRoadCells().get(i).getX()-cellWidth/2), (int) (r.getRoadCells().get(i).getY()-cellHeight/2), cellWidth, cellHeight);
 				}
 			}
 		}
