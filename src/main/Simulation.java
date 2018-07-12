@@ -332,6 +332,7 @@ public class Simulation implements Runnable {
 	public void restartNetwork() {
 		step = 0;
 		network = new Network(this);
+		renderBG(backgrounds);
 	}
 	// Getters and setters ============================================
 	public Display getDisplay() {
