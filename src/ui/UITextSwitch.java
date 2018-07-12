@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 import graphics.Assets;
@@ -9,12 +7,11 @@ import graphics.Text;
 
 public class UITextSwitch extends UIObject {
 	
-	private Font font;
 	private String text1, text2;
 	private ClickListener clicker;
 	private boolean chosen1;
 
-	public UITextSwitch(float x, float y, int width, int height, String text1, String text2, boolean chosen, ClickListener clicker) {
+	public UITextSwitch(float x, float y, int width, int height, String text1, String text2, boolean chosen1, ClickListener clicker) {
 		super(x, y, width, height);
 		this.text1 = text1;
 		this.text2 = text2;

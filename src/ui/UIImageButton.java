@@ -1,11 +1,9 @@
 package ui;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import graphics.Assets;
-import graphics.Text;
 
 public class UIImageButton extends UIObject {
 	

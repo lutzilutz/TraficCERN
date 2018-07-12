@@ -603,6 +603,15 @@ public class Network {
 	public void switchDrawRoadID() {
 		drawRoadID = !drawRoadID;
 	}
+	public boolean getDrawWire() {
+		return this.drawWire;
+	}
+	public boolean getDrawColors() {
+		return this.drawColors;
+	}
+	public boolean getDrawRoadID() {
+		return this.drawRoadID;
+	}
 	public void addRoadtoRoads(Road r) {
 		this.roads.add(r);
 	}
