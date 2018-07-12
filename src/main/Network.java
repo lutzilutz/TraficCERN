@@ -195,35 +195,23 @@ public class Network {
 		for (CrossRoad cr: crossRoads) {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			if (drawColors) {
-				gg.setColor(Color.cyan);
-			} else {
-				gg.setColor(Color.white);
-			}
 			
 			gg.rotate(((cr.getDirection())/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
 			
+			if (drawColors) {
+				gg.setColor(Color.cyan);
+			} else {
+				gg.setColor(Color.gray);
+			}
+			gg.fillRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
+			
 			if (drawWire) {
-				if (drawColors) {
-					gg.setColor(Color.cyan);
-				} else {
-					gg.setColor(Color.gray);
-				}
-				gg.fillRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
 				gg.setColor(Color.white);
 				gg.drawRect((int) (cr.getX()), (int) (cr.getY() - cellHeight), cellHeight, cellHeight);
 				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY() -cellHeight ), cellHeight, cellHeight);
 				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY()), cellHeight, cellHeight);
 				gg.drawRect((int) (cr.getX()), (int) (cr.getY()), cellHeight, cellHeight);
 			} else {
-				/*gg.fillRect((int) (cr.getX()), (int) (cr.getY() - cellHeight), cellHeight, cellHeight);
-				gg.fillRect((int) (cr.getX() - cellWidth), (int) (cr.getY() -cellHeight ), cellHeight, cellHeight);
-				gg.fillRect((int) (cr.getX() - cellWidth), (int) (cr.getY()), cellHeight, cellHeight);
-				gg.fillRect((int) (cr.getX()), (int) (cr.getY()), cellHeight, cellHeight);
-				gg.drawRect((int) (cr.getX()), (int) (cr.getY() - cellHeight), cellHeight, cellHeight);
-				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY() -cellHeight ), cellHeight, cellHeight);
-				gg.drawRect((int) (cr.getX() - cellWidth), (int) (cr.getY()), cellHeight, cellHeight);
-				gg.drawRect((int) (cr.getX()), (int) (cr.getY()), cellHeight, cellHeight);*/
 				gg.fillRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
 				gg.drawRect((int) (cr.getX()-cellWidth), (int) (cr.getY()-cellHeight), cellHeight*2, cellHeight*2);
 			}
@@ -234,6 +222,7 @@ public class Network {
 			
 			gg.dispose();
 		}
+		
 		for (Road r: roads) {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -242,31 +231,35 @@ public class Network {
 			if (drawWire) {
 				gg.setColor(Color.gray);
 				gg.fillRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
+				gg.setColor(Color.white);
+				gg.drawRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
+			} else {
+				gg.setColor(Color.white);
+				gg.fillRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
 			}
 			
 			for (int i=0 ; i<r.getLength() ; i++) {
-				if (drawWire) {
-					gg.setColor(Color.white);
-					gg.drawRect((int) (r.getX()+i*cellWidth), (int) (r.getY() - cellHeight/2.0), cellWidth, cellHeight);
+				
+				if (drawColors) {
+					if (r.getRoadCells().get(i).getPreviousCell()==null) { // Start Cell
+						gg.setColor(Color.green);
+						gg.fillRect((int) (r.getX()+i*cellWidth), (int) (r.getY() - cellHeight/2.0), cellWidth, cellHeight);
+					} else if (r.getRoadCells().get(i).getNextCell()==null) { // End Cell
+						gg.setColor(Color.red);
+						gg.fillRect((int) (r.getX()+i*cellWidth), (int) (r.getY() - cellHeight/2.0), cellWidth, cellHeight);
+					} else if (r.getRoadCells().get(i).getOutCell()!=null){ // Out Cell
+						gg.setColor(Color.blue);
+						gg.fillRect((int) (r.getX()+i*cellWidth), (int) (r.getY() - cellHeight/2.0), cellWidth, cellHeight);
+					}
 				}
 				
-				if (r.getRoadCells().get(i).getPreviousCell()==null) { // Start Cell
-					gg.setColor(Color.green);
-				} else if (r.getRoadCells().get(i).getNextCell()==null) { // End Cell
-					gg.setColor(Color.red);
-				} else if (r.getRoadCells().get(i).getOutCell()!=null){ // Out Cell
-					gg.setColor(Color.blue);
-				} else { // Standard Cell
+				if (drawWire) {
 					gg.setColor(Color.white);
+					gg.drawLine((int) (r.getX()+i*cellWidth), (int) (r.getY() - cellHeight/2.0), (int) (r.getX()+i*cellWidth), (int) (r.getY() + cellHeight/2.0));
 				}
 				
 				r.getRoadCells().get(i).setX((int) (r.getX()-cellWidth/2+(i*cellWidth + cellWidth/2)*Math.sin(2*Math.PI*r.getDirection()/360)));
 				r.getRoadCells().get(i).setY((int) (r.getY()-cellHeight/2-(i*cellWidth + cellWidth/2)*Math.cos(2*Math.PI*r.getDirection()/360)));
-			}
-			if (!drawWire) {
-				gg.setColor(Color.white);
-				gg.fillRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
-				gg.drawRect((int) (r.getX()), (int) (r.getY()-cellHeight/2.0), cellWidth*(r.getLength()), cellHeight);
 			}
 			
 			gg.dispose();
@@ -290,7 +283,7 @@ public class Network {
 			
 			double innerSize = 2*outRadius - (2 * cellHeight);
 			
-			Shape outer = new Ellipse2D.Double(0, 0, 2*outRadius, 2*outRadius);
+			Shape outer = new Ellipse2D.Double(-1, -1, 2*outRadius+2, 2*outRadius+2);
 			Shape inner = new Ellipse2D.Double(cellHeight, cellHeight, innerSize, innerSize);
 			
 			Area circle = new Area( outer );
