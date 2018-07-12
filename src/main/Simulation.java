@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import graphics.Assets;
 import graphics.Display;
+import graphics.NetworkRendering;
 import graphics.Text;
 import ui.ClickListener;
 import ui.MouseManager;
@@ -71,7 +72,8 @@ public class Simulation implements Runnable {
 		for (int i=0 ; i<8 ; i++) {
 			backgrounds[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		}
-		renderBG(backgrounds);
+		renderBG(network, backgrounds);
+		network.computeCellsPosition();
 		// ------------------------------------------------------------------------
 		
 		display = new Display(title,width,height);
@@ -183,7 +185,7 @@ public class Simulation implements Runnable {
 		
 		if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
 			
-			if (simSpeed >= 1000) {
+			if (simSpeed >= 5000) {
 				while((System.nanoTime()-lastTick) <= 1000000000/60) {
 					step++;
 					network.computeEvolution();
@@ -196,7 +198,6 @@ public class Simulation implements Runnable {
 					network.evolve();
 				}
 			}
-			//network.display();
 			lastTick = System.nanoTime();
 		}
 		uiManager.tick();
@@ -217,7 +218,8 @@ public class Simulation implements Runnable {
 		// start drawing =========
 		
 		g.drawImage(currentBackground, 0, 0, null);
-		network.render(g);
+		//network.render(g);
+		NetworkRendering.render(network, g);
 		uiManager.render(g);
 		renderButtonsHeader(g);
 		
@@ -227,8 +229,9 @@ public class Simulation implements Runnable {
 		g.dispose();
 		
 	}
-	public void renderBG(BufferedImage[] backgrounds) {
-		network.renderAllBGs(backgrounds);
+	public void renderBG(Network network, BufferedImage[] backgrounds) {
+		//network.renderAllBGs(backgrounds);
+		NetworkRendering.renderAllBGs(network, backgrounds);
 		currentBackgroundID = 0;
 		if (network.getDrawRoadID()) {
 			currentBackgroundID += 1;
@@ -339,7 +342,7 @@ public class Simulation implements Runnable {
 	public void restartNetwork() {
 		step = 0;
 		network = new Network(this);
-		renderBG(backgrounds);
+		network.computeCellsPosition();
 	}
 	// Getters and setters ============================================
 	public Display getDisplay() {
