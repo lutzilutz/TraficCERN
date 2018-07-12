@@ -99,7 +99,13 @@ public class Simulation implements Runnable {
 		});
 		this.uiManager.addObject(playPause);
 		this.uiManager.addObject(stepByStep);
-		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Real-time", new ClickListener(){
+		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.restartIdle, Assets.restartActive, new ClickListener(){
+			@Override
+			public void onClick() {
+				restartNetwork();
+			}
+		}));
+		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Real-time", new ClickListener(){
 			@Override
 			public void onClick() {
 				simSpeed = 1;
@@ -110,7 +116,7 @@ public class Simulation implements Runnable {
 				}
 			}
 		}));
-		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastIdle, Assets.fastActive, new ClickListener(){
+		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastIdle, Assets.fastActive, new ClickListener(){
 			@Override
 			public void onClick() {
 				simSpeed = 20;
@@ -121,10 +127,21 @@ public class Simulation implements Runnable {
 				}
 			}
 		}));
-		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastFastIdle, Assets.fastFastActive, new ClickListener(){
+		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*5, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastFastIdle, Assets.fastFastActive, new ClickListener(){
 			@Override
 			public void onClick() {
-				simSpeed = 6000;
+				simSpeed = 100;
+				if (paused) {
+					stepByStep.switchActivable();
+					switchPause();
+					playPause.switchMode();
+				}
+			}
+		}));
+		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*6, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastFastFastIdle, Assets.fastFastFastActive, new ClickListener(){
+			@Override
+			public void onClick() {
+				simSpeed = 60000;
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();
@@ -165,10 +182,19 @@ public class Simulation implements Runnable {
 	private void tick(int n) {
 		
 		if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
-			for (int i=0 ; i<n ; i++) {
-				step++;
-				network.computeEvolution();
-				network.evolve();
+			
+			if (simSpeed >= 1000) {
+				while((System.nanoTime()-lastTick) <= 1000000000/60) {
+					step++;
+					network.computeEvolution();
+					network.evolve();
+				}
+			} else {
+				for (int i=0 ; i<n ; i++) {
+					step++;
+					network.computeEvolution();
+					network.evolve();
+				}
 			}
 			//network.display();
 			lastTick = System.nanoTime();
@@ -220,17 +246,17 @@ public class Simulation implements Runnable {
 		
 		// "Controls"
 		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 2, 12);
-		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 80, 2);
-		Text.drawString(g, "controls", Assets.idleCol, Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing/2, Assets.buttonYStart-17, true, Assets.normalFont);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing-80, Assets.buttonYStart-15, 80, 2);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing-1, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart, Assets.buttonYStart-15, 100, 2);
+		Text.drawString(g, "controls", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*1.5)+Assets.buttonSpacing, Assets.buttonYStart-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-100, Assets.buttonYStart-15, 100, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-1, Assets.buttonYStart-15, 2, 12);
 		
 		// "Speed"
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing*2, Assets.buttonYStart-15, 2, 12);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*2+Assets.buttonSpacing*2, Assets.buttonYStart-15, 140, 2);
-		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*3.5+Assets.buttonSpacing*3), Assets.buttonYStart-17, true, Assets.normalFont);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4-140, Assets.buttonYStart-15, 140, 2);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4-1, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 140, 2);
+		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4.5), Assets.buttonYStart-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-140, Assets.buttonYStart-15, 140, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-1, Assets.buttonYStart-15, 2, 12);
 	}
 	@Override
 	public void run() {
@@ -302,6 +328,10 @@ public class Simulation implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	public void restartNetwork() {
+		step = 0;
+		network = new Network(this);
 	}
 	// Getters and setters ============================================
 	public Display getDisplay() {

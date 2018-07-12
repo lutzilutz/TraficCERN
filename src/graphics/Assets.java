@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 public class Assets {
 
 	// Dimensions
-	public static int buttonW = 110, buttonH = 34;
+	public static int buttonW = 90, buttonH = 34;
 	public static int buttonXStart = 20, buttonYStart = 30;
 	public static int buttonSpacing = 10;
 	
@@ -20,7 +20,7 @@ public class Assets {
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);
 	
 	// Images
-	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, fastIdle, fastActive, fastFastIdle, fastFastActive;
+	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, restartIdle, restartActive, fastIdle, fastActive, fastFastIdle, fastFastActive, fastFastFastIdle, fastFastFastActive;
 	
 	public static void init() {
 		
@@ -30,10 +30,14 @@ public class Assets {
 		pauseActive = sheet.crop(buttonW*1, 0, buttonW, buttonH);
 		playIdle = sheet.crop(buttonW*2, 0, buttonW, buttonH);
 		playActive = sheet.crop(buttonW*3, 0, buttonW, buttonH);
-		fastIdle = sheet.crop(buttonW*0, buttonH*1, buttonW, buttonH);
-		fastActive = sheet.crop(buttonW*1, buttonH*1, buttonW, buttonH);
-		fastFastIdle = sheet.crop(buttonW*2, buttonH*1, buttonW, buttonH);
-		fastFastActive = sheet.crop(buttonW*3, buttonH*1, buttonW, buttonH);
+		restartIdle = sheet.crop(buttonW*0, buttonH*1, buttonW, buttonH);
+		restartActive = sheet.crop(buttonW*1, buttonH*1, buttonW, buttonH);
+		fastIdle = sheet.crop(buttonW*2, buttonH*1, buttonW, buttonH);
+		fastActive = sheet.crop(buttonW*3, buttonH*1, buttonW, buttonH);
+		fastFastIdle = sheet.crop(buttonW*0, buttonH*2, buttonW, buttonH);
+		fastFastActive = sheet.crop(buttonW*1, buttonH*2, buttonW, buttonH);
+		fastFastFastIdle = sheet.crop(buttonW*2, buttonH*2, buttonW, buttonH);
+		fastFastFastActive = sheet.crop(buttonW*3, buttonH*2, buttonW, buttonH);
 	}
 	
 }
