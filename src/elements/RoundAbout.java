@@ -1,6 +1,6 @@
 package elements;
 
-import main.Network;
+import network.Network;
 
 public class RoundAbout extends Road {
 

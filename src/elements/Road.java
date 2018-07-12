@@ -2,7 +2,7 @@ package elements;
 
 import java.util.ArrayList;
 
-import main.Network;
+import network.Network;
 
 public class Road {
 

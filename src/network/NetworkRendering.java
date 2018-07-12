@@ -1,4 +1,4 @@
-package graphics;
+package network;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,11 +12,11 @@ import java.awt.image.BufferedImage;
 import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
-import main.Network;
+import graphics.Assets;
 
 public class NetworkRendering {
 
-	// Rendering operations #########################################################################################################################
+	// One-time operations ##########################################################################################################################
 	// ##############################################################################################################################################
 	
 	// Compute Background (one-time operation)
@@ -174,6 +174,15 @@ public class NetworkRendering {
 			}
 		}
 	}
+	
+	// Every-frame operations #######################################################################################################################
+	// ##############################################################################################################################################
+		
+	public static void render(Network network, Graphics g) {
+		renderVehicles(network, g);
+		renderInformations(network, g);
+		//renderElementCenter(Network network, g);
+	}
 	public static void renderVehicles(Network n, Graphics g) {
 		g.setColor(Color.black);
 		for (CrossRoad cr: n.getCrossRoads()) {
@@ -220,9 +229,15 @@ public class NetworkRendering {
 		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getStepSize())/10.0) + " km/h", 630, 130);
 	}
 	// Render Vehicles according to Cells
-	public static void render(Network network, Graphics g) {
-		renderVehicles(network, g);
-		renderInformations(network, g);
-		//renderElementCenter(Network network, g);
+	public static void display(Network n) {
+		for (Road r: n.getRoads()) {
+			r.display();
+		}
+		System.out.print("\n");
+		for (RoundAbout r: n.getRoundAbouts()) {
+			r.display();
+		}
+		System.out.print("\n");
 	}
+	
 }

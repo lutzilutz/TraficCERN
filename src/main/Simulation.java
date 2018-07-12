@@ -7,8 +7,10 @@ import java.awt.image.BufferedImage;
 
 import graphics.Assets;
 import graphics.Display;
-import graphics.NetworkRendering;
 import graphics.Text;
+import network.Network;
+import network.NetworkComputing;
+import network.NetworkRendering;
 import ui.ClickListener;
 import ui.MouseManager;
 import ui.UIImageButton;
@@ -73,7 +75,7 @@ public class Simulation implements Runnable {
 			backgrounds[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		}
 		renderBG(network, backgrounds);
-		network.computeCellsPosition();
+		NetworkComputing.computeCellsPosition(network);
 		// ------------------------------------------------------------------------
 		
 		display = new Display(title,width,height);
@@ -87,8 +89,8 @@ public class Simulation implements Runnable {
 			@Override
 			public void onClick() {
 				step++;
-				network.computeEvolution();
-				network.evolve();
+				NetworkComputing.computeEvolution(network);
+				NetworkComputing.evolve(network);
 			}
 		});
 		stepByStep.switchActivable();
@@ -188,14 +190,14 @@ public class Simulation implements Runnable {
 			if (simSpeed >= 5000) {
 				while((System.nanoTime()-lastTick) <= 1000000000/60) {
 					step++;
-					network.computeEvolution();
-					network.evolve();
+					NetworkComputing.computeEvolution(network);
+					NetworkComputing.evolve(network);
 				}
 			} else {
 				for (int i=0 ; i<n ; i++) {
 					step++;
-					network.computeEvolution();
-					network.evolve();
+					NetworkComputing.computeEvolution(network);
+					NetworkComputing.evolve(network);
 				}
 			}
 			lastTick = System.nanoTime();
@@ -342,7 +344,7 @@ public class Simulation implements Runnable {
 	public void restartNetwork() {
 		step = 0;
 		network = new Network(this);
-		network.computeCellsPosition();
+		NetworkComputing.computeCellsPosition(network);
 	}
 	// Getters and setters ============================================
 	public Display getDisplay() {
