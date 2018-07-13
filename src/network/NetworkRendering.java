@@ -40,9 +40,6 @@ public class NetworkRendering {
 		renderBG(n, g2d, true, true, true);
 	}
 	public static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
-		g.setColor(Assets.bgCol);
-		g.fillRect(0, 0, n.getSimulation().getWidth(), n.getSimulation().getHeight());
-		
 		// CrossRoads =================================================================================================
 		for (CrossRoad cr: n.getCrossRoads()) {
 			Graphics2D gg = (Graphics2D) g.create();
@@ -166,7 +163,6 @@ public class NetworkRendering {
 		if (drawRoadID) {
 			renderIDs(n, g);
 		}
-		//renderButtonsHeader(n, g);
 	}
 	public static void renderIDs(Network n, Graphics g) {
 		g.setColor(Color.blue);
@@ -179,7 +175,6 @@ public class NetworkRendering {
 	}
 	public static void renderButtonsHeader(Network n, BufferedImage hud) {
 		Graphics2D g = hud.createGraphics();
-		
 		g.setColor(Assets.idleCol);
 		
 		// "Controls"

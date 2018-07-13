@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -41,9 +42,10 @@ public class Simulation implements Runnable {
 	// Graphics
 	private BufferStrategy bs;
 	private Graphics g;
-	private BufferedImage[] backgrounds;
-	private BufferedImage currentBackground;
+	private BufferedImage[] networkDisplays;
+	private BufferedImage currentDisplay;
 	private BufferedImage hud;
+	private BufferedImage background;
 	private int currentBackgroundID = 0;
 	
 	// UI
@@ -74,12 +76,13 @@ public class Simulation implements Runnable {
 		network = new Network(this);
 		
 		// Rendering background ---------------------------------------------------
-		backgrounds = new BufferedImage[8];
+		background = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		networkDisplays = new BufferedImage[8];
 		for (int i=0 ; i<8 ; i++) {
-			backgrounds[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			networkDisplays[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		}
 		hud = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		renderBG(network, backgrounds);
+		renderBG(network, networkDisplays);
 		NetworkComputing.computeCellsPosition(network);
 		
 		// ------------------------------------------------------------------------
@@ -178,7 +181,7 @@ public class Simulation implements Runnable {
 			public void onClick() {
 				colorOn.switchIt();
 				currentBackgroundID = (currentBackgroundID+4)%8;
-				currentBackground = backgrounds[currentBackgroundID];
+				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
 		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", network.getDrawWire(), new ClickListener(){
@@ -186,7 +189,7 @@ public class Simulation implements Runnable {
 			public void onClick() {
 				wireOn.switchIt();
 				currentBackgroundID = (currentBackgroundID-currentBackgroundID%4)+(currentBackgroundID+2)%4;
-				currentBackground = backgrounds[currentBackgroundID];
+				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
 		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", network.getDrawRoadID(), new ClickListener(){
@@ -194,7 +197,7 @@ public class Simulation implements Runnable {
 			public void onClick() {
 				idOn.switchIt();
 				currentBackgroundID = (currentBackgroundID-currentBackgroundID%2)+(currentBackgroundID+1)%2;
-				currentBackground = backgrounds[currentBackgroundID];
+				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
 		this.uiManager.addObject(colorOn);
@@ -251,9 +254,8 @@ public class Simulation implements Runnable {
 		g.clearRect(0, 0, this.width, this.height);
 		
 		// start drawing =========================================
-		g.setColor(Assets.bgCol);
-		g.fillRect(0, 0, width, height);
-		g.drawImage(currentBackground, (int) (network.getxOffset()), (int) (network.getyOffset()), null);
+		g.drawImage(background, 0, 0, null);
+		g.drawImage(currentDisplay, (int) (network.getxOffset()), (int) (network.getyOffset()), null);
 		g.drawImage(hud, 0, 0, null);
 		NetworkRendering.render(network, g);
 		uiManager.render(g);
@@ -264,7 +266,10 @@ public class Simulation implements Runnable {
 		
 	}
 	public void renderBG(Network network, BufferedImage[] backgrounds) {
-		//network.renderAllBGs(backgrounds);
+		Graphics2D g = background.createGraphics();
+		g.setColor(Assets.bgCol);
+		g.fillRect(0, 0, width, height);
+		g.dispose();
 		NetworkRendering.renderButtonsHeader(network, hud);
 		NetworkRendering.renderAllBGs(network, backgrounds);
 		currentBackgroundID = 0;
@@ -277,7 +282,7 @@ public class Simulation implements Runnable {
 		if (network.getDrawColors()) {
 			currentBackgroundID += 4;
 		}
-		currentBackground = this.backgrounds[currentBackgroundID];
+		currentDisplay = this.networkDisplays[currentBackgroundID];
 	}
 	@Override
 	public void run() {
