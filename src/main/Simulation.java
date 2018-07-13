@@ -144,7 +144,18 @@ public class Simulation implements Runnable {
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*6, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastFastFastIdle, Assets.fastFastFastActive, new ClickListener(){
 			@Override
 			public void onClick() {
-				simSpeed = 60000;
+				simSpeed = 2000;
+				if (paused) {
+					stepByStep.switchActivable();
+					switchPause();
+					playPause.switchMode();
+				}
+			}
+		}));
+		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*7, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Max", new ClickListener(){
+			@Override
+			public void onClick() {
+				simSpeed = 100000;
 				if (paused) {
 					stepByStep.switchActivable();
 					switchPause();

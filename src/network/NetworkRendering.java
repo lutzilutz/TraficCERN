@@ -189,10 +189,10 @@ public class NetworkRendering {
 		
 		// "Speed"
 		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 2, 12);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 140, 2);
-		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*5+Assets.buttonSpacing*4.5), Assets.buttonYStart-17, true, Assets.normalFont);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-140, Assets.buttonYStart-15, 140, 2);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*7+Assets.buttonSpacing*6-1, Assets.buttonYStart-15, 2, 12);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*3, Assets.buttonYStart-15, 200, 2);
+		Text.drawString(g, "speed", Assets.idleCol, (int) (Assets.buttonXStart+Assets.buttonW*5.5+Assets.buttonSpacing*5), Assets.buttonYStart-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*8+Assets.buttonSpacing*7-200, Assets.buttonYStart-15, 200, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*8+Assets.buttonSpacing*7-1, Assets.buttonYStart-15, 2, 12);
 		
 		// "Visuals"
 		g.fillRect(Assets.buttonXStart, n.getSimulation().getHeight()-Assets.buttonH-20-15, 2, 12);
@@ -251,9 +251,9 @@ public class NetworkRendering {
 	}
 	public static void renderInformations(Network n, Graphics g) {
 		g.setColor(Color.white);
-		g.drawString("Step :    " + Integer.toString(n.getSimulation().getStep()), 630, 90);
-		g.drawString("Time :    " + n.getSimulation().getTime(), 630, 110);
-		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getStepSize())/10.0) + " km/h", 630, 130);
+		g.drawString("Step :    " + Integer.toString(n.getSimulation().getStep()), n.getSimulation().getWidth()-170, 40);
+		g.drawString("Time :    " + n.getSimulation().getTime(), n.getSimulation().getWidth()-170, 60);
+		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getStepSize())/10.0) + " km/h", n.getSimulation().getWidth()-170, 80);
 	}
 	// Render Vehicles according to Cells
 	public static void display(Network n) {
