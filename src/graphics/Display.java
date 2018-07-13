@@ -35,9 +35,10 @@ public class Display {
         int x = (int) rect.getMaxX() - frame.getWidth();
         int y = 0;
 		
-        frame.setLocation(x, y);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+        //frame.setLocation(x, y);
+		//frame.setLocationRelativeTo(null);
+		frame.setLocation(0, 0);
+        frame.setVisible(true);
 		
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(width,height));

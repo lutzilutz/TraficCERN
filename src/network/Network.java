@@ -19,6 +19,8 @@ public class Network {
 	private boolean drawColors = true; // true for rendering color codes (end of road, out cells, ...)
 	private boolean drawRoadID = false; // true for rendering roads ID
 	
+	private double xOffset=0, yOffset=0;
+	
 	public Network(Simulation sim) {
 		this.setCellHeight(12);
 		this.setCellWidth(12);
@@ -168,6 +170,18 @@ public class Network {
 		this.roads.add(R);
 		//CR.setTimeTrafficLight(20);
 		
+	}
+	public double getxOffset() {
+		return xOffset;
+	}
+	public void setxOffset(double xOffset) {
+		this.xOffset = xOffset;
+	}
+	public double getyOffset() {
+		return yOffset;
+	}
+	public void setyOffset(double yOffset) {
+		this.yOffset = yOffset;
 	}
 	public void switchDrawWire() {
 		drawWire = !drawWire;

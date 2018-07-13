@@ -166,7 +166,7 @@ public class NetworkRendering {
 		if (drawRoadID) {
 			renderIDs(n, g);
 		}
-		renderButtonsHeader(n, g);
+		//renderButtonsHeader(n, g);
 	}
 	public static void renderIDs(Network n, Graphics g) {
 		g.setColor(Color.blue);
@@ -177,7 +177,9 @@ public class NetworkRendering {
 			g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
 		}
 	}
-	public static void renderButtonsHeader(Network n, Graphics g) {
+	public static void renderButtonsHeader(Network n, BufferedImage hud) {
+		Graphics2D g = hud.createGraphics();
+		
 		g.setColor(Assets.idleCol);
 		
 		// "Controls"
@@ -215,21 +217,21 @@ public class NetworkRendering {
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0; i<4; ++i) {
 				if (cr.getMiddleCells()[i].isOccupied()) {
-					g.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
+					g.fillOval((int) (cr.getMiddleCells()[i].getX() + n.getxOffset()), (int) (cr.getMiddleCells()[i].getY() + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
 				}
 			}
 		}
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
+					g.fillOval((int) (r.getRoadCells().get(i).getX() + n.getxOffset()), (int) (r.getRoadCells().get(i).getY() + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
 				}
 			}
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
+					g.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2 + n.getxOffset()), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2 + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
 				}
 			}
 		}

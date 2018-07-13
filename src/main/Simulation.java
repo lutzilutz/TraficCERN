@@ -7,11 +7,12 @@ import java.awt.image.BufferedImage;
 
 import graphics.Assets;
 import graphics.Display;
+import input.KeyManager;
+import input.MouseManager;
 import network.Network;
 import network.NetworkComputing;
 import network.NetworkRendering;
 import ui.ClickListener;
-import ui.MouseManager;
 import ui.UIImageButton;
 import ui.UIManager;
 import ui.UITextButton;
@@ -29,6 +30,7 @@ public class Simulation implements Runnable {
 	private boolean paused = false;
 	private long lastTick;
 	private double simSpeed = 20;
+	private double offsetSpeed = 0.8;
 	
 	private Network network;
 	
@@ -41,10 +43,12 @@ public class Simulation implements Runnable {
 	private Graphics g;
 	private BufferedImage[] backgrounds;
 	private BufferedImage currentBackground;
+	private BufferedImage hud;
 	private int currentBackgroundID = 0;
 	
 	// UI
 	private MouseManager mouseManager;
+	private KeyManager keyManager;
 	private UIManager uiManager;
 	private UITextButton stepByStep;
 	private UIImageButton playPause;
@@ -60,6 +64,7 @@ public class Simulation implements Runnable {
 		this.uiManager = new UIManager();
 		this.mouseManager = new MouseManager();
 		this.mouseManager.setUIManager(this.uiManager);
+		this.keyManager = new KeyManager();
 	}
 	
 	private void init() {
@@ -73,12 +78,15 @@ public class Simulation implements Runnable {
 		for (int i=0 ; i<8 ; i++) {
 			backgrounds[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		}
+		hud = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		renderBG(network, backgrounds);
 		NetworkComputing.computeCellsPosition(network);
+		
 		// ------------------------------------------------------------------------
 		
 		display = new Display(title,width,height);
 		
+		display.getFrame().addKeyListener(keyManager);
 		display.getFrame().addMouseListener(mouseManager);
 		display.getFrame().addMouseMotionListener(mouseManager);
 		display.getCanvas().addMouseListener(mouseManager);
@@ -213,7 +221,22 @@ public class Simulation implements Runnable {
 			lastTick = System.nanoTime();
 		}
 		uiManager.tick();
+		keyManager.tick();
 		
+		if (keyManager.right) {
+			network.setxOffset(network.getxOffset()+offsetSpeed);
+		} else if (keyManager.left) {
+			network.setxOffset(network.getxOffset()-offsetSpeed);
+		}
+		if (keyManager.up) {
+			network.setyOffset(network.getyOffset()-offsetSpeed);
+		} else if (keyManager.down) {
+			network.setyOffset(network.getyOffset()+offsetSpeed);
+		}
+		if (keyManager.space) {
+			network.setxOffset(0);
+			network.setyOffset(0);
+		}
 	}
 	private void render() {
 		bs = display.getCanvas().getBufferStrategy();
@@ -228,7 +251,10 @@ public class Simulation implements Runnable {
 		g.clearRect(0, 0, this.width, this.height);
 		
 		// start drawing =========================================
-		g.drawImage(currentBackground, 0, 0, null);
+		g.setColor(Assets.bgCol);
+		g.fillRect(0, 0, width, height);
+		g.drawImage(currentBackground, (int) (network.getxOffset()), (int) (network.getyOffset()), null);
+		g.drawImage(hud, 0, 0, null);
 		NetworkRendering.render(network, g);
 		uiManager.render(g);
 		// end drawing ===========================================
@@ -239,6 +265,7 @@ public class Simulation implements Runnable {
 	}
 	public void renderBG(Network network, BufferedImage[] backgrounds) {
 		//network.renderAllBGs(backgrounds);
+		NetworkRendering.renderButtonsHeader(network, hud);
 		NetworkRendering.renderAllBGs(network, backgrounds);
 		currentBackgroundID = 0;
 		if (network.getDrawRoadID()) {
@@ -318,6 +345,9 @@ public class Simulation implements Runnable {
 		NetworkComputing.computeCellsPosition(network);
 	}
 	// Getters and setters ============================================
+	public KeyManager getKeyManager() {
+		return keyManager;
+	}
 	public Display getDisplay() {
 		return this.display;
 	}
