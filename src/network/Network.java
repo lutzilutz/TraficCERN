@@ -28,8 +28,8 @@ public class Network {
 		
 		this.sim = sim;
 		
-		createRealNetwork();
-		//createTestNetwork();
+		//createRealNetwork();
+		createTestNetwork();
 	}
 	
 	public void createTestNetwork() {

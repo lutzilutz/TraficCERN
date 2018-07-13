@@ -240,14 +240,26 @@ public class NetworkRendering {
 		for (CrossRoad cr: n.getCrossRoads()) {
 			g.fillRect((int) (cr.getX()-1 + n.getxOffset()), (int) (cr.getY()-5 + n.getyOffset()), 2, 10);
 			g.fillRect((int) (cr.getX()-5 + n.getxOffset()), (int) (cr.getY()-1 + n.getyOffset()), 10, 2);
+			Graphics2D gg = (Graphics2D) g.create();
+			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			gg.rotate((cr.getDirection()/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
+			gg.fillRect((int) cr.getX(), (int) cr.getY()-1, 30, 2);
 		}
 		for (Road r: n.getRoads()) {
 			g.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
 			g.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
+			Graphics2D gg = (Graphics2D) g.create();
+			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
+			gg.fillRect((int) r.getX(), (int) r.getY()-1, 30, 2);
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
 			g.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
 			g.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
+			Graphics2D gg = (Graphics2D) g.create();
+			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
+			gg.fillRect((int) r.getX(), (int) r.getY()-1, 30, 2);
 		}
 	}
 	public static void renderInformations(Network n, Graphics g) {
