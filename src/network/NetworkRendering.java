@@ -1,6 +1,7 @@
 package network;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -166,6 +167,7 @@ public class NetworkRendering {
 	}
 	public static void renderIDs(Network n, Graphics g) {
 		g.setColor(Color.blue);
+		g.setFont(new Font("Arial",Font.BOLD,14));
 		for (Road r: n.getRoads()) {
 			g.drawString(Integer.toString(r.getId()), (int) (r.getX()+10), (int) (r.getY()-10));
 		}
@@ -205,7 +207,9 @@ public class NetworkRendering {
 	public static void render(Network network, Graphics g) {
 		renderVehicles(network, g);
 		renderInformations(network, g);
-		//renderElementCenter(Network network, g);
+		if (network.getDrawCenters()) {
+			renderElementCenter(network, g);
+		}
 	}
 	public static void renderVehicles(Network n, Graphics g) {
 		g.setColor(Color.black);
@@ -234,16 +238,16 @@ public class NetworkRendering {
 	public static void renderElementCenter(Network n, Graphics g) {
 		g.setColor(Color.red);
 		for (CrossRoad cr: n.getCrossRoads()) {
-			g.fillRect((int) (cr.getX()-1), (int) (cr.getY()-5), 2, 10);
-			g.fillRect((int) (cr.getX()-5), (int) (cr.getY()-1), 10, 2);
+			g.fillRect((int) (cr.getX()-1 + n.getxOffset()), (int) (cr.getY()-5 + n.getyOffset()), 2, 10);
+			g.fillRect((int) (cr.getX()-5 + n.getxOffset()), (int) (cr.getY()-1 + n.getyOffset()), 10, 2);
 		}
 		for (Road r: n.getRoads()) {
-			g.fillRect((int) (r.getX()-1), (int) (r.getY()-5), 2, 10);
-			g.fillRect((int) (r.getX()-5), (int) (r.getY()-1), 10, 2);
+			g.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
+			g.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
-			g.fillRect((int) (r.getX()-1), (int) (r.getY()-5), 2, 10);
-			g.fillRect((int) (r.getX()-5), (int) (r.getY()-1), 10, 2);
+			g.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
+			g.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
 		}
 	}
 	public static void renderInformations(Network n, Graphics g) {

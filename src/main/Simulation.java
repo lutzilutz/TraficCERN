@@ -54,9 +54,7 @@ public class Simulation implements Runnable {
 	private UIManager uiManager;
 	private UITextButton stepByStep;
 	private UIImageButton playPause;
-	private UITextSwitch colorOn;
-	private UITextSwitch wireOn;
-	private UITextSwitch idOn;
+	private UITextSwitch colorOn, wireOn, idOn, centersOn;
 	
 	public Simulation(String title, int width, int height) {
 		this.title = title;
@@ -200,9 +198,17 @@ public class Simulation implements Runnable {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
+		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
+			@Override
+			public void onClick() {
+				centersOn.switchIt();
+				network.switchDrawCenters();
+			}
+		});
 		this.uiManager.addObject(colorOn);
 		this.uiManager.addObject(wireOn);
 		this.uiManager.addObject(idOn);
+		this.uiManager.addObject(centersOn);
 	}
 	private void tick(int n) {
 		

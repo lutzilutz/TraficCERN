@@ -18,8 +18,9 @@ public class Network {
 	private boolean drawWire = true; // true for rendering the border of the cells
 	private boolean drawColors = true; // true for rendering color codes (end of road, out cells, ...)
 	private boolean drawRoadID = false; // true for rendering roads ID
+	private boolean drawCenters = true; // true for rendering centers (x,y position)
 	
-	private double xOffset=0, yOffset=0;
+	private double xOffset=0, yOffset=0; // offset of the network on screen
 	
 	public Network(Simulation sim) {
 		this.setCellHeight(12);
@@ -27,66 +28,11 @@ public class Network {
 		
 		this.sim = sim;
 		
-		/*
-		Road r1 = new Road(this, 15);
-		r1.setX(100);
-		r1.setY(200);
-		r1.setDirection(113);
-		roads.add(r1);
-		
-		RoundAbout ra1 = new RoundAbout(this, 48);
-		ra1.setPositionFrom(r1);
-		ra1.setDirection(180+r1.getDirection());
-		roundAbouts.add(ra1);
-		
-		Road r1Out = new Road(this, 15);
-		r1Out.setStartPositionFrom(ra1, ra1.getLength()-1);
-		r1Out.setDirection(r1.getDirection()+180);
-		roads.add(r1Out);
-		
-		// N-E road
-		Road r2Out = new Road(this, 15);
-		r2Out.setStartPositionFrom(ra1, ra1.getLength()-14);
-		roads.add(r2Out);
-		Road r2In = new Road(this, 15);
-		r2In.setEndPositionFrom(ra1, ra1.getLength()-13);
-		roads.add(r2In);
-		r2Out.setDirection((r2In.getDirection()+180)%360);
-		
-		// S-E road
-		Road r3Out = new Road(this, 15);
-		r3Out.setStartPositionFrom(ra1, 24);
-		roads.add(r3Out);
-		Road r3In = new Road(this, 15);
-		r3In.setEndPositionFrom(ra1, 25);
-		roads.add(r3In);
-		r3Out.setDirection((r3In.getDirection()+180)%360);
-
-		// S-W road
-		Road r4Out = new Road(this, 15);
-		r4Out.setStartPositionFrom(ra1, 10);
-		roads.add(r4Out);
-		Road r4In = new Road(this, 15);
-		r4In.setEndPositionFrom(ra1, 11);
-		roads.add(r4In);
-		r4Out.setDirection((r4In.getDirection()+180)%360);
-
-		
-		r1.connectTo(ra1, 0);
-		r2In.connectTo(ra1, ra1.getLength()-13);
-		r3In.connectTo(ra1, 25);
-		r4In.connectTo(ra1, 11);
-		
-		ra1.connectTo(r4Out, 10);
-		ra1.connectTo(r3Out, 24);
-		ra1.connectTo(r2Out, ra1.getLength()-14);
-		ra1.connectTo(r1Out, ra1.getLength()-1);
-		
-		r1.setGenerateVehicules(true);
-		r2In.setGenerateVehicules(true);
-		r3In.setGenerateVehicules(true);
-		r4In.setGenerateVehicules(true);
-		*/
+		createRealNetwork();
+		//createTestNetwork();
+	}
+	
+	public void createTestNetwork() {
 		CrossRoad CR = new CrossRoad(this);
 		CR.setX(300);
 		CR.setY(300);
@@ -169,7 +115,66 @@ public class Network {
 		RA1.connectTo(R, 25);
 		this.roads.add(R);
 		//CR.setTimeTrafficLight(20);
+	}
+	public void createRealNetwork() {
+		Road r1 = new Road(this, 15);
+		r1.setX(100);
+		r1.setY(200);
+		r1.setDirection(113);
+		roads.add(r1);
 		
+		RoundAbout ra1 = new RoundAbout(this, 48);
+		ra1.setPositionFrom(r1);
+		ra1.setDirection(180+r1.getDirection());
+		roundAbouts.add(ra1);
+		
+		Road r1Out = new Road(this, 15);
+		r1Out.setStartPositionFrom(ra1, ra1.getLength()-1);
+		r1Out.setDirection(r1.getDirection()+180);
+		roads.add(r1Out);
+		
+		// N-E road
+		Road r2Out = new Road(this, 15);
+		r2Out.setStartPositionFrom(ra1, ra1.getLength()-14);
+		roads.add(r2Out);
+		Road r2In = new Road(this, 15);
+		r2In.setEndPositionFrom(ra1, ra1.getLength()-13);
+		roads.add(r2In);
+		r2Out.setDirection((r2In.getDirection()+180)%360);
+		
+		// S-E road
+		Road r3Out = new Road(this, 15);
+		r3Out.setStartPositionFrom(ra1, 24);
+		roads.add(r3Out);
+		Road r3In = new Road(this, 15);
+		r3In.setEndPositionFrom(ra1, 25);
+		roads.add(r3In);
+		r3Out.setDirection((r3In.getDirection()+180)%360);
+
+		// S-W road
+		Road r4Out = new Road(this, 15);
+		r4Out.setStartPositionFrom(ra1, 10);
+		roads.add(r4Out);
+		Road r4In = new Road(this, 15);
+		r4In.setEndPositionFrom(ra1, 11);
+		roads.add(r4In);
+		r4Out.setDirection((r4In.getDirection()+180)%360);
+
+		
+		r1.connectTo(ra1, 0);
+		r2In.connectTo(ra1, ra1.getLength()-13);
+		r3In.connectTo(ra1, 25);
+		r4In.connectTo(ra1, 11);
+		
+		ra1.connectTo(r4Out, 10);
+		ra1.connectTo(r3Out, 24);
+		ra1.connectTo(r2Out, ra1.getLength()-14);
+		ra1.connectTo(r1Out, ra1.getLength()-1);
+		
+		r1.setGenerateVehicules(true);
+		r2In.setGenerateVehicules(true);
+		r3In.setGenerateVehicules(true);
+		r4In.setGenerateVehicules(true);
 	}
 	public double getxOffset() {
 		return xOffset;
@@ -192,6 +197,9 @@ public class Network {
 	public void switchDrawRoadID() {
 		drawRoadID = !drawRoadID;
 	}
+	public void switchDrawCenters() {
+		drawCenters = !drawCenters;
+	}
 	public Simulation getSimulation() {
 		return this.sim;
 	}
@@ -212,6 +220,9 @@ public class Network {
 	}
 	public boolean getDrawRoadID() {
 		return this.drawRoadID;
+	}
+	public boolean getDrawCenters() {
+		return this.drawCenters;
 	}
 	public void addRoadtoRoads(Road r) {
 		this.roads.add(r);
