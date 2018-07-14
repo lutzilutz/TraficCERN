@@ -31,7 +31,8 @@ public class Simulation implements Runnable {
 	private boolean paused = false;
 	private long lastTick;
 	private double simSpeed = 20;
-	private double offsetSpeed = 0.8;
+	private double offsetSpeed = 1;
+	private double rotationSpeed = 0.02;
 	
 	private Network network;
 	
@@ -228,20 +229,36 @@ public class Simulation implements Runnable {
 		uiManager.tick();
 		keyManager.tick();
 		
+		// Offset keys ============================================================================
 		if (keyManager.right) {
-			network.setxOffset(network.getxOffset()+offsetSpeed);
+			network.setxOffset(network.getxOffset()+offsetSpeed*Math.cos(network.getRotation()));
+			network.setyOffset(network.getyOffset()-offsetSpeed*Math.sin(network.getRotation()));
 		} else if (keyManager.left) {
-			network.setxOffset(network.getxOffset()-offsetSpeed);
+			network.setxOffset(network.getxOffset()-offsetSpeed*Math.cos(network.getRotation()));
+			network.setyOffset(network.getyOffset()+offsetSpeed*Math.sin(network.getRotation()));
 		}
 		if (keyManager.up) {
-			network.setyOffset(network.getyOffset()-offsetSpeed);
+			network.setxOffset(network.getxOffset()-offsetSpeed*Math.sin(network.getRotation()));
+			network.setyOffset(network.getyOffset()-offsetSpeed*Math.cos(network.getRotation()));
 		} else if (keyManager.down) {
-			network.setyOffset(network.getyOffset()+offsetSpeed);
+			network.setxOffset(network.getxOffset()+offsetSpeed*Math.sin(network.getRotation()));
+			network.setyOffset(network.getyOffset()+offsetSpeed*Math.cos(network.getRotation()));
 		}
 		if (keyManager.space) {
 			network.setxOffset(network.getxDefaultOffset());
 			network.setyOffset(network.getyDefaultOffset());
 		}
+		
+		// Rotation keys ==========================================================================
+		if (keyManager.d) {
+			network.setRotation(network.getRotation()+rotationSpeed);
+		} else if (keyManager.a) {
+			network.setRotation(network.getRotation()-rotationSpeed);
+		}
+		if (keyManager.s) {
+			network.setRotation(0);
+		}
+		System.out.println("x:" + network.getxOffset() + ", y:" + network.getyOffset() + ", a:" + network.getRotation());
 	}
 	private void render() {
 		bs = display.getCanvas().getBufferStrategy();
@@ -257,9 +274,14 @@ public class Simulation implements Runnable {
 		
 		// start drawing =========================================
 		g.drawImage(background, 0, 0, null);
-		g.drawImage(currentDisplay, (int) (network.getxOffset()), (int) (network.getyOffset()), null);
+		Graphics2D gg = (Graphics2D) g.create();
+		gg.translate(network.getxOffset(), network.getyOffset());
+		gg.rotate(network.getRotation(), width/2-network.getxOffset(), height/2-network.getyOffset());
+		gg.drawImage(currentDisplay, 0, 0, null);
 		g.drawImage(hud, 0, 0, null);
-		NetworkRendering.render(network, g);
+		NetworkRendering.render(network, gg);
+		NetworkRendering.renderInformations(network, g);
+		gg.dispose();
 		uiManager.render(g);
 		// end drawing ===========================================
 		

@@ -22,6 +22,7 @@ public class Network {
 	
 	private double xOffset=0, yOffset=0; // offset of the network on screen
 	private double xDefaultOffset, yDefaultOffset;
+	private double rotation=0;
 	
 	public Network(Simulation sim) {
 		this.setCellHeight(12);
@@ -176,6 +177,12 @@ public class Network {
 		r2In.setGenerateVehicules(true);
 		r3In.setGenerateVehicules(true);
 		r4In.setGenerateVehicules(true);
+	}
+	public double getRotation() {
+		return rotation;
+	}
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
 	}
 	public double getxDefaultOffset() {
 		return xDefaultOffset;
