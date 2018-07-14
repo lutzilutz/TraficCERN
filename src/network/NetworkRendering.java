@@ -58,10 +58,6 @@ public class NetworkRendering {
 		return tmp;
 	}
 	public static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
-		//Graphics2D g2d = (Graphics2D) g.create();
-		//g2d.translate(NetworkRendering.bounds.x, NetworkRendering.bounds.y);
-		//g2d.setColor(Assets.bgCol);
-		//g2d.fillRect(0, 0, NetworkRendering.bounds.width, NetworkRendering.bounds.height);
 		// CrossRoads =================================================================================================
 		for (CrossRoad cr: n.getCrossRoads()) {
 			Graphics2D gg = (Graphics2D) g.create();
@@ -185,7 +181,6 @@ public class NetworkRendering {
 		if (drawRoadID) {
 			renderIDs(n, g);
 		}
-		//System.out.println(g.getClipBounds(null).width);
 	}
 	public static void renderIDs(Network n, Graphics g) {
 		g.setColor(Color.blue);

@@ -27,7 +27,6 @@ public class NetworkComputing {
 				r.getRoadCells().get(i).setY(y);
 				correctBounds(x, y);
 			}
-			System.out.println("roads ...");
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
 			double radius = (r.getLength()*n.getCellWidth())/(2*Math.PI);
@@ -39,7 +38,6 @@ public class NetworkComputing {
 				r.getRoadCells().get(i).setY(y);
 				correctBounds(x, y);
 			}
-			System.out.println("roundabouts ...");
 		}
 		n.setxDefaultOffset(NetworkRendering.bounds.x);
 		n.setyDefaultOffset(NetworkRendering.bounds.y);
@@ -50,19 +48,15 @@ public class NetworkComputing {
 		if (x<NetworkRendering.bounds.x) {
 			NetworkRendering.bounds.width += NetworkRendering.bounds.x - x ;//+ margin;
 			NetworkRendering.bounds.x = (int) x-margin;
-			System.out.println("x=" + NetworkRendering.bounds.x + " ; w=" + NetworkRendering.bounds.width);
 		} else if (x>NetworkRendering.bounds.width+NetworkRendering.bounds.x - margin) {
 			NetworkRendering.bounds.width = (int) x-NetworkRendering.bounds.x + 1*margin;
-			System.out.println("x=" + NetworkRendering.bounds.x + " ; w=" + NetworkRendering.bounds.width);
 		}
 		
 		if (y<NetworkRendering.bounds.y) {
 			NetworkRendering.bounds.height += NetworkRendering.bounds.y - y;// + margin;
 			NetworkRendering.bounds.y = (int) y - margin;
-			System.out.println("y=" + NetworkRendering.bounds.y + " ; h=" + NetworkRendering.bounds.height);
 		} else if (y>NetworkRendering.bounds.height+NetworkRendering.bounds.y - margin) {
 			NetworkRendering.bounds.height = (int) y-NetworkRendering.bounds.y + 1*margin;
-			System.out.println("y=" + NetworkRendering.bounds.y + " ; h=" + NetworkRendering.bounds.height);
 		}
 	}
 	// Update Cell of the Road according to the next state

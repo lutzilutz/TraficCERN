@@ -77,12 +77,8 @@ public class Simulation implements Runnable {
 		// Rendering background ---------------------------------------------------
 		background = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		networkDisplays = new BufferedImage[8];
-		//for (int i=0 ; i<8 ; i++) {
-			//networkDisplays[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		//}
 		hud = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		renderBG(network, networkDisplays);
-		
 		// ------------------------------------------------------------------------
 		
 		display = new Display(title,width,height);
