@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Area;
@@ -18,29 +19,49 @@ import graphics.Text;
 
 public class NetworkRendering {
 
+	public static Rectangle bounds = new Rectangle(0,0,300,300);
 	// One-time operations ##########################################################################################################################
 	// ##############################################################################################################################################
 	
 	// Compute Background (one-time operation)
-	public static void renderAllBGs(Network n, BufferedImage[] backgrounds) {
-		Graphics2D g2d = backgrounds[0].createGraphics();
+	public static BufferedImage[] renderAllBGs(Network n, BufferedImage[] backgrounds) {
+		//computeBounds(n);
+		BufferedImage[] tmp = new BufferedImage[8];
+		for (int i=0 ; i<8 ; i++) {
+			tmp[i] = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
+		}
+		Graphics2D g2d = tmp[0].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, false, false, false);
-		g2d = backgrounds[1].createGraphics();
+		g2d = tmp[1].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, false, false, true);
-		g2d = backgrounds[2].createGraphics();
+		g2d = tmp[2].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, false, true, false);
-		g2d = backgrounds[3].createGraphics();
+		g2d = tmp[3].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, false, true, true);
-		g2d = backgrounds[4].createGraphics();
+		g2d = tmp[4].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, true, false, false);
-		g2d = backgrounds[5].createGraphics();
+		g2d = tmp[5].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, true, false, true);
-		g2d = backgrounds[6].createGraphics();
+		g2d = tmp[6].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, true, true, false);
-		g2d = backgrounds[7].createGraphics();
+		g2d = tmp[7].createGraphics();
+		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, true, true, true);
+		
+		return tmp;
 	}
 	public static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
+		//Graphics2D g2d = (Graphics2D) g.create();
+		//g2d.translate(NetworkRendering.bounds.x, NetworkRendering.bounds.y);
+		//g2d.setColor(Assets.bgCol);
+		//g2d.fillRect(0, 0, NetworkRendering.bounds.width, NetworkRendering.bounds.height);
 		// CrossRoads =================================================================================================
 		for (CrossRoad cr: n.getCrossRoads()) {
 			Graphics2D gg = (Graphics2D) g.create();
@@ -164,6 +185,7 @@ public class NetworkRendering {
 		if (drawRoadID) {
 			renderIDs(n, g);
 		}
+		//System.out.println(g.getClipBounds(null).width);
 	}
 	public static void renderIDs(Network n, Graphics g) {
 		g.setColor(Color.blue);
@@ -212,57 +234,62 @@ public class NetworkRendering {
 		}
 	}
 	public static void renderVehicles(Network n, Graphics g) {
-		g.setColor(Color.black);
+		Graphics2D gg = (Graphics2D) g.create();
+		gg.translate(-bounds.x, -bounds.y);
+		gg.setColor(Color.black);
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0; i<4; ++i) {
 				if (cr.getMiddleCells()[i].isOccupied()) {
-					g.fillOval((int) (cr.getMiddleCells()[i].getX() + n.getxOffset()), (int) (cr.getMiddleCells()[i].getY() + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
+					gg.fillOval((int) (cr.getMiddleCells()[i].getX() + n.getxOffset()), (int) (cr.getMiddleCells()[i].getY() + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
 				}
 			}
 		}
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillOval((int) (r.getRoadCells().get(i).getX() + n.getxOffset()), (int) (r.getRoadCells().get(i).getY() + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
+					gg.fillOval((int) (r.getRoadCells().get(i).getX() + n.getxOffset()), (int) (r.getRoadCells().get(i).getY() + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
 				}
 			}
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					g.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2 + n.getxOffset()), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2 + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
+					gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2 + n.getxOffset()), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2 + n.getyOffset()), n.getCellWidth(), n.getCellHeight());
 				}
 			}
 		}
+		gg.dispose();
 	}
 	public static void renderElementCenter(Network n, Graphics g) {
-		g.setColor(Color.red);
+		Graphics2D gg = (Graphics2D) g.create();
+		gg.translate(-bounds.x, -bounds.y);
+		gg.setColor(Color.red);
 		for (CrossRoad cr: n.getCrossRoads()) {
-			g.fillRect((int) (cr.getX()-1 + n.getxOffset()), (int) (cr.getY()-5 + n.getyOffset()), 2, 10);
-			g.fillRect((int) (cr.getX()-5 + n.getxOffset()), (int) (cr.getY()-1 + n.getyOffset()), 10, 2);
-			Graphics2D gg = (Graphics2D) g.create();
-			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			gg.translate(n.getxOffset(), n.getyOffset());
-			gg.rotate((cr.getDirection()/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
-			gg.fillRect((int) (cr.getX()), (int) cr.getY()-1, 30, 2);
+			gg.fillRect((int) (cr.getX()-1 + n.getxOffset()), (int) (cr.getY()-5 + n.getyOffset()), 2, 10);
+			gg.fillRect((int) (cr.getX()-5 + n.getxOffset()), (int) (cr.getY()-1 + n.getyOffset()), 10, 2);
+			Graphics2D ggg = (Graphics2D) gg.create();
+			ggg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			ggg.translate(n.getxOffset(), n.getyOffset());
+			ggg.rotate((cr.getDirection()/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
+			ggg.fillRect((int) (cr.getX()), (int) cr.getY()-1, 30, 2);
 		}
 		for (Road r: n.getRoads()) {
-			g.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
-			g.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
-			Graphics2D gg = (Graphics2D) g.create();
-			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			gg.translate(n.getxOffset(), n.getyOffset());
-			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
-			gg.fillRect((int) r.getX(), (int) r.getY()-1, 30, 2);
+			gg.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
+			gg.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
+			Graphics2D ggg = (Graphics2D) gg.create();
+			ggg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			ggg.translate(n.getxOffset(), n.getyOffset());
+			ggg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
+			ggg.fillRect((int) r.getX(), (int) r.getY()-1, 30, 2);
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
-			g.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
-			g.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
-			Graphics2D gg = (Graphics2D) g.create();
-			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			gg.translate(n.getxOffset(), n.getyOffset());
-			gg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
-			gg.fillRect((int) r.getX(), (int) r.getY()-1, 30, 2);
+			gg.fillRect((int) (r.getX()-1 + n.getxOffset()), (int) (r.getY()-5 + n.getyOffset()), 2, 10);
+			gg.fillRect((int) (r.getX()-5 + n.getxOffset()), (int) (r.getY()-1 + n.getyOffset()), 10, 2);
+			Graphics2D ggg = (Graphics2D) gg.create();
+			ggg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			ggg.translate(n.getxOffset(), n.getyOffset());
+			ggg.rotate((r.getDirection()/360.0)*2*Math.PI- Math.PI/2, r.getX(), r.getY());
+			ggg.fillRect((int) r.getX(), (int) r.getY()-1, 30, 2);
 		}
 	}
 	public static void renderInformations(Network n, Graphics g) {

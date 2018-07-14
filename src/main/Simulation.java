@@ -72,16 +72,16 @@ public class Simulation implements Runnable {
 		Assets.init();
 		
 		network = new Network(this);
+		NetworkComputing.computeCellsPosition(network);
 		
 		// Rendering background ---------------------------------------------------
 		background = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		networkDisplays = new BufferedImage[8];
-		for (int i=0 ; i<8 ; i++) {
-			networkDisplays[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		}
+		//for (int i=0 ; i<8 ; i++) {
+			//networkDisplays[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		//}
 		hud = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		renderBG(network, networkDisplays);
-		NetworkComputing.computeCellsPosition(network);
 		
 		// ------------------------------------------------------------------------
 		
@@ -243,8 +243,8 @@ public class Simulation implements Runnable {
 			network.setyOffset(network.getyOffset()+offsetSpeed);
 		}
 		if (keyManager.space) {
-			network.setxOffset(0);
-			network.setyOffset(0);
+			network.setxOffset(network.getxDefaultOffset());
+			network.setyOffset(network.getyDefaultOffset());
 		}
 	}
 	private void render() {
@@ -277,7 +277,7 @@ public class Simulation implements Runnable {
 		g.fillRect(0, 0, width, height);
 		g.dispose();
 		NetworkRendering.renderButtonsHeader(network, hud);
-		NetworkRendering.renderAllBGs(network, backgrounds);
+		networkDisplays = NetworkRendering.renderAllBGs(network, backgrounds);
 		currentBackgroundID = 0;
 		if (network.getDrawRoadID()) {
 			currentBackgroundID += 1;

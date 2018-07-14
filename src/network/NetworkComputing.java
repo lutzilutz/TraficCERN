@@ -5,10 +5,14 @@ import elements.Road;
 import elements.RoundAbout;
 
 public class NetworkComputing {
+	
+	private static int margin;
 
 	// Computing operations #########################################################################################################################
 	// ##############################################################################################################################################	
 	public static void computeCellsPosition(Network n) {
+		margin = n.getCellWidth();
+		System.out.println("margin = " + margin);
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0 ; i<4 ; i++) {
 				cr.getMiddleCells()[i].setX(cr.getX() - n.getCellWidth()/2 - n.getCellWidth()/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360));
@@ -17,17 +21,48 @@ public class NetworkComputing {
 		}
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
-				r.getRoadCells().get(i).setX(r.getX()-n.getCellWidth()/2+(i*n.getCellWidth() + n.getCellWidth()/2)*Math.sin(2*Math.PI*r.getDirection()/360));
-				r.getRoadCells().get(i).setY(r.getY()-n.getCellHeight()/2-(i*n.getCellWidth() + n.getCellWidth()/2)*Math.cos(2*Math.PI*r.getDirection()/360));
+				double x = r.getX()-n.getCellWidth()/2+(i*n.getCellWidth() + n.getCellWidth()/2)*Math.sin(2*Math.PI*r.getDirection()/360);
+				r.getRoadCells().get(i).setX(x);
+				double y = r.getY()-n.getCellHeight()/2-(i*n.getCellWidth() + n.getCellWidth()/2)*Math.cos(2*Math.PI*r.getDirection()/360);
+				r.getRoadCells().get(i).setY(y);
+				correctBounds(x, y);
 			}
+			System.out.println("roads ...");
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
 			double radius = (r.getLength()*n.getCellWidth())/(2*Math.PI);
 			for (int i=0 ; i<r.getLength() ; i++) {
 				double angle = 2*Math.PI*i/r.getLength() - 2*Math.PI*r.getDirection()/360;
-				r.getRoadCells().get(i).setX(r.getX()-radius*Math.sin(angle));
-				r.getRoadCells().get(i).setY(r.getY()-radius*Math.cos(angle));
+				double x = r.getX()-radius*Math.sin(angle);
+				r.getRoadCells().get(i).setX(x);
+				double y = r.getY()-radius*Math.cos(angle);
+				r.getRoadCells().get(i).setY(y);
+				correctBounds(x, y);
 			}
+			System.out.println("roundabouts ...");
+		}
+		n.setxDefaultOffset(NetworkRendering.bounds.x);
+		n.setyDefaultOffset(NetworkRendering.bounds.y);
+		n.setxOffset(n.getxDefaultOffset());
+		n.setyOffset(n.getyDefaultOffset());
+	}
+	public static void correctBounds(double x, double y) {
+		if (x<NetworkRendering.bounds.x) {
+			NetworkRendering.bounds.width += NetworkRendering.bounds.x - x ;//+ margin;
+			NetworkRendering.bounds.x = (int) x-margin;
+			System.out.println("x=" + NetworkRendering.bounds.x + " ; w=" + NetworkRendering.bounds.width);
+		} else if (x>NetworkRendering.bounds.width+NetworkRendering.bounds.x - margin) {
+			NetworkRendering.bounds.width = (int) x-NetworkRendering.bounds.x + 1*margin;
+			System.out.println("x=" + NetworkRendering.bounds.x + " ; w=" + NetworkRendering.bounds.width);
+		}
+		
+		if (y<NetworkRendering.bounds.y) {
+			NetworkRendering.bounds.height += NetworkRendering.bounds.y - y;// + margin;
+			NetworkRendering.bounds.y = (int) y - margin;
+			System.out.println("y=" + NetworkRendering.bounds.y + " ; h=" + NetworkRendering.bounds.height);
+		} else if (y>NetworkRendering.bounds.height+NetworkRendering.bounds.y - margin) {
+			NetworkRendering.bounds.height = (int) y-NetworkRendering.bounds.y + 1*margin;
+			System.out.println("y=" + NetworkRendering.bounds.y + " ; h=" + NetworkRendering.bounds.height);
 		}
 	}
 	// Update Cell of the Road according to the next state

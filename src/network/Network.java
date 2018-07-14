@@ -18,9 +18,10 @@ public class Network {
 	private boolean drawWire = true; // true for rendering the border of the cells
 	private boolean drawColors = true; // true for rendering color codes (end of road, out cells, ...)
 	private boolean drawRoadID = false; // true for rendering roads ID
-	private boolean drawCenters = true; // true for rendering centers (x,y position)
+	private boolean drawCenters = false; // true for rendering centers (x,y position)
 	
 	private double xOffset=0, yOffset=0; // offset of the network on screen
+	private double xDefaultOffset, yDefaultOffset;
 	
 	public Network(Simulation sim) {
 		this.setCellHeight(12);
@@ -175,6 +176,18 @@ public class Network {
 		r2In.setGenerateVehicules(true);
 		r3In.setGenerateVehicules(true);
 		r4In.setGenerateVehicules(true);
+	}
+	public double getxDefaultOffset() {
+		return xDefaultOffset;
+	}
+	public void setxDefaultOffset(double xDefaultOffset) {
+		this.xDefaultOffset = xDefaultOffset;
+	}
+	public double getyDefaultOffset() {
+		return yDefaultOffset;
+	}
+	public void setyDefaultOffset(double yDefaultOffset) {
+		this.yDefaultOffset = yDefaultOffset;
 	}
 	public double getxOffset() {
 		return xOffset;
