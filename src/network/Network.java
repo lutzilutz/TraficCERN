@@ -3,6 +3,8 @@ package network;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
+import elements.MultiLaneRoad;
+import elements.MultiLaneRoundAbout;
 import elements.Road;
 import elements.RoundAbout;
 import main.Simulation;
@@ -25,13 +27,140 @@ public class Network {
 	private double rotation=0;
 	
 	public Network(Simulation sim) {
-		this.setCellHeight(12);
-		this.setCellWidth(12);
+		this.setCellHeight(8);
+		this.setCellWidth(8);
 		
 		this.sim = sim;
 		
 		//createRealNetwork();
-		createTestNetwork();
+		createTestNetwork2();
+	}
+	
+	public void createTestNetwork2() {
+		
+		int nb_cellules=40;
+		/*
+		RoundAbout RA1 = new RoundAbout(this, nb_cellules);
+		RA1.setX(400);
+		RA1.setY(400);
+		RA1.setDirection(0);
+		this.roundAbouts.add(RA1);
+		
+		MultiLaneRoad MLR1 = new MultiLaneRoad(this, 3, 3, 20);
+		MLR1.setPositionFrom(RA1, 0);
+		MLR1.connectTo(RA1, 0);
+		for (int i=0; i<MLR1.getLanesIN().length; ++i) {
+			this.roads.add(MLR1.getLanesIN()[i]);
+		}
+		for (int i=0; i<MLR1.getLanesOUT().length; ++i) {
+			this.roads.add(MLR1.getLanesOUT()[i]);
+		}
+		
+		for (int i=0; i<MLR1.getLanesIN().length; ++i) {
+			MLR1.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		
+		MultiLaneRoad MLR2 = new MultiLaneRoad(this, 3, 3, 20);
+		MLR2.setPositionFrom(RA1, 10);
+		MLR2.connectTo(RA1, 10);
+		for (int i=0; i<MLR2.getLanesIN().length; ++i) {
+			this.roads.add(MLR2.getLanesIN()[i]);
+		}
+		for (int i=0; i<MLR2.getLanesOUT().length; ++i) {
+			this.roads.add(MLR2.getLanesOUT()[i]);
+		}
+		
+		for (int i=0; i<MLR2.getLanesIN().length; ++i) {
+			MLR2.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		
+		MultiLaneRoad MLR3 = new MultiLaneRoad(this, 3, 3, 20);
+		MLR3.setPositionFrom(RA1, 20);
+		MLR3.connectTo(RA1, 20);
+		for (int i=0; i<MLR3.getLanesIN().length; ++i) {
+			this.roads.add(MLR3.getLanesIN()[i]);
+		}
+		for (int i=0; i<MLR3.getLanesOUT().length; ++i) {
+			this.roads.add(MLR3.getLanesOUT()[i]);
+		}
+		
+		for (int i=0; i<MLR3.getLanesIN().length; ++i) {
+			MLR3.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		
+		MultiLaneRoad MLR4 = new MultiLaneRoad(this, 3, 3, 20);
+		MLR4.setPositionFrom(RA1, 30);
+		MLR4.connectTo(RA1, 30);
+		for (int i=0; i<MLR4.getLanesIN().length; ++i) {
+			this.roads.add(MLR4.getLanesIN()[i]);
+		}
+		for (int i=0; i<MLR4.getLanesOUT().length; ++i) {
+			this.roads.add(MLR4.getLanesOUT()[i]);
+		}
+		
+		for (int i=0; i<MLR4.getLanesIN().length; ++i) {
+			MLR4.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		*/
+		
+		MultiLaneRoundAbout MLRA = new MultiLaneRoundAbout(this, 2, nb_cellules);
+		MLRA.setX(600);
+		MLRA.setY(600);
+		MLRA.setDirection(0);
+		
+		for (int i=0; i<MLRA.getLanes().length; ++i) {
+			this.roundAbouts.add(MLRA.getLanes()[i]);
+		}
+		
+		MultiLaneRoad MLRoad1 = new MultiLaneRoad(this, 3, 3, nb_cellules);
+		MLRoad1.connectTo(MLRA, 0);
+		MLRoad1.setPositionFrom(MLRA, 0);
+	
+		
+		for (int i=0; i<MLRoad1.getLanesIN().length; ++i) {
+			this.roads.add(MLRoad1.getLanesIN()[i]);
+			MLRoad1.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		for (int i=0; i<MLRoad1.getLanesOUT().length; ++i) {
+			this.roads.add(MLRoad1.getLanesOUT()[i]);
+		}
+		
+		MultiLaneRoad MLRoad2 = new MultiLaneRoad(this, 3, 3, nb_cellules);
+		MLRoad2.connectTo(MLRA, 10);
+		MLRoad2.setPositionFrom(MLRA, 10);
+		
+		for (int i=0; i<MLRoad2.getLanesIN().length; ++i) {
+			this.roads.add(MLRoad2.getLanesIN()[i]);
+			MLRoad2.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		for (int i=0; i<MLRoad2.getLanesOUT().length; ++i) {
+			this.roads.add(MLRoad2.getLanesOUT()[i]);
+		}
+		
+		MultiLaneRoad MLRoad3 = new MultiLaneRoad(this, 3, 3, nb_cellules);
+		MLRoad3.connectTo(MLRA, 20);
+		MLRoad3.setPositionFrom(MLRA, 20);
+		
+		for (int i=0; i<MLRoad3.getLanesIN().length; ++i) {
+			this.roads.add(MLRoad3.getLanesIN()[i]);
+			MLRoad3.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		for (int i=0; i<MLRoad3.getLanesOUT().length; ++i) {
+			this.roads.add(MLRoad3.getLanesOUT()[i]);
+		}
+		
+		MultiLaneRoad MLRoad4 = new MultiLaneRoad(this, 3, 3, nb_cellules);
+		MLRoad4.connectTo(MLRA, 30);
+		MLRoad4.setPositionFrom(MLRA, 30);
+		
+		for (int i=0; i<MLRoad4.getLanesIN().length; ++i) {
+			this.roads.add(MLRoad4.getLanesIN()[i]);
+			MLRoad4.getLanesIN()[i].setGenerateVehicules(true);
+		}
+		for (int i=0; i<MLRoad4.getLanesOUT().length; ++i) {
+			this.roads.add(MLRoad4.getLanesOUT()[i]);
+		}
+		
 	}
 	
 	public void createTestNetwork() {
