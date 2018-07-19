@@ -46,7 +46,7 @@ public class MultiLaneRoad {
 			lanesIN[j].connectTo(RA, (i+j)%l);
 		}
 		for (int j=0; j<lanesOUT.length; ++j) {
-			int rest = i-(j+1) %l;
+			int rest = (i-(j+1)) %l;
 			rest = (l+rest) % l;
 			RA.connectTo(this.getLanesOUT()[j], rest );
 		}
@@ -67,7 +67,7 @@ public class MultiLaneRoad {
 				i1 = i2;
 			}
 		}
-		MLRA.connectTo(this, i);
+		//MLRA.connectTo(this, i);
 		for (int laneRoad=1; laneRoad<this.getLanesOUT().length+1; ++laneRoad) {
 			i1 = (((i-laneRoad) % length) + length) % length;
 			for (int laneRA=1; laneRA<MLRA.getLanes().length; ++laneRA) {

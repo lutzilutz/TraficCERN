@@ -103,7 +103,7 @@ public class Network {
 		}
 		*/
 		
-		MultiLaneRoundAbout MLRA = new MultiLaneRoundAbout(this, 2, nb_cellules);
+		MultiLaneRoundAbout MLRA = new MultiLaneRoundAbout(this, 3, nb_cellules);
 		MLRA.setX(600);
 		MLRA.setY(600);
 		MLRA.setDirection(0);
@@ -126,8 +126,8 @@ public class Network {
 		}
 		
 		MultiLaneRoad MLRoad2 = new MultiLaneRoad(this, 3, 3, nb_cellules);
-		MLRoad2.connectTo(MLRA, 10);
-		MLRoad2.setPositionFrom(MLRA, 10);
+		MLRoad2.connectTo(MLRA, 1*nb_cellules/4);
+		MLRoad2.setPositionFrom(MLRA, 1*nb_cellules/4);
 		
 		for (int i=0; i<MLRoad2.getLanesIN().length; ++i) {
 			this.roads.add(MLRoad2.getLanesIN()[i]);
