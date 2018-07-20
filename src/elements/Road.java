@@ -1,7 +1,7 @@
 package elements;
 
 import java.util.ArrayList;
-
+import java.util.EnumSet;
 import network.Network;
 
 public class Road {
@@ -15,6 +15,7 @@ public class Road {
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
 	private boolean generateVehicules = false; // if generate Vehicles
 	private boolean isTrafficLightRed = false;
+	private EnumSet<Direction> directions;
 	
 	// Display
 	private double x,y; // position in pixels from left upper corner
@@ -88,6 +89,18 @@ public class Road {
 			c.display();
 		}
 	}
+	
+	public void addRoadDirection(Direction d) {
+		this.directions.add(d);
+	}
+	
+	public void removeRoadDirection(Direction d) {
+		this.directions.remove(d);
+	}
+	
+	public void removeAllRoadDirections() {
+		this.directions.clear();
+	}
 
 	// Getters and setters ----------------------
 	public int getId() {
@@ -135,5 +148,12 @@ public class Road {
 	public void setTrafficLightRed(boolean isTrafficLightRed) {
 		this.isTrafficLightRed = isTrafficLightRed;
 	}
+	public EnumSet<Direction> getDirections() {
+		return directions;
+	}
+	public void setDirections(EnumSet<Direction> directions) {
+		this.directions = directions;
+	}
+	
 	
 }
