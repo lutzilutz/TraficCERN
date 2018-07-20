@@ -44,15 +44,15 @@ public class Network {
 			this.roundAbouts.add(porteDeFrance.getLanes()[i]);
 		}
 		
-		MultiLaneRoad MLR1 = new MultiLaneRoad(this, 2, 1, 200);
-		MLR1.connectToIn(porteDeFrance, 46);
-		MLR1.setPositionFrom(porteDeFrance, 46);
-		for (int i=0; i<MLR1.getLanesIN().length; ++i) {
-			this.roads.add(MLR1.getLanesIN()[i]);
-			MLR1.getLanesIN()[i].setGenerateVehicules(true);
+		MultiLaneRoad rueGermaineTillion = new MultiLaneRoad(this, 2, 1, 200);
+		rueGermaineTillion.connectToIn(porteDeFrance, 46);
+		rueGermaineTillion.setPositionFrom(porteDeFrance, 46);
+		for (int i=0; i<rueGermaineTillion.getLanesIN().length; ++i) {
+			this.roads.add(rueGermaineTillion.getLanesIN()[i]);
+			rueGermaineTillion.getLanesIN()[i].setGenerateVehicules(true);
 		}
-		for (int i=0; i<MLR1.getLanesOUT().length; ++i) {
-			this.roads.add(MLR1.getLanesOUT()[i]);
+		for (int i=0; i<rueGermaineTillion.getLanesOUT().length; ++i) {
+			this.roads.add(rueGermaineTillion.getLanesOUT()[i]);
 		}
 		
 		MultiLaneRoad rueDeGeneveE = new MultiLaneRoad(this, 1, 1, 29);
