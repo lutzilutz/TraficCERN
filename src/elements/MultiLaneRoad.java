@@ -40,7 +40,7 @@ public class MultiLaneRoad {
 		this.setPositionFrom(MLRA.getLanes()[0], i);
 	}
 	
-	public void connectTo(RoundAbout RA, int i) {
+	public void connectToIn(RoundAbout RA, int i) {
 		int l = RA.getLength();
 		for (int j=0; j<lanesIN.length; ++j) {
 			lanesIN[j].connectTo(RA, (i+j)%l);
@@ -52,12 +52,24 @@ public class MultiLaneRoad {
 		}
 	}
 	
-	public void connectTo(MultiLaneRoundAbout MLRA, int i) {
+	public void connectToOut(RoundAbout RA, int i) {
+		int l = RA.getLength();
+		for (int j=0; j<lanesOUT.length; ++j) {
+			lanesOUT[j].connectTo(RA, (i+j)%l);
+		}
+		for (int j=0; j<lanesIN.length; ++j) {
+			int rest = (i-(j+1)) %l;
+			rest = (l+rest) % l;
+			RA.connectTo(this.getLanesIN()[j], rest );
+		}
+	}
+	
+	public void connectToIn(MultiLaneRoundAbout MLRA, int i) {
 		i = i%(MLRA.getLanes()[0].getLength());
 		int i1 = 0;
 		int i2 = 0;
 		int length = MLRA.getLanes()[0].getLength();
-		this.connectTo(MLRA.getLanes()[0], i);
+		this.connectToIn(MLRA.getLanes()[0], i);
 		for (int laneRoad=0; laneRoad<this.getLanesIN().length; ++laneRoad) {
 			i1 = (i+laneRoad) % length;
 			for (int laneRA=0; laneRA<MLRA.getLanes().length -1; ++laneRA) {
@@ -67,8 +79,34 @@ public class MultiLaneRoad {
 				i1 = i2;
 			}
 		}
-		//MLRA.connectTo(this, i);
 		for (int laneRoad=1; laneRoad<this.getLanesOUT().length+1; ++laneRoad) {
+			i1 = (((i-laneRoad) % length) + length) % length;
+			for (int laneRA=1; laneRA<MLRA.getLanes().length; ++laneRA) {
+				i2 = (int) Math.floor(((double) i1)*(((double) MLRA.getLanes()[laneRA].getRoadCells().size())/((double) MLRA.getLanes()[laneRA-1].getRoadCells().size())) );
+				i2 = i2 % (MLRA.getLanes()[laneRA].getLength());
+				MLRA.getLanes()[laneRA].getRoadCells().get(i2).setOutCell(MLRA.getLanes()[laneRA-1].getRoadCells().get(i1));
+				i1 = i2;
+			}
+		}
+	}
+	
+	public void connectToOut(MultiLaneRoundAbout MLRA, int i) {
+		i = i%(MLRA.getLanes()[0].getLength());
+		int i1 = 0;
+		int i2 = 0;
+		int length = MLRA.getLanes()[0].getLength();
+		this.connectToOut(MLRA.getLanes()[0], i);
+		for (int laneRoad=0; laneRoad<this.getLanesOUT().length; ++laneRoad) {
+			i1 = (i+laneRoad) % length;
+			for (int laneRA=0; laneRA<MLRA.getLanes().length -1; ++laneRA) {
+				i2 = (int) Math.ceil(((double) i1)*(((double) MLRA.getLanes()[laneRA+1].getRoadCells().size())/((double) MLRA.getLanes()[laneRA].getRoadCells().size())) );
+				i2 = i2 % (MLRA.getLanes()[laneRA+1].getLength());
+				MLRA.getLanes()[laneRA].getRoadCells().get(i1).setOutCell(MLRA.getLanes()[laneRA+1].getRoadCells().get(i2));
+				i1 = i2;
+			}
+		}
+		//MLRA.connectTo(this, i);
+		for (int laneRoad=1; laneRoad<this.getLanesIN().length+1; ++laneRoad) {
 			i1 = (((i-laneRoad) % length) + length) % length;
 			for (int laneRA=1; laneRA<MLRA.getLanes().length; ++laneRA) {
 				i2 = (int) Math.floor(((double) i1)*(((double) MLRA.getLanes()[laneRA].getRoadCells().size())/((double) MLRA.getLanes()[laneRA-1].getRoadCells().size())) );

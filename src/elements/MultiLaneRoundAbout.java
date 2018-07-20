@@ -21,12 +21,27 @@ public class MultiLaneRoundAbout {
 		
 	}
 	
-	public void connectTo(MultiLaneRoad MLR, int i) {
-		int i1 = 0;
-		int length = this.getLanes()[0].getLength();
-		for (int j=1; j<MLR.getLanesOUT().length+1; ++j) {
-			i1 = (((i1-j) % length) +length ) % length;
-			this.connectTo(MLR.getLanesOUT()[j-1], i1);
+	public void connectToIn(MultiLaneRoad MLR, int i) {
+		MLR.connectToIn(this, i);
+	}
+	
+	public void connectToOut(MultiLaneRoad MLR, int i) {
+		MLR.connectToOut(this, i);
+	}
+	
+	public void setPositionInFrom(MultiLaneRoad MLR) {
+		this.getLanes()[0].setPositionFrom(MLR.getLanesIN()[0]);
+		for (int i=1; i<this.getLanes().length; ++i) {
+			this.getLanes()[i].setX(this.getLanes()[0].getX());
+			this.getLanes()[i].setY(this.getLanes()[0].getY());
+		}
+	}
+	
+	public void setPositionOUTFrom(MultiLaneRoad MLR) {
+		this.getLanes()[0].setPositionFrom(MLR.getLanesOUT()[0]);
+		for (int i=1; i<this.getLanes().length; ++i) {
+			this.getLanes()[i].setX(this.getLanes()[0].getX());
+			this.getLanes()[i].setY(this.getLanes()[0].getY());
 		}
 	}
 	
