@@ -258,7 +258,7 @@ public class Simulation implements Runnable {
 		if (keyManager.s) {
 			network.setRotation(0);
 		}
-		System.out.println("x:" + network.getxOffset() + ", y:" + network.getyOffset() + ", a:" + network.getRotation());
+		//System.out.println("x:" + network.getxOffset() + ", y:" + network.getyOffset() + ", a:" + network.getRotation());
 	}
 	private void render() {
 		bs = display.getCanvas().getBufferStrategy();

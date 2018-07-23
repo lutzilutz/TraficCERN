@@ -1,5 +1,6 @@
 package network;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
@@ -27,13 +28,13 @@ public class Network {
 	private double rotation=0;
 	
 	public Network(Simulation sim) {
-		this.setCellHeight(4);
-		this.setCellWidth(4);
+		this.setCellHeight(8);
+		this.setCellWidth(8);
 		
 		this.sim = sim;
 		
-		//createRealNetwork();
-		createTestNetwork2();
+		createRealNetwork();
+		//createTestNetwork2();
 	}
 	
 	public void createTestNetwork2() {
@@ -168,65 +169,96 @@ public class Network {
 		this.roads.add(R);
 		//CR.setTimeTrafficLight(20);
 	}
+	
 	public void createRealNetwork() {
-		Road r1 = new Road(this, 15);
-		r1.setX(100);
-		r1.setY(200);
-		r1.setDirection(113);
-		roads.add(r1);
 		
-		RoundAbout ra1 = new RoundAbout(this, 48);
-		ra1.setPositionFrom(r1);
-		ra1.setDirection(180+r1.getDirection());
-		roundAbouts.add(ra1);
+		// Porte de France
+		RoundAbout raPorteDeFrance = new RoundAbout(this, 48);
+		raPorteDeFrance.setX(200);
+		raPorteDeFrance.setY(200);
+		raPorteDeFrance.setDirection(0);
+		roundAbouts.add(raPorteDeFrance);
 		
-		Road r1Out = new Road(this, 15);
-		r1Out.setStartPositionFrom(ra1, ra1.getLength()-1);
-		r1Out.setDirection(r1.getDirection()+180);
-		roads.add(r1Out);
+		// Rue de Genève ------------------------------------------------------------------------------------
+		// N-W (out)
+		Road rRueDeGeneveNW = new Road(this, 15);
+		rRueDeGeneveNW.setStartPositionFrom(raPorteDeFrance, 7);
+		rRueDeGeneveNW.setDirection(291);
+		roads.add(rRueDeGeneveNW);
+		raPorteDeFrance.connectTo(rRueDeGeneveNW, 7);
 		
-		// N-E road
-		Road r2Out = new Road(this, 15);
-		r2Out.setStartPositionFrom(ra1, ra1.getLength()-14);
-		roads.add(r2Out);
-		Road r2In = new Road(this, 15);
-		r2In.setEndPositionFrom(ra1, ra1.getLength()-13);
-		roads.add(r2In);
-		r2Out.setDirection((r2In.getDirection()+180)%360);
+		// S-E (in)
+		Road rRueDeGeneveSE = new Road(this, 15);
+		rRueDeGeneveSE.setEndPositionFrom(raPorteDeFrance,11,111);
+		roads.add(rRueDeGeneveSE);
+		rRueDeGeneveSE.connectTo(raPorteDeFrance, 11);
 		
-		// S-E road
-		Road r3Out = new Road(this, 15);
-		r3Out.setStartPositionFrom(ra1, 24);
-		roads.add(r3Out);
-		Road r3In = new Road(this, 15);
-		r3In.setEndPositionFrom(ra1, 25);
-		roads.add(r3In);
-		r3Out.setDirection((r3In.getDirection()+180)%360);
-
-		// S-W road
-		Road r4Out = new Road(this, 15);
-		r4Out.setStartPositionFrom(ra1, 10);
-		roads.add(r4Out);
-		Road r4In = new Road(this, 15);
-		r4In.setEndPositionFrom(ra1, 11);
-		roads.add(r4In);
-		r4Out.setDirection((r4In.getDirection()+180)%360);
-
+		// Rue Germaine Tillion -----------------------------------------------------------------------------
+		// N-E (out)
+		Road rRueGermaineTillionNE = new Road(this, 15);
+		rRueGermaineTillionNE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-8);
+		rRueGermaineTillionNE.setDirection(38);
+		roads.add(rRueGermaineTillionNE);
+		raPorteDeFrance.connectTo(rRueGermaineTillionNE, raPorteDeFrance.getLength()-8);
 		
-		r1.connectTo(ra1, 0);
-		r2In.connectTo(ra1, ra1.getLength()-13);
-		r3In.connectTo(ra1, 25);
-		r4In.connectTo(ra1, 11);
+		// S-W (in)
+		Road rRueGermaineTillionSW = new Road(this, 15);
+		rRueGermaineTillionSW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-2,218);
+		roads.add(rRueGermaineTillionSW);
+		rRueGermaineTillionSW.connectTo(raPorteDeFrance, raPorteDeFrance.getLength()-2);
 		
-		ra1.connectTo(r4Out, 10);
-		ra1.connectTo(r3Out, 24);
-		ra1.connectTo(r2Out, ra1.getLength()-14);
-		ra1.connectTo(r1Out, ra1.getLength()-1);
+		// D984F --------------------------------------------------------------------------------------------
+		// S-E (out)
+		Road rD984FSE = new Road(this, 205);
+		rD984FSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-17);
+		rD984FSE.setDirection(113);
+		roads.add(rD984FSE);
+		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLength()-17);
 		
-		r1.setGenerateVehicules(true);
-		r2In.setGenerateVehicules(true);
-		r3In.setGenerateVehicules(true);
-		r4In.setGenerateVehicules(true);
+		// N-W (in)
+		Road rD984FNW = new Road(this, 205);
+		rD984FNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-13,293);
+		roads.add(rD984FNW);
+		rD984FNW.connectTo(raPorteDeFrance, raPorteDeFrance.getLength()-13);
+		
+		// D884 --------------------------------------------------------------------------------------------
+		// S-W (out)
+		Road rD884SW = new Road(this, 15);
+		rD884SW.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-32);
+		rD884SW.setDirection(218);
+		roads.add(rD884SW);
+		raPorteDeFrance.connectTo(rD884SW, raPorteDeFrance.getLength()-32);
+		
+		// N-E (in)
+		Road rD884NE = new Road(this, 15);
+		rD884NE.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-26,38);
+		roads.add(rD884NE);
+		rD884NE.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-26);
+		
+		// SortieCERN ---------------------------------------------------------------------------------------
+		// S-E (out)
+		Road rSortieCERNSE = new Road(this, 15);
+		rSortieCERNSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-23);
+		rSortieCERNSE.setDirection(160);
+		roads.add(rSortieCERNSE);
+		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLength()-23);
+		Point tmp = new Point(5,180);
+		
+		//Road rSortieCERNSE2 = new Road(this, 6);
+		//rSortieCERNSE2.setStartPositionFrom(rSortieCERNSE, rSortieCERNSE.getLength()-1, 170);
+		//roads.add(rSortieCERNSE2);
+		//rSortieCERNSE.connectTo(rSortieCERNSE2, 1);
+		
+		// N-W (in)
+		Road rSortieCERNNW = new Road(this, 6);
+		rSortieCERNNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-20,355);
+		roads.add(rSortieCERNNW);
+		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-20);
+		
+		rRueDeGeneveSE.setGenerateVehicules(true);
+		rRueGermaineTillionSW.setGenerateVehicules(true);
+		rD984FNW.setGenerateVehicules(true);
+		rD884NE.setGenerateVehicules(true);
 	}
 	public double getRotation() {
 		return rotation;

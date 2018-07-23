@@ -1,7 +1,9 @@
 package elements;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EnumSet;
+
 import network.Network;
 
 public class Road {
@@ -16,6 +18,7 @@ public class Road {
 	private boolean generateVehicules = false; // if generate Vehicles
 	private boolean isTrafficLightRed = false;
 	private EnumSet<Direction> directions;
+	private ArrayList<Point> reorientations = new ArrayList<Point>();
 	
 	// Display
 	private double x,y; // position in pixels from left upper corner
@@ -38,12 +41,28 @@ public class Road {
 			roadCells.add(tmp);
 		}
 	}
+	public void addPoint(Point point) {
+		reorientations.add(point);
+	}
 	// Set position and direction from a RoundAbout cell (out road)
 	public void setStartPositionFrom(RoundAbout ra, int i) {
 		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360);
 		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
 		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
 	}
+	// Set position and direction from a Road cell (out road)
+	public void setStartPositionFrom(Road r, int i, int direction) {
+		this.direction = direction;
+		this.setX((int) (r.getX() + (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
+		this.setY((int) (r.getY() - (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
+	}
+	// Set position and direction from a RoundAbout cell (in road)
+	public void setEndPositionFrom(RoundAbout ra, int i, int direction) {
+		this.direction = direction;
+		this.setX((int) (ra.getX() + (this.getLength()+0.5)*n.getCellWidth()*Math.sin(Math.PI + 2*Math.PI*direction/360.0) - (ra.getLength()*n.getCellWidth()/(2*Math.PI))*Math.sin(2*Math.PI*(i/(float)ra.getLength()))));
+		this.setY((int) (ra.getY() - (this.getLength()+0.5)*n.getCellWidth()*Math.cos(Math.PI + 2*Math.PI*direction/360.0)- (ra.getLength()*n.getCellWidth()/(2*Math.PI))*Math.cos(2*Math.PI*(i/(float)ra.getLength()))));
+	}
+	// DEPRECATED ###
 	// Set position and direction from a RoundAbout cell (in road)
 	public void setEndPositionFrom(RoundAbout ra, int i) {
 		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360 + 180);
@@ -75,10 +94,13 @@ public class Road {
 	}
 	
 	// Connect "pointer" of last Cell to Cell i of RoundAbout
+	public void connectTo(Road r, int i) {
+		this.getRoadCells().get(this.getLength()-1).setNextCell(r.getRoadCells().get(i));
+		r.getRoadCells().get(i).setPreviousCell(this.getRoadCells().get(this.getLength()-1));
+	}
 	public void connectTo(RoundAbout ra, int i) {
 		this.getRoadCells().get(this.getLength()-1).setNextCell(ra.getRoadCells().get(i));
 	}
-	
 	public void connectTo(CrossRoad CR, int i) {
 		i = i % 4;
 		this.getRoadCells().get(this.getLength()-1).setNextCell(CR.getMiddleCells()[i]);
