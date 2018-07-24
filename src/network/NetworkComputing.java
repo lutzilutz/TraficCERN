@@ -1,5 +1,7 @@
 package network;
 
+import java.awt.Rectangle;
+
 import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
@@ -61,6 +63,7 @@ public class NetworkComputing {
 			NetworkRendering.bounds.x = (int) x-margin;
 		} else if (x>NetworkRendering.bounds.width+NetworkRendering.bounds.x - margin) {
 			NetworkRendering.bounds.width = (int) x-NetworkRendering.bounds.x + 1*margin;
+			//System.out.println("Trop laaaaarge !!!");
 		}
 		
 		if (y<NetworkRendering.bounds.y) {

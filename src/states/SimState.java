@@ -41,6 +41,7 @@ public class SimState extends State {
 	private BufferedImage hud;
 	private BufferedImage background;
 	private int currentBackgroundID = 0;
+	private int currentNetwork = 0;
 	
 	
 	public SimState(Simulation simulation) {
@@ -48,8 +49,9 @@ public class SimState extends State {
 		this.uiManager = new UIManager(simulation);
 		//this.handler.getMouseManager().setUIManager(this.uiManager);
 		this.keyManager = new KeyManager();
-		network = new Network(simulation);
-		NetworkComputing.computeCellsPosition(network);
+		network = new Network(simulation, currentNetwork);
+		
+		//NetworkComputing.computeCellsPosition(network);
 		
 		// Buttons ==============================================================================================
 		
@@ -178,6 +180,8 @@ public class SimState extends State {
 		renderBG(network, networkDisplays);
 		// ------------------------------------------------------------------------
 		
+		NetworkComputing.computeCellsPosition(network);
+		
 		lastTick = System.nanoTime();
 		
 	}
@@ -187,6 +191,7 @@ public class SimState extends State {
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		g.dispose();
 		NetworkRendering.renderButtonsHeader(network, hud);
+		NetworkComputing.computeCellsPosition(network);
 		networkDisplays = NetworkRendering.renderAllBGs(network, backgrounds);
 		currentBackgroundID = 0;
 		if (network.getDrawRoadID()) {
@@ -252,6 +257,12 @@ public class SimState extends State {
 		if (simulation.getKeyManager().s) {
 			network.setRotation(0);
 		}
+		
+		if (simulation.getKeyManager().escape) {
+			disableUIManager();
+			simulation.getMenuState().enableUIManager();
+			State.setState(simulation.getMenuState());
+		}
 		//System.out.println("x:" + network.getxOffset() + ", y:" + network.getyOffset() + ", a:" + network.getRotation());
 	}
 	public void tick() {
@@ -281,7 +292,7 @@ public class SimState extends State {
 	}
 	public void restartNetwork() {
 		step = 0;
-		network = new Network(simulation);
+		network = new Network(simulation, currentNetwork);
 		NetworkComputing.computeCellsPosition(network);
 	}
 	
@@ -310,6 +321,17 @@ public class SimState extends State {
 		String dayStr = daysOfWeek[(time/(60*60*24)) % 7];
 		
 		return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
+	}
+	public void setCurrentNetwork(int currentNetwork) {
+		network = null;
+		this.currentNetwork = currentNetwork;
+		network = new Network(simulation, currentNetwork);
+		init();
+		restartNetwork();
+		System.out.println(currentNetwork);
+	}
+	public void setNetwork(Network network) {
+		this.network = network;
 	}
 	public UIManager getUIManager() {
 		return this.uiManager;

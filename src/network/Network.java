@@ -27,16 +27,27 @@ public class Network {
 	private double xDefaultOffset, yDefaultOffset;
 	private double rotation=0;
 	
-	public Network(Simulation sim) {
+	public Network(Simulation sim, int n) {
 		this.setCellHeight(8);
 		this.setCellWidth(8);
 		
 		this.sim = sim;
 		
-		createRealNetwork();
-		//createTestNetwork1();
-		//createTestNetwork2();
-		//createTestNetwork3();
+		xOffset = 0;
+		yOffset = 0;
+		xDefaultOffset = 0;
+		yDefaultOffset = 0;
+		
+		switch (n) {
+		case 1:
+			createTestNetwork1();
+		case 2:
+			createTestNetwork2();
+		case 3:
+			createTestNetwork3();
+		case 4:
+			createRealNetwork();
+		}
 	}
 	public void createTestNetwork3() {
 		Road test = new Road(this, 50);
@@ -291,10 +302,6 @@ public class Network {
 		rSortieCERNNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-20,330);
 		roads.add(rSortieCERNNW);
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-20);
-		
-		for (Point p: rSortieCERNNW.getReorientations()) {
-			System.out.println(p.getX() + " ; " + p.getY());
-		}
 		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);

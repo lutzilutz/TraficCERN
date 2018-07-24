@@ -8,8 +8,6 @@ import graphics.Assets;
 import graphics.Display;
 import input.KeyManager;
 import input.MouseManager;
-import network.Network;
-import network.NetworkComputing;
 import states.MenuState;
 import states.SimState;
 import states.State;
@@ -22,7 +20,7 @@ public class Simulation implements Runnable {
 	private String versionID;
 	private int width, height;
 	
-	private Network network;
+	//private Network network;
 	
 	// Thread
 	private boolean running = false;
@@ -55,8 +53,8 @@ public class Simulation implements Runnable {
 		
 		Assets.init();
 		
-		network = new Network(this);
-		NetworkComputing.computeCellsPosition(network);
+		//network = new Network(this);
+		//NetworkComputing.computeCellsPosition(network);
 		
 		display = new Display(title,width,height);
 		
@@ -67,7 +65,7 @@ public class Simulation implements Runnable {
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		
 		simState = new SimState(this);
-		simState.init();
+		//simState.init();
 		
 		menuState = new MenuState(this);
 		mouseManager.setUIManager(menuState.getUIManager());
@@ -167,8 +165,14 @@ public class Simulation implements Runnable {
 		}
 	}
 	// Getters and setters ============================================
+	public void setSimState(SimState simState) {
+		this.simState = simState;
+	}
 	public SimState getSimState() {
 		return this.simState;
+	}
+	public MenuState getMenuState() {
+		return this.menuState;
 	}
 	public MouseManager getMouseManager() {
 		return mouseManager;

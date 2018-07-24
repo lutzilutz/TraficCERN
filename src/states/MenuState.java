@@ -1,10 +1,9 @@
 package states;
-import java.awt.Color;
 import java.awt.Graphics;
 
 import graphics.Assets;
-import graphics.Text;
 import main.Simulation;
+import network.Network;
 import ui.ClickListener;
 import ui.UIManager;
 import ui.UITextButton;
@@ -20,12 +19,25 @@ public class MenuState extends State {
 		
 		// Play button ==============================================================================================
 		
-		this.uiManager.addObject(new UITextButton(100, 100, 50, 20, "Play", new ClickListener(){
+		this.uiManager.addObject(new UITextButton(100, 100, 50, 20, "Test 1", new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.getSimState().enableUIManager();
+				simulation.getSimState().setNetwork(new Network(simulation, 3));
+				simulation.getSimState().init();
+				State.setState(simulation.getSimState());
+			}
+		}));
+		this.uiManager.addObject(new UITextButton(100, 150, 50, 20, "Test 2", new ClickListener(){
+			@Override
+			public void onClick() {
+				// prevents user to continue clicking after state change
+				disableUIManager();
+				simulation.getSimState().enableUIManager();
+				simulation.getSimState().setNetwork(new Network(simulation, 4));
+				simulation.getSimState().init();
 				State.setState(simulation.getSimState());
 			}
 		}));
