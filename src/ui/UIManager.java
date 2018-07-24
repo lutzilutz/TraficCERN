@@ -4,11 +4,16 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import main.Simulation;
+
 public class UIManager {
 
+	private Simulation simulation;
+	
 	private ArrayList<UIObject> objects;
 	
-	public UIManager() {
+	public UIManager(Simulation simulation) {
+		this.simulation = simulation;
 		this.objects = new ArrayList<UIObject>();
 	}
 	
