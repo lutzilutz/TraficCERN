@@ -19,12 +19,30 @@ public class NetworkComputing {
 			}
 		}
 		for (Road r: n.getRoads()) {
+			int tmp = 0;
+			double x = r.getX() - n.getCellWidth()/2.0 + (n.getCellWidth()/2.0)*Math.sin(2*Math.PI*r.getDirection()/360.0) ;
+			double y = r.getY() - n.getCellWidth()/2.0 - (n.getCellWidth()/2.0)*Math.cos(2*Math.PI*r.getDirection()/360.0);;
 			for (int i=0 ; i<r.getLength() ; i++) {
-				double x = r.getX()-n.getCellWidth()/2+(i*n.getCellWidth() + n.getCellWidth()/2)*Math.sin(2*Math.PI*r.getDirection()/360);
+				
+				//x = r.getX() - n.getCellWidth()/2 + (i*n.getCellWidth() + n.getCellWidth()/2)*Math.sin(2*Math.PI*r.getDirection()/360.0);
 				r.getRoadCells().get(i).setX(x);
-				double y = r.getY()-n.getCellHeight()/2-(i*n.getCellWidth() + n.getCellWidth()/2)*Math.cos(2*Math.PI*r.getDirection()/360);
 				r.getRoadCells().get(i).setY(y);
 				correctBounds(x, y);
+				
+				if (r.getReorientations().size()-1>tmp) {
+					if (tmp == 0) {
+						if (r.getReorientations().get(tmp+1).getX() == i) {
+							tmp++;
+						}
+					} else {
+						if (r.getReorientations().get(tmp+1).getX() == i) {
+							tmp++;
+						}
+					}
+				}
+				
+				x += n.getCellWidth()*Math.sin(2*Math.PI*r.getReorientations().get(tmp).getY()/360.0);
+				y += -(n.getCellWidth())*Math.cos(2*Math.PI*r.getReorientations().get(tmp).getY()/360.0);
 			}
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {

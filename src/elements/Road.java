@@ -41,6 +41,9 @@ public class Road {
 			roadCells.add(tmp);
 		}
 	}
+	public ArrayList<Point> getReorientations() {
+		return this.reorientations;
+	}
 	public void addPoint(Point point) {
 		reorientations.add(point);
 	}
@@ -154,6 +157,7 @@ public class Road {
 	}
 	public void setDirection(int direction) {
 		this.direction = direction;
+		this.reorientations.add(new Point(0,direction));
 	}
 	public int getLength() {
 		return length;

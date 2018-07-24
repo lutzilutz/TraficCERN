@@ -28,15 +28,38 @@ public class Network {
 	private double rotation=0;
 	
 	public Network(Simulation sim) {
-		this.setCellHeight(8);
-		this.setCellWidth(8);
+		this.setCellHeight(24);
+		this.setCellWidth(24);
 		
 		this.sim = sim;
 		
-		createRealNetwork();
+		//createRealNetwork();
+		//createTestNetwork1();
 		//createTestNetwork2();
+		createTestNetwork3();
 	}
-	
+	public void createTestNetwork3() {
+		Road test = new Road(this, 32);
+		test.setDirection(110);
+		test.addPoint(new Point(18,90));
+		test.addPoint(new Point(23,70));
+		test.addPoint(new Point(27,60));
+		//test.addPoint(new Point(30,270));
+		//test.addPoint(new Point(35,300));
+		//test.addPoint(new Point(45,90));
+		test.setX(200);
+		test.setY(200);
+		roads.add(test);
+		test.setGenerateVehicules(true);
+		
+		Road test2 = new Road(this, 10);
+		test2.setDirection(270);
+		test2.setX(400);
+		test2.setY(400);
+		roads.add(test2);
+		test2.setGenerateVehicules(true);
+		
+	}
 	public void createTestNetwork2() {
 		MultiLaneRoundAbout porteDeFrance = new MultiLaneRoundAbout(this, 2, 50);
 		porteDeFrance.setX(400);
@@ -85,7 +108,7 @@ public class Network {
 		}
 	}
 	
-	public void createTestNetwork() {
+	public void createTestNetwork1() {
 		CrossRoad CR = new CrossRoad(this);
 		CR.setX(300);
 		CR.setY(300);
@@ -237,17 +260,11 @@ public class Network {
 		
 		// SortieCERN ---------------------------------------------------------------------------------------
 		// S-E (out)
-		Road rSortieCERNSE = new Road(this, 15);
+		Road rSortieCERNSE = new Road(this, 6);
 		rSortieCERNSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-23);
 		rSortieCERNSE.setDirection(160);
 		roads.add(rSortieCERNSE);
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLength()-23);
-		Point tmp = new Point(5,180);
-		
-		//Road rSortieCERNSE2 = new Road(this, 6);
-		//rSortieCERNSE2.setStartPositionFrom(rSortieCERNSE, rSortieCERNSE.getLength()-1, 170);
-		//roads.add(rSortieCERNSE2);
-		//rSortieCERNSE.connectTo(rSortieCERNSE2, 1);
 		
 		// N-W (in)
 		Road rSortieCERNNW = new Road(this, 6);
@@ -259,6 +276,7 @@ public class Network {
 		rRueGermaineTillionSW.setGenerateVehicules(true);
 		rD984FNW.setGenerateVehicules(true);
 		rD884NE.setGenerateVehicules(true);
+		rSortieCERNNW.setGenerateVehicules(true);
 	}
 	public double getRotation() {
 		return rotation;
