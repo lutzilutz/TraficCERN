@@ -28,8 +28,8 @@ public class Network {
 	private double rotation=0;
 	
 	public Network(Simulation sim) {
-		this.setCellHeight(12);
-		this.setCellWidth(12);
+		this.setCellHeight(8);
+		this.setCellWidth(8);
 		
 		this.sim = sim;
 		
@@ -197,8 +197,8 @@ public class Network {
 		
 		// Porte de France
 		RoundAbout raPorteDeFrance = new RoundAbout(this, 48);
-		raPorteDeFrance.setX(200);
-		raPorteDeFrance.setY(200);
+		raPorteDeFrance.setX(250);
+		raPorteDeFrance.setY(300);
 		raPorteDeFrance.setDirection(0);
 		roundAbouts.add(raPorteDeFrance);
 		
@@ -206,27 +206,33 @@ public class Network {
 		// N-W (out)
 		Road rRueDeGeneveNW = new Road(this, 15);
 		rRueDeGeneveNW.setStartPositionFrom(raPorteDeFrance, 7);
-		rRueDeGeneveNW.setDirection(291);
+		rRueDeGeneveNW.setDirection(271);
+		rRueDeGeneveNW.addPoint(new Point(4,291));
 		roads.add(rRueDeGeneveNW);
 		raPorteDeFrance.connectTo(rRueDeGeneveNW, 7);
 		
 		// S-E (in)
 		Road rRueDeGeneveSE = new Road(this, 15);
+		rRueDeGeneveSE.setDirection(111);
+		rRueDeGeneveSE.addPoint(new Point(11, 131));
 		rRueDeGeneveSE.setEndPositionFrom(raPorteDeFrance,11,111);
 		roads.add(rRueDeGeneveSE);
 		rRueDeGeneveSE.connectTo(raPorteDeFrance, 11);
 		
 		// Rue Germaine Tillion -----------------------------------------------------------------------------
 		// N-E (out)
-		Road rRueGermaineTillionNE = new Road(this, 15);
+		Road rRueGermaineTillionNE = new Road(this, 25);
 		rRueGermaineTillionNE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-8);
-		rRueGermaineTillionNE.setDirection(38);
+		rRueGermaineTillionNE.setDirection(24);
+		rRueGermaineTillionNE.addPoint(new Point(10, 38));
 		roads.add(rRueGermaineTillionNE);
 		raPorteDeFrance.connectTo(rRueGermaineTillionNE, raPorteDeFrance.getLength()-8);
 		
 		// S-W (in)
-		Road rRueGermaineTillionSW = new Road(this, 15);
-		rRueGermaineTillionSW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-2,218);
+		Road rRueGermaineTillionSW = new Road(this, 25);
+		rRueGermaineTillionSW.setDirection(218);
+		rRueGermaineTillionSW.addPoint(new Point(15,232));
+		rRueGermaineTillionSW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-2,230);
 		roads.add(rRueGermaineTillionSW);
 		rRueGermaineTillionSW.connectTo(raPorteDeFrance, raPorteDeFrance.getLength()-2);
 		
@@ -254,12 +260,15 @@ public class Network {
 		// S-W (out)
 		Road rD884SW = new Road(this, 15);
 		rD884SW.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-32);
-		rD884SW.setDirection(218);
+		rD884SW.setDirection(198);
+		rD884SW.addPoint(new Point(2, 218));
 		roads.add(rD884SW);
 		raPorteDeFrance.connectTo(rD884SW, raPorteDeFrance.getLength()-32);
 		
 		// N-E (in)
 		Road rD884NE = new Road(this, 15);
+		rD884NE.setDirection(38);
+		rD884NE.addPoint(new Point(13,58));
 		rD884NE.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-26,38);
 		roads.add(rD884NE);
 		rD884NE.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-26);
