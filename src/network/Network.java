@@ -39,23 +39,23 @@ public class Network {
 		createTestNetwork3();
 	}
 	public void createTestNetwork3() {
-		Road test = new Road(this, 32);
+		Road test = new Road(this, 50);
 		test.setDirection(110);
 		test.addPoint(new Point(18,90));
 		test.addPoint(new Point(23,70));
 		test.addPoint(new Point(27,60));
-		//test.addPoint(new Point(30,270));
-		//test.addPoint(new Point(35,300));
-		//test.addPoint(new Point(45,90));
+		test.addPoint(new Point(30,270));
+		test.addPoint(new Point(35,300));
+		test.addPoint(new Point(45,270));
 		test.setX(200);
-		test.setY(200);
+		test.setY(400);
 		roads.add(test);
 		test.setGenerateVehicules(true);
 		
 		Road test2 = new Road(this, 10);
 		test2.setDirection(270);
 		test2.setX(400);
-		test2.setY(400);
+		test2.setY(500);
 		roads.add(test2);
 		test2.setGenerateVehicules(true);
 		
