@@ -49,21 +49,42 @@ public class Road {
 	}
 	// Set position and direction from a RoundAbout cell (out road)
 	public void setStartPositionFrom(RoundAbout ra, int i) {
-		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360);
+		setDirection((int) (ra.getDirection() - i/(float)(ra.getLength()) * 360));
 		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
 		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
 	}
 	// Set position and direction from a Road cell (out road)
 	public void setStartPositionFrom(Road r, int i, int direction) {
-		this.direction = direction;
+		setDirection(direction);
 		this.setX((int) (r.getX() + (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
 		this.setY((int) (r.getY() - (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
 	}
 	// Set position and direction from a RoundAbout cell (in road)
 	public void setEndPositionFrom(RoundAbout ra, int i, int direction) {
-		this.direction = direction;
-		this.setX((int) (ra.getX() + (this.getLength()+0.5)*n.getCellWidth()*Math.sin(Math.PI + 2*Math.PI*direction/360.0) - (ra.getLength()*n.getCellWidth()/(2*Math.PI))*Math.sin(2*Math.PI*(i/(float)ra.getLength()))));
-		this.setY((int) (ra.getY() - (this.getLength()+0.5)*n.getCellWidth()*Math.cos(Math.PI + 2*Math.PI*direction/360.0)- (ra.getLength()*n.getCellWidth()/(2*Math.PI))*Math.cos(2*Math.PI*(i/(float)ra.getLength()))));
+		if (this.getReorientations().size()==0) {
+			setDirection(direction);
+		} else {
+			
+		}
+		double x = (int) (ra.getX() - (ra.getLength()*n.getCellWidth()/(2*Math.PI))*Math.sin(2*Math.PI*(i/(float)ra.getLength())));
+		double y = (int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI))*Math.cos(2*Math.PI*(i/(float)ra.getLength())));
+		double last = 0;
+		for (int j=0 ; j<this.getReorientations().size() ; j++) {
+			// Last segment
+			if (j == this.getReorientations().size()-1) {
+				x += n.getCellWidth() * (this.getLength()+0.5-this.getReorientations().get(j).getX()) * Math.sin(2*Math.PI*this.getReorientations().get(j).getY()/360.0 + Math.PI);
+				y += - n.getCellWidth() * (this.getLength()+0.5-this.getReorientations().get(j).getX()) * Math.cos(2*Math.PI*this.getReorientations().get(j).getY()/360.0 + Math.PI);
+				System.out.println("Last segment !");
+			}
+			// All others
+			else {
+				x += n.getCellWidth() * (this.getReorientations().get(j+1).getX()-last) * Math.sin(2*Math.PI*this.getReorientations().get(j).getY()/360.0 + Math.PI);
+				y += - n.getCellWidth() * (this.getReorientations().get(j+1).getX()-last) * Math.cos(2*Math.PI*this.getReorientations().get(j).getY()/360.0 + Math.PI);
+				last = this.getReorientations().get(j+1).getX();
+			}
+		}
+		this.setX(x);
+		this.setY(y);
 	}
 	// DEPRECATED ###
 	// Set position and direction from a RoundAbout cell (in road)

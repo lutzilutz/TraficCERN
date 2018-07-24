@@ -28,15 +28,15 @@ public class Network {
 	private double rotation=0;
 	
 	public Network(Simulation sim) {
-		this.setCellHeight(24);
-		this.setCellWidth(24);
+		this.setCellHeight(12);
+		this.setCellWidth(12);
 		
 		this.sim = sim;
 		
-		//createRealNetwork();
+		createRealNetwork();
 		//createTestNetwork1();
 		//createTestNetwork2();
-		createTestNetwork3();
+		//createTestNetwork3();
 	}
 	public void createTestNetwork3() {
 		Road test = new Road(this, 50);
@@ -234,13 +234,19 @@ public class Network {
 		// S-E (out)
 		Road rD984FSE = new Road(this, 205);
 		rD984FSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-17);
-		rD984FSE.setDirection(113);
+		//rD984FSE.setDirection(113);
+		rD984FSE.setDirection(93);
+		rD984FSE.addPoint(new Point(4,113));
+		
 		roads.add(rD984FSE);
 		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLength()-17);
 		
 		// N-W (in)
 		Road rD984FNW = new Road(this, 205);
+		rD984FNW.setDirection(293);
+		rD984FNW.addPoint(new Point(201,313));
 		rD984FNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-13,293);
+		
 		roads.add(rD984FNW);
 		rD984FNW.connectTo(raPorteDeFrance, raPorteDeFrance.getLength()-13);
 		
@@ -260,17 +266,26 @@ public class Network {
 		
 		// SortieCERN ---------------------------------------------------------------------------------------
 		// S-E (out)
-		Road rSortieCERNSE = new Road(this, 6);
+		Road rSortieCERNSE = new Road(this, 15);
 		rSortieCERNSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-23);
-		rSortieCERNSE.setDirection(160);
+		rSortieCERNSE.setDirection(150);
+		rSortieCERNSE.addPoint(new Point(3,170));
+		rSortieCERNSE.addPoint(new Point(10,150));
 		roads.add(rSortieCERNSE);
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLength()-23);
 		
 		// N-W (in)
-		Road rSortieCERNNW = new Road(this, 6);
-		rSortieCERNNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-20,355);
+		Road rSortieCERNNW = new Road(this, 15);
+		rSortieCERNNW.setDirection(330);
+		rSortieCERNNW.addPoint(new Point(5,350));
+		rSortieCERNNW.addPoint(new Point(12,5));
+		rSortieCERNNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-20,330);
 		roads.add(rSortieCERNNW);
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-20);
+		
+		for (Point p: rSortieCERNNW.getReorientations()) {
+			System.out.println(p.getX() + " ; " + p.getY());
+		}
 		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
