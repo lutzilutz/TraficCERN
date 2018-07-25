@@ -61,7 +61,6 @@ public class NetworkComputing {
 			NetworkRendering.bounds.x = (int) x-margin;
 		} else if (x>NetworkRendering.bounds.width+NetworkRendering.bounds.x - margin) {
 			NetworkRendering.bounds.width = (int) x-NetworkRendering.bounds.x + 1*margin;
-			//System.out.println("Trop laaaaarge !!!");
 		}
 		
 		if (y<NetworkRendering.bounds.y) {
@@ -149,6 +148,12 @@ public class NetworkComputing {
 		}
 		for (Road r: n.getRoads()) {
 			for (int i=0; i < r.getLength(); ++i) {
+				
+				if (r.getRoadCells().get(i).isOccupied()) {
+					//System.out.print("1");
+				} else {
+					//System.out.print("0");
+				}
 				if (i < r.getLength()-1) {
 					if (r.getRoadCells().get(i).isOccupied()) {
 						if (r.getRoadCells().get(i).getNextCell().isOccupied()) {
@@ -190,6 +195,7 @@ public class NetworkComputing {
 					r.getRoadCells().get(0).setIsOccupiedNext(1);
 				}
 			}
+			//System.out.print("\n");
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
 			for (int i=0; i < r.getLength(); ++i) {

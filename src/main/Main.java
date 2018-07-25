@@ -20,7 +20,7 @@ public class Main {
 				
 				//Utils.log(dateFormat.format(date) + "\n");
 				
-				Utils.log("Closed ===============================================================\n");
+				Utils.log("Closed ===============================================================\n\n");
 			}
 		}, "Shutdown-thread"));
 	}

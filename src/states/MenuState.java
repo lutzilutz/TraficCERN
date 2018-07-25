@@ -19,30 +19,32 @@ public class MenuState extends State {
 		
 		// Play button ==============================================================================================
 		
-		this.uiManager.addObject(new UITextButton(100, 100, 50, 20, "Test 1", new ClickListener(){
+		this.uiManager.addObject(new UITextButton(100, 200, 50, 20, "Test 3", new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
+				simulation.setSimState(new SimState(simulation));
 				simulation.getSimState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 3));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimState());
 			}
 		}));
-		this.uiManager.addObject(new UITextButton(100, 150, 50, 20, "Test 2", new ClickListener(){
+		this.uiManager.addObject(new UITextButton(100, 250, 50, 20, "Réel", new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.getSimState().enableUIManager();
+				simulation.getSimState().setCurrentNetwork(4);
 				simulation.getSimState().setNetwork(new Network(simulation, 4));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimState());
 			}
 		}));
 		
-		this.uiManager.addObject(new UITextButton(100, 200, 50, 20, "Exit", new ClickListener(){
+		this.uiManager.addObject(new UITextButton(100, 300, 50, 20, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
 				System.exit(0);

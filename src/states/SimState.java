@@ -218,6 +218,7 @@ public class SimState extends State {
 				}
 			} else {
 				for (int i=0 ; i<n ; i++) {
+					//System.out.println("New step !");
 					step++;
 					NetworkComputing.computeEvolution(network);
 					NetworkComputing.evolve(network);
@@ -282,15 +283,9 @@ public class SimState extends State {
 		gg.dispose();
 		uiManager.render(g);
 		
-		
-		/*g.setColor(Assets.worldCol);
-		g.fillRect(0, 0, this.handler.getGame().getWidth(), this.handler.getGame().getHeight());
-		this.uiManager.render(g);
-		Text.drawString(g, "Dona the Sworm", Assets.vert1Col, handler.getWidth()/2, handler.getGame().getTitleY(), true, Assets.fontLarge);
-		Text.drawString(g, handler.getGame().getVersionID(), Color.gray, 10, handler.getHeight()-10, false, Assets.fontNormal);
-		Text.drawString(g, "by LutziLutz", Color.gray, handler.getWidth() - 120, handler.getHeight()-10, false, Assets.fontNormal);*/
 	}
 	public void restartNetwork() {
+		network = null;
 		step = 0;
 		network = new Network(simulation, currentNetwork);
 		NetworkComputing.computeCellsPosition(network);
@@ -328,7 +323,6 @@ public class SimState extends State {
 		network = new Network(simulation, currentNetwork);
 		init();
 		restartNetwork();
-		System.out.println(currentNetwork);
 	}
 	public void setNetwork(Network network) {
 		this.network = network;

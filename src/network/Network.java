@@ -37,16 +37,14 @@ public class Network {
 		yOffset = 0;
 		xDefaultOffset = 0;
 		yDefaultOffset = 0;
-		
+	
 		switch (n) {
-		case 1:
-			createTestNetwork1();
-		case 2:
-			createTestNetwork2();
 		case 3:
 			createTestNetwork3();
+			break;
 		case 4:
 			createRealNetwork();
+			break;
 		}
 	}
 	public void createTestNetwork3() {

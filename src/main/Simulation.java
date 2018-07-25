@@ -24,8 +24,6 @@ public class Simulation implements Runnable {
 	private String versionID;
 	private int width, height;
 	
-	//private Network network;
-	
 	// Thread
 	private boolean running = false;
 	private Thread thread;
