@@ -27,6 +27,8 @@ public class Network {
 	private double xDefaultOffset, yDefaultOffset;
 	private double rotation=0;
 	
+	private String title, description;
+	
 	public Network(Simulation sim, int n) {
 		this.setCellHeight(8);
 		this.setCellWidth(8);
@@ -39,6 +41,9 @@ public class Network {
 		yDefaultOffset = 0;
 	
 		switch (n) {
+		case 1:
+			createTestNetwork1();
+			break;
 		case 3:
 			createTestNetwork3();
 			break;
@@ -48,6 +53,10 @@ public class Network {
 		}
 	}
 	public void createTestNetwork3() {
+		
+		title = "Test 1";
+		description = "Test network for turning roads";
+		
 		Road test = new Road(this, 50);
 		test.setDirection(110);
 		test.addPoint(new Point(18,90));
@@ -176,21 +185,21 @@ public class Network {
 		
 		RoundAbout RA1 = new RoundAbout(this, 30);
 		RA1.setPositionFrom(ro4);
-		RA1.setDirection(180+ro4.getDirection());
+		//RA1.setDirection(180+ro4.getDirection());
 		this.roundAbouts.add(RA1);
+		RA1.connectTo(ri1, 29);
+		ro4.connectTo(RA1, 0);
 		
 		Road rlol = new Road(this, 10);
-		rlol.setEndPositionFrom(RA1, 4);
+		rlol.setDirection(0);
+		rlol.setEndPositionFrom(RA1, 4,0);
 		this.roads.add(rlol);
+		rlol.connectTo(RA1, 4);
 		
 		RoundAbout RA2 = new RoundAbout(this, 30);
 		RA2.setPositionFrom(ro3);
 		RA2.setDirection(180+ro3.getDirection());
 		this.roundAbouts.add(RA2);
-		
-		ro4.connectTo(RA1, 0);
-		RA1.connectTo(ri1, 29);
-		rlol.connectTo(RA1, 4);
 		ro3.connectTo(RA2, 0);
 		RA2.connectTo(ri4, 29);
 		RA2.connectTo(rlol, 25);
@@ -204,10 +213,13 @@ public class Network {
 	
 	public void createRealNetwork() {
 		
+		title = "CERN network";
+		description = "Actual network around the CERN";
+		
 		// Porte de France
 		RoundAbout raPorteDeFrance = new RoundAbout(this, 48);
-		raPorteDeFrance.setX(250);
-		raPorteDeFrance.setY(300);
+		raPorteDeFrance.setX(200);
+		raPorteDeFrance.setY(200);
 		raPorteDeFrance.setDirection(0);
 		roundAbouts.add(raPorteDeFrance);
 		
@@ -306,6 +318,12 @@ public class Network {
 		rD984FNW.setGenerateVehicules(true);
 		rD884NE.setGenerateVehicules(true);
 		rSortieCERNNW.setGenerateVehicules(true);
+	}
+	public String getTitle() {
+		return this.title;
+	}
+	public String getDescription() {
+		return this.description;
 	}
 	public double getRotation() {
 		return rotation;

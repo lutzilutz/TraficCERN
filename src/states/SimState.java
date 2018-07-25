@@ -30,6 +30,8 @@ public class SimState extends State {
 	
 	private double simSpeed = 20;
 	private double offsetSpeed = 1;
+	private double offsetSpeedDefault = offsetSpeed;
+	private long offsetTime = 0;
 	private double rotationSpeed = 0.02;
 	
 	private UITextButton stepByStep;
@@ -233,16 +235,20 @@ public class SimState extends State {
 		if (simulation.getKeyManager().right) {
 			network.setxOffset(network.getxOffset()-offsetSpeed*Math.cos(network.getRotation()));
 			network.setyOffset(network.getyOffset()+offsetSpeed*Math.sin(network.getRotation()));
+			increaseOffset();
 		} else if (simulation.getKeyManager().left) {
 			network.setxOffset(network.getxOffset()+offsetSpeed*Math.cos(network.getRotation()));
 			network.setyOffset(network.getyOffset()-offsetSpeed*Math.sin(network.getRotation()));
+			increaseOffset();
 		}
 		if (simulation.getKeyManager().up) {
 			network.setxOffset(network.getxOffset()+offsetSpeed*Math.sin(network.getRotation()));
 			network.setyOffset(network.getyOffset()+offsetSpeed*Math.cos(network.getRotation()));
+			increaseOffset();
 		} else if (simulation.getKeyManager().down) {
 			network.setxOffset(network.getxOffset()-offsetSpeed*Math.sin(network.getRotation()));
 			network.setyOffset(network.getyOffset()-offsetSpeed*Math.cos(network.getRotation()));
+			increaseOffset();
 		}
 		if (simulation.getKeyManager().space) {
 			network.setxOffset(network.getxDefaultOffset());
@@ -264,7 +270,20 @@ public class SimState extends State {
 			simulation.getMenuState().enableUIManager();
 			State.setState(simulation.getMenuState());
 		}
+		// Acceleration of movement
+		if (!simulation.getKeyManager().up && !simulation.getKeyManager().down && !simulation.getKeyManager().right && !simulation.getKeyManager().left) {
+			offsetTime = 0;
+			offsetSpeed = offsetSpeedDefault;
+		}
 		//System.out.println("x:" + network.getxOffset() + ", y:" + network.getyOffset() + ", a:" + network.getRotation());
+	}
+	public void increaseOffset() {
+		if (offsetTime == 0) {
+			offsetTime = System.nanoTime();
+		}
+		
+		offsetSpeed = Math.max(offsetSpeedDefault, Math.min(5*offsetSpeedDefault, Math.log(100*(System.nanoTime()-offsetTime)/1000000000.0)));
+		System.out.println(offsetSpeed);
 	}
 	public void tick() {
 		this.uiManager.tick();

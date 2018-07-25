@@ -396,7 +396,7 @@ public class NetworkRendering {
 	}
 	public static void renderInformations(Network n, Graphics g) {
 		g.setColor(Color.white);
-		g.drawString("Step :    " + Integer.toString(n.getSimulation().getSimState().getStep()), n.getSimulation().getWidth()-170, 40);
+		g.drawString("Steps :    " + Integer.toString(n.getSimulation().getSimState().getStep()), n.getSimulation().getWidth()-170, 40);
 		g.drawString("Time :    " + n.getSimulation().getSimState().getTime(), n.getSimulation().getWidth()-170, 60);
 		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getSimState().getStepSize())/10.0) + " km/h", n.getSimulation().getWidth()-170, 80);
 	}
