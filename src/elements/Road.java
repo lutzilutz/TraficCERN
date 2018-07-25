@@ -94,7 +94,8 @@ public class Road {
 	}
 	public void setPositionInFrom(CrossRoad CR, int i) {
 		i = i % 4;
-		this.direction = (int) ((CR.getDirection()+((3-i)%4)*90)%360);
+		//this.direction = (int) ((CR.getDirection()+((3-i)%4)*90)%360);
+		setDirection((int) ((CR.getDirection()+((3-i)%4)*90)%360));
 		double valInter1 = n.getCellHeight()/2;
 		double valInter2 = n.getCellWidth()*this.getLength()+n.getCellHeight();
 		double angle =  Math.atan(valInter1/valInter2);
@@ -108,7 +109,8 @@ public class Road {
 	}
 	public void setPositionOutFrom(CrossRoad CR, int i) {
 		i = i % 4;
-		this.direction = (int) ((CR.getDirection()-(i % 4)*90)%360);
+		//this.direction = (int) ((CR.getDirection()-(i % 4)*90)%360);
+		setDirection((int) ((CR.getDirection()-(i % 4)*90)%360));
 		double angle =  Math.atan(2);
 		angle = Math.toDegrees(angle);
 		this.setX((int) (CR.getX() + (n.getCellHeight()/2 * Math.sqrt(5.0) * Math.sin(2*Math.PI*((this.getDirection()+90-angle)%360)/360))));

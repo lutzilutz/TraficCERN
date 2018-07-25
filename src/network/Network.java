@@ -27,7 +27,7 @@ public class Network {
 	private double xDefaultOffset, yDefaultOffset;
 	private double rotation=0;
 	
-	private String title, description;
+	private String title="", description="";
 	
 	public Network(Simulation sim, int n) {
 		this.setCellHeight(8);
@@ -44,18 +44,18 @@ public class Network {
 		case 1:
 			createTestNetwork1();
 			break;
-		case 3:
-			createTestNetwork3();
+		case 2:
+			createTestNetwork2();
 			break;
 		case 4:
 			createRealNetwork();
 			break;
 		}
 	}
-	public void createTestNetwork3() {
+	public void createTestNetwork2() {
 		
-		title = "Test 1";
-		description = "Test network for turning roads";
+		title = "Test 2";
+		description = "Test road for turning roads";
 		
 		Road test = new Road(this, 50);
 		test.setDirection(110);
@@ -78,7 +78,7 @@ public class Network {
 		test2.setGenerateVehicules(true);
 		
 	}
-	public void createTestNetwork2() {
+	public void createTestNetwork3() {
 		MultiLaneRoundAbout porteDeFrance = new MultiLaneRoundAbout(this, 2, 50);
 		porteDeFrance.setX(400);
 		porteDeFrance.setY(400);
@@ -127,6 +127,10 @@ public class Network {
 	}
 	
 	public void createTestNetwork1() {
+		
+		title = "Test 1";
+		description = "Test network with round-abouts and crossroad";
+		
 		CrossRoad CR = new CrossRoad(this);
 		CR.setX(300);
 		CR.setY(300);
@@ -185,14 +189,14 @@ public class Network {
 		
 		RoundAbout RA1 = new RoundAbout(this, 30);
 		RA1.setPositionFrom(ro4);
-		//RA1.setDirection(180+ro4.getDirection());
+		RA1.setDirection(180+ro4.getDirection());
 		this.roundAbouts.add(RA1);
 		RA1.connectTo(ri1, 29);
 		ro4.connectTo(RA1, 0);
 		
 		Road rlol = new Road(this, 10);
-		rlol.setDirection(0);
-		rlol.setEndPositionFrom(RA1, 4,0);
+		//rlol.setDirection(0);
+		rlol.setEndPositionFrom(RA1, 10,63);
 		this.roads.add(rlol);
 		rlol.connectTo(RA1, 4);
 		
