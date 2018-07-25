@@ -79,6 +79,8 @@ public class MenuState extends State {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
+		Text.drawString(g, "Trafic simulation at CERN", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
+		
 		tmp = new Network(simulation, 3);
 		if (network1.isHovering()) {
 			Text.drawString(g, tmp.getDescription(), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+buttonHeight/2+5, false, Assets.normalFont);

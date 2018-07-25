@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 
-import utils.Utils;
-
 public class Assets {
 
 	// Dimensions
@@ -20,6 +18,7 @@ public class Assets {
 	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);
+	public static Font largeFont = new Font("Arial", Font.PLAIN, 20);
 	
 	// Images
 	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, restartIdle, restartActive, fastIdle, fastActive, fastFastIdle, fastFastActive, fastFastFastIdle, fastFastFastActive;

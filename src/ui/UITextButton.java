@@ -55,6 +55,9 @@ public class UITextButton extends UIObject {
 		this.isVisible = isVisible;
 		this.isActivable = isVisible;
 	}
+	public boolean isVisible() {
+		return this.isVisible;
+	}
 	public void switchActivable() {
 		isActivable = !isActivable;
 	}

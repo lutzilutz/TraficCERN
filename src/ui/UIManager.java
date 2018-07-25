@@ -45,10 +45,12 @@ public class UIManager {
 	}
 
 	// Getters and setters ===============================================
+	public Simulation getSimulation() {
+		return this.simulation;
+	}
 	public ArrayList<UIObject> getObjects() {
 		return objects;
 	}
-
 	public void setObjects(ArrayList<UIObject> objects) {
 		this.objects = objects;
 	}

@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import graphics.Assets;
+import graphics.Text;
 import input.KeyManager;
 import main.Simulation;
 import network.Network;
@@ -26,6 +27,7 @@ public class SimState extends State {
 	private double stepSize = 1; // duration of one step in seconds-
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 	private boolean paused = false;
+	private boolean askExit = false;
 	private long lastTick;
 	
 	private double simSpeed = 20;
@@ -34,7 +36,7 @@ public class SimState extends State {
 	private long offsetTime = 0;
 	private double rotationSpeed = 0.02;
 	
-	private UITextButton stepByStep;
+	private UITextButton stepByStep, exitY, exitN;
 	private UIImageButton playPause;
 	private UITextSwitch colorOn, wireOn, idOn, centersOn;
 	
@@ -136,6 +138,35 @@ public class SimState extends State {
 				}
 			}
 		}));
+		this.uiManager.addObject(new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Exit", new ClickListener(){
+			@Override
+			public void onClick() {
+				askExit = !askExit;
+				exitY.setVisible(askExit);
+				exitN.setVisible(askExit);
+			}
+		}));
+		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
+			@Override
+			public void onClick() {
+				disableUIManager();
+				simulation.getMenuState().enableUIManager();
+				State.setState(simulation.getMenuState());
+			}
+		});
+		exitY.setVisible(false);
+		this.uiManager.addObject(exitY);
+		
+		exitN = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH*2+2*Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "No", new ClickListener(){
+			@Override
+			public void onClick() {
+				askExit = !askExit;
+				exitY.setVisible(askExit);
+				exitN.setVisible(askExit);
+			}
+		});
+		exitN.setVisible(false);
+		this.uiManager.addObject(exitN);
 		
 		// Bottom buttons ============================================================================================
 		colorOn = new UITextSwitch(Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", network.getDrawColors(), new ClickListener(){
@@ -301,7 +332,9 @@ public class SimState extends State {
 		NetworkRendering.renderInformations(network, g);
 		gg.dispose();
 		uiManager.render(g);
-		
+		if (askExit) {
+			Text.drawString(g, "Are you sure ?", Assets.idleCol, simulation.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);
+		}
 	}
 	public void restartNetwork() {
 		network = null;
