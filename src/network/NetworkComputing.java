@@ -1,7 +1,5 @@
 package network;
 
-import java.awt.Rectangle;
-
 import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;

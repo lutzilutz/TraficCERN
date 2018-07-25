@@ -3,6 +3,9 @@ package main;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import graphics.Assets;
 import graphics.Display;
@@ -12,6 +15,7 @@ import states.MenuState;
 import states.SimState;
 import states.State;
 import ui.UIManager;
+import utils.Utils;
 
 public class Simulation implements Runnable {
 
@@ -50,11 +54,13 @@ public class Simulation implements Runnable {
 	}
 	
 	private void init() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
 		
+		Utils.initLog();
+		Utils.log("Started at " + dateFormat.format(date) + " =======================================\n");
+		Utils.log("Initialization ---------------------------------------------\n");
 		Assets.init();
-		
-		//network = new Network(this);
-		//NetworkComputing.computeCellsPosition(network);
 		
 		display = new Display(title,width,height);
 		
@@ -71,7 +77,7 @@ public class Simulation implements Runnable {
 		mouseManager.setUIManager(menuState.getUIManager());
 		
 		State.setState(menuState);
-		
+		Utils.log("Running ----------------------------------------------------\n");
 	}
 	private void tick(int n) {
 		

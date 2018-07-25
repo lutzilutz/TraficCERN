@@ -74,7 +74,6 @@ public class Road {
 			if (j == this.getReorientations().size()-1) {
 				x += n.getCellWidth() * (this.getLength()+0.5-this.getReorientations().get(j).getX()) * Math.sin(2*Math.PI*this.getReorientations().get(j).getY()/360.0 + Math.PI);
 				y += - n.getCellWidth() * (this.getLength()+0.5-this.getReorientations().get(j).getX()) * Math.cos(2*Math.PI*this.getReorientations().get(j).getY()/360.0 + Math.PI);
-				System.out.println("Last segment !");
 			}
 			// All others
 			else {
