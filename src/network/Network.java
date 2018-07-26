@@ -227,7 +227,7 @@ public class Network {
 		// Porte de France
 		RoundAbout raPorteDeFrance = new RoundAbout(this, 48);
 		raPorteDeFrance.setX(-200);
-		raPorteDeFrance.setY(-100);
+		raPorteDeFrance.setY(-50);
 		raPorteDeFrance.setDirection(0);
 		roundAbouts.add(raPorteDeFrance);
 		
@@ -272,13 +272,15 @@ public class Network {
 		rD984FSE.setStartDirection(93);
 		//rD984FSE.setDirection(113);
 		rD984FSE.addPoint(new Point(4,113));
+		rD984FSE.addPoint(new Point(rD984FSE.getLength()-4,97));
 		roads.add(rD984FSE);
 		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLength()-17);
 		
 		// N-W (in)
-		Road rD984FNW = new Road(this, 110);
-		rD984FNW.setDirection(293);
-		rD984FNW.addPoint(new Point(106,313));
+		Road rD984FNW = new Road(this, 109);
+		rD984FNW.setDirection(274);
+		rD984FNW.addPoint(new Point(5,293));
+		rD984FNW.addPoint(new Point(105,313));
 		rD984FNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-13,293);
 		
 		roads.add(rD984FNW);
@@ -326,16 +328,45 @@ public class Network {
 		raLHC.setPositionFrom(rD984FSE, 5);
 		roundAbouts.add(raLHC);
 		rD984FSE.connectTo(raLHC, 5);
-		raLHC.connectTo(rD984FNW, 0);
+		raLHC.connectTo(rD984FNW, 3);
 		
-		System.out.println("rD984FSE : " +rD984FSE.getReorientations());
-		System.out.println("rD984FNW : " +rD984FNW.getReorientations());
+		// D984F South --------------------------------------------------------------------------------------
+		// S-E (out)
+		Road rD984FSES = new Road(this, 91);
+		rD984FSES.setStartPositionFrom(raLHC, raLHC.getLength()-7);
+		rD984FSES.setStartDirection(129);
+		rD984FSES.addPoint(new Point(4,113));
+		roads.add(rD984FSES);
+		raLHC.connectTo(rD984FSES, raLHC.getLength()-7);
+		
+		// N-W (in)
+		Road rD984FNWS = new Road(this, 91);
+		rD984FNWS.setDirection(293);
+		rD984FNWS.addPoint(new Point(rD984FNWS.getLength()-5,313));
+		rD984FNWS.setEndPositionFrom(raLHC, raLHC.getLength()-5,293);
+		roads.add(rD984FNWS);
+		rD984FNWS.connectTo(raLHC, raLHC.getLength()-5);
+		
+		// C5 -----------------------------------------------------------------------------------------------
+		Road rC5NE = new Road(this, 30);
+		rC5NE.setStartPositionFrom(raLHC, raLHC.getLength()-2);
+		rC5NE.setStartDirection(30);
+		roads.add(rC5NE);
+		raLHC.connectTo(rC5NE, raLHC.getLength()-2);
+		
+		Road rC5SW = new Road(this, 30);
+		rC5SW.setDirection(210);
+		//rC5SW.addPoint(new Point(rC5SW.getLength()-7,215));
+		rC5SW.setEndPositionFrom(raLHC, raLHC.getLength()-1,293);
+		roads.add(rC5SW);
+		rC5SW.connectTo(raLHC, raLHC.getLength()-1);
 		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
-		rD984FNW.setGenerateVehicules(true);
 		rD884NE.setGenerateVehicules(true);
 		rSortieCERNNW.setGenerateVehicules(true);
+		rD984FNWS.setGenerateVehicules(true);
+		rC5SW.setGenerateVehicules(true);
 	}
 	public static String getTitle(int n) {
 		return titles[n];
