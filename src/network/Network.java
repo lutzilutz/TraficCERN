@@ -195,7 +195,7 @@ public class Network {
 		ro4.setPositionOutFrom(CR, 4);
 		
 		RoundAbout RA1 = new RoundAbout(this, 30);
-		RA1.setPositionFrom(ro4);
+		RA1.setPositionFrom(ro4,0);
 		RA1.setDirection(180+ro4.getDirection());
 		this.roundAbouts.add(RA1);
 		RA1.connectTo(ri1, 29);
@@ -208,7 +208,7 @@ public class Network {
 		rlol.connectTo(RA1, 4);
 		
 		RoundAbout RA2 = new RoundAbout(this, 30);
-		RA2.setPositionFrom(ro3);
+		RA2.setPositionFrom(ro3,0);
 		RA2.setDirection(180+ro3.getDirection());
 		this.roundAbouts.add(RA2);
 		ro3.connectTo(RA2, 0);
@@ -323,9 +323,9 @@ public class Network {
 		// LHC ----------------------------------------------------------------------------------------------
 		RoundAbout raLHC = new RoundAbout(this, 17);
 		raLHC.setDirection(0);
-		raLHC.setPositionFrom(rD984FSE);
+		raLHC.setPositionFrom(rD984FSE, 5);
 		roundAbouts.add(raLHC);
-		rD984FSE.connectTo(raLHC, 0);
+		rD984FSE.connectTo(raLHC, 5);
 		raLHC.connectTo(rD984FNW, 0);
 		
 		System.out.println("rD984FSE : " +rD984FSE.getReorientations());

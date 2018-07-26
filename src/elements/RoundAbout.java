@@ -14,15 +14,15 @@ public class RoundAbout extends Road {
 		this.getRoadCells().get(i).setOutCell(r.getRoadCells().get(0));
 		r.getRoadCells().get(0).setPreviousCell(getRoadCells().get(i));
 	}
-	public void setPositionFrom(Road r) {
+	public void setPositionFrom(Road r, int i) {
 		double x = (int) (r.getX());
 		double y = (int) (r.getY());
 		double last = 0;
 		for (int j=0 ; j<r.getReorientations().size() ; j++) {
 			// Last segment
 			if (j == r.getReorientations().size()-1) {
-				x += n.getCellWidth() * (r.getLength()+0*0.5-r.getReorientations().get(j).getX()) * Math.sin(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
-				y += - n.getCellWidth() * (r.getLength()+0*0.5-r.getReorientations().get(j).getX()) * Math.cos(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+				x += n.getCellWidth() * (r.getLength()+0.5-r.getReorientations().get(j).getX()) * Math.sin(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+				y += - n.getCellWidth() * (r.getLength()+0.5-r.getReorientations().get(j).getX()) * Math.cos(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
 			}
 			// All others
 			else {
@@ -32,6 +32,8 @@ public class RoundAbout extends Road {
 			}
 		}
 		
+		x += (0*n.getCellWidth() + n.getCellWidth()*this.getLength()/(2*Math.PI))*Math.sin(2*Math.PI*(i/(float)this.getLength()));
+		y += (0*n.getCellWidth() + n.getCellWidth()*this.getLength()/(2*Math.PI))*Math.cos(2*Math.PI*(i/(float)this.getLength()));
 		//x = (int) (r.getX() + n.getCellWidth() * (r.getReorientations().get(1).getX()-r.getReorientations().get(0).getX()) * Math.sin(2*Math.PI*r.getReorientations().get(0).getY()/360.0 + Math.PI));
 		//y = (int) (r.getY());
 		

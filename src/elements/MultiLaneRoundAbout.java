@@ -30,7 +30,7 @@ public class MultiLaneRoundAbout {
 	}
 	
 	public void setPositionInFrom(MultiLaneRoad MLR) {
-		this.getLanes()[0].setPositionFrom(MLR.getLanesIN()[0]);
+		this.getLanes()[0].setPositionFrom(MLR.getLanesIN()[0],0);
 		for (int i=1; i<this.getLanes().length; ++i) {
 			this.getLanes()[i].setX(this.getLanes()[0].getX());
 			this.getLanes()[i].setY(this.getLanes()[0].getY());
@@ -38,7 +38,7 @@ public class MultiLaneRoundAbout {
 	}
 	
 	public void setPositionOUTFrom(MultiLaneRoad MLR) {
-		this.getLanes()[0].setPositionFrom(MLR.getLanesOUT()[0]);
+		this.getLanes()[0].setPositionFrom(MLR.getLanesOUT()[0],0);
 		for (int i=1; i<this.getLanes().length; ++i) {
 			this.getLanes()[i].setX(this.getLanes()[0].getX());
 			this.getLanes()[i].setY(this.getLanes()[0].getY());
