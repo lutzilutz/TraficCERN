@@ -45,7 +45,7 @@ public class SimState extends State {
 	private BufferedImage hud;
 	private BufferedImage background;
 	private int currentBackgroundID = 0;
-	private int currentNetwork = 0;
+	private int currentNetwork = -1;
 	
 	
 	public SimState(Simulation simulation) {
@@ -314,7 +314,7 @@ public class SimState extends State {
 		}
 		
 		offsetSpeed = Math.max(offsetSpeedDefault, Math.min(5*offsetSpeedDefault, Math.log(100*(System.nanoTime()-offsetTime)/1000000000.0)));
-		System.out.println(offsetSpeed);
+		//System.out.println(offsetSpeed);
 	}
 	public void tick() {
 		this.uiManager.tick();

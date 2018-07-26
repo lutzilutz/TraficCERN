@@ -11,7 +11,7 @@ public class NetworkComputing {
 	// Computing operations #########################################################################################################################
 	// ##############################################################################################################################################	
 	public static void computeCellsPosition(Network n) {
-		margin = n.getCellWidth()*5;
+		margin = n.getCellWidth()*50;
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0 ; i<4 ; i++) {
 				cr.getMiddleCells()[i].setX(cr.getX() - n.getCellWidth()/2 - n.getCellWidth()/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360));

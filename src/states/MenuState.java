@@ -22,16 +22,13 @@ public class MenuState extends State {
 	
 	private UITextButton network1, network2, network3;
 	
-	private Network tmp;
-	
 	public MenuState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
 		
 		// Play button ==============================================================================================
 		
-		tmp = new Network(simulation, 1);
-		network1 = new UITextButton(xStart, yStart, buttonWidth, buttonHeight, tmp.getTitle(), new ClickListener(){
+		network1 = new UITextButton(xStart, yStart, buttonWidth, buttonHeight, Network.getTitle(0), new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
@@ -45,30 +42,28 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(network1);
 		
-		tmp = new Network(simulation, 2);
-		network2 = new UITextButton(xStart,  yStart+(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, tmp.getTitle(), new ClickListener(){
+		network2 = new UITextButton(xStart,  yStart+(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(1), new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
 				simulation.getSimState().enableUIManager();
-				simulation.getSimState().setNetwork(new Network(simulation, 2));
+				simulation.getSimState().setNetwork(new Network(simulation, 1));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimState());
 			}
 		});
 		this.uiManager.addObject(network2);
 		
-		tmp = new Network(simulation, 4);
-		network3 = new UITextButton(xStart, yStart+2*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, tmp.getTitle(), new ClickListener(){
+		network3 = new UITextButton(xStart, yStart+2*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(2), new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.getSimState().enableUIManager();
 				simulation.getSimState().setCurrentNetwork(4);
-				simulation.getSimState().setNetwork(new Network(simulation, 4));
+				simulation.getSimState().setNetwork(new Network(simulation, 2));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimState());
 			}
@@ -96,25 +91,22 @@ public class MenuState extends State {
 		
 		Text.drawString(g, "Trafic simulation at CERN", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
 		
-		tmp = new Network(simulation, 1);
 		if (network1.isHovering()) {
-			Text.drawString(g, tmp.getDescription(), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(0), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+buttonHeight/2+5, false, Assets.normalFont);
 		} else {
-			Text.drawString(g, tmp.getDescription(), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(0), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+buttonHeight/2+5, false, Assets.normalFont);
 		}
 		
-		tmp = new Network(simulation, 2);
 		if (network2.isHovering()) {
-			Text.drawString(g, tmp.getDescription(), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(1), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		} else {
-			Text.drawString(g, tmp.getDescription(), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(1), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		}
 		
-		tmp = new Network(simulation, 4);
 		if (network3.isHovering()) {
-			Text.drawString(g, tmp.getDescription(), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		} else {
-			Text.drawString(g, tmp.getDescription(), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		}
 		
 		this.uiManager.render(g);

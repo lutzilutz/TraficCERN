@@ -49,13 +49,17 @@ public class Road {
 	}
 	// Set position and direction from a RoundAbout cell (out road)
 	public void setStartPositionFrom(RoundAbout ra, int i) {
-		setDirection((int) (ra.getDirection() - i/(float)(ra.getLength()) * 360));
+		if (this.getReorientations().size() == 0) {
+			setDirection((int) (ra.getDirection() - i/(float)(ra.getLength()) * 360));
+		}
 		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
 		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
 	}
 	// Set position and direction from a Road cell (out road)
 	public void setStartPositionFrom(Road r, int i, int direction) {
-		setDirection(direction);
+		if (this.getReorientations().size() == 0) {
+			setDirection(direction);
+		}
 		this.setX((int) (r.getX() + (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
 		this.setY((int) (r.getY() - (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
 	}
@@ -180,6 +184,12 @@ public class Road {
 	public void setDirection(int direction) {
 		this.direction = direction;
 		this.reorientations.add(new Point(0,direction));
+	}
+	public void setStartDirection(int direction) {
+		if (this.getReorientations().size() > 0) {
+			this.direction = direction;
+			this.reorientations.set(0, new Point (0, direction));
+		}
 	}
 	public int getLength() {
 		return length;

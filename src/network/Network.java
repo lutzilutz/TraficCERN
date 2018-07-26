@@ -12,6 +12,9 @@ import main.Simulation;
 
 public class Network {
 
+	private static String[] titles;
+	private static String[] descriptions;
+	
 	private Simulation sim;
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
@@ -27,7 +30,7 @@ public class Network {
 	private double xDefaultOffset, yDefaultOffset;
 	private double rotation=0;
 	
-	private String title="", description="";
+	//private String title="", description="";
 	
 	public Network(Simulation sim, int n) {
 		this.setCellHeight(8);
@@ -41,21 +44,28 @@ public class Network {
 		yDefaultOffset = 0;
 	
 		switch (n) {
-		case 1:
+		case 0:
 			createTestNetwork1();
 			break;
-		case 2:
+		case 1:
 			createTestNetwork2();
 			break;
-		case 4:
+		case 2:
 			createRealNetwork();
 			break;
 		}
+		
+		titles = new String[3];
+		titles[0] = "Test 1";
+		titles[1] = "Test 2";
+		titles[2] = "CERN network";
+
+		descriptions = new String[3];
+		descriptions[0] = "Test network with round-abouts and crossroad";
+		descriptions[1] = "Test road for turning roads";
+		descriptions[2] = "Actual network around the CERN";
 	}
 	public void createTestNetwork2() {
-		
-		title = "Test 2";
-		description = "Test road for turning roads";
 		
 		Road test = new Road(this, 50);
 		test.setDirection(110);
@@ -127,9 +137,6 @@ public class Network {
 	}
 	
 	public void createTestNetwork1() {
-		
-		title = "Test 1";
-		description = "Test network with round-abouts and crossroad";
 		
 		CrossRoad CR = new CrossRoad(this);
 		CR.setX(300);
@@ -217,13 +224,10 @@ public class Network {
 	
 	public void createRealNetwork() {
 		
-		title = "CERN network";
-		description = "Actual network around the CERN";
-		
 		// Porte de France
 		RoundAbout raPorteDeFrance = new RoundAbout(this, 48);
-		raPorteDeFrance.setX(200);
-		raPorteDeFrance.setY(200);
+		raPorteDeFrance.setX(-200);
+		raPorteDeFrance.setY(-100);
 		raPorteDeFrance.setDirection(0);
 		roundAbouts.add(raPorteDeFrance);
 		
@@ -263,19 +267,18 @@ public class Network {
 		
 		// D984F --------------------------------------------------------------------------------------------
 		// S-E (out)
-		Road rD984FSE = new Road(this, 205);
+		Road rD984FSE = new Road(this, 110);
 		rD984FSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-17);
+		rD984FSE.setStartDirection(93);
 		//rD984FSE.setDirection(113);
-		rD984FSE.setDirection(93);
 		rD984FSE.addPoint(new Point(4,113));
-		
 		roads.add(rD984FSE);
 		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLength()-17);
 		
 		// N-W (in)
-		Road rD984FNW = new Road(this, 205);
+		Road rD984FNW = new Road(this, 110);
 		rD984FNW.setDirection(293);
-		rD984FNW.addPoint(new Point(201,313));
+		rD984FNW.addPoint(new Point(106,313));
 		rD984FNW.setEndPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-13,293);
 		
 		roads.add(rD984FNW);
@@ -317,17 +320,28 @@ public class Network {
 		roads.add(rSortieCERNNW);
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-20);
 		
+		// LHC ----------------------------------------------------------------------------------------------
+		RoundAbout raLHC = new RoundAbout(this, 17);
+		raLHC.setDirection(0);
+		raLHC.setPositionFrom(rD984FSE);
+		roundAbouts.add(raLHC);
+		rD984FSE.connectTo(raLHC, 0);
+		raLHC.connectTo(rD984FNW, 0);
+		
+		System.out.println("rD984FSE : " +rD984FSE.getReorientations());
+		System.out.println("rD984FNW : " +rD984FNW.getReorientations());
+		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
 		rD984FNW.setGenerateVehicules(true);
 		rD884NE.setGenerateVehicules(true);
 		rSortieCERNNW.setGenerateVehicules(true);
 	}
-	public String getTitle() {
-		return this.title;
+	public static String getTitle(int n) {
+		return titles[n];
 	}
-	public String getDescription() {
-		return this.description;
+	public static String getDescription(int n) {
+		return descriptions[n];
 	}
 	public double getRotation() {
 		return rotation;
