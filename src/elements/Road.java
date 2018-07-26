@@ -60,8 +60,8 @@ public class Road {
 		if (this.getReorientations().size() == 0) {
 			setDirection(direction);
 		}
-		this.setX((int) (r.getX() + (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
-		this.setY((int) (r.getY() - (r.getLength()*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
+		this.setX((int) (1*n.getCellWidth()/2 * Math.sin(2*Math.PI*this.getDirection()/360.0) + r.getX() + (i*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
+		this.setY((int) (-1*n.getCellWidth()/2 * Math.cos(2*Math.PI*this.getDirection()/360.0) + r.getY() - (i*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
 	}
 	// Set position and direction from a RoundAbout cell (in road)
 	public void setEndPositionFrom(RoundAbout ra, int i, int direction) {

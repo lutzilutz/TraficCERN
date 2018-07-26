@@ -348,18 +348,44 @@ public class Network {
 		rD984FNWS.connectTo(raLHC, raLHC.getLength()-5);
 		
 		// C5 -----------------------------------------------------------------------------------------------
+		// N-E (out)
 		Road rC5NE = new Road(this, 30);
 		rC5NE.setStartPositionFrom(raLHC, raLHC.getLength()-2);
 		rC5NE.setStartDirection(30);
 		roads.add(rC5NE);
 		raLHC.connectTo(rC5NE, raLHC.getLength()-2);
 		
+		// S-W (in)
 		Road rC5SW = new Road(this, 30);
 		rC5SW.setDirection(210);
 		//rC5SW.addPoint(new Point(rC5SW.getLength()-7,215));
 		rC5SW.setEndPositionFrom(raLHC, raLHC.getLength()-1,293);
 		roads.add(rC5SW);
 		rC5SW.connectTo(raLHC, raLHC.getLength()-1);
+		
+		// Tunnel inter-site --------------------------------------------------------------------------------
+		// S-E
+		Road rTunnelSE = new Road(this, 35);
+		rTunnelSE.setStartPositionFrom(rC5NE, 7, 120);
+		rTunnelSE.addPoint(new Point(2, 180));
+		rTunnelSE.addPoint(new Point(20, 110));
+		rTunnelSE.addPoint(new Point(27, 185));
+		roads.add(0,rTunnelSE);
+		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
+		rTunnelSE.getRoadCells().get(0).setPreviousCell(rC5NE.getRoadCells().get(7));
+		
+		// N-W
+		Road rTunnelNW = new Road(this, 39);
+		rTunnelNW.setDirection(5);
+		rTunnelNW.addPoint(new Point(9, 290));
+		rTunnelNW.addPoint(new Point(16, 0));
+		rTunnelNW.setX(813);
+		rTunnelNW.setY(475);
+		
+		//rTunnelNW.addPoint(new Point(2, 180));
+		//rTunnelNW.addPoint(new Point(20, 110));
+		//rTunnelNW.addPoint(new Point(27, 185));
+		roads.add(0,rTunnelNW);
 		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
