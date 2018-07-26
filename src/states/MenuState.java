@@ -61,8 +61,8 @@ public class MenuState extends State {
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
+				simulation.setSimState(new SimState(simulation));
 				simulation.getSimState().enableUIManager();
-				simulation.getSimState().setCurrentNetwork(4);
 				simulation.getSimState().setNetwork(new Network(simulation, 2));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimState());

@@ -41,6 +41,14 @@ public class Road {
 			roadCells.add(tmp);
 		}
 	}
+	public void setUnderground(int i, int j, boolean isUnderground) {
+		for (int k=i ; k<=j ; k++) {
+			this.getRoadCells().get(k).setUnderground(isUnderground);
+		}
+	}
+	public static void resetID() {
+		idCounter = 1;
+	}
 	public ArrayList<Point> getReorientations() {
 		return this.reorientations;
 	}

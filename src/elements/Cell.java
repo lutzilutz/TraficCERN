@@ -11,6 +11,7 @@ public class Cell {
 	
 	// Display
 	private double x,y; // center of the Cell
+	private boolean isUnderground = false;
 	
 	public Cell() {
 		isOccupied = false;
@@ -39,6 +40,12 @@ public class Cell {
 		} else {
 			System.out.print("[ ]");
 		}
+	}
+	public boolean isUnderground() {
+		return this.isUnderground;
+	}
+	public void setUnderground(boolean isUnderground) {
+		this.isUnderground = isUnderground;
 	}
 	public double getX() {
 		return x;

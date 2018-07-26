@@ -35,9 +35,8 @@ public class Network {
 	public Network(Simulation sim, int n) {
 		this.setCellHeight(8);
 		this.setCellWidth(8);
-		
 		this.sim = sim;
-		
+		Road.resetID();
 		xOffset = 0;
 		yOffset = 0;
 		xDefaultOffset = 0;
@@ -373,6 +372,7 @@ public class Network {
 		roads.add(0,rTunnelSE);
 		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
 		rTunnelSE.getRoadCells().get(0).setPreviousCell(rC5NE.getRoadCells().get(7));
+		rTunnelSE.setUnderground(14, 16, true);
 		
 		// N-W
 		Road rTunnelNW = new Road(this, 39);
@@ -381,11 +381,9 @@ public class Network {
 		rTunnelNW.addPoint(new Point(16, 0));
 		rTunnelNW.setX(813);
 		rTunnelNW.setY(475);
-		
-		//rTunnelNW.addPoint(new Point(2, 180));
-		//rTunnelNW.addPoint(new Point(20, 110));
-		//rTunnelNW.addPoint(new Point(27, 185));
 		roads.add(0,rTunnelNW);
+		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setNextCell(rC5NE.getRoadCells().get(13));
+		rTunnelNW.setUnderground(17, 20, true);
 		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
@@ -393,6 +391,7 @@ public class Network {
 		rSortieCERNNW.setGenerateVehicules(true);
 		rD984FNWS.setGenerateVehicules(true);
 		rC5SW.setGenerateVehicules(true);
+		rTunnelNW.setGenerateVehicules(true);
 	}
 	public static String getTitle(int n) {
 		return titles[n];

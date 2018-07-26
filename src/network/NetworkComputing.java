@@ -11,7 +11,7 @@ public class NetworkComputing {
 	// Computing operations #########################################################################################################################
 	// ##############################################################################################################################################	
 	public static void computeCellsPosition(Network n) {
-		margin = n.getCellWidth()*50;
+		margin = n.getCellWidth()*10;
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0 ; i<4 ; i++) {
 				cr.getMiddleCells()[i].setX(cr.getX() - n.getCellWidth()/2 - n.getCellWidth()/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360));
@@ -159,8 +159,13 @@ public class NetworkComputing {
 						if (r.getRoadCells().get(i).getNextCell().isOccupied()) {
 							r.getRoadCells().get(i).setIsOccupiedNext(1);
 						} else {
-							r.getRoadCells().get(i).setIsOccupiedNext(0);
-							r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
+							if (r.getRoadCells().get(i).getOutCell() != null && Math.random()<0.5) {
+								r.getRoadCells().get(i).setIsOccupiedNext(0);
+								r.getRoadCells().get(i).getOutCell().setIsOccupiedNext(1);
+							} else {
+								r.getRoadCells().get(i).setIsOccupiedNext(0);
+								r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
+							}
 						}
 					} else {
 						
@@ -186,6 +191,12 @@ public class NetworkComputing {
 					if (r.getRoadCells().get(i).getIsOccupiedNext() == -1) {
 						// Cell stay inoccupied
 						r.getRoadCells().get(i).setIsOccupiedNext(0);;
+					}
+				}
+				// Out cells
+				if (r.getRoadCells().get(i).getOutCell() != null) {
+					if (Math.random()<0.5) {
+						
 					}
 				}
 			}

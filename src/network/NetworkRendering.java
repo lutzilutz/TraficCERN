@@ -352,7 +352,9 @@ public class NetworkRendering {
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).isOccupied()) {
-					gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
+					if (!r.getRoadCells().get(i).isUnderground()) {
+						gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
+					}
 				}
 			}
 		}
