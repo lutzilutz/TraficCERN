@@ -50,6 +50,12 @@ public class NetworkComputing {
 				correctBounds(x, y);
 			}
 		}
+		NetworkRendering.buildZone();
+		for (int j=0 ; j<NetworkRendering.zone.size() ; j++) {
+			for (int i=0 ; i<NetworkRendering.zone.get(j).npoints ; i++) {
+				correctBounds(NetworkRendering.zone.get(j).xpoints[i],NetworkRendering.zone.get(j).ypoints[i]);
+			}
+		}
 		n.setxDefaultOffset(NetworkRendering.bounds.x);
 		n.setyDefaultOffset(NetworkRendering.bounds.y);
 		n.setxOffset(n.getxDefaultOffset());

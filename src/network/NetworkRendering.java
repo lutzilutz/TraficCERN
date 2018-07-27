@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import elements.CrossRoad;
 import elements.Road;
@@ -20,6 +22,8 @@ import graphics.Text;
 public class NetworkRendering {
 
 	public static Rectangle bounds = new Rectangle(0,0,300,300);
+	public static ArrayList<Polygon> zone = new ArrayList<Polygon>();
+	
 	// One-time operations ##########################################################################################################################
 	// ##############################################################################################################################################
 	
@@ -57,7 +61,40 @@ public class NetworkRendering {
 		
 		return tmp;
 	}
+	public static void buildZone() {
+		Polygon tmp = new Polygon();
+		tmp.npoints = 4;
+		tmp.xpoints[0] = -99;
+		tmp.xpoints[1] = 1359;
+		tmp.xpoints[2] = 1178;
+		tmp.xpoints[3] = -180;
+		tmp.ypoints[0] = 12;
+		tmp.ypoints[1] = 632;
+		tmp.ypoints[2] = 1037;
+		tmp.ypoints[3] = 151;
+		zone.add(tmp);
+		
+		int[] tmpX = new int[5];
+		int[] tmpY = new int[5];
+		tmpX[0] = 722;
+		tmpX[1] = 837;
+		tmpX[2] = 1464;
+		tmpX[3] = 1376;
+		tmpX[4] = 750;
+		tmpY[0] = 293;
+		tmpY[1] = 92;
+		tmpY[2] = 379;
+		tmpY[3] = 602;
+		tmpY[4] = 336;
+		Polygon tmp2 = new Polygon(tmpX, tmpY, 5);
+		zone.add(tmp2);
+	}
 	public static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
+		// CERN zone ==================================================================================================
+		g.setColor(Assets.zoneCERNCol);
+		g.fillPolygon(zone.get(0));
+		g.fillPolygon(zone.get(1));
+		
 		// CrossRoads =================================================================================================
 		for (CrossRoad cr: n.getCrossRoads()) {
 			Graphics2D gg = (Graphics2D) g.create();

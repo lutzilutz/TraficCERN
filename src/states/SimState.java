@@ -47,6 +47,7 @@ public class SimState extends State {
 	private int currentBackgroundID = 0;
 	private int currentNetwork = -1;
 	
+	private boolean leftPressed = false;
 	
 	public SimState(Simulation simulation) {
 		super(simulation);
@@ -307,6 +308,16 @@ public class SimState extends State {
 			offsetSpeed = offsetSpeedDefault;
 		}
 		//System.out.println("x:" + network.getxOffset() + ", y:" + network.getyOffset() + ", a:" + network.getRotation());
+		
+		if (simulation.getMouseManager().isLeftPressed()) {
+			if (!leftPressed) {
+				System.out.println(simulation.getMouseManager().getMouseX() + NetworkRendering.bounds.x - simulation.getSimState().network.getxOffset());
+				System.out.println(simulation.getMouseManager().getMouseY() + NetworkRendering.bounds.y - simulation.getSimState().network.getyOffset());
+				leftPressed = true;
+			}
+		} else {
+			leftPressed = false;
+		}
 	}
 	public void increaseOffset() {
 		if (offsetTime == 0) {
