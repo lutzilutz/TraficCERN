@@ -71,10 +71,11 @@ public class CrossRoad {
 		angle = Math.toDegrees(angle);
 		this.setX((int) (r.getX() + Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.sin(2*Math.PI*(r.getDirection()+90+angle)/360))));
 		this.setY((int) (r.getY() - Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.cos(2*Math.PI*(r.getDirection()+90+angle)/360))));
-		if (this.roadsIN[i] == null) {
+		/*if (this.roadsIN[i] == null) {
 			++ this.numberOfRoadsIn;
 		}
-		this.roadsIN[i] = r;
+		this.roadsIN[i] = r;*/
+		addRoadIn(r, i);
 	}
 	
 	public void setPositionFromOut(Road r, int i) {
@@ -82,14 +83,16 @@ public class CrossRoad {
 		this.direction = (int) ((r.getDirection()+(i % 4)*90)%360);
 		this.setX((int) (r.getX() - (1*n.getCellHeight()/2 * Math.sin(2*Math.PI*r.getDirection()/360.0))));
 		this.setY((int) (r.getY() + (5*n.getCellHeight()/2 * Math.cos(2*Math.PI*r.getDirection()/360.0))));
-		this.roadsOUT[i] = r;
+		addRoadOut(r, i);
+		//this.roadsOUT[i] = r;
 	}
 	
 	public void connectTo(Road r, int i) {
 		i = i % 4;
 		this.middleCells[i].setOutCell(r.getRoadCells().get(0));
 		r.getRoadCells().get(0).setPreviousCell(this.middleCells[i]);
-		this.roadsOUT[i] = r;
+		addRoadOut(r, i);
+		//this.roadsOUT[i] = r;
 	}
 	
 	public void addRoadIn(Road r, int i) {
