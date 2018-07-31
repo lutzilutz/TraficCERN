@@ -80,10 +80,8 @@ public class CrossRoad {
 	public void setPositionFromOut(Road r, int i) {
 		i = i % 4;
 		this.direction = (int) ((r.getDirection()+(i % 4)*90)%360);
-		double angle = Math.atan(1/2);
-		angle = Math.toDegrees(angle);
-		this.setX((int) (r.getX() + (n.getCellHeight()/2 * Math.sqrt(5.0) * Math.sin(2*Math.PI*((r.getDirection()+angle)%360)/360))));
-		this.setY((int) (r.getY() - (n.getCellHeight()/2 * Math.sqrt(5.0) * Math.sin(2*Math.PI*((r.getDirection()+angle)%360)/360))));
+		this.setX((int) (r.getX() - (1*n.getCellHeight()/2 * Math.sin(2*Math.PI*r.getDirection()/360.0))));
+		this.setY((int) (r.getY() + (5*n.getCellHeight()/2 * Math.cos(2*Math.PI*r.getDirection()/360.0))));
 		this.roadsOUT[i] = r;
 	}
 	
