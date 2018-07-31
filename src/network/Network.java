@@ -417,66 +417,55 @@ public class Network {
 		// ##################################################################################################
 		// ##################################################################################################
 		// Carrefour entree B -------------------------------------------------------------------------------
+		
 		CrossRoad crEntreeB = new CrossRoad(this);
 		crEntreeB.setX(1400);
 		crEntreeB.setY(650);
 		crEntreeB.setDirection(0);
 		crossRoads.add(crEntreeB);
 		crEntreeB.setTimeTrafficLight(20);
-
-		crEntreeB.setPositionFromStart(rD984FNWS, 0);
+		crEntreeB.setPositionFromOut(rD984FNWS, 0);
 		crEntreeB.setDirection(rD984FNWS.getDirection());
+		crEntreeB.connectTo(rD984FNWS, 0);
+		
+		rD984FSES.connectTo(crEntreeB, 1);
+		crEntreeB.addRoadIn(rD984FSES, 1);
+		
 		Road ri1 = new Road(this, 8);
-		ri1.setX(250);
-		ri1.setY(250);
-		ri1.setDirection(135);
+		ri1.setPositionInFrom(crEntreeB, 0);
 		roads.add(ri1);
+		ri1.connectTo(crEntreeB, 0);
 		
-		ri1.connectTo(crEntreeB, 1);
-		ri1.setPositionInFrom(crEntreeB, 1);
-		
-		Road ri2 = new Road(this, 17);
-		//roads.add(ri2);
-		ri2.connectTo(crEntreeB, 2);
-		ri2.setPositionInFrom(crEntreeB, 2);
-		rD984FSES.connectTo(crEntreeB, 2);
-		//rD984FSES.setPositionInFrom(crEntreeB, 2);
-		
-		Road ri3 = new Road(this, 20);
+		Road ri3 = new Road(this, 8);
+		ri3.setPositionInFrom(crEntreeB, 2);
+		ri3.connectTo(crEntreeB, 2);
 		roads.add(ri3);
-		ri3.connectTo(crEntreeB, 3);
-		ri3.setPositionInFrom(crEntreeB, 3);
 		
 		Road ri4 = new Road(this, 8);
+		ri4.setPositionInFrom(crEntreeB, 3);
+		ri4.connectTo(crEntreeB, 3);
 		roads.add(ri4);
-		ri4.connectTo(crEntreeB, 4);
-		ri4.setPositionInFrom(crEntreeB, 4);
-		
-		//ri1.setGenerateVehicules(true);
-		//ri2.setGenerateVehicules(true);
-		ri3.setGenerateVehicules(true);
-		//ri4.setGenerateVehicules(true);
-		
-		
-		Road ro1 = new Road(this, 17);
-		roads.add(ro1);
-		crEntreeB.connectTo(ro1, 1);
-		ro1.setPositionOutFrom(crEntreeB, 1);
-		
-		Road ro2 = new Road(this, 20);
+
+		Road ro2 = new Road(this, 8);
+		ro2.setPositionOutFrom(crEntreeB, 1);
+		crEntreeB.connectTo(ro2, 1);
 		roads.add(ro2);
-		crEntreeB.connectTo(ro2, 2);
-		ro2.setPositionOutFrom(crEntreeB, 2);
 		
 		Road ro3 = new Road(this, 8);
+		ro3.setPositionOutFrom(crEntreeB, 2);
+		crEntreeB.connectTo(ro3, 2);
 		roads.add(ro3);
-		crEntreeB.connectTo(ro3, 3);
-		ro3.setPositionOutFrom(crEntreeB, 3);
 		
 		Road ro4 = new Road(this, 8);
+		ro4.setPositionOutFrom(crEntreeB, 3);
+		crEntreeB.connectTo(ro4, 3);
 		roads.add(ro4);
-		crEntreeB.connectTo(ro4, 4);
-		ro4.setPositionOutFrom(crEntreeB, 4);
+		
+		ri1.setGenerateVehicules(true);
+		ri3.setGenerateVehicules(true);
+		ri4.setGenerateVehicules(true);
+		
+		
 		
 		// ##################################################################################################
 		// ##################################################################################################
@@ -485,7 +474,7 @@ public class Network {
 		rRueGermaineTillionSW.setGenerateVehicules(true);
 		rD884NE.setGenerateVehicules(true);
 		rSortieCERNNW.setGenerateVehicules(true);
-		rD984FNWS.setGenerateVehicules(true);
+		//rD984FNWS.setGenerateVehicules(true);
 		rC5SW.setGenerateVehicules(true);
 		rTunnelNW.setGenerateVehicules(true);
 	}

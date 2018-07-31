@@ -71,7 +71,7 @@ public class CrossRoad {
 		angle = Math.toDegrees(angle);
 		this.setX((int) (r.getX() + Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.sin(2*Math.PI*(r.getDirection()+90+angle)/360))));
 		this.setY((int) (r.getY() - Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.cos(2*Math.PI*(r.getDirection()+90+angle)/360))));
-		if (this.roadsIN == null) {
+		if (this.roadsIN[i] == null) {
 			++ this.numberOfRoadsIn;
 		}
 		this.roadsIN[i] = r;

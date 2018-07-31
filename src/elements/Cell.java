@@ -8,6 +8,7 @@ public class Cell {
 	private Cell previousCell;
 	private Cell nextCell;
 	private Cell outCell;
+	private Vehicle vehicle;
 	
 	// Display
 	private double x,y; // center of the Cell
@@ -19,6 +20,7 @@ public class Cell {
 		previousCell = null;
 		nextCell = null;
 		outCell = null;
+		vehicle = null;
 	}
 
 	public void evolve() {
