@@ -61,39 +61,12 @@ public class NetworkRendering {
 		
 		return tmp;
 	}
-	public static void buildZone() {
-		Polygon tmp = new Polygon();
-		tmp.npoints = 4;
-		tmp.xpoints[0] = -99;
-		tmp.xpoints[1] = 1359;
-		tmp.xpoints[2] = 1178;
-		tmp.xpoints[3] = -180;
-		tmp.ypoints[0] = 12;
-		tmp.ypoints[1] = 632;
-		tmp.ypoints[2] = 1037;
-		tmp.ypoints[3] = 151;
-		zone.add(tmp);
-		
-		int[] tmpX = new int[5];
-		int[] tmpY = new int[5];
-		tmpX[0] = 722;
-		tmpX[1] = 837;
-		tmpX[2] = 1464;
-		tmpX[3] = 1376;
-		tmpX[4] = 750;
-		tmpY[0] = 293;
-		tmpY[1] = 92;
-		tmpY[2] = 379;
-		tmpY[3] = 602;
-		tmpY[4] = 336;
-		Polygon tmp2 = new Polygon(tmpX, tmpY, 5);
-		zone.add(tmp2);
-	}
 	public static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
 		// CERN zone ==================================================================================================
 		g.setColor(Assets.zoneCERNCol);
-		g.fillPolygon(zone.get(0));
-		g.fillPolygon(zone.get(1));
+		for (Polygon zone: n.getZones()) {
+			g.fillPolygon(zone);
+		}
 		
 		// CrossRoads =================================================================================================
 		for (CrossRoad cr: n.getCrossRoads()) {

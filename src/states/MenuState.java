@@ -35,7 +35,7 @@ public class MenuState extends State {
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
 				simulation.getSimState().enableUIManager();
-				simulation.getSimState().setNetwork(new Network(simulation, 1));
+				simulation.getSimState().setNetwork(new Network(simulation, 0));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimState());
 			}

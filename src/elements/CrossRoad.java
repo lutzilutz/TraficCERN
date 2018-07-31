@@ -37,6 +37,10 @@ public class CrossRoad {
 		
 	}
 	
+	public void setPositionFromStart(Road r, int i) {
+		this.setX((int) (- 1*n.getCellWidth()/2 * Math.sin(2*Math.PI*r.getDirection()/360.0) + r.getX() + (i*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
+		this.setY((int) (5*n.getCellWidth()/2 * Math.cos(2*Math.PI*r.getDirection()/360.0) + r.getY() - (i*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
+	}
 	public void setAllTrafficLightsRed() {
 		for (Road r: this.roadsIN) {
 			r.setTrafficLightRed(true);

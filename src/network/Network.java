@@ -1,6 +1,7 @@
 package network;
 
 import java.awt.Point;
+import java.awt.Polygon;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
@@ -25,6 +26,7 @@ public class Network {
 	private boolean drawColors = true; // true for rendering color codes (end of road, out cells, ...)
 	private boolean drawRoadID = false; // true for rendering roads ID
 	private boolean drawCenters = false; // true for rendering centers (x,y position)
+	private ArrayList<Polygon> zones = new ArrayList<Polygon>();
 	
 	private double xOffset=0, yOffset=0; // offset of the network on screen
 	private double xDefaultOffset, yDefaultOffset;
@@ -223,6 +225,33 @@ public class Network {
 	
 	public void createRealNetwork() {
 		
+		Polygon tmp = new Polygon();
+		tmp.npoints = 4;
+		tmp.xpoints[0] = -99;
+		tmp.xpoints[1] = 1359;
+		tmp.xpoints[2] = 1178;
+		tmp.xpoints[3] = -180;
+		tmp.ypoints[0] = 12;
+		tmp.ypoints[1] = 632;
+		tmp.ypoints[2] = 1037;
+		tmp.ypoints[3] = 151;
+		zones.add(tmp);
+		
+		int[] tmpX = new int[5];
+		int[] tmpY = new int[5];
+		tmpX[0] = 722;
+		tmpX[1] = 837;
+		tmpX[2] = 1464;
+		tmpX[3] = 1376;
+		tmpX[4] = 750;
+		tmpY[0] = 293;
+		tmpY[1] = 92;
+		tmpY[2] = 379;
+		tmpY[3] = 602;
+		tmpY[4] = 336;
+		Polygon tmp2 = new Polygon(tmpX, tmpY, 5);
+		zones.add(tmp2);
+		
 		// Porte de France
 		RoundAbout raPorteDeFrance = new RoundAbout(this, 48);
 		raPorteDeFrance.setX(-200);
@@ -264,7 +293,7 @@ public class Network {
 		roads.add(rRueGermaineTillionSW);
 		rRueGermaineTillionSW.connectTo(raPorteDeFrance, raPorteDeFrance.getLength()-2);
 		
-		// D984F --------------------------------------------------------------------------------------------
+		// D984F North --------------------------------------------------------------------------------------
 		// S-E (out)
 		Road rD984FSE = new Road(this, 110);
 		rD984FSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-17);
@@ -385,6 +414,73 @@ public class Network {
 		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setNextCell(rC5NE.getRoadCells().get(13));
 		rTunnelNW.setUnderground(17, 20, true);
 		
+		// ##################################################################################################
+		// ##################################################################################################
+		// Carrefour entree B -------------------------------------------------------------------------------
+		CrossRoad crEntreeB = new CrossRoad(this);
+		crEntreeB.setX(1400);
+		crEntreeB.setY(650);
+		crEntreeB.setDirection(0);
+		crossRoads.add(crEntreeB);
+		crEntreeB.setTimeTrafficLight(20);
+
+		crEntreeB.setPositionFromStart(rD984FNWS, 0);
+		crEntreeB.setDirection(rD984FNWS.getDirection());
+		Road ri1 = new Road(this, 8);
+		ri1.setX(250);
+		ri1.setY(250);
+		ri1.setDirection(135);
+		roads.add(ri1);
+		
+		ri1.connectTo(crEntreeB, 1);
+		ri1.setPositionInFrom(crEntreeB, 1);
+		
+		Road ri2 = new Road(this, 17);
+		//roads.add(ri2);
+		ri2.connectTo(crEntreeB, 2);
+		ri2.setPositionInFrom(crEntreeB, 2);
+		rD984FSES.connectTo(crEntreeB, 2);
+		//rD984FSES.setPositionInFrom(crEntreeB, 2);
+		
+		Road ri3 = new Road(this, 20);
+		roads.add(ri3);
+		ri3.connectTo(crEntreeB, 3);
+		ri3.setPositionInFrom(crEntreeB, 3);
+		
+		Road ri4 = new Road(this, 8);
+		roads.add(ri4);
+		ri4.connectTo(crEntreeB, 4);
+		ri4.setPositionInFrom(crEntreeB, 4);
+		
+		//ri1.setGenerateVehicules(true);
+		//ri2.setGenerateVehicules(true);
+		ri3.setGenerateVehicules(true);
+		//ri4.setGenerateVehicules(true);
+		
+		
+		Road ro1 = new Road(this, 17);
+		roads.add(ro1);
+		crEntreeB.connectTo(ro1, 1);
+		ro1.setPositionOutFrom(crEntreeB, 1);
+		
+		Road ro2 = new Road(this, 20);
+		roads.add(ro2);
+		crEntreeB.connectTo(ro2, 2);
+		ro2.setPositionOutFrom(crEntreeB, 2);
+		
+		Road ro3 = new Road(this, 8);
+		roads.add(ro3);
+		crEntreeB.connectTo(ro3, 3);
+		ro3.setPositionOutFrom(crEntreeB, 3);
+		
+		Road ro4 = new Road(this, 8);
+		roads.add(ro4);
+		crEntreeB.connectTo(ro4, 4);
+		ro4.setPositionOutFrom(crEntreeB, 4);
+		
+		// ##################################################################################################
+		// ##################################################################################################
+		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
 		rD884NE.setGenerateVehicules(true);
@@ -392,6 +488,9 @@ public class Network {
 		rD984FNWS.setGenerateVehicules(true);
 		rC5SW.setGenerateVehicules(true);
 		rTunnelNW.setGenerateVehicules(true);
+	}
+	public ArrayList<Polygon> getZones() {
+		return zones;
 	}
 	public static String getTitle(int n) {
 		return titles[n];
