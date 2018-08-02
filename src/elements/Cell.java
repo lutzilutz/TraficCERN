@@ -9,12 +9,25 @@ public class Cell {
 	private Cell nextCell;
 	private Cell outCell;
 	private Vehicle vehicle;
+	private String roadName;
+	private int position;
+	private int typeOfRoad;
 	
 	// Display
 	private double x,y; // center of the Cell
 	private boolean isUnderground = false;
 	
 	public Cell() {
+		isOccupied = false;
+		isOccupiedNext = -1;
+		previousCell = null;
+		nextCell = null;
+		outCell = null;
+		vehicle = null;
+	}
+	
+	public Cell(String name) {
+		this.roadName = name;
 		isOccupied = false;
 		isOccupiedNext = -1;
 		previousCell = null;
@@ -90,5 +103,37 @@ public class Cell {
 	}
 	public void setOutCell(Cell outCell) {
 		this.outCell = outCell;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public String getRoadName() {
+		return roadName;
+	}
+
+	public void setRoadName(String roadName) {
+		this.roadName = roadName;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+	public int getTypeOfRoad() {
+		return typeOfRoad;
+	}
+
+	public void setTypeOfRoad(int typeOfRoad) {
+		this.typeOfRoad = typeOfRoad;
 	}
 }

@@ -1,12 +1,17 @@
 package elements;
 
+import java.util.ArrayList;
+
 import network.Network;
 
 public class CrossRoad {
 	private Network n;
+	
+	private String name;
 	private Road[] roadsIN;
 	private Road[] roadsOUT;
 	private Cell[] middleCells;
+	private ArrayList<Exit> exits = new ArrayList<Exit>();
 	private int greenTrafficLight = 1;
 	private int timeTrafficLight = 30;
 	private int counter = 0;
@@ -33,8 +38,36 @@ public class CrossRoad {
 		}
 		for (int i=0; i<4; ++i) {
 			middleCells[i].setPreviousCell(middleCells[(i+3)%4]);
-		}
+		}	
+	}
+	
+	public CrossRoad(Network n, String name) {
+		this.n = n;
+		this.name = name;
+		this.x = 0;
+		this.y = 0;
+		this.numberOfRoadsIn = 0;
+		this.roadsIN = new Road[4];
+		this.roadsOUT = new Road[4];
+		middleCells = new Cell[4];
+		middleCells[0] = new Cell(name);
+		middleCells[0].setPosition(0);
+		middleCells[1] = new Cell(name);
+		middleCells[1].setPosition(1);
+
+		middleCells[2] = new Cell(name);
+		middleCells[2].setPosition(2);
+
+		middleCells[3] = new Cell(name);
+		middleCells[3].setPosition(3);
+
 		
+		for (int i=0; i<4; ++i) {
+			middleCells[i].setNextCell(middleCells[(i+1)%4]);
+		}
+		for (int i=0; i<4; ++i) {
+			middleCells[i].setPreviousCell(middleCells[(i+3)%4]);
+		}	
 	}
 	
 	public void setPositionFromStart(Road r, int i) {
@@ -48,7 +81,7 @@ public class CrossRoad {
 	}
 	
 	public void setTrafficLightState(int i) {
-		i = i % 4;
+		i = ((i % 4) + 4) % 4;
 		for (int j=0; j<4; ++j) {
 			if (j==0) {
 				this.roadsIN[(i+j)%4].setTrafficLightRed(false);
@@ -63,7 +96,7 @@ public class CrossRoad {
 	}
 	
 	public void setPositionFromIn(Road r, int i) {
-		i = i % 4;
+		i = ((i % 4) + 4) % 4;
 		this.direction = (int) ((r.getDirection()-((3-i)%4)*90)%360);
 		double valInter1 = n.getCellHeight()/2;
 		double valInter2 = n.getCellWidth()*r.getLength()+n.getCellHeight();
@@ -79,7 +112,7 @@ public class CrossRoad {
 	}
 	
 	public void setPositionFromOut(Road r, int i) {
-		i = i % 4;
+		i = ((i % 4) + 4) % 4;
 		this.direction = (int) ((r.getDirection()+(i % 4)*90)%360);
 		this.setX((int) (r.getX() - (1*n.getCellHeight()/2 * Math.sin(2*Math.PI*r.getDirection()/360.0))));
 		this.setY((int) (r.getY() + (5*n.getCellHeight()/2 * Math.cos(2*Math.PI*r.getDirection()/360.0))));
@@ -88,10 +121,11 @@ public class CrossRoad {
 	}
 	
 	public void connectTo(Road r, int i) {
-		i = i % 4;
+		i = ((i % 4) + 4) % 4;
 		this.middleCells[i].setOutCell(r.getRoadCells().get(0));
 		r.getRoadCells().get(0).setPreviousCell(this.middleCells[i]);
 		addRoadOut(r, i);
+		this.addExit(r.getName(), i);
 		//this.roadsOUT[i] = r;
 	}
 	
@@ -104,6 +138,10 @@ public class CrossRoad {
 	
 	public void addRoadOut(Road r, int i) {
 		this.roadsOUT[i] = r;
+	}
+	
+	public void addExit(String name, int position) {
+		exits.add(new Exit(name, position));
 	}
 	
 	// Getters and setters ================================================================
@@ -172,5 +210,13 @@ public class CrossRoad {
 	}
 	public void setStateOfTrafficLight(int stateOfTrafficLight) {
 		this.stateOfTrafficLight = stateOfTrafficLight;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

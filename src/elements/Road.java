@@ -12,6 +12,8 @@ public class Road {
 	protected Network n;
 	
 	// Simulation
+	private String name;
+	private ArrayList<Exit> exits = new ArrayList<Exit>();
 	private int id; // Roads ID
 	private int length;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
@@ -41,6 +43,25 @@ public class Road {
 			roadCells.add(tmp);
 		}
 	}
+	
+	public Road(Network n, int length, String name) {
+		this.n = n;
+		id = idCounter;
+		idCounter++;
+		this.length = length;
+		for (int i=0; i<length; i++) {
+			
+			Cell tmp = new Cell(name);
+			
+			if (i>0) {
+				tmp.setPreviousCell(roadCells.get(i-1));
+				roadCells.get(i-1).setNextCell(tmp);
+			}
+			
+			roadCells.add(tmp);
+		}
+	}
+	
 	public void setUnderground(int i, int j, boolean isUnderground) {
 		for (int k=i ; k<=j ; k++) {
 			this.getRoadCells().get(k).setUnderground(isUnderground);
@@ -163,6 +184,10 @@ public class Road {
 	public void removeAllRoadDirections() {
 		this.directions.clear();
 	}
+	
+	public void addExit(String name, int position) {
+		exits.add(new Exit(name, position));
+	}
 
 	// Getters and setters ----------------------
 	public int getId() {
@@ -222,6 +247,12 @@ public class Road {
 	}
 	public void setDirections(EnumSet<Direction> directions) {
 		this.directions = directions;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	
