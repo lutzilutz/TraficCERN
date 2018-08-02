@@ -35,8 +35,8 @@ public class Network {
 	//private String title="", description="";
 	
 	public Network(Simulation sim, int n) {
-		this.setCellHeight(8);
-		this.setCellWidth(8);
+		this.setCellHeight(4);
+		this.setCellWidth(4);
 		this.sim = sim;
 		Road.resetID();
 		xOffset = 0;
@@ -227,35 +227,35 @@ public class Network {
 		
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
-		tmp.xpoints[0] = -99;
-		tmp.xpoints[1] = 1359;
-		tmp.xpoints[2] = 1178;
-		tmp.xpoints[3] = -180;
-		tmp.ypoints[0] = 12;
-		tmp.ypoints[1] = 632;
-		tmp.ypoints[2] = 1037;
-		tmp.ypoints[3] = 151;
+		tmp.xpoints[0] = 13*cellWidth;//
+		tmp.xpoints[1] = 195*cellWidth;//1359;
+		tmp.xpoints[2] = 172*cellWidth;//1178;
+		tmp.xpoints[3] = 3*cellWidth;//-180;
+		tmp.ypoints[0] = 8*cellWidth;//12;
+		tmp.ypoints[1] = 85*cellWidth;//632;
+		tmp.ypoints[2] = 136*cellWidth;//1037;
+		tmp.ypoints[3] = 25*cellWidth;//151;
 		zones.add(tmp);
 		
 		int[] tmpX = new int[5];
 		int[] tmpY = new int[5];
-		tmpX[0] = 722;
-		tmpX[1] = 837;
-		tmpX[2] = 1464;
-		tmpX[3] = 1376;
-		tmpX[4] = 750;
-		tmpY[0] = 293;
-		tmpY[1] = 92;
-		tmpY[2] = 379;
-		tmpY[3] = 602;
-		tmpY[4] = 336;
+		tmpX[0] = 115*cellWidth;//722;
+		tmpX[1] = 131*cellWidth;//837;
+		tmpX[2] = 208*cellWidth;//1464;
+		tmpX[3] = 197*cellWidth;//1376;
+		tmpX[4] = 119*cellWidth;//750;
+		tmpY[0] = 43*cellWidth;//293;
+		tmpY[1] = 17*cellWidth;//92;
+		tmpY[2] = 53*cellWidth;//379;
+		tmpY[3] = 81*cellWidth;//602;
+		tmpY[4] = 48*cellWidth;//336;
 		Polygon tmp2 = new Polygon(tmpX, tmpY, 5);
 		zones.add(tmp2);
 		
 		// Porte de France
 		RoundAbout raPorteDeFrance = new RoundAbout(this, 48);
-		raPorteDeFrance.setX(-200);
-		raPorteDeFrance.setY(-50);
+		raPorteDeFrance.setX(0);
+		raPorteDeFrance.setY(0);
 		raPorteDeFrance.setDirection(0);
 		roundAbouts.add(raPorteDeFrance);
 		
@@ -408,16 +408,13 @@ public class Network {
 		rTunnelNW.setDirection(5);
 		rTunnelNW.addPoint(new Point(9, 290));
 		rTunnelNW.addPoint(new Point(16, 0));
-		rTunnelNW.setX(813);
-		rTunnelNW.setY(475);
+		rTunnelNW.setX(rTunnelSE.getX()+9*cellWidth);
+		rTunnelNW.setY(rTunnelSE.getY()+29*cellWidth);
 		roads.add(0,rTunnelNW);
 		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setOutCell(rC5NE.getRoadCells().get(13));
 		rTunnelNW.setUnderground(17, 20, true);
 		
-		// ##################################################################################################
-		// ##################################################################################################
 		// Carrefour entree B -------------------------------------------------------------------------------
-		
 		CrossRoad crEntreeB = new CrossRoad(this);
 		crEntreeB.setX(1400);
 		crEntreeB.setY(650);
@@ -427,48 +424,42 @@ public class Network {
 		crEntreeB.setPositionFromOut(rD984FNWS, 0);
 		crEntreeB.setDirection(rD984FNWS.getDirection());
 		crEntreeB.connectTo(rD984FNWS, 0);
-		
 		rD984FSES.connectTo(crEntreeB, 1);
 		crEntreeB.addRoadIn(rD984FSES, 1);
 		
-		Road ri1 = new Road(this, 8);
-		ri1.setPositionInFrom(crEntreeB, 0);
-		roads.add(ri1);
-		ri1.connectTo(crEntreeB, 0);
+		// Route Pauli --------------------------------------------------------------------------------------
+		// North --------------------------------------------------------------------------------------------
+		Road rRoutePauliNorthSW = new Road(this, 15);
+		rRoutePauliNorthSW.setPositionInFrom(crEntreeB, 0);
+		roads.add(rRoutePauliNorthSW);
+		rRoutePauliNorthSW.connectTo(crEntreeB, 0);
 		
-		Road ri3 = new Road(this, 8);
-		ri3.setPositionInFrom(crEntreeB, 2);
-		ri3.connectTo(crEntreeB, 2);
-		roads.add(ri3);
+		Road rRoutePauliNorthNE = new Road(this, 15);
+		rRoutePauliNorthNE.setPositionOutFrom(crEntreeB, 3);
+		crEntreeB.connectTo(rRoutePauliNorthNE, 3);
+		roads.add(rRoutePauliNorthNE);
 		
-		Road ri4 = new Road(this, 8);
-		ri4.setPositionInFrom(crEntreeB, 3);
-		ri4.connectTo(crEntreeB, 3);
-		roads.add(ri4);
-
-		Road ro2 = new Road(this, 8);
-		ro2.setPositionOutFrom(crEntreeB, 1);
-		crEntreeB.connectTo(ro2, 1);
-		roads.add(ro2);
+		// South --------------------------------------------------------------------------------------------
+		Road rRoutePauliSouthNE = new Road(this, 15);
+		rRoutePauliSouthNE.setPositionInFrom(crEntreeB, 2);
+		rRoutePauliSouthNE.connectTo(crEntreeB, 2);
+		roads.add(rRoutePauliSouthNE);
 		
-		Road ro3 = new Road(this, 8);
-		ro3.setPositionOutFrom(crEntreeB, 2);
-		crEntreeB.connectTo(ro3, 2);
-		roads.add(ro3);
+		Road rRoutePauliSouthSW = new Road(this, 15);
+		rRoutePauliSouthSW.setPositionOutFrom(crEntreeB, 1);
+		crEntreeB.connectTo(rRoutePauliSouthSW, 1);
+		roads.add(rRoutePauliSouthSW);
 		
-		Road ro4 = new Road(this, 8);
-		ro4.setPositionOutFrom(crEntreeB, 3);
-		crEntreeB.connectTo(ro4, 3);
-		roads.add(ro4);
+		// Route de Meyrin ----------------------------------------------------------------------------------
+		Road rRouteDeMeyrinNW = new Road(this, 15);
+		rRouteDeMeyrinNW.setPositionInFrom(crEntreeB, 3);
+		rRouteDeMeyrinNW.connectTo(crEntreeB, 3);
+		roads.add(rRouteDeMeyrinNW);
 		
-		ri1.setGenerateVehicules(true);
-		ri3.setGenerateVehicules(true);
-		ri4.setGenerateVehicules(true);
-		
-		
-		
-		// ##################################################################################################
-		// ##################################################################################################
+		Road rRouteDeMeyrinSE = new Road(this, 15);
+		rRouteDeMeyrinSE.setPositionOutFrom(crEntreeB, 2);
+		crEntreeB.connectTo(rRouteDeMeyrinSE, 2);
+		roads.add(rRouteDeMeyrinSE);
 		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
@@ -477,6 +468,10 @@ public class Network {
 		//rD984FNWS.setGenerateVehicules(true);
 		rC5SW.setGenerateVehicules(true);
 		rTunnelNW.setGenerateVehicules(true);
+		rRoutePauliNorthSW.setGenerateVehicules(true);
+		rRoutePauliSouthNE.setGenerateVehicules(true);
+		rRouteDeMeyrinNW.setGenerateVehicules(true);
+		
 	}
 	public ArrayList<Polygon> getZones() {
 		return zones;
