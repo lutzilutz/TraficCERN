@@ -96,6 +96,7 @@ public class NetworkComputing {
 	}
 	// Compute future state of the Cells of the Road
 	public static void computeEvolution(Network n) {
+		// Crossroads -----------------------------------------------------------------------------
 		for (CrossRoad cr: n.getCrossRoads()) {
 			if (!cr.getRoadsIN()[(cr.getStateOfTrafficLight()+1)%4].isTrafficLightRed()) {
 				cr.setTrafficLightState(cr.getStateOfTrafficLight()%4);
@@ -152,6 +153,7 @@ public class NetworkComputing {
 				}
 			}
 		}
+		// Roads ----------------------------------------------------------------------------------
 		for (Road r: n.getRoads()) {
 			for (int i=0; i < r.getLength(); ++i) {
 				
@@ -183,13 +185,13 @@ public class NetworkComputing {
 				}
 				// If Cell is at the end of the road
 				else {
-					if (r.getRoadCells().get(i).getNextCell() != null) {
+					if (r.getRoadCells().get(i).getOutCell() != null) {
 						if (r.getRoadCells().get(i).isOccupied()) {
-							if (r.getRoadCells().get(i).getNextCell().isOccupied() || r.getRoadCells().get(i).getNextCell().getPreviousCell().isOccupied() || r.isTrafficLightRed()) {
+							if (r.getRoadCells().get(i).getOutCell().isOccupied() || r.getRoadCells().get(i).getOutCell().getPreviousCell().isOccupied() || r.isTrafficLightRed()) {
 								r.getRoadCells().get(i).setIsOccupiedNext(1);
 							} else {
 								r.getRoadCells().get(i).setIsOccupiedNext(0);
-								r.getRoadCells().get(i).getNextCell().setIsOccupiedNext(1);
+								r.getRoadCells().get(i).getOutCell().setIsOccupiedNext(1);
 							}
 						}
 					}
@@ -214,6 +216,7 @@ public class NetworkComputing {
 			}
 			//System.out.print("\n");
 		}
+		// Roundabouts ----------------------------------------------------------------------------
 		for (RoundAbout r: n.getRoundAbouts()) {
 			for (int i=0; i < r.getLength(); ++i) {
 				if (r.getRoadCells().get(i).getOutCell() == null) {

@@ -156,15 +156,15 @@ public class Road {
 	
 	// Connect "pointer" of last Cell to Cell i of RoundAbout
 	public void connectTo(Road r, int i) {
-		this.getRoadCells().get(this.getLength()-1).setNextCell(r.getRoadCells().get(i));
+		this.getRoadCells().get(this.getLength()-1).setOutCell(r.getRoadCells().get(i));
 		r.getRoadCells().get(i).setPreviousCell(this.getRoadCells().get(this.getLength()-1));
 	}
 	public void connectTo(RoundAbout ra, int i) {
-		this.getRoadCells().get(this.getLength()-1).setNextCell(ra.getRoadCells().get(i));
+		this.getRoadCells().get(this.getLength()-1).setOutCell(ra.getRoadCells().get(i));
 	}
 	public void connectTo(CrossRoad CR, int i) {
 		i = i % 4;
-		this.getRoadCells().get(this.getLength()-1).setNextCell(CR.getMiddleCells()[i]);
+		this.getRoadCells().get(this.getLength()-1).setOutCell(CR.getMiddleCells()[i]);
 	}
 	
 	public void display() {

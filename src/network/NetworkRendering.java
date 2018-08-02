@@ -206,12 +206,19 @@ public class NetworkRendering {
 						gg.setColor(Color.green);
 						gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
 					} else if (r.getRoadCells().get(i).getNextCell()==null) { // End Cell
-						gg.setColor(Color.red);
-						gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
-					} else if (r.getRoadCells().get(i).getOutCell()!=null){ // Out Cell
+						if (r.getRoadCells().get(i).getOutCell()==null){ // Out Cell
+							gg.setColor(Color.red);
+							gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
+						} else {
+							gg.setColor(Color.pink);
+							gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
+						}
+						//gg.setColor(Color.red);
+						//gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
+					} /*else if (r.getRoadCells().get(i).getOutCell()!=null){ // Out Cell
 						gg.setColor(Color.blue);
 						gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
-					}
+					}*/
 					x += n.getCellWidth();
 				}
 			}

@@ -5,6 +5,7 @@ public class Cell {
 	// Simulation
 	private boolean isOccupied;
 	private int isOccupiedNext;
+	private Cell inCell;
 	private Cell previousCell;
 	private Cell nextCell;
 	private Cell outCell;
@@ -30,6 +31,7 @@ public class Cell {
 		this.roadName = name;
 		isOccupied = false;
 		isOccupiedNext = -1;
+		inCell = null;
 		previousCell = null;
 		nextCell = null;
 		outCell = null;

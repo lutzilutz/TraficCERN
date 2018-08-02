@@ -129,10 +129,9 @@ public class Simulation implements Runnable {
 			lastTime = System.nanoTime();
 			
 			if (delta >= 1) {
-				if (!simState.getPause()) {
-					int tickNumber = (int) Math.max(1, simState.getSimSpeed()/fps);
-					tick(tickNumber);
-				}
+				int tickNumber = (int) Math.max(1, simState.getSimSpeed()/fps);
+				tick(tickNumber);
+				
 				render();
 				Toolkit.getDefaultToolkit().sync();
 				delta--;

@@ -104,10 +104,6 @@ public class CrossRoad {
 		angle = Math.toDegrees(angle);
 		this.setX((int) (r.getX() + Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.sin(2*Math.PI*(r.getDirection()+90+angle)/360))));
 		this.setY((int) (r.getY() - Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.cos(2*Math.PI*(r.getDirection()+90+angle)/360))));
-		/*if (this.roadsIN[i] == null) {
-			++ this.numberOfRoadsIn;
-		}
-		this.roadsIN[i] = r;*/
 		addRoadIn(r, i);
 	}
 	
@@ -117,7 +113,6 @@ public class CrossRoad {
 		this.setX((int) (r.getX() - (1*n.getCellHeight()/2 * Math.sin(2*Math.PI*r.getDirection()/360.0))));
 		this.setY((int) (r.getY() + (5*n.getCellHeight()/2 * Math.cos(2*Math.PI*r.getDirection()/360.0))));
 		addRoadOut(r, i);
-		//this.roadsOUT[i] = r;
 	}
 	
 	public void connectTo(Road r, int i) {
@@ -126,7 +121,6 @@ public class CrossRoad {
 		r.getRoadCells().get(0).setPreviousCell(this.middleCells[i]);
 		addRoadOut(r, i);
 		this.addExit(r.getName(), i);
-		//this.roadsOUT[i] = r;
 	}
 	
 	public void addRoadIn(Road r, int i) {
@@ -211,11 +205,9 @@ public class CrossRoad {
 	public void setStateOfTrafficLight(int stateOfTrafficLight) {
 		this.stateOfTrafficLight = stateOfTrafficLight;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}

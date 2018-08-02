@@ -411,7 +411,7 @@ public class Network {
 		rTunnelNW.setX(813);
 		rTunnelNW.setY(475);
 		roads.add(0,rTunnelNW);
-		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setNextCell(rC5NE.getRoadCells().get(13));
+		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setOutCell(rC5NE.getRoadCells().get(13));
 		rTunnelNW.setUnderground(17, 20, true);
 		
 		// ##################################################################################################

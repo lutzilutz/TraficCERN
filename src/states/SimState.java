@@ -242,24 +242,28 @@ public class SimState extends State {
 	
 	public void tick(int n) {
 		
-		if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
+		if (!getPause()) {
 			
-			if (simSpeed >= 5000) {
-				while((System.nanoTime()-lastTick) <= 1000000000/60) {
-					step++;
-					NetworkComputing.computeEvolution(network);
-					NetworkComputing.evolve(network);
+			if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
+				
+				if (simSpeed >= 5000) {
+					while((System.nanoTime()-lastTick) <= 1000000000/60) {
+						step++;
+						NetworkComputing.computeEvolution(network);
+						NetworkComputing.evolve(network);
+					}
+				} else {
+					for (int i=0 ; i<n ; i++) {
+						//System.out.println("New step !");
+						step++;
+						NetworkComputing.computeEvolution(network);
+						NetworkComputing.evolve(network);
+					}
 				}
-			} else {
-				for (int i=0 ; i<n ; i++) {
-					//System.out.println("New step !");
-					step++;
-					NetworkComputing.computeEvolution(network);
-					NetworkComputing.evolve(network);
-				}
+				lastTick = System.nanoTime();
 			}
-			lastTick = System.nanoTime();
 		}
+		
 		uiManager.tick();
 		keyManager.tick();
 		
@@ -328,7 +332,7 @@ public class SimState extends State {
 		//System.out.println(offsetSpeed);
 	}
 	public void tick() {
-		this.uiManager.tick();
+		//this.uiManager.tick();
 	}
 	
 	public void render(Graphics g) {
