@@ -1,6 +1,6 @@
 package elements;
 
-public class Exit {
+public class Exit implements Cloneable {
 	
 	private String name;
 	private int position;
@@ -8,6 +8,25 @@ public class Exit {
 	public Exit(String name, int position) {
 		this.name = name;
 		this.position = position;
+	}
+	
+	public Exit clone( ) {
+		Exit e = null;
+		try {
+			e = (Exit) super.clone();
+		} catch(CloneNotSupportedException cnse) {
+			cnse.printStackTrace(System.err);
+		}
+		
+		return e;
+	}
+	
+	public void print() {
+		System.out.print("(" + this.position + ", " + this.name + ") ");
+	}
+	
+	public void println() {
+		System.out.println("(" + this.position + ", " + this.name + ") ");
 	}
 
 	public String getName() {
@@ -25,7 +44,5 @@ public class Exit {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-	
-	
 
 }

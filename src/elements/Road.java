@@ -49,6 +49,7 @@ public class Road {
 		id = idCounter;
 		idCounter++;
 		this.length = length;
+		this.name = name;
 		for (int i=0; i<length; i++) {
 			
 			Cell tmp = new Cell(name);
@@ -157,14 +158,61 @@ public class Road {
 	// Connect "pointer" of last Cell to Cell i of RoundAbout
 	public void connectTo(Road r, int i) {
 		this.getRoadCells().get(this.getLength()-1).setOutCell(r.getRoadCells().get(i));
-		r.getRoadCells().get(i).setPreviousCell(this.getRoadCells().get(this.getLength()-1));
+		r.getRoadCells().get(i).setInCell(this.getRoadCells().get(this.getLength()-1));
+		this.addExit(r.getName(), this.getLength()-1);
 	}
 	public void connectTo(RoundAbout ra, int i) {
 		this.getRoadCells().get(this.getLength()-1).setOutCell(ra.getRoadCells().get(i));
+		this.addExit(ra.getName(), this.getLength()-1);
 	}
 	public void connectTo(CrossRoad CR, int i) {
 		i = i % 4;
 		this.getRoadCells().get(this.getLength()-1).setOutCell(CR.getMiddleCells()[i]);
+		this.addExit(CR.getName(), this.getLength()-1);
+	}
+	
+	public void generateRides(int n) {
+		this.generateRidesAux(n, new Ride(this.getName()));
+	}
+	
+	public void generateRidesAux(int n, Ride ride) {
+		if(n==0) {
+			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
+				this.n.addARideToAllNetworkRides(ride.clone());
+			}
+			ride.removeLastExit();
+			return;
+		} else if (n > 0) {
+			for (Exit e: this.exits) {
+				for (Road r: this.n.getRoads()) {
+					if (e.getName().equals(r.getName())) {
+						ride.addNextExit(e.clone());
+						r.generateRidesAux(n-1, ride);
+					}
+				}
+				for (RoundAbout ra: this.n.getRoundAbouts()) {
+					if (e.getName().equals(ra.getName())) {
+						ride.addNextExit(e.clone());
+						ra.generateRidesAux(n-1, ride);
+					}
+				}
+				for (CrossRoad cr: this.n.getCrossRoads()) {
+					if (e.getName().equals(cr.getName())) {
+						ride.addNextExit(e.clone());
+						cr.generateRidesAux(n-1, ride);
+					}
+				}	
+			}
+			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
+				this.n.addARideToAllNetworkRides(ride.clone());
+			}
+			ride.removeLastExit();
+			return;
+		} else {
+			ride.removeLastExit();
+			return;
+		}
+		
 	}
 	
 	public void display() {
@@ -253,6 +301,10 @@ public class Road {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public ArrayList<Exit> getExits() {
+		return exits;
 	}
 	
 	

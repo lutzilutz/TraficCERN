@@ -9,13 +9,13 @@ public class Vehicle {
 	private int id;
 	private Cell cell;
 	private int speed = 1;
-	private ArrayList<String> ride;
+	//private ArrayList<String> ride;
 	
 	public Vehicle() {
 		id = idCounter;
 		idCounter++;
 		cell = null;
-		ride = new ArrayList<String>();
+		//ride = new ArrayList<String>();
 	}
 	
 	//public void vehicleEvolution
@@ -49,11 +49,11 @@ public class Vehicle {
 	public void setCell(Cell cell) {
 		this.cell = cell;
 	}
-
+	/*
 	public ArrayList<String> getRide() {
 		return ride;
 	}
-	
+	*/
 	
 	
 }

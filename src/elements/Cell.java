@@ -138,4 +138,14 @@ public class Cell {
 	public void setTypeOfRoad(int typeOfRoad) {
 		this.typeOfRoad = typeOfRoad;
 	}
+
+	public Cell getInCell() {
+		return inCell;
+	}
+
+	public void setInCell(Cell inCell) {
+		this.inCell = inCell;
+	}
+	
+	
 }

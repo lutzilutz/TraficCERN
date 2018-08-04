@@ -10,9 +10,18 @@ public class RoundAbout extends Road {
 		this.getRoadCells().get(this.getLength()-1).setNextCell(this.getRoadCells().get(0));
 		this.getRoadCells().get(0).setPreviousCell(this.getRoadCells().get(this.getLength()-1));
 	}
+	
+	public RoundAbout(Network n, int length, String name) {
+		super(n, length, name);
+		this.n = n;
+		this.getRoadCells().get(this.getLength()-1).setNextCell(this.getRoadCells().get(0));
+		this.getRoadCells().get(0).setPreviousCell(this.getRoadCells().get(this.getLength()-1));
+	}
+	
 	public void connectTo(Road r, int i) {
 		this.getRoadCells().get(i).setOutCell(r.getRoadCells().get(0));
-		r.getRoadCells().get(0).setPreviousCell(getRoadCells().get(i));
+		r.getRoadCells().get(0).setInCell(getRoadCells().get(i));
+		this.addExit(r.getName(), i);
 	}
 	public void setPositionFrom(Road r, int i) {
 		double x = (int) (r.getX());

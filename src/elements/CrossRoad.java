@@ -138,6 +138,34 @@ public class CrossRoad {
 		exits.add(new Exit(name, position));
 	}
 	
+	public void generateRidesAux(int n, Ride ride) {
+		if (n > 0) {
+			for (Exit e: this.exits) {
+				for (Road r: this.n.getRoads()) {
+					if (e.getName().equals(r.getName())) {
+						ride.addNextExit(e.clone());
+						r.generateRidesAux(n-1, ride);
+					}
+				}
+				for (RoundAbout ra: this.n.getRoundAbouts()) {
+					if (e.getName().equals(ra.getName())) {
+						ride.addNextExit(e.clone());
+						ra.generateRidesAux(n-1, ride);
+					}
+				}
+				for (CrossRoad cr: this.n.getCrossRoads()) {
+					if (e.getName().equals(cr.getName())) {
+						ride.addNextExit(e.clone());
+						cr.generateRidesAux(n-1, ride);
+					}
+				}
+			}
+		} else {
+			return;
+		}
+		
+	}
+	
 	// Getters and setters ================================================================
 	public Road[] getRoadsIN() {
 		return roadsIN;
@@ -211,4 +239,9 @@ public class CrossRoad {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public ArrayList<Exit> getExits() {
+		return exits;
+	}
+	
 }
