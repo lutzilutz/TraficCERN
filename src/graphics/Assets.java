@@ -19,6 +19,7 @@ public class Assets {
 	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);
+	public static Font normalBoldFont = new Font("Arial", Font.BOLD, 12);
 	public static Font largeFont = new Font("Arial", Font.PLAIN, 20);
 	
 	// Images

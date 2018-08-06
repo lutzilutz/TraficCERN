@@ -351,6 +351,9 @@ public class NetworkRendering {
 		
 	public static void render(Network network, Graphics g) {
 		renderVehicles(network, g);
+		if (network.getDrawNames()) {
+			renderElementName(network, g);
+		}
 		if (network.getDrawCenters()) {
 			renderElementCenter(network, g);
 		}
@@ -383,6 +386,20 @@ public class NetworkRendering {
 			}
 		}
 		gg.dispose();
+	}
+	public static void renderElementName(Network n, Graphics g) {
+		Graphics2D gg = (Graphics2D) g.create();
+		gg.translate(-bounds.x, -bounds.y);
+		gg.setColor(Color.red);
+		for (CrossRoad cr: n.getCrossRoads()) {
+			Text.drawString(gg, cr.getName(), Color.red, (int) cr.getX(), (int) cr.getY(), false, Assets.normalBoldFont);
+		}
+		for (Road r: n.getRoads()) {
+			Text.drawString(gg, r.getName(), Color.red, (int) r.getX(), (int) r.getY(), false, Assets.normalBoldFont);
+		}
+		for (RoundAbout r: n.getRoundAbouts()) {
+			Text.drawString(gg, r.getName(), Color.red, (int) r.getX(), (int) r.getY(), false, Assets.normalBoldFont);
+		}
 	}
 	public static void renderElementCenter(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();

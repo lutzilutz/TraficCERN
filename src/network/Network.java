@@ -28,6 +28,7 @@ public class Network {
 	private boolean drawWire = true; // true for rendering the border of the cells
 	private boolean drawColors = true; // true for rendering color codes (end of road, out cells, ...)
 	private boolean drawRoadID = false; // true for rendering roads ID
+	private boolean drawNames = false; // true for rendering names of road
 	private boolean drawCenters = false; // true for rendering centers (x,y position)
 	private ArrayList<Polygon> zones = new ArrayList<Polygon>();
 	
@@ -38,8 +39,8 @@ public class Network {
 	//private String title="", description="";
 	
 	public Network(Simulation sim, int n) {
-		this.setCellHeight(4);
-		this.setCellWidth(4);
+		this.setCellHeight(6);
+		this.setCellWidth(6);
 		this.sim = sim;
 		Road.resetID();
 		xOffset = 0;
@@ -594,6 +595,9 @@ public class Network {
 	public void switchDrawCenters() {
 		drawCenters = !drawCenters;
 	}
+	public void switchDrawNames() {
+		drawNames = !drawNames;
+	}
 	public Simulation getSimulation() {
 		return this.sim;
 	}
@@ -614,6 +618,9 @@ public class Network {
 	}
 	public boolean getDrawRoadID() {
 		return this.drawRoadID;
+	}
+	public boolean getDrawNames() {
+		return this.drawNames;
 	}
 	public boolean getDrawCenters() {
 		return this.drawCenters;

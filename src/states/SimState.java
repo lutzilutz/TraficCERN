@@ -38,7 +38,7 @@ public class SimState extends State {
 	
 	private UITextButton stepByStep, exitY, exitN;
 	private UIImageButton playPause;
-	private UITextSwitch colorOn, wireOn, idOn, centersOn;
+	private UITextSwitch colorOn, wireOn, idOn, namesOn, centersOn;
 	
 	private BufferedImage[] networkDisplays;
 	private BufferedImage currentDisplay;
@@ -194,7 +194,14 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
+		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
+			@Override
+			public void onClick() {
+				namesOn.switchIt();
+				network.switchDrawNames();
+			}
+		});
+		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				centersOn.switchIt();
@@ -204,6 +211,7 @@ public class SimState extends State {
 		this.uiManager.addObject(colorOn);
 		this.uiManager.addObject(wireOn);
 		this.uiManager.addObject(idOn);
+		this.uiManager.addObject(namesOn);
 		this.uiManager.addObject(centersOn);
 	}
 	public void init() {
