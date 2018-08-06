@@ -512,9 +512,20 @@ public class Network {
 		}
 		System.out.println("");
 		
-		rRueDeGeneveSE.generateRides(6);
-		this.allNetworkRides.get(0).print();
+		this.generateAllNetworkRides(6);
+		for (AllNetworkRides ANR: this.allNetworkRides) {
+			ANR.print();
+			System.out.println("");
+		}
 		System.out.println("(=^-^=)");
+	}
+	
+	public void generateAllNetworkRides(int n) {
+		for (Road r: this.roads) {
+			if (r.getGenerateVehicules()) {
+				r.generateRides(n);
+			}
+		}
 	}
 	
 	public void addARideToAllNetworkRides(Ride ride) {
