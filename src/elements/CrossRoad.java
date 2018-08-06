@@ -160,7 +160,15 @@ public class CrossRoad {
 					}
 				}
 			}
+			if (!ride.getNextExits().isEmpty()) {
+				ride.removeLastExit();
+			}
+			//return;
 		} else {
+			if (!ride.getNextExits().isEmpty()) {
+				ride.removeLastExit();
+			}
+			//ride.removeLastExit();
 			return;
 		}
 		

@@ -14,6 +14,13 @@ public class Ride implements Cloneable {
 		this.roadName = name ;
 	}
 	
+	public void print() {
+		System.out.print("Ride: ");
+		for (Exit e: nextExits) {
+			e.print();
+		}
+	}
+	
 	public void addNextExit(Exit e) {
 		this.nextExits.add(e);
 	}

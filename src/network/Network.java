@@ -403,6 +403,7 @@ public class Network {
 		rTunnelSE.addPoint(new Point(27, 185));
 		roads.add(0,rTunnelSE);
 		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
+		rC5NE.addExit("rTunnelSE", 7);
 		rTunnelSE.getRoadCells().get(0).setPreviousCell(rC5NE.getRoadCells().get(7));
 		rTunnelSE.setUnderground(14, 16, true);
 		

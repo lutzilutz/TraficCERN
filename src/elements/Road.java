@@ -206,10 +206,14 @@ public class Road {
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
 				this.n.addARideToAllNetworkRides(ride.clone());
 			}
-			ride.removeLastExit();
+			if (!ride.getNextExits().isEmpty()) {
+				ride.removeLastExit();
+			}
 			return;
 		} else {
-			ride.removeLastExit();
+			if (!ride.getNextExits().isEmpty()) {
+				ride.removeLastExit();
+			}
 			return;
 		}
 		
