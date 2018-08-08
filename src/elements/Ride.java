@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Ride implements Cloneable {
 	String roadName;
-	ArrayList<Exit> nextExits = new ArrayList<Exit>();
+	ArrayList<Connection> nextConnections = new ArrayList<Connection>();
 	
 	public Ride() {
 		this.roadName = "" ;
@@ -16,17 +16,17 @@ public class Ride implements Cloneable {
 	
 	public void print() {
 		System.out.print("Ride: ");
-		for (Exit e: nextExits) {
+		for (Connection e: nextConnections) {
 			e.print();
 		}
 	}
 	
-	public void addNextExit(Exit e) {
-		this.nextExits.add(e);
+	public void addNextConnection(Connection e) {
+		this.nextConnections.add(e);
 	}
 	
-	public void removeLastExit() {
-		this.nextExits.remove(this.nextExits.size()-1);
+	public void removeLastConnection() {
+		this.nextConnections.remove(this.nextConnections.size()-1);
 	}
 	
 	public Ride clone() {
@@ -36,7 +36,7 @@ public class Ride implements Cloneable {
 		} catch (CloneNotSupportedException cnse) {
 			cnse.printStackTrace(System.err);
 		}
-		ride.nextExits = new ArrayList<Exit>(this.getNextExits());
+		ride.nextConnections = new ArrayList<Connection>(this.getNextConnections());
 		return ride;
 		
 	}
@@ -49,8 +49,8 @@ public class Ride implements Cloneable {
 		this.roadName = roadName;
 	}
 
-	public ArrayList<Exit> getNextExits() {
-		return nextExits;
+	public ArrayList<Connection> getNextConnections() {
+		return nextConnections;
 	}
 	
 	

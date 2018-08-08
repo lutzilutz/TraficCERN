@@ -13,7 +13,8 @@ public class Road {
 	
 	// Simulation
 	private String name;
-	private ArrayList<Exit> exits = new ArrayList<Exit>();
+	private ArrayList<Connection> exits = new ArrayList<Connection>();
+	private ArrayList<Connection> enters = new ArrayList<Connection>();
 	private int id; // Roads ID
 	private int length;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
@@ -160,15 +161,18 @@ public class Road {
 		this.getRoadCells().get(this.getLength()-1).setOutCell(r.getRoadCells().get(i));
 		r.getRoadCells().get(i).setInCell(this.getRoadCells().get(this.getLength()-1));
 		this.addExit(r.getName(), this.getLength()-1);
+		r.addEnter(this.getName(), i);
 	}
 	public void connectTo(RoundAbout ra, int i) {
 		this.getRoadCells().get(this.getLength()-1).setOutCell(ra.getRoadCells().get(i));
 		this.addExit(ra.getName(), this.getLength()-1);
+		ra.addEnter(this.getName(), i);
 	}
 	public void connectTo(CrossRoad CR, int i) {
 		i = i % 4;
 		this.getRoadCells().get(this.getLength()-1).setOutCell(CR.getMiddleCells()[i]);
 		this.addExit(CR.getName(), this.getLength()-1);
+		CR.addEnter(this.getName(), i);
 	}
 	
 	public void generateRides(int n) {
@@ -180,25 +184,46 @@ public class Road {
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
 				this.n.addARideToAllNetworkRides(ride.clone());
 			}
-			ride.removeLastExit();
+			ride.removeLastConnection();
 			return;
 		} else if (n > 0) {
-			for (Exit e: this.exits) {
+			for (Connection e: this.exits) {
+				boolean canAdd = true;
 				for (Road r: this.n.getRoads()) {
 					if (e.getName().equals(r.getName())) {
-						ride.addNextExit(e.clone());
-						r.generateRidesAux(n-1, ride);
+						if (!ride.getNextConnections().isEmpty()) {
+							for (Connection ent: this.getEnters()) {
+								
+								if(ride.getNextConnections().size() > 1 && ent.getName().equals(ride.getNextConnections().get(ride.getNextConnections().size()-2).getName())) {
+									if (ent.getPosition() >= e.getPosition()) {
+										canAdd = false;
+									}
+								} else if (ride.getNextConnections().size() == 1) {
+									if (ent.getName().equals(ride.getRoadName())) {
+										if (ent.getPosition() >= e.getPosition()) {
+											canAdd = false;
+										}
+									}
+								}
+							}
+						}
+						if (canAdd) {
+							ride.addNextConnection(e.clone());
+							r.generateRidesAux(n-1, ride);
+						}
+						canAdd = true;
+						
 					}
 				}
 				for (RoundAbout ra: this.n.getRoundAbouts()) {
 					if (e.getName().equals(ra.getName())) {
-						ride.addNextExit(e.clone());
+						ride.addNextConnection(e.clone());
 						ra.generateRidesAux(n-1, ride);
 					}
 				}
 				for (CrossRoad cr: this.n.getCrossRoads()) {
 					if (e.getName().equals(cr.getName())) {
-						ride.addNextExit(e.clone());
+						ride.addNextConnection(e.clone());
 						cr.generateRidesAux(n-1, ride);
 					}
 				}	
@@ -206,13 +231,13 @@ public class Road {
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
 				this.n.addARideToAllNetworkRides(ride.clone());
 			}
-			if (!ride.getNextExits().isEmpty()) {
-				ride.removeLastExit();
+			if (!ride.getNextConnections().isEmpty()) {
+				ride.removeLastConnection();
 			}
 			return;
 		} else {
-			if (!ride.getNextExits().isEmpty()) {
-				ride.removeLastExit();
+			if (!ride.getNextConnections().isEmpty()) {
+				ride.removeLastConnection();
 			}
 			return;
 		}
@@ -238,7 +263,11 @@ public class Road {
 	}
 	
 	public void addExit(String name, int position) {
-		exits.add(new Exit(name, position));
+		exits.add(new Connection(name, position));
+	}
+	
+	public void addEnter(String name, int position) {
+		enters.add(new Connection(name, position));
 	}
 
 	// Getters and setters ----------------------
@@ -307,8 +336,12 @@ public class Road {
 		this.name = name;
 	}
 
-	public ArrayList<Exit> getExits() {
+	public ArrayList<Connection> getExits() {
 		return exits;
+	}
+
+	public ArrayList<Connection> getEnters() {
+		return enters;
 	}
 	
 	

@@ -5,7 +5,7 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
-import elements.Exit;
+import elements.Connection;
 import elements.MultiLaneRoad;
 import elements.MultiLaneRoundAbout;
 import elements.Ride;
@@ -405,6 +405,7 @@ public class Network {
 		roads.add(0,rTunnelSE);
 		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
 		rC5NE.addExit("rTunnelSE", 7);
+		rTunnelSE.addEnter("rC5NE", 0);
 		rTunnelSE.getRoadCells().get(0).setPreviousCell(rC5NE.getRoadCells().get(7));
 		rTunnelSE.setUnderground(14, 16, true);
 		
@@ -418,6 +419,7 @@ public class Network {
 		roads.add(0,rTunnelNW);
 		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setOutCell(rC5NE.getRoadCells().get(13));
 		rTunnelNW.addExit(rC5NE.getName(), rTunnelNW.getLength()-1);
+		rC5NE.addEnter("rTunnelNW", 13);
 		rTunnelNW.setUnderground(17, 20, true);
 		
 		// Carrefour entree B -------------------------------------------------------------------------------
@@ -483,7 +485,12 @@ public class Network {
 			System.out.println("");
 			System.out.println(r.getName());
 			System.out.print("Exits: ");
-			for (Exit e: r.getExits()) {
+			for (Connection e: r.getExits()) {
+				e.print();
+			}
+			System.out.println("");
+			System.out.print("Enters: ");
+			for (Connection e: r.getEnters()) {
 				e.print();
 			}
 			System.out.println("");
@@ -495,7 +502,12 @@ public class Network {
 			System.out.println("");
 			System.out.println(ra.getName());
 			System.out.print("Exits: ");
-			for (Exit e: ra.getExits()) {
+			for (Connection e: ra.getExits()) {
+				e.print();
+			}
+			System.out.println("");
+			System.out.print("Enters: ");
+			for (Connection e: ra.getEnters()) {
 				e.print();
 			}
 			System.out.println("");
@@ -506,7 +518,12 @@ public class Network {
 			System.out.println("");
 			System.out.println(cr.getName());
 			System.out.print("Exits: ");
-			for (Exit e: cr.getExits()) {
+			for (Connection e: cr.getExits()) {
+				e.print();
+			}
+			System.out.println("");
+			System.out.print("Enters: ");
+			for (Connection e: cr.getEnters()) {
 				e.print();
 			}
 			System.out.println("");

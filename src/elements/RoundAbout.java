@@ -22,7 +22,54 @@ public class RoundAbout extends Road {
 		this.getRoadCells().get(i).setOutCell(r.getRoadCells().get(0));
 		r.getRoadCells().get(0).setInCell(getRoadCells().get(i));
 		this.addExit(r.getName(), i);
+		r.addEnter(this.getName(), 0);
 	}
+	
+	
+	public void generateRidesAux(int n, Ride ride) {
+		if(n==0) {
+			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
+				this.n.addARideToAllNetworkRides(ride.clone());
+			}
+			ride.removeLastConnection();
+			return;
+		} else if (n > 0) {
+			for (Connection e: this.getExits()) {
+				for (Road r: this.n.getRoads()) {
+					if (e.getName().equals(r.getName())) {
+						ride.addNextConnection(e.clone());
+						r.generateRidesAux(n-1, ride);
+					}
+				}
+				for (RoundAbout ra: this.n.getRoundAbouts()) {
+					if (e.getName().equals(ra.getName())) {
+						ride.addNextConnection(e.clone());
+						ra.generateRidesAux(n-1, ride);
+					}
+				}
+				for (CrossRoad cr: this.n.getCrossRoads()) {
+					if (e.getName().equals(cr.getName())) {
+						ride.addNextConnection(e.clone());
+						cr.generateRidesAux(n-1, ride);
+					}
+				}	
+			}
+			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
+				this.n.addARideToAllNetworkRides(ride.clone());
+			}
+			if (!ride.getNextConnections().isEmpty()) {
+				ride.removeLastConnection();
+			}
+			return;
+		} else {
+			if (!ride.getNextConnections().isEmpty()) {
+				ride.removeLastConnection();
+			}
+			return;
+		}
+		
+	}
+	
 	public void setPositionFrom(Road r, int i) {
 		double x = (int) (r.getX());
 		double y = (int) (r.getY());

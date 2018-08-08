@@ -1,19 +1,19 @@
 package elements;
 
-public class Exit implements Cloneable {
+public class Connection implements Cloneable {
 	
 	private String name;
 	private int position;
 	
-	public Exit(String name, int position) {
+	public Connection(String name, int position) {
 		this.name = name;
 		this.position = position;
 	}
 	
-	public Exit clone( ) {
-		Exit e = null;
+	public Connection clone( ) {
+		Connection e = null;
 		try {
-			e = (Exit) super.clone();
+			e = (Connection) super.clone();
 		} catch(CloneNotSupportedException cnse) {
 			cnse.printStackTrace(System.err);
 		}

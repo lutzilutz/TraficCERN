@@ -2,7 +2,7 @@ package network;
 
 import java.util.ArrayList;
 
-import elements.Exit;
+import elements.Connection;
 import elements.Ride;
 
 public class AllNetworkRides {
@@ -18,8 +18,8 @@ public class AllNetworkRides {
 	public void print() {
 		System.out.println("Initial road: " + this.roadName);
 		for (Ride ride: networkRides) {
-			System.out.print("Exits: ");
-			for (Exit e: ride.getNextExits()) {
+			System.out.print("Connections: ");
+			for (Connection e: ride.getNextConnections()) {
 				System.out.print(" => ");
 				e.print();
 				

@@ -11,7 +11,8 @@ public class CrossRoad {
 	private Road[] roadsIN;
 	private Road[] roadsOUT;
 	private Cell[] middleCells;
-	private ArrayList<Exit> exits = new ArrayList<Exit>();
+	private ArrayList<Connection> exits = new ArrayList<Connection>();
+	private ArrayList<Connection> enters = new ArrayList<Connection>();
 	private int greenTrafficLight = 1;
 	private int timeTrafficLight = 30;
 	private int counter = 0;
@@ -121,6 +122,7 @@ public class CrossRoad {
 		r.getRoadCells().get(0).setPreviousCell(this.middleCells[i]);
 		addRoadOut(r, i);
 		this.addExit(r.getName(), i);
+		r.addEnter(this.getName(), 0);
 	}
 	
 	public void addRoadIn(Road r, int i) {
@@ -135,40 +137,44 @@ public class CrossRoad {
 	}
 	
 	public void addExit(String name, int position) {
-		exits.add(new Exit(name, position));
+		exits.add(new Connection(name, position));
+	}	
+	
+	public void addEnter(String name, int position) {
+		enters.add(new Connection(name, position));
 	}
 	
 	public void generateRidesAux(int n, Ride ride) {
 		if (n > 0) {
-			for (Exit e: this.exits) {
+			for (Connection e: this.exits) {
 				for (Road r: this.n.getRoads()) {
 					if (e.getName().equals(r.getName())) {
-						ride.addNextExit(e.clone());
+						ride.addNextConnection(e.clone());
 						r.generateRidesAux(n-1, ride);
 					}
 				}
 				for (RoundAbout ra: this.n.getRoundAbouts()) {
 					if (e.getName().equals(ra.getName())) {
-						ride.addNextExit(e.clone());
+						ride.addNextConnection(e.clone());
 						ra.generateRidesAux(n-1, ride);
 					}
 				}
 				for (CrossRoad cr: this.n.getCrossRoads()) {
 					if (e.getName().equals(cr.getName())) {
-						ride.addNextExit(e.clone());
+						ride.addNextConnection(e.clone());
 						cr.generateRidesAux(n-1, ride);
 					}
 				}
 			}
-			if (!ride.getNextExits().isEmpty()) {
-				ride.removeLastExit();
+			if (!ride.getNextConnections().isEmpty()) {
+				ride.removeLastConnection();
 			}
 			//return;
 		} else {
-			if (!ride.getNextExits().isEmpty()) {
-				ride.removeLastExit();
+			if (!ride.getNextConnections().isEmpty()) {
+				ride.removeLastConnection();
 			}
-			//ride.removeLastExit();
+			//ride.removeLastConnection();
 			return;
 		}
 		
@@ -248,8 +254,12 @@ public class CrossRoad {
 		this.name = name;
 	}
 
-	public ArrayList<Exit> getExits() {
+	public ArrayList<Connection> getExits() {
 		return exits;
+	}
+
+	public ArrayList<Connection> getEnters() {
+		return enters;
 	}
 	
 }
