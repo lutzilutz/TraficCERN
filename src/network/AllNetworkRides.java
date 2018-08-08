@@ -31,6 +31,10 @@ public class AllNetworkRides {
 		networkRides.add(r);
 	}
 
+	public ArrayList<Ride> getNetworkRides() {
+		return networkRides;
+	}
+
 	public String getRoadName() {
 		return roadName;
 	}

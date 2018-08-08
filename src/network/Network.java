@@ -3,6 +3,9 @@ package network;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 
 import elements.CrossRoad;
 import elements.Connection;
@@ -536,6 +539,42 @@ public class Network {
 			System.out.println("");
 		}
 		System.out.println("(=^-^=)");
+		
+		this.cleanAllNetworkRides();
+		for (AllNetworkRides ANR: this.allNetworkRides) {
+			ANR.print();
+			System.out.println("");
+		}
+	}
+	
+	public void cleanAllNetworkRides() {
+		if (!this.getAllNetworkRides().isEmpty()) {
+			for (AllNetworkRides ANR: this.getAllNetworkRides()) {
+				ArrayList<Integer> elmtsToChange = new ArrayList<Integer>();
+				for (int i=0; i<ANR.getNetworkRides().size()-2; ++i) {
+					for (int j=(i+1); j<ANR.getNetworkRides().size()-1; ++j) {
+						ArrayList<Connection> riConnections = ANR.getNetworkRides().get(i).getNextConnections();
+						ArrayList<Connection> rjConnections = ANR.getNetworkRides().get(j).getNextConnections();
+						if (riConnections.get(riConnections.size()-1).getName().equals(rjConnections.get(rjConnections.size()-1).getName())) {
+							if (rjConnections.size() > riConnections.size()) {
+								elmtsToChange.add(j);
+							} else if (rjConnections.size() < riConnections.size()){
+								elmtsToChange.add(j);
+							}
+						}
+					}
+				}
+				HashSet<Integer> set = new HashSet<Integer>();
+				set.addAll(elmtsToChange);
+				elmtsToChange = new ArrayList<Integer>(set);
+				Collections.reverse(elmtsToChange);
+				if (!elmtsToChange.isEmpty()) {
+					for (int n: elmtsToChange) {
+						ANR.getNetworkRides().remove(n);
+					}
+				}
+			}
+		}
 	}
 	
 	public void generateAllNetworkRides(int n) {
