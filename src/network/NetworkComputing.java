@@ -82,15 +82,16 @@ public class NetworkComputing {
 	// Update Cell of the Road according to the next state
 	public static void evolve(Network n) {
 		
+		for (Vehicle v: n.getVehicles()) {
+			v.evolve();
+		}
+		
 		Iterator<Vehicle> iter = n.getVehicles().iterator();
 		while (iter.hasNext()) {
 		    Vehicle vec = iter.next();
-		    if (vec.hasToLeave())
-		        iter.remove();
-		}
-		
-		for (Vehicle v: n.getVehicles()) {
-			v.evolve();
+		    if (vec.hasToLeave()) {
+		    	iter.remove();
+		    }
 		}
 	}
 	// Compute future state of the Cells of the Road

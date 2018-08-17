@@ -34,6 +34,7 @@ public class Vehicle {
 				nextPlace.setVehicle(null);
 			}
 			nextPlace = null;
+			System.out.println("have leaved !");
 		}
 	}
 	public void leaveNetwork() {
