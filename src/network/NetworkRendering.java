@@ -223,40 +223,6 @@ public class NetworkRendering {
 				}
 			}
 			gg.dispose();
-			// Wires --------------------------------------------------------------------------------------------------
-			/*gg = (Graphics2D) g.create();
-			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			gg.rotate(firstAngle, r.getX(), r.getY());
-			if (drawWire) {
-				gg.setColor(Color.white);
-				if (r.getReorientations().size()==1) {
-					gg.drawRect((int) (r.getX()), (int) (r.getY()-n.getCellHeight()/2.0), n.getCellWidth()*(r.getLength()), n.getCellHeight());
-				} else {
-					double x = r.getX();
-					double y = r.getY()-n.getCellHeight()/2.0;
-					double lastAngle = r.getDirection();
-					double newAngle = r.getDirection();
-					gg.drawRect((int) (r.getX()), (int) (r.getY()-n.getCellHeight()/2.0), (int) (n.getCellWidth()*(r.getReorientations().get(1).getX())), n.getCellHeight());
-					
-					for (int i=1 ; i<r.getReorientations().size() ; i++) {
-						lastAngle = newAngle;
-						newAngle = r.getReorientations().get(i).getY();
-						x += n.getCellWidth()*(r.getReorientations().get(i).getX()-r.getReorientations().get(i-1).getX());
-						gg.rotate(2*Math.PI*(newAngle-lastAngle)/360.0, x, y);
-						
-						
-						
-						
-					}
-				}
-			}
-			for (int i=0 ; i<r.getLength() ; i++) {
-				if (drawWire) {
-					gg.setColor(Color.white);
-					//gg.drawLine((int) (r.getX()+i*n.getCellWidth()), (int) (r.getY() - n.getCellHeight()/2.0), (int) (r.getX()+i*n.getCellWidth()), (int) (r.getY() + n.getCellHeight()/2.0));
-				}
-			}
-			gg.dispose();*/
 		}
 		// RoundAbouts ================================================================================================
 		for (RoundAbout r: n.getRoundAbouts()) {
@@ -364,14 +330,16 @@ public class NetworkRendering {
 		gg.setColor(Color.black);
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0; i<4; ++i) {
-				if (cr.getMiddleCells()[i].isOccupied()) {
+				//if (cr.getMiddleCells()[i].isOccupied()) {
+				if (cr.getMiddleCells()[i].getVehicle() != null) {
 					gg.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
 				}
 			}
 		}
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
-				if (r.getRoadCells().get(i).isOccupied()) {
+				//if (r.getRoadCells().get(i).isOccupied()) {
+				if (r.getRoadCells().get(i).getVehicle() != null) {
 					if (!r.getRoadCells().get(i).isUnderground()) {
 						gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
 					}
@@ -380,7 +348,8 @@ public class NetworkRendering {
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
-				if (r.getRoadCells().get(i).isOccupied()) {
+				if (r.getRoadCells().get(i).getVehicle() != null) {
+				//if (r.getRoadCells().get(i).isOccupied()) {
 					gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
 				}
 			}

@@ -44,7 +44,7 @@ public class Cell {
 		} else if (isOccupiedNext == 1) {
 			isOccupied = true;
 		} else if (isOccupiedNext == -1) {
-			System.out.println("Error - Unupdated Cell ========");
+			//System.out.println("Error - Unupdated Cell ========");
 		} else {
 			System.out.println("Error - Invalid value (isOccupiedNext) ========");
 		}

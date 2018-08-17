@@ -1,8 +1,11 @@
 package network;
 
+import java.util.Iterator;
+
 import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
+import elements.Vehicle;
 
 public class NetworkComputing {
 	
@@ -78,6 +81,69 @@ public class NetworkComputing {
 	}
 	// Update Cell of the Road according to the next state
 	public static void evolve(Network n) {
+		
+		Iterator<Vehicle> iter = n.getVehicles().iterator();
+		while (iter.hasNext()) {
+		    Vehicle vec = iter.next();
+		    if (vec.hasToLeave())
+		        iter.remove();
+		}
+		
+		for (Vehicle v: n.getVehicles()) {
+			v.evolve();
+		}
+	}
+	// Compute future state of the Cells of the Road
+	public static void computeEvolution(Network n) {
+		// generation of new Vehicles
+		for (Road r: n.getRoads()) {
+			if (r.getGenerateVehicules() && r.getRoadCells().get(0).getVehicle() == null && Math.random()<0.2) {
+				Vehicle tmp = new Vehicle();
+				tmp.setNextPlace(r.getRoadCells().get(0));
+				n.getVehicles().add(tmp);
+			}
+		}
+		
+		// evolution of existing vehicles
+		for (Vehicle v: n.getVehicles()) {
+			if (v.getCell() != null) {
+				// NEXT and OUT cells
+				if (v.getCell().getNextCell() != null && v.getCell().getOutCell() != null) {
+					if (Math.random() < 0.5) {
+						v.goToOutCell();
+					} else {
+						v.goToNextCell();
+					}
+				}
+				// only NEXT cell
+				else if (v.getCell().getNextCell() != null) {
+					if (v.getCell().getNextCell().getVehicle() == null) {
+						v.goToNextCell();
+					} else {
+						v.stayHere();
+					}
+				}
+				// only OUT cell
+				else if (v.getCell().getOutCell() != null) {
+					if (v.getCell().getOutCell().getVehicle() == null) {
+						v.goToOutCell();
+					} else {
+						v.stayHere();
+					}
+				}
+				// no NEXT or OUT cell
+				else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
+					v.leaveNetwork();
+				}
+				// should never happen ...
+				else {
+					v.stayHere();
+				}
+			}
+		}
+	}
+	// ### OLD ### Update Cell of the Road according to the next state
+	public static void evolveOLD(Network n) {
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0; i < 4; ++i) {
 				cr.getMiddleCells()[i].evolve();
@@ -94,8 +160,9 @@ public class NetworkComputing {
 			}
 		}
 	}
-	// Compute future state of the Cells of the Road
-	public static void computeEvolution(Network n) {
+	
+	// ### OLD ### Compute future state of the Cells of the Road
+	public static void computeEvolutionOld(Network n) {
 		// Crossroads -----------------------------------------------------------------------------
 		for (CrossRoad cr: n.getCrossRoads()) {
 			if (!cr.getRoadsIN()[(cr.getStateOfTrafficLight()+1)%4].isTrafficLightRed()) {

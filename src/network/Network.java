@@ -3,17 +3,17 @@ package network;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
-import elements.CrossRoad;
 import elements.Connection;
+import elements.CrossRoad;
 import elements.MultiLaneRoad;
 import elements.MultiLaneRoundAbout;
 import elements.Ride;
 import elements.Road;
 import elements.RoundAbout;
+import elements.Vehicle;
 import main.Simulation;
 
 public class Network {
@@ -26,6 +26,7 @@ public class Network {
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
 	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>();
+	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	private int cellWidth=10, cellHeight=cellWidth;
 	
 	private boolean drawWire = true; // true for rendering the border of the cells
@@ -599,6 +600,9 @@ public class Network {
 		} else {
 			this.allNetworkRides.get(index).addRide(ride);
 		}
+	}
+	public ArrayList<Vehicle> getVehicles() {
+		return vehicles;
 	}
 	public ArrayList<Polygon> getZones() {
 		return zones;
