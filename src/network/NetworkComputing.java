@@ -109,10 +109,12 @@ public class NetworkComputing {
 			if (v.getCell() != null) {
 				// NEXT and OUT cells
 				if (v.getCell().getNextCell() != null && v.getCell().getOutCell() != null) {
-					if (Math.random() < 0.5) {
+					if (v.getCell().getOutCell().getVehicle() == null && Math.random() < 0.5) {
 						v.goToOutCell();
-					} else {
+					} else if (v.getCell().getNextCell().getVehicle() == null) {
 						v.goToNextCell();
+					} else {
+						v.stayHere();
 					}
 				}
 				// only NEXT cell
@@ -126,7 +128,24 @@ public class NetworkComputing {
 				// only OUT cell
 				else if (v.getCell().getOutCell() != null) {
 					if (v.getCell().getOutCell().getVehicle() == null) {
-						v.goToOutCell();
+						if (v.getCell().getOutCell().getPreviousCell() != null) {
+							// if there is no vehicle in the road where Vehicle must go
+							if (v.getCell().getOutCell().getPreviousCell().getVehicle() == null) {
+								if (v.getCell().getOutCell().getPreviousCell().getPreviousCell() != null) {
+									// if there is no vehicle in the road where Vehicle must go, a cell before
+									if (v.getCell().getOutCell().getPreviousCell().getPreviousCell().getVehicle() == null) {
+										v.goToOutCell();
+									} else {
+										v.stayHere();
+									}
+								}
+							} else {
+								v.stayHere();
+							}
+						} else {
+							v.goToOutCell();
+						}
+						
 					} else {
 						v.stayHere();
 					}
