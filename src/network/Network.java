@@ -310,7 +310,7 @@ public class Network {
 		rD984FSE.addPoint(new Point(4,113));
 		rD984FSE.addPoint(new Point(rD984FSE.getLength()-4,97));
 		roads.add(rD984FSE);
-		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLength()-17);
+		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLength()-18);
 		
 		// N-W (in)
 		Road rD984FNW = new Road(this, 109, "rD984FNW");
@@ -546,6 +546,15 @@ public class Network {
 			ANR.print();
 			System.out.println("");
 		}
+	}
+	
+	public Road getRoad(String name) {
+		for (Road r: this.getRoads()) {
+			if (r.getName().equals(name)) {
+				return r;
+			}
+		}
+		return null;
 	}
 	
 	public Ride selectARide(String roadName) {

@@ -106,6 +106,13 @@ public class NetworkComputing {
 			}
 		}
 		
+		for (CrossRoad cr: n.getCrossRoads()) {
+			if (!cr.getRoadsIN()[(cr.getStateOfTrafficLight()+1)%4].isTrafficLightRed()) {
+				cr.setTrafficLightState(cr.getStateOfTrafficLight()%4);
+			}
+		}
+		
+		
 		// evolution of existing vehicles
 		for (Vehicle v: n.getVehicles()) {
 			if (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) {
@@ -130,6 +137,12 @@ public class NetworkComputing {
 					}
 					// only OUT cell
 					else if (v.getCell().getOutCell() != null) {
+						if (n.getRoad(v.getCell().getRoadName()) != null) {
+							if (n.getRoad(v.getCell().getRoadName()).isTrafficLightRed()) {
+								v.stayHere();
+								continue;
+							}
+						}
 						if (v.getCell().getOutCell().getVehicle() == null) {
 							if (v.getCell().getOutCell().getPreviousCell() != null) {
 								// if there is no vehicle in the road where Vehicle must go
@@ -187,6 +200,12 @@ public class NetworkComputing {
 					}
 					// only OUT cell
 					else if (v.getCell().getOutCell() != null) {
+						if (n.getRoad(v.getCell().getRoadName()) != null) {
+							if (n.getRoad(v.getCell().getRoadName()).isTrafficLightRed()) {
+								v.stayHere();
+								continue;
+							}
+						}
 						if (v.getCell().getOutCell().getVehicle() == null) {
 							if (v.getCell().getOutCell().getPreviousCell() != null) {
 								// if there is no vehicle in the road where Vehicle must go
@@ -222,6 +241,18 @@ public class NetworkComputing {
 					else {
 						v.stayHere();
 					}
+				}
+			}
+		}
+		for (CrossRoad cr: n.getCrossRoads()) {
+			cr.setCounter(cr.getCounter()+1);
+			if (cr.getCounter()>=cr.getTimeTrafficLight()) {
+				if (cr.getCounter()>=cr.getTimeTrafficLight()+5) {
+					cr.setStateOfTrafficLight((cr.getStateOfTrafficLight()+1)%4);
+					cr.setTrafficLightState(cr.getStateOfTrafficLight());
+					cr.setCounter(0);
+				} else if (cr.getCounter()==cr.getTimeTrafficLight()) {
+					cr.setAllTrafficLightsRed();
 				}
 			}
 		}
