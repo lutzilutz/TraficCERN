@@ -9,6 +9,7 @@ public class Vehicle {
 	private Cell nextPlace;
 	private int speed = 1;
 	private boolean hasToLeave = false;
+	private Ride ride;
 	//private ArrayList<String> ride;
 	
 	public Vehicle() {
@@ -92,6 +93,15 @@ public class Vehicle {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+
+	public Ride getRide() {
+		return ride;
+	}
+
+	public void setRide(Ride ride) {
+		this.ride = ride;
+	}
+	
 	/*
 	public ArrayList<String> getRide() {
 		return ride;

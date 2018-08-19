@@ -98,8 +98,9 @@ public class NetworkComputing {
 	public static void computeEvolution(Network n) {
 		// generation of new Vehicles
 		for (Road r: n.getRoads()) {
-			if (r.getGenerateVehicules() && r.getRoadCells().get(0).getVehicle() == null && Math.random()<0.2) {
+			if (r.getGenerateVehicules() && r.getRoadCells().get(0).getVehicle() == null && Math.random()<0.05) {
 				Vehicle tmp = new Vehicle();
+				tmp.setRide(n.selectARide(r.getName()));
 				tmp.setNextPlace(r.getRoadCells().get(0));
 				n.getVehicles().add(tmp);
 			}
@@ -107,57 +108,120 @@ public class NetworkComputing {
 		
 		// evolution of existing vehicles
 		for (Vehicle v: n.getVehicles()) {
-			if (v.getCell() != null) {
-				// NEXT and OUT cells
-				if (v.getCell().getNextCell() != null && v.getCell().getOutCell() != null) {
-					if (v.getCell().getOutCell().getVehicle() == null && Math.random() < 0.5) {
-						v.goToOutCell();
-					} else if (v.getCell().getNextCell().getVehicle() == null) {
-						v.goToNextCell();
-					} else {
-						v.stayHere();
+			if (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) {
+				if (v.getCell() != null) {
+					// NEXT and OUT cells
+					if (v.getCell().getNextCell() != null && v.getCell().getOutCell() != null) {
+						if (v.getCell().getOutCell().getVehicle() == null && Math.random() < 0.5) {
+							v.goToOutCell();
+						} else if (v.getCell().getNextCell().getVehicle() == null) {
+							v.goToNextCell();
+						} else {
+							v.stayHere();
+						}
 					}
-				}
-				// only NEXT cell
-				else if (v.getCell().getNextCell() != null) {
-					if (v.getCell().getNextCell().getVehicle() == null) {
-						v.goToNextCell();
-					} else {
-						v.stayHere();
+					// only NEXT cell
+					else if (v.getCell().getNextCell() != null) {
+						if (v.getCell().getNextCell().getVehicle() == null) {
+							v.goToNextCell();
+						} else {
+							v.stayHere();
+						}
 					}
-				}
-				// only OUT cell
-				else if (v.getCell().getOutCell() != null) {
-					if (v.getCell().getOutCell().getVehicle() == null) {
-						if (v.getCell().getOutCell().getPreviousCell() != null) {
-							// if there is no vehicle in the road where Vehicle must go
-							if (v.getCell().getOutCell().getPreviousCell().getVehicle() == null) {
-								if (v.getCell().getOutCell().getPreviousCell().getPreviousCell() != null) {
-									// if there is no vehicle in the road where Vehicle must go, a cell before
-									if (v.getCell().getOutCell().getPreviousCell().getPreviousCell().getVehicle() == null) {
-										v.goToOutCell();
-									} else {
-										v.stayHere();
+					// only OUT cell
+					else if (v.getCell().getOutCell() != null) {
+						if (v.getCell().getOutCell().getVehicle() == null) {
+							if (v.getCell().getOutCell().getPreviousCell() != null) {
+								// if there is no vehicle in the road where Vehicle must go
+								if (v.getCell().getOutCell().getPreviousCell().getVehicle() == null) {
+									if (v.getCell().getOutCell().getPreviousCell().getPreviousCell() != null) {
+										// if there is no vehicle in the road where Vehicle must go, a cell before
+										if (v.getCell().getOutCell().getPreviousCell().getPreviousCell().getVehicle() == null) {
+											v.goToOutCell();
+										} else {
+											v.stayHere();
+										}
 									}
+								} else {
+									v.stayHere();
 								}
 							} else {
-								v.stayHere();
+								v.goToOutCell();
 							}
+							
 						} else {
-							v.goToOutCell();
+							v.stayHere();
 						}
-						
-					} else {
+					}
+					// no NEXT or OUT cell
+					else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
+						v.leaveNetwork();
+					}
+					// should never happen ...
+					else {
 						v.stayHere();
 					}
 				}
-				// no NEXT or OUT cell
-				else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
-					v.leaveNetwork();
-				}
-				// should never happen ...
-				else {
-					v.stayHere();
+			} else {
+				if (v.getCell() != null) {
+					// NEXT and OUT cells
+					if (v.getCell().getNextCell() != null && v.getCell().getOutCell() != null) {
+						if (v.getCell().getOutCell().getVehicle() == null && v.getCell().getPosition() == v.getRide().getNextConnections().get(0).getPosition()) {
+							if (!v.getRide().getNextConnections().isEmpty()) {
+								v.getRide().getNextConnections().remove(0);
+							}
+							v.goToOutCell();
+						} else if (v.getCell().getNextCell().getVehicle() == null) {
+							v.goToNextCell();
+						} else {
+							v.stayHere();
+						}
+					}
+					// only NEXT cell
+					else if (v.getCell().getNextCell() != null) {
+						if (v.getCell().getNextCell().getVehicle() == null) {
+							v.goToNextCell();
+						} else {
+							v.stayHere();
+						}
+					}
+					// only OUT cell
+					else if (v.getCell().getOutCell() != null) {
+						if (v.getCell().getOutCell().getVehicle() == null) {
+							if (v.getCell().getOutCell().getPreviousCell() != null) {
+								// if there is no vehicle in the road where Vehicle must go
+								if (v.getCell().getOutCell().getPreviousCell().getVehicle() == null) {
+									if (v.getCell().getOutCell().getPreviousCell().getPreviousCell() != null) {
+										// if there is no vehicle in the road where Vehicle must go, a cell before
+										if (v.getCell().getOutCell().getPreviousCell().getPreviousCell().getVehicle() == null) {
+											v.getRide().getNextConnections().remove(0);
+											v.goToOutCell();
+										} else {
+											v.stayHere();
+										}
+									}
+								} else {
+									v.stayHere();
+								}
+							} else {
+								if (!v.getRide().getNextConnections().isEmpty()) {
+									v.getRide().getNextConnections().remove(0);
+								}
+								v.goToOutCell();
+							}
+							
+						} else {
+							v.stayHere();
+						}
+					}
+					// no NEXT or OUT cell
+					else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
+						v.leaveNetwork();
+					}
+					// should never happen ...
+					else {
+						v.stayHere();
+					}
 				}
 			}
 		}

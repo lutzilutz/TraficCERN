@@ -548,6 +548,18 @@ public class Network {
 		}
 	}
 	
+	public Ride selectARide(String roadName) {
+		Ride r = new Ride();
+		for (AllNetworkRides ANR: allNetworkRides) {
+			if (ANR.getRoadName().equals(roadName)) {
+				int length = ANR.getNetworkRides().size();
+				int index = (int) (Math.random() * length) ;
+				return ANR.getNetworkRides().get(index).clone();
+			}
+		}
+		return r;
+	}
+	
 	public void cleanAllNetworkRides() {
 		if (!this.getAllNetworkRides().isEmpty()) {
 			for (AllNetworkRides ANR: this.getAllNetworkRides()) {

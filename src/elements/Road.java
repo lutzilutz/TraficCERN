@@ -60,6 +60,8 @@ public class Road {
 				roadCells.get(i-1).setNextCell(tmp);
 			}
 			
+			tmp.setPosition(i);
+			
 			roadCells.add(tmp);
 		}
 	}
