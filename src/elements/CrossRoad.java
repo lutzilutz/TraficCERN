@@ -18,11 +18,13 @@ public class CrossRoad {
 	private int counter = 0;
 	private int stateOfTrafficLight = 0;
 	private int numberOfRoadsIn = 0;
+	private int maxSpeed;
 	private int direction;
 	private double x,y;
 
 	public CrossRoad(Network n) {
 		this.n = n;
+		this.maxSpeed = 2;
 		this.x = 0;
 		this.y = 0;
 		this.numberOfRoadsIn = 0;
@@ -30,9 +32,25 @@ public class CrossRoad {
 		this.roadsOUT = new Road[4];
 		middleCells = new Cell[4];
 		middleCells[0] = new Cell();
+		middleCells[0].setInRoundAbout(false);
+		middleCells[0].setRoadLength(4);
+		middleCells[0].setMaxSpeed(maxSpeed);
+		
 		middleCells[1] = new Cell();
+		middleCells[1].setInRoundAbout(false);
+		middleCells[1].setRoadLength(4);
+		middleCells[1].setMaxSpeed(maxSpeed);
+
 		middleCells[2] = new Cell();
+		middleCells[2].setInRoundAbout(false);
+		middleCells[2].setRoadLength(4);
+		middleCells[2].setMaxSpeed(maxSpeed);
+
 		middleCells[3] = new Cell();
+		middleCells[3].setInRoundAbout(false);
+		middleCells[3].setRoadLength(4);
+		middleCells[3].setMaxSpeed(maxSpeed);
+
 		
 		for (int i=0; i<4; ++i) {
 			middleCells[i].setNextCell(middleCells[(i+1)%4]);
@@ -44,6 +62,7 @@ public class CrossRoad {
 	
 	public CrossRoad(Network n, String name) {
 		this.n = n;
+		this.maxSpeed = 2;
 		this.name = name;
 		this.x = 0;
 		this.y = 0;
@@ -53,14 +72,31 @@ public class CrossRoad {
 		middleCells = new Cell[4];
 		middleCells[0] = new Cell(name);
 		middleCells[0].setPosition(0);
+		middleCells[0].setInRoundAbout(false);
+		middleCells[0].setRoadLength(4);
+		middleCells[0].setMaxSpeed(maxSpeed);
+
+		
 		middleCells[1] = new Cell(name);
 		middleCells[1].setPosition(1);
+		middleCells[1].setInRoundAbout(false);
+		middleCells[1].setRoadLength(4);
+		middleCells[1].setMaxSpeed(maxSpeed);
+
 
 		middleCells[2] = new Cell(name);
 		middleCells[2].setPosition(2);
+		middleCells[2].setInRoundAbout(false);
+		middleCells[2].setRoadLength(4);
+		middleCells[2].setMaxSpeed(maxSpeed);
+
 
 		middleCells[3] = new Cell(name);
 		middleCells[3].setPosition(3);
+		middleCells[3].setInRoundAbout(false);
+		middleCells[3].setRoadLength(4);
+		middleCells[3].setMaxSpeed(maxSpeed);
+
 
 		
 		for (int i=0; i<4; ++i) {
@@ -261,5 +297,18 @@ public class CrossRoad {
 	public ArrayList<Connection> getEnters() {
 		return enters;
 	}
+
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
+		for (Cell c: this.getMiddleCells()) {
+			c.setMaxSpeed(maxSpeed);
+		}
+	}
+	
+	
 	
 }

@@ -17,6 +17,7 @@ public class Road {
 	private ArrayList<Connection> enters = new ArrayList<Connection>();
 	private int id; // Roads ID
 	private int length;
+	private int maxSpeed;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
 	private boolean generateVehicules = false; // if generate Vehicles
 	private boolean isTrafficLightRed = false;
@@ -29,6 +30,7 @@ public class Road {
 	
 	public Road(Network n, int length) {
 		this.n = n;
+		this.maxSpeed = n.getMaxSpeed();
 		id = idCounter;
 		idCounter++;
 		this.length = length;
@@ -41,12 +43,18 @@ public class Road {
 				roadCells.get(i-1).setNextCell(tmp);
 			}
 			
+			tmp.setPosition(i);
+			tmp.setRoadLength(length);
+			tmp.setMaxSpeed(this.maxSpeed);
+			tmp.setInRoundAbout(false);
+			
 			roadCells.add(tmp);
 		}
 	}
 	
 	public Road(Network n, int length, String name) {
 		this.n = n;
+		this.maxSpeed = n.getMaxSpeed();
 		id = idCounter;
 		idCounter++;
 		this.length = length;
@@ -61,6 +69,9 @@ public class Road {
 			}
 			
 			tmp.setPosition(i);
+			tmp.setRoadLength(length);
+			tmp.setMaxSpeed(this.getMaxSpeed());
+			tmp.setInRoundAbout(false);
 			
 			roadCells.add(tmp);
 		}
@@ -344,6 +355,17 @@ public class Road {
 
 	public ArrayList<Connection> getEnters() {
 		return enters;
+	}
+
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
+		for (Cell c: this.getRoadCells()) {
+			c.setMaxSpeed(maxSpeed);
+		}
 	}
 	
 	

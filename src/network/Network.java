@@ -40,6 +40,8 @@ public class Network {
 	private double xDefaultOffset, yDefaultOffset;
 	private double rotation=0;
 	
+	private int maxSpeed = 3;
+	
 	//private String title="", description="";
 	
 	public Network(Simulation sim, int n) {
@@ -484,6 +486,8 @@ public class Network {
 		rRoutePauliSouthNE.setGenerateVehicules(true);
 		rRouteDeMeyrinNW.setGenerateVehicules(true);
 		
+		raLHC.setMaxSpeed(2);
+		
 		System.out.println("====== Road names: ======");
 		for (Road r: this.roads) {
 			System.out.println("");
@@ -724,4 +728,8 @@ public class Network {
 	public ArrayList<AllNetworkRides> getAllNetworkRides() {
 		return allNetworkRides;
 	}
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+	
 }

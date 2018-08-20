@@ -7,6 +7,9 @@ public class RoundAbout extends Road {
 	public RoundAbout(Network n, int length) {
 		super(n, length);
 		this.n = n;
+		for (Cell c: this.getRoadCells()) {
+			c.setInRoundAbout(true);
+		}
 		this.getRoadCells().get(this.getLength()-1).setNextCell(this.getRoadCells().get(0));
 		this.getRoadCells().get(0).setPreviousCell(this.getRoadCells().get(this.getLength()-1));
 	}

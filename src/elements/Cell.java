@@ -11,8 +11,11 @@ public class Cell {
 	private Cell outCell;
 	private Vehicle vehicle;
 	private String roadName;
+	private int roadLength;
+	private int maxSpeed = 1;
 	private int position;
-	private int typeOfRoad;
+	private boolean isInRoundAbout;
+	//private int typeOfRoad;
 	
 	// Display
 	private double x,y; // center of the Cell
@@ -51,6 +54,20 @@ public class Cell {
 		
 		isOccupiedNext = -1;
 	}
+	public int checkNextCells(int nCells, int i) {
+		if (nCells <= 0) {
+			return i;
+		}
+		if (this.getNextCell().getVehicle() == null) {
+			i = 10*i + 0;
+		} else {
+			i = 10*i + 1;
+		}
+		return this.getNextCell().checkNextCells(nCells-1, i) ;
+	}
+	
+	
+	//public Cell getNextFullCell ()
 	public void display() {
 		if (isOccupied) {
 			System.out.print("[X]");
@@ -130,7 +147,7 @@ public class Cell {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
+/*
 	public int getTypeOfRoad() {
 		return typeOfRoad;
 	}
@@ -138,13 +155,37 @@ public class Cell {
 	public void setTypeOfRoad(int typeOfRoad) {
 		this.typeOfRoad = typeOfRoad;
 	}
-
+*/
 	public Cell getInCell() {
 		return inCell;
 	}
 
 	public void setInCell(Cell inCell) {
 		this.inCell = inCell;
+	}
+
+	public int getRoadLength() {
+		return roadLength;
+	}
+
+	public void setRoadLength(int roadLength) {
+		this.roadLength = roadLength;
+	}
+
+	public boolean isInRoundAbout() {
+		return isInRoundAbout;
+	}
+
+	public void setInRoundAbout(boolean isInRoundAbout) {
+		this.isInRoundAbout = isInRoundAbout;
+	}
+
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
 	}
 	
 	
