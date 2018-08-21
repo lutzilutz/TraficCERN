@@ -269,7 +269,7 @@ public class Network {
 		raPorteDeFrance.setDirection(0);
 		roundAbouts.add(raPorteDeFrance);
 		
-		// Rue de Genève ------------------------------------------------------------------------------------
+		// Rue de Genève ----------------------------------------------------------------------------------------------
 		// N-W (out)
 		Road rRueDeGeneveNW = new Road(this, 15, "rRueDeGeneveNW");
 		rRueDeGeneveNW.setStartPositionFrom(raPorteDeFrance, 7);
@@ -286,7 +286,7 @@ public class Network {
 		roads.add(rRueDeGeneveSE);
 		rRueDeGeneveSE.connectTo(raPorteDeFrance, 11);
 		
-		// Rue Germaine Tillion -----------------------------------------------------------------------------
+		// Rue Germaine Tillion ---------------------------------------------------------------------------------------
 		// N-E (out)
 		Road rRueGermaineTillionNE = new Road(this, 25, "rRueGermaineTillionNE");
 		rRueGermaineTillionNE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-8);
@@ -303,7 +303,7 @@ public class Network {
 		roads.add(rRueGermaineTillionSW);
 		rRueGermaineTillionSW.connectTo(raPorteDeFrance, raPorteDeFrance.getLength()-2);
 		
-		// D984F North --------------------------------------------------------------------------------------
+		// D984F North ------------------------------------------------------------------------------------------------
 		// S-E (out)
 		Road rD984FSE = new Road(this, 110, "rD984FSE");
 		rD984FSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-17);
@@ -324,7 +324,7 @@ public class Network {
 		roads.add(rD984FNW);
 		rD984FNW.connectTo(raPorteDeFrance, raPorteDeFrance.getLength()-13);
 		
-		// D884 --------------------------------------------------------------------------------------------
+		// D884 ------------------------------------------------------------------------------------------------------
 		// S-W (out)
 		Road rD884SW = new Road(this, 15, "rD884SW");
 		rD884SW.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-32);
@@ -341,7 +341,7 @@ public class Network {
 		roads.add(rD884NE);
 		rD884NE.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-26);
 		
-		// SortieCERN ---------------------------------------------------------------------------------------
+		// SortieCERN -------------------------------------------------------------------------------------------------
 		// S-E (out)
 		Road rSortieCERNSE = new Road(this, 15, "rSortieCERNSE");
 		rSortieCERNSE.setStartPositionFrom(raPorteDeFrance, raPorteDeFrance.getLength()-23);
@@ -360,7 +360,7 @@ public class Network {
 		roads.add(rSortieCERNNW);
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-20);
 		
-		// LHC ----------------------------------------------------------------------------------------------
+		// LHC --------------------------------------------------------------------------------------------------------
 		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
 		raLHC.setDirection(0);
 		raLHC.setPositionFrom(rD984FSE, 5);
@@ -368,7 +368,7 @@ public class Network {
 		rD984FSE.connectTo(raLHC, 5);
 		raLHC.connectTo(rD984FNW, 3);
 		
-		// D984F South --------------------------------------------------------------------------------------
+		// D984F South ------------------------------------------------------------------------------------------------
 		// S-E (out)
 		Road rD984FSES = new Road(this, 91, "rD984FSES");
 		rD984FSES.setStartPositionFrom(raLHC, raLHC.getLength()-7);
@@ -385,7 +385,7 @@ public class Network {
 		roads.add(rD984FNWS);
 		rD984FNWS.connectTo(raLHC, raLHC.getLength()-5);
 		
-		// C5 -----------------------------------------------------------------------------------------------
+		// C5 ---------------------------------------------------------------------------------------------------------
 		// N-E (out)
 		Road rC5NE = new Road(this, 30, "rC5NE");
 		rC5NE.setStartPositionFrom(raLHC, raLHC.getLength()-2);
@@ -401,7 +401,7 @@ public class Network {
 		roads.add(rC5SW);
 		rC5SW.connectTo(raLHC, raLHC.getLength()-1);
 		
-		// Tunnel inter-site --------------------------------------------------------------------------------
+		// Tunnel inter-site ------------------------------------------------------------------------------------------
 		// S-E
 		Road rTunnelSE = new Road(this, 35, "rTunnelSE");
 		rTunnelSE.setStartPositionFrom(rC5NE, 7, 120);
@@ -428,7 +428,7 @@ public class Network {
 		rC5NE.addEnter("rTunnelNW", 13);
 		rTunnelNW.setUnderground(17, 20, true);
 		
-		// Carrefour entree B -------------------------------------------------------------------------------
+		// Carrefour entree B -----------------------------------------------------------------------------------------
 		CrossRoad crEntreeB = new CrossRoad(this, "crEntreeB");
 		crEntreeB.setX(1400);
 		crEntreeB.setY(650);
@@ -441,8 +441,8 @@ public class Network {
 		rD984FSES.connectTo(crEntreeB, 1);
 		crEntreeB.addRoadIn(rD984FSES, 1);
 		
-		// Route Pauli --------------------------------------------------------------------------------------
-		// North --------------------------------------------------------------------------------------------
+		// Route Pauli ------------------------------------------------------------------------------------------------
+		// North ------------------------------------------------------------------------------------------------------
 		Road rRoutePauliNorthSW = new Road(this, 15, "rRoutePauliNorthSW");
 		rRoutePauliNorthSW.setPositionInFrom(crEntreeB, 0);
 		roads.add(rRoutePauliNorthSW);
@@ -453,7 +453,7 @@ public class Network {
 		crEntreeB.connectTo(rRoutePauliNorthNE, 3);
 		roads.add(rRoutePauliNorthNE);
 		
-		// South --------------------------------------------------------------------------------------------
+		// South ------------------------------------------------------------------------------------------------------
 		Road rRoutePauliSouthNE = new Road(this, 15, "rRoutePauliSouthNE");
 		rRoutePauliSouthNE.setPositionInFrom(crEntreeB, 2);
 		rRoutePauliSouthNE.connectTo(crEntreeB, 2);
@@ -464,16 +464,63 @@ public class Network {
 		crEntreeB.connectTo(rRoutePauliSouthSW, 1);
 		roads.add(rRoutePauliSouthSW);
 		
-		// Route de Meyrin ----------------------------------------------------------------------------------
-		Road rRouteDeMeyrinNW = new Road(this, 15, "rRouteDeMeyrinNW");
-		rRouteDeMeyrinNW.setPositionInFrom(crEntreeB, 3);
-		rRouteDeMeyrinNW.connectTo(crEntreeB, 3);
-		roads.add(rRouteDeMeyrinNW);
+		// Route de Meyrin NORTH---------------------------------------------------------------------------------------
+		Road rRouteDeMeyrinNorthNW = new Road(this, 33, "rRouteDeMeyrinNorthNW");
+		rRouteDeMeyrinNorthNW.setPositionInFrom(crEntreeB, 3);
+		rRouteDeMeyrinNorthNW.connectTo(crEntreeB, 3);
+		roads.add(rRouteDeMeyrinNorthNW);
 		
-		Road rRouteDeMeyrinSE = new Road(this, 15, "rRouteDeMeyrinSE");
-		rRouteDeMeyrinSE.setPositionOutFrom(crEntreeB, 2);
-		crEntreeB.connectTo(rRouteDeMeyrinSE, 2);
-		roads.add(rRouteDeMeyrinSE);
+		Road rRouteDeMeyrinNorthSE = new Road(this, 33, "rRouteDeMeyrinNorthSE");
+		rRouteDeMeyrinNorthSE.setPositionOutFrom(crEntreeB, 2);
+		crEntreeB.connectTo(rRouteDeMeyrinNorthSE, 2);
+		roads.add(rRouteDeMeyrinNorthSE);
+		
+		// RA entree A ------------------------------------------------------------------------------------------------
+		RoundAbout raEntreeA = new RoundAbout(this, 15, "raEntreeA");
+		raEntreeA.setDirection(0);
+		raEntreeA.setPositionFrom(rRouteDeMeyrinNorthSE, 3);
+		roundAbouts.add(raEntreeA);
+		rRouteDeMeyrinNorthSE.connectTo(raEntreeA, 3);
+		raEntreeA.connectTo(rRouteDeMeyrinNorthNW, 2);
+		
+		// Chemin de Maisonnex ----------------------------------------------------------------------------------------
+		Road rCheminMaisonnexN = new Road(this, 5, "rCheminMaisonnexN");
+		rCheminMaisonnexN.setStartPositionFrom(raEntreeA, raEntreeA.getLength()-1);
+		rCheminMaisonnexN.setStartDirection(15);
+		roads.add(rCheminMaisonnexN);
+		raEntreeA.connectTo(rCheminMaisonnexN, raEntreeA.getLength()-1);
+		
+		Road rCheminMaisonnexS = new Road(this, 5, "rCheminMaisonnexS");
+		rCheminMaisonnexS.setDirection(195);
+		rCheminMaisonnexS.setEndPositionFrom(raEntreeA, 0,195);
+		roads.add(rCheminMaisonnexS);
+		rCheminMaisonnexS.connectTo(raEntreeA, 0);
+		
+		// Route de Meyrin SOUTH---------------------------------------------------------------------------------------
+		Road rRouteDeMeyrinSouthSE = new Road(this, 20, "rRouteDeMeyrinSouthSE");
+		rRouteDeMeyrinSouthSE.setStartPositionFrom(raEntreeA, raEntreeA.getLength()-5);
+		rRouteDeMeyrinSouthSE.setStartDirection(113);
+		roads.add(rRouteDeMeyrinSouthSE);
+		raEntreeA.connectTo(rRouteDeMeyrinSouthSE, raEntreeA.getLength()-5);
+		
+		Road rRouteDeMeyrinSouthNW = new Road(this, 20, "rRouteDeMeyrinSouthNW");
+		rRouteDeMeyrinSouthNW.setDirection(293);
+		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA, raEntreeA.getLength()-4,293);
+		roads.add(rRouteDeMeyrinSouthNW);
+		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, 3);
+		
+		// Route Bell---------------------------------------------------------------------------------------
+		Road rRouteBellSW = new Road(this, 20, "rRouteBellSW");
+		rRouteBellSW.setStartPositionFrom(raEntreeA, 6);
+		rRouteBellSW.setStartDirection(226);
+		roads.add(rRouteBellSW);
+		raEntreeA.connectTo(rRouteBellSW, 6);
+		
+		Road rRouteBellNE = new Road(this, 20, "rRouteBellNE");
+		rRouteBellNE.setDirection(46);
+		rRouteBellNE.setEndPositionFrom(raEntreeA, 8, 46);
+		roads.add(rRouteBellNE);
+		rRouteBellNE.connectTo(raEntreeA, 8);
 		
 		rRueDeGeneveSE.setGenerateVehicules(true);
 		rRueGermaineTillionSW.setGenerateVehicules(true);
@@ -484,10 +531,15 @@ public class Network {
 		rTunnelNW.setGenerateVehicules(true);
 		rRoutePauliNorthSW.setGenerateVehicules(true);
 		rRoutePauliSouthNE.setGenerateVehicules(true);
-		rRouteDeMeyrinNW.setGenerateVehicules(true);
+		rCheminMaisonnexS.setGenerateVehicules(true);
 		
 		raLHC.setMaxSpeed(2);
 		
+		printNames();
+		
+	}
+	
+	public void printNames() {
 		System.out.println("====== Road names: ======");
 		for (Road r: this.roads) {
 			System.out.println("");
@@ -551,7 +603,6 @@ public class Network {
 			System.out.println("");
 		}
 	}
-	
 	public Road getRoad(String name) {
 		for (Road r: this.getRoads()) {
 			if (r.getName().equals(name)) {

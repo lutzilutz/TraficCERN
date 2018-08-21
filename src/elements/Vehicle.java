@@ -42,7 +42,6 @@ public class Vehicle {
 				nextPlace.setVehicle(null);
 			}
 			nextPlace = null;
-			System.out.println("have leaved !");
 		}
 	}
 	public int checkNextCells(int nCells) {
@@ -65,7 +64,6 @@ public class Vehicle {
 	public void leaveNetwork() {
 		hasToLeave = true;
 		nextPlace = null;
-		System.out.println(id + " has to leave");
 	}
 	public void stayHere() {
 		nextPlace = cell;
@@ -182,20 +180,10 @@ public class Vehicle {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-
 	public Ride getRide() {
 		return ride;
 	}
-
 	public void setRide(Ride ride) {
 		this.ride = ride;
 	}
-	
-	/*
-	public ArrayList<String> getRide() {
-		return ride;
-	}
-	*/
-	
-	
 }
