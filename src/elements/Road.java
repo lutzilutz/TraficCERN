@@ -145,8 +145,8 @@ public class Road {
 		i = i % 4;
 		//this.direction = (int) ((CR.getDirection()+((3-i)%4)*90)%360);
 		setDirection((int) ((CR.getDirection()+((3-i)%4)*90)%360));
-		System.out.println(this.getReorientations().size());
-		System.out.println(this.getDirection());
+		//System.out.println(this.getReorientations().size());
+		//System.out.println(this.getDirection());
 		double valInter1 = n.getCellHeight()/2;
 		double valInter2 = n.getCellWidth()*this.getLength()+n.getCellHeight();
 		double angle =  Math.atan(valInter1/valInter2);

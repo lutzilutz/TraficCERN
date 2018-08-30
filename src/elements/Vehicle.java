@@ -30,7 +30,7 @@ public class Vehicle {
 				cell.setVehicle(null);
 			}
 			if (nextPlace == null) {
-				System.out.println(":-/");
+				System.out.println("Err : nextPlace is null for this Vehicle");
 			}
 			cell = nextPlace;
 			cell.setVehicle(this);

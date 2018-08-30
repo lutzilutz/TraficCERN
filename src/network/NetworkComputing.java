@@ -85,7 +85,7 @@ public class NetworkComputing {
 		
 		for (Vehicle v: n.getVehicles()) {
 			if (v.getNextPlace() == null) {
-				System.out.println("Coucou !");
+				//System.out.println("Coucou !");
 			}
 			v.evolve();
 		}

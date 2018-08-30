@@ -532,10 +532,13 @@ public class Network {
 		rRoutePauliNorthSW.setGenerateVehicules(true);
 		rRoutePauliSouthNE.setGenerateVehicules(true);
 		rCheminMaisonnexS.setGenerateVehicules(true);
+		rRouteDeMeyrinSouthNW.setGenerateVehicules(true);
+		rRouteBellNE.setGenerateVehicules(true);
 		
-		raLHC.setMaxSpeed(2);
+		raEntreeA.setMaxSpeed(1);
+		raLHC.setMaxSpeed(1);
 		
-		printNames();
+		//printNames();
 		
 	}
 	

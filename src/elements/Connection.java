@@ -1,5 +1,7 @@
 package elements;
 
+import utils.Utils;
+
 public class Connection implements Cloneable {
 	
 	private String name;
@@ -15,7 +17,8 @@ public class Connection implements Cloneable {
 		try {
 			e = (Connection) super.clone();
 		} catch(CloneNotSupportedException cnse) {
-			cnse.printStackTrace(System.err);
+			//cnse.printStackTrace(System.err);
+			Utils.log(cnse);
 		}
 		
 		return e;

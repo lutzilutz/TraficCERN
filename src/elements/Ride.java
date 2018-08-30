@@ -2,6 +2,8 @@ package elements;
 
 import java.util.ArrayList;
 
+import utils.Utils;
+
 public class Ride implements Cloneable {
 	String roadName;
 	ArrayList<Connection> nextConnections = new ArrayList<Connection>();
@@ -33,8 +35,9 @@ public class Ride implements Cloneable {
 		Ride ride = null;
 		try {
 			ride = (Ride) super.clone();
-		} catch (CloneNotSupportedException cnse) {
-			cnse.printStackTrace(System.err);
+		} catch (CloneNotSupportedException e) {
+			//cnse.printStackTrace(System.err);
+			Utils.log(e);
 		}
 		ride.nextConnections = new ArrayList<Connection>(this.getNextConnections());
 		return ride;
