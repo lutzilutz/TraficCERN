@@ -92,10 +92,11 @@ public class NetworkComputing {
 		
 		Iterator<Vehicle> iter = n.getVehicles().iterator();
 		while (iter.hasNext()) {
-		    Vehicle vec = iter.next();
-		    if (vec.hasToLeave()) {
-		    	iter.remove();
-		    }
+			Vehicle vec = iter.next();
+			if (vec.hasToLeave()) {
+				iter.remove();
+				n.increaseNumberOfVehicles(-1);
+			}
 		}
 	}
 	// Compute future state of the Cells of the Road
@@ -109,6 +110,7 @@ public class NetworkComputing {
 				tmp.setRide(n.selectARide(r.getName()));
 				tmp.setNextPlace(r.getRoadCells().get(0));
 				n.getVehicles().add(tmp);
+				n.increaseNumberOfVehicles(1);
 			}
 		}
 		

@@ -16,11 +16,13 @@ public class Assets {
 	public static Color textCol = new Color(250,250,250);
 	public static Color idleCol = new Color(150,150,150);
 	public static Color zoneCERNCol = new Color(0,100,0);
+	public static Color zoneCERNtextCol = new Color(100,200,100);
 	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);
 	public static Font normalBoldFont = new Font("Arial", Font.BOLD, 12);
 	public static Font largeFont = new Font("Arial", Font.PLAIN, 20);
+	public static Font hugeFont = new Font("Arial", Font.PLAIN, 50);
 	
 	// Images
 	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, restartIdle, restartActive, fastIdle, fastActive, fastFastIdle, fastFastActive, fastFastFastIdle, fastFastFastActive;

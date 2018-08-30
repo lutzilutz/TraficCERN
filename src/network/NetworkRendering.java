@@ -67,6 +67,11 @@ public class NetworkRendering {
 		for (Polygon zone: n.getZones()) {
 			g.fillPolygon(zone);
 		}
+		Text.drawString(g, "CERN", Assets.zoneCERNtextCol, 115*n.getCellWidth(), 75*n.getCellWidth(), true, Assets.hugeFont);
+		Text.drawString(g, "Entrance E", Assets.zoneCERNtextCol, 10*n.getCellWidth(), 25*n.getCellWidth(), true, Assets.largeFont);
+		Text.drawString(g, "Entrance B", Assets.zoneCERNtextCol, 190*n.getCellWidth(), 100*n.getCellWidth(), true, Assets.largeFont);
+		Text.drawString(g, "Entrance A", Assets.zoneCERNtextCol, 210*n.getCellWidth(), 118*n.getCellWidth(), true, Assets.largeFont);
+		Text.drawString(g, "Inter-site", Assets.zoneCERNtextCol, 128*n.getCellWidth(), 68*n.getCellWidth(), true, Assets.largeFont);
 		
 		// CrossRoads =================================================================================================
 		for (CrossRoad cr: n.getCrossRoads()) {
@@ -401,6 +406,7 @@ public class NetworkRendering {
 	}
 	public static void renderInformations(Network n, Graphics g) {
 		g.setColor(Color.white);
+		g.drawString("Vehicles :    " + Integer.toString(n.getNumberOfVehicles()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-80);
 		g.drawString("Steps :    " + Integer.toString(n.getSimulation().getSimState().getStep()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-60);
 		g.drawString("Time :    " + n.getSimulation().getSimState().getTime(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-40);
 		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getSimState().getStepSize())/10.0) + " km/h", n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-20);

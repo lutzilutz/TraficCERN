@@ -27,6 +27,7 @@ public class Network {
 	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
 	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+	private int numberOfVehicles = 0;
 	private int cellWidth=10, cellHeight=cellWidth;
 	
 	private boolean drawWire = true; // true for rendering the border of the cells
@@ -40,7 +41,7 @@ public class Network {
 	private double xDefaultOffset, yDefaultOffset;
 	private double rotation=0;
 	
-	private int maxSpeed = 3;
+	private int maxSpeed = 2;
 	
 	//private String title="", description="";
 	
@@ -237,14 +238,14 @@ public class Network {
 		
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
-		tmp.xpoints[0] = 13*cellWidth;//
-		tmp.xpoints[1] = 195*cellWidth;//1359;
-		tmp.xpoints[2] = 172*cellWidth;//1178;
-		tmp.xpoints[3] = 3*cellWidth;//-180;
-		tmp.ypoints[0] = 8*cellWidth;//12;
-		tmp.ypoints[1] = 85*cellWidth;//632;
-		tmp.ypoints[2] = 136*cellWidth;//1037;
-		tmp.ypoints[3] = 25*cellWidth;//151;
+		tmp.xpoints[0] = 13*cellWidth;
+		tmp.xpoints[1] = 235*cellWidth;
+		tmp.xpoints[2] = 212*cellWidth;
+		tmp.xpoints[3] = 3*cellWidth;
+		tmp.ypoints[0] = 8*cellWidth;
+		tmp.ypoints[1] = 102*cellWidth;
+		tmp.ypoints[2] = 150*cellWidth;
+		tmp.ypoints[3] = 25*cellWidth;
 		zones.add(tmp);
 		
 		int[] tmpX = new int[5];
@@ -679,6 +680,12 @@ public class Network {
 		} else {
 			this.allNetworkRides.get(index).addRide(ride);
 		}
+	}
+	public int getNumberOfVehicles() {
+		return numberOfVehicles;
+	}
+	public void increaseNumberOfVehicles(int n) {
+		numberOfVehicles += n;
 	}
 	public ArrayList<Vehicle> getVehicles() {
 		return vehicles;
