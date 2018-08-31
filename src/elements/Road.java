@@ -23,6 +23,10 @@ public class Road {
 	private boolean isTrafficLightRed = false;
 	private EnumSet<Direction> directions;
 	private ArrayList<Point> reorientations = new ArrayList<Point>();
+	private int maxOutflow = 0; // maximum outflow, in seconds between 2 vehicles
+	private int outflowCounter = 0; // outflow counter
+	private boolean isBlocked = false;
+	private boolean startOutflowCount = false;
 	
 	// Display
 	private double x,y; // position in pixels from left upper corner
@@ -76,7 +80,29 @@ public class Road {
 			roadCells.add(tmp);
 		}
 	}
-	
+	public void outflowTick() {
+		
+		if (startOutflowCount) {
+			if (outflowCounter <= 0) {
+				outflowCounter = maxOutflow;
+				isBlocked = false;
+				startOutflowCount = false;
+			} else {
+				outflowCounter--;
+				isBlocked = true;
+			}
+		} else {
+			isBlocked = false;
+		}
+		
+		if (roadCells.get(roadCells.size()-1).getVehicle() != null) {
+			if (!startOutflowCount) {
+				startOutflowCount = true;
+			}
+		}
+		
+		roadCells.get(roadCells.size()-1).setBlocked(isBlocked);
+	}
 	public void setUnderground(int i, int j, boolean isUnderground) {
 		for (int k=i ; k<=j ; k++) {
 			this.getRoadCells().get(k).setUnderground(isUnderground);
@@ -266,24 +292,26 @@ public class Road {
 	public void addRoadDirection(Direction d) {
 		this.directions.add(d);
 	}
-	
 	public void removeRoadDirection(Direction d) {
 		this.directions.remove(d);
 	}
-	
 	public void removeAllRoadDirections() {
 		this.directions.clear();
 	}
-	
 	public void addExit(String name, int position) {
 		exits.add(new Connection(name, position));
 	}
-	
 	public void addEnter(String name, int position) {
 		enters.add(new Connection(name, position));
 	}
-
 	// Getters and setters ----------------------
+	public void setMaxOutflow(int maxOutflow) {
+		this.maxOutflow = maxOutflow;
+		outflowCounter = maxOutflow;
+	}
+	public boolean isBlocked() {
+		return isBlocked;
+	}
 	public int getId() {
 		return id;
 	}

@@ -103,8 +103,11 @@ public class NetworkComputing {
 	
 	
 	public static void computeEvolution(Network n) {
-		// generation of new Vehicles
+		
+		// pre-process
 		for (Road r: n.getRoads()) {
+			
+			// generation of new Vehicles
 			if (r.getGenerateVehicules() && r.getRoadCells().get(0).getVehicle() == null && Math.random()<0.05) {
 				Vehicle tmp = new Vehicle(n);
 				tmp.setRide(n.selectARide(r.getName()));
@@ -112,6 +115,9 @@ public class NetworkComputing {
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
 			}
+			
+			// tick for outflow
+			r.outflowTick();
 		}
 		
 		for (CrossRoad cr: n.getCrossRoads()) {
@@ -197,7 +203,11 @@ public class NetworkComputing {
 					}
 					// no NEXT or OUT cell
 					else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
-						v.leaveNetwork();
+						if (v.getCell().isBlocked()) {
+							v.stayHere();
+						} else {
+							v.leaveNetwork();
+						}
 					}
 					// should never happen ...
 					else {
@@ -283,7 +293,11 @@ public class NetworkComputing {
 					}
 					// no NEXT or OUT cell
 					else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
-						v.leaveNetwork();
+						if (v.getCell().isBlocked()) {
+							v.stayHere();
+						} else {
+							v.leaveNetwork();
+						}
 					}
 					// should never happen ...
 					else {

@@ -15,6 +15,7 @@ public class Cell {
 	private int maxSpeed = 1;
 	private int position;
 	private boolean isInRoundAbout;
+	private boolean isBlocked;
 	//private int typeOfRoad;
 	
 	// Display
@@ -74,6 +75,12 @@ public class Cell {
 		} else {
 			System.out.print("[ ]");
 		}
+	}
+	public boolean isBlocked() {
+		return isBlocked;
+	}
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
 	public boolean isUnderground() {
 		return this.isUnderground;

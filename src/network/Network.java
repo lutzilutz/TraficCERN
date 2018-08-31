@@ -351,6 +351,7 @@ public class Network {
 		rSortieCERNSE.addPoint(new Point(10,150));
 		roads.add(rSortieCERNSE);
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLength()-23);
+		rSortieCERNSE.setMaxOutflow(40);
 		
 		// N-W (in)
 		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
@@ -374,6 +375,7 @@ public class Network {
 		rD884NE.addExit("rD884CERN", 2);
 		rD884CERN.getRoadCells().get(0).setPreviousCell(rD884NE.getRoadCells().get(2));
 		rD884CERN.addEnter("rD884NE", 0);
+		rD884CERN.setMaxOutflow(40);
 		
 		// LHC --------------------------------------------------------------------------------------------------------
 		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
