@@ -361,6 +361,20 @@ public class Network {
 		roads.add(rSortieCERNNW);
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLength()-20);
 		
+		// D884CERN
+		Road rD884CERN = new Road(this, 26, "rD884CERN");
+		rD884CERN.setDirection(38);
+		rD884CERN.addPoint(new Point(8,90));
+		rD884CERN.addPoint(new Point(14,170));
+		rD884CERN.addPoint(new Point(20,150));
+		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 2*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
+		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 2*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
+		roads.add(rD884CERN);
+		rD884NE.getRoadCells().get(2).setOutCell(rD884CERN.getRoadCells().get(0));
+		rD884NE.addExit("rD884CERN", 2);
+		rD884CERN.getRoadCells().get(0).setPreviousCell(rD884NE.getRoadCells().get(2));
+		rD884CERN.addEnter("rD884NE", 0);
+		
 		// LHC --------------------------------------------------------------------------------------------------------
 		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
 		raLHC.setDirection(0);

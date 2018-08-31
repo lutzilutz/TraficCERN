@@ -16,7 +16,7 @@ public class Assets {
 	public static Color textCol = new Color(250,250,250);
 	public static Color idleCol = new Color(150,150,150);
 	public static Color zoneCERNCol = new Color(0,100,0);
-	public static Color zoneCERNtextCol = new Color(100,200,100);
+	public static Color zoneCERNtextCol = new Color(120,255,120);
 	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);
