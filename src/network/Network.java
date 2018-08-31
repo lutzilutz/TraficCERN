@@ -252,13 +252,13 @@ public class Network {
 		int[] tmpY = new int[5];
 		tmpX[0] = 115*cellWidth;//722;
 		tmpX[1] = 131*cellWidth;//837;
-		tmpX[2] = 208*cellWidth;//1464;
-		tmpX[3] = 197*cellWidth;//1376;
+		tmpX[2] = 250*cellWidth;//1464;
+		tmpX[3] = 236*cellWidth;//1376;
 		tmpX[4] = 119*cellWidth;//750;
 		tmpY[0] = 43*cellWidth;//293;
 		tmpY[1] = 17*cellWidth;//92;
-		tmpY[2] = 53*cellWidth;//379;
-		tmpY[3] = 81*cellWidth;//602;
+		tmpY[2] = 60*cellWidth;//379;
+		tmpY[3] = 98*cellWidth;//602;
 		tmpY[4] = 48*cellWidth;//336;
 		Polygon tmp2 = new Polygon(tmpX, tmpY, 5);
 		zones.add(tmp2);
