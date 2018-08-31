@@ -47,16 +47,11 @@ public class SimState extends State {
 	private int currentBackgroundID = 0;
 	private int currentNetwork = -1;
 	
-	private boolean leftPressed = false;
-	
 	public SimState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
-		//this.handler.getMouseManager().setUIManager(this.uiManager);
 		this.keyManager = new KeyManager();
 		network = new Network(simulation, currentNetwork);
-		
-		//NetworkComputing.computeCellsPosition(network);
 		
 		// Buttons ==============================================================================================
 		
@@ -262,7 +257,6 @@ public class SimState extends State {
 					}
 				} else {
 					for (int i=0 ; i<n ; i++) {
-						//System.out.println("New step !");
 						step++;
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
@@ -319,17 +313,6 @@ public class SimState extends State {
 			offsetTime = 0;
 			offsetSpeed = offsetSpeedDefault;
 		}
-		//System.out.println("x:" + network.getxOffset() + ", y:" + network.getyOffset() + ", a:" + network.getRotation());
-		
-		/*if (simulation.getMouseManager().isLeftPressed()) {
-			if (!leftPressed) {
-				System.out.println(simulation.getMouseManager().getMouseX() + NetworkRendering.bounds.x - simulation.getSimState().network.getxOffset());
-				System.out.println(simulation.getMouseManager().getMouseY() + NetworkRendering.bounds.y - simulation.getSimState().network.getyOffset());
-				leftPressed = true;
-			}
-		} else {
-			leftPressed = false;
-		}*/
 	}
 	public void increaseOffset() {
 		if (offsetTime == 0) {
@@ -337,7 +320,6 @@ public class SimState extends State {
 		}
 		
 		offsetSpeed = Math.max(offsetSpeedDefault, Math.min(5*offsetSpeedDefault, Math.log(100*(System.nanoTime()-offsetTime)/1000000000.0)));
-		//System.out.println(offsetSpeed);
 	}
 	public void tick() {
 		//this.uiManager.tick();
@@ -392,6 +374,8 @@ public class SimState extends State {
 		
 		return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
 	}
+	
+	// Getters & setters ====================================================================================
 	public void setCurrentNetwork(int currentNetwork) {
 		network = null;
 		this.currentNetwork = currentNetwork;

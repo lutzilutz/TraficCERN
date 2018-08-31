@@ -26,11 +26,6 @@ public class Display {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		
-		//GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		//GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
-		//Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
-		//int x = (int) rect.getMaxX() - frame.getWidth();
-		//int y = 0;
 		//frame.setLocation(x, y);
 		//frame.setLocationRelativeTo(null);
 		frame.setLocation(0, 0);
@@ -44,6 +39,8 @@ public class Display {
 		frame.add(canvas);
 		frame.pack();
 	}
+	
+	// Getters & setters ====================================================================================
 	public Canvas getCanvas() {
 		return this.canvas;
 	}

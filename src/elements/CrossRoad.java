@@ -216,7 +216,7 @@ public class CrossRoad {
 		
 	}
 	
-	// Getters and setters ================================================================
+	// Getters & setters ====================================================================================
 	public Road[] getRoadsIN() {
 		return roadsIN;
 	}
@@ -289,26 +289,19 @@ public class CrossRoad {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public ArrayList<Connection> getExits() {
 		return exits;
 	}
-
 	public ArrayList<Connection> getEnters() {
 		return enters;
 	}
-
 	public int getMaxSpeed() {
 		return maxSpeed;
 	}
-
 	public void setMaxSpeed(int maxSpeed) {
 		this.maxSpeed = maxSpeed;
 		for (Cell c: this.getMiddleCells()) {
 			c.setMaxSpeed(maxSpeed);
 		}
 	}
-	
-	
-	
 }

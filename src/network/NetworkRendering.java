@@ -29,7 +29,6 @@ public class NetworkRendering {
 	
 	// Compute Background (one-time operation)
 	public static BufferedImage[] renderAllBGs(Network n, BufferedImage[] backgrounds) {
-		//computeBounds(n);
 		BufferedImage[] tmp = new BufferedImage[8];
 		for (int i=0 ; i<8 ; i++) {
 			tmp[i] = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
@@ -218,12 +217,8 @@ public class NetworkRendering {
 							gg.setColor(Color.pink);
 							gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
 						}
-						//gg.setColor(Color.red);
-						//gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
-					} /*else if (r.getRoadCells().get(i).getOutCell()!=null){ // Out Cell
-						gg.setColor(Color.blue);
-						gg.fillRect((int) (x), (int) (y - n.getCellHeight()/2.0), n.getCellWidth(), n.getCellHeight());
-					}*/
+					}
+					
 					x += n.getCellWidth();
 				}
 			}
@@ -335,7 +330,6 @@ public class NetworkRendering {
 		gg.setColor(Color.black);
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0; i<4; ++i) {
-				//if (cr.getMiddleCells()[i].isOccupied()) {
 				if (cr.getMiddleCells()[i].getVehicle() != null) {
 					gg.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
 				}
@@ -343,7 +337,6 @@ public class NetworkRendering {
 		}
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
-				//if (r.getRoadCells().get(i).isOccupied()) {
 				if (r.getRoadCells().get(i).getVehicle() != null) {
 					if (!r.getRoadCells().get(i).isUnderground()) {
 						gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
@@ -354,7 +347,6 @@ public class NetworkRendering {
 		for (RoundAbout r: n.getRoundAbouts()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).getVehicle() != null) {
-				//if (r.getRoadCells().get(i).isOccupied()) {
 					gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
 				}
 			}

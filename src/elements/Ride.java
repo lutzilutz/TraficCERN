@@ -44,19 +44,14 @@ public class Ride implements Cloneable {
 		
 	}
 	
+	// Getters & setters ====================================================================================
 	public String getRoadName() {
 		return roadName;
 	}
-
 	public void setRoadName(String roadName) {
 		this.roadName = roadName;
 	}
-
 	public ArrayList<Connection> getNextConnections() {
 		return nextConnections;
 	}
-	
-	
-	
-
 }

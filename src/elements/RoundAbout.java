@@ -93,8 +93,6 @@ public class RoundAbout extends Road {
 		
 		x += (0*n.getCellWidth() + n.getCellWidth()*this.getLength()/(2*Math.PI))*Math.sin(2*Math.PI*(i/(float)this.getLength()));
 		y += (0*n.getCellWidth() + n.getCellWidth()*this.getLength()/(2*Math.PI))*Math.cos(2*Math.PI*(i/(float)this.getLength()));
-		//x = (int) (r.getX() + n.getCellWidth() * (r.getReorientations().get(1).getX()-r.getReorientations().get(0).getX()) * Math.sin(2*Math.PI*r.getReorientations().get(0).getY()/360.0 + Math.PI));
-		//y = (int) (r.getY());
 		
 		this.setX(x);
 		this.setY(y);

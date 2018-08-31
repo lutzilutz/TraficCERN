@@ -304,7 +304,8 @@ public class Road {
 	public void addEnter(String name, int position) {
 		enters.add(new Connection(name, position));
 	}
-	// Getters and setters ----------------------
+	
+	// Getters & setters ====================================================================================
 	public void setMaxOutflow(int maxOutflow) {
 		this.maxOutflow = maxOutflow;
 		outflowCounter = maxOutflow;
@@ -376,25 +377,19 @@ public class Road {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public ArrayList<Connection> getExits() {
 		return exits;
 	}
-
 	public ArrayList<Connection> getEnters() {
 		return enters;
 	}
-
 	public int getMaxSpeed() {
 		return maxSpeed;
 	}
-
 	public void setMaxSpeed(int maxSpeed) {
 		this.maxSpeed = maxSpeed;
 		for (Cell c: this.getRoadCells()) {
 			c.setMaxSpeed(maxSpeed);
 		}
 	}
-	
-	
 }

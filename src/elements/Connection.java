@@ -13,15 +13,14 @@ public class Connection implements Cloneable {
 	}
 	
 	public Connection clone( ) {
-		Connection e = null;
+		Connection connection = null;
 		try {
-			e = (Connection) super.clone();
-		} catch(CloneNotSupportedException cnse) {
-			//cnse.printStackTrace(System.err);
-			Utils.log(cnse);
+			connection = (Connection) super.clone();
+		} catch(CloneNotSupportedException e) {
+			Utils.log(e);
 		}
 		
-		return e;
+		return connection;
 	}
 	
 	public void print() {
@@ -32,20 +31,17 @@ public class Connection implements Cloneable {
 		System.out.println("(" + this.position + ", " + this.name + ") ");
 	}
 
+	// Getters & setters ------------------------------------------------------------------------------------
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public int getPosition() {
 		return position;
 	}
-
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
 }

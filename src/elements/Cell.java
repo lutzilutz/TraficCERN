@@ -16,7 +16,6 @@ public class Cell {
 	private int position;
 	private boolean isInRoundAbout;
 	private boolean isBlocked;
-	//private int typeOfRoad;
 	
 	// Display
 	private double x,y; // center of the Cell
@@ -55,6 +54,7 @@ public class Cell {
 		
 		isOccupiedNext = -1;
 	}
+	
 	public int checkNextCells(int nCells, int i) {
 		if (nCells <= 0) {
 			return i;
@@ -67,8 +67,6 @@ public class Cell {
 		return this.getNextCell().checkNextCells(nCells-1, i) ;
 	}
 	
-	
-	//public Cell getNextFullCell ()
 	public void display() {
 		if (isOccupied) {
 			System.out.print("[X]");
@@ -76,6 +74,7 @@ public class Cell {
 			System.out.print("[ ]");
 		}
 	}
+	// Getters & setters ------------------------------------------------------------------------------------
 	public boolean isBlocked() {
 		return isBlocked;
 	}
@@ -130,70 +129,46 @@ public class Cell {
 	public void setOutCell(Cell outCell) {
 		this.outCell = outCell;
 	}
-
 	public Vehicle getVehicle() {
 		return vehicle;
 	}
-
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
-
 	public String getRoadName() {
 		return roadName;
 	}
-
 	public void setRoadName(String roadName) {
 		this.roadName = roadName;
 	}
-
 	public int getPosition() {
 		return position;
 	}
-
 	public void setPosition(int position) {
 		this.position = position;
 	}
-/*
-	public int getTypeOfRoad() {
-		return typeOfRoad;
-	}
-
-	public void setTypeOfRoad(int typeOfRoad) {
-		this.typeOfRoad = typeOfRoad;
-	}
-*/
 	public Cell getInCell() {
 		return inCell;
 	}
-
 	public void setInCell(Cell inCell) {
 		this.inCell = inCell;
 	}
-
 	public int getRoadLength() {
 		return roadLength;
 	}
-
 	public void setRoadLength(int roadLength) {
 		this.roadLength = roadLength;
 	}
-
 	public boolean isInRoundAbout() {
 		return isInRoundAbout;
 	}
-
 	public void setInRoundAbout(boolean isInRoundAbout) {
 		this.isInRoundAbout = isInRoundAbout;
 	}
-
 	public int getMaxSpeed() {
 		return maxSpeed;
 	}
-
 	public void setMaxSpeed(int maxSpeed) {
 		this.maxSpeed = maxSpeed;
-	}
-	
-	
+	}	
 }

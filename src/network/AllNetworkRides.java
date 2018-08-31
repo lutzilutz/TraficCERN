@@ -12,7 +12,6 @@ public class AllNetworkRides {
 	
 	public AllNetworkRides(String name) {
 		this.roadName = name;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void print() {

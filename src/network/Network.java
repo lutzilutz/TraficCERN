@@ -43,8 +43,6 @@ public class Network {
 	
 	private int maxSpeed = 2;
 	
-	//private String title="", description="";
-	
 	public Network(Simulation sim, int n) {
 		this.setCellHeight(6);
 		this.setCellWidth(6);
@@ -697,6 +695,8 @@ public class Network {
 			this.allNetworkRides.get(index).addRide(ride);
 		}
 	}
+	
+	// Getters & setters ====================================================================================
 	public int getNumberOfVehicles() {
 		return numberOfVehicles;
 	}
@@ -808,5 +808,4 @@ public class Network {
 	public int getMaxSpeed() {
 		return maxSpeed;
 	}
-	
 }

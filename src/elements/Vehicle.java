@@ -13,7 +13,6 @@ public class Vehicle {
 	private int speed = 1;
 	private boolean hasToLeave = false;
 	private Ride ride;
-	//private ArrayList<String> ride;
 	
 	public Vehicle(Network n) {
 		this.n = n;
@@ -21,7 +20,6 @@ public class Vehicle {
 		idCounter++;
 		cell = null;
 		nextPlace = null;
-		//ride = new ArrayList<String>();
 	}
 	
 	public void evolve() {
@@ -30,7 +28,7 @@ public class Vehicle {
 				cell.setVehicle(null);
 			}
 			if (nextPlace == null) {
-				System.out.println("Err : nextPlace is null for this Vehicle");
+				System.out.println("Err : nextPlace is null for this Vehicle (id:" + id);
 			}
 			cell = nextPlace;
 			cell.setVehicle(this);
@@ -70,13 +68,9 @@ public class Vehicle {
 	}
 	public void goToNextCell() {
 		nextPlace = cell.getNextCell();
-		//this.cell.setVehicle(null);
-		//this.cell = this.cell.getNextCell();
-		//this.cell.setVehicle(this);
 	}
 	public void goToOutCell( ) {
 		nextPlace = cell.getOutCell();
-		//this.cell = this.cell.getOutCell();
 	}
 	public void accelerate() {
 		++speed;
@@ -146,10 +140,9 @@ public class Vehicle {
 				this.speed = Math.max(this.speed-1, 0);
 			}
 		}
-		
 	}
 	
-	// Getters and setters ----------------------
+	// Getters & setters ====================================================================================
 	public boolean hasToLeave() {
 		return hasToLeave;
 	}
@@ -164,15 +157,12 @@ public class Vehicle {
 	}
 	public void setCell(Cell cell) {
 		this.cell = cell;
-		//cell.setVehicle(this);
 	}
 	public Cell getNextPlace() {
-		//return cell;
 		return this.nextPlace;
 	}
 	public void setNextPlace(Cell nextPlace) {
 		this.nextPlace = nextPlace;
-		//cell.setVehicle(this);
 	}
 	public int getSpeed() {
 		return speed;

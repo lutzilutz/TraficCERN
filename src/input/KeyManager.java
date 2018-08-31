@@ -43,6 +43,8 @@ public class KeyManager implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		
 	}
+	
+	// Getters & setters ====================================================================================
 	public int getKeysCounter() {
 		return this.keysCounter;
 	}

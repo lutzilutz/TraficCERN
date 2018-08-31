@@ -114,7 +114,6 @@ public class Simulation implements Runnable {
 		
 		init();
 		
-		
 		int fps = 60;
 		double timePerTick = 1000000000 / fps;
 		double delta = 0;
@@ -167,7 +166,8 @@ public class Simulation implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	// Getters and setters ============================================
+	
+	// Getters & setters ====================================================================================
 	public void setSimState(SimState simState) {
 		this.simState = simState;
 	}

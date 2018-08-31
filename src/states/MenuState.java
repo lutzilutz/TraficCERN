@@ -111,6 +111,8 @@ public class MenuState extends State {
 		
 		this.uiManager.render(g);
 	}
+	
+	// Getters & setters ====================================================================================
 	public UIManager getUIManager() {
 		return this.uiManager;
 	}
