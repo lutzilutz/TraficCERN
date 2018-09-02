@@ -136,180 +136,83 @@ public class NetworkComputing {
 		
 		// evolution of existing vehicles
 		for (Vehicle v: n.getVehicles()) {
-			if (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) {
-				if (v.getCell() != null) {
-					//NEXT and OUT cells
-					if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
-						if (v.getCell().getOutCell().getVehicle() == null && Math.random() < 0.5) {
-							v.goToOutCell();
-							v.setSpeed(1);
-						} else {
-							if (v.getSpeed() > 0) {
-								Cell ci = v.getCell();
-								for (int iter=0; iter < v.getSpeed(); ++iter) {
-									if (ci.getNextCell() != null) {
-										if (ci.getNextCell().getVehicle() != null) {
-											v.setSpeed(iter);
-											continue;
-										}
-										ci = ci.getNextCell();
-									} else {
-										v.setSpeed(iter);
-										continue;
-									}
-								}
-								v.setNextPlace(ci);
-							} else {
-								v.stayHere();
-								v.setSpeed(0);
-							}
-						}
-					}
-					// only NEXT cell
-					else if (v.getCell().getNextCell() != null) {
-						if (v.getSpeed() > 0) {
-							Cell ci = v.getCell();
-							for (int iter=0; iter < v.getSpeed(); ++iter) {
-								if (ci.getNextCell() != null) {
-									if (ci.getNextCell().getVehicle() != null) {
-										v.setSpeed(iter);
-										continue;
-									}
-									ci = ci.getNextCell();
-								} else {
-									v.setSpeed(iter);
-									continue;
-								}
-							}
-							v.setNextPlace(ci);
-						} else {
-							v.stayHere();
-							v.setSpeed(0);
-						}
-					}
-					// only OUT cell
-					else if (v.getCell().getOutCell() != null) {
-						if (n.getRoad(v.getCell().getRoadName()) != null) {
-							if (n.getRoad(v.getCell().getRoadName()).isTrafficLightRed()) {
-								v.stayHere();
-								v.setSpeed(0);
-								continue;
-							}
-						}
-						if (v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell())) {
-							v.goToOutCell();
-						} else {
-							v.stayHere();
-							v.setSpeed(0);
-						}
-					}
-					// no NEXT or OUT cell
-					else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
-						if (v.getCell().isBlocked()) {
-							v.stayHere();
-						} else {
-							v.leaveNetwork();
-						}
-					}
-					// should never happen ...
-					else {
+			// Vehicle in a CELL
+			if (v.getCell() != null) {
+				
+				//NEXT and OUT cells
+				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
+					
+					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
+					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && Math.random() < 0.5) {
+						v.goToOutCell();
+						v.setSpeed(1);
+						
+					// OUT cell EMPTY + Vehicle has RIDE + Vehicle on the NEXT Connection:
+					} else if (v.getCell().getOutCell().getVehicle() == null && !(v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && v.getCell().getPosition() == v.getRide().getNextConnections().get(0).getPosition()) {
+						v.removeCurrentConnection();
+						v.goToNextCell();
+						v.setSpeed(1);
+					
+					// Else if NEXT cell EMPTY
+					} else if (v.getCell().getNextCell().getVehicle() == null && v.getSpeed() > 0){
+						v.goToXthNextCell(v.getSpeed());
+						
+					} else {
 						v.stayHere();
 						v.setSpeed(0);
 					}
 				}
-			} else {
-				if (v.getCell() != null) {
-					//NEXT and OUT cells
-					if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
-						if (v.getCell().getOutCell().getVehicle() == null  && v.getCell().getPosition() == v.getRide().getNextConnections().get(0).getPosition()) {
-							if (!v.getRide().getNextConnections().isEmpty()) {
-								v.getRide().getNextConnections().remove(0);
-							}
-							v.goToOutCell();
-							v.setSpeed(1);
-						} else if (v.getCell().getNextCell().getVehicle() == null) {
-							if (v.getSpeed() > 0) {
-								Cell ci = v.getCell();
-								for (int iter=0; iter < v.getSpeed(); ++iter) {
-									if (ci.getNextCell() != null) {
-										if (ci.getNextCell().getVehicle() != null) {
-											v.setSpeed(iter);
-											continue;
-										}
-										ci = ci.getNextCell();
-									} else {
-										v.setSpeed(iter);
-										continue;
-									}
-								}
-								v.setNextPlace(ci);
-							} else {
-								v.stayHere();
-								v.setSpeed(0);
-							}
-						} else {
-							v.stayHere();
-							v.setSpeed(0);
-						}
-					}
-					// only NEXT cell
-					else if (v.getCell().getNextCell() != null) {
-						if (v.getSpeed() > 0) {
-							Cell ci = v.getCell();
-							for (int iter=0; iter < v.getSpeed(); ++iter) {
-								if (ci.getNextCell() != null) {
-									if (ci.getNextCell().getVehicle() != null) {
-										v.setSpeed(iter);
-										continue;
-									}
-									ci = ci.getNextCell();
-								} else {
-									v.setSpeed(iter);
-									continue;
-								}
-							}
-							v.setNextPlace(ci);
-						} else {
-							v.stayHere();
-							v.setSpeed(0);
-						}
-					}
-					// only OUT cell
-					else if (v.getCell().getOutCell() != null) {
-						if (n.getRoad(v.getCell().getRoadName()) != null) {
-							if (n.getRoad(v.getCell().getRoadName()).isTrafficLightRed()) {
-								v.stayHere();
-								v.setSpeed(0);
-								continue;
-							}
-						}
-						if (v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell())) {
-							if (!v.getRide().getNextConnections().isEmpty()) {
-								v.getRide().getNextConnections().remove(0);
-							}
-							v.goToOutCell();
-						} else {
-							v.stayHere();
-							v.setSpeed(0);
-						}
-					}
-					// no NEXT or OUT cell
-					else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
-						if (v.getCell().isBlocked()) {
-							v.stayHere();
-						} else {
-							v.leaveNetwork();
-						}
-					}
-					// should never happen ...
-					else {
+				
+				// only NEXT cell
+				else if (v.getCell().getNextCell() != null) {
+					if (v.getSpeed() > 0) {
+						v.goToXthNextCell(v.getSpeed());
+					} else {
 						v.stayHere();
 						v.setSpeed(0);
 					}
 				}
+				
+				// only OUT cell
+				else if (v.getCell().getOutCell() != null) {
+					
+					// check road NAME to find road and see if isTrafficLightRed:
+					if (n.getRoad(v.getCell().getRoadName()) != null) {
+						if (n.getRoad(v.getCell().getRoadName()).isTrafficLightRed()) {
+							v.stayHere();
+							v.setSpeed(0);
+							continue;
+						}
+					}
+					
+					// Check PREVIOUS cells
+					if (v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell())) {
+						v.removeCurrentConnection();
+						v.goToOutCell();
+					} else {
+						v.stayHere();
+						v.setSpeed(0);
+					}
+				}
+				
+				// no NEXT or OUT cell
+				else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
+					if (v.getCell().isBlocked()) {
+						v.stayHere();
+					} else {
+						v.leaveNetwork();
+					}
+				}
+				
+				// should never happen ...
+				else {
+					v.stayHere();
+					v.setSpeed(0);
+				}	
 			}
-
 		}
+		
+		
 		for (CrossRoad cr: n.getCrossRoads()) {
 			cr.setCounter(cr.getCounter()+1);
 			if (cr.getCounter()>=cr.getTimeTrafficLight()) {

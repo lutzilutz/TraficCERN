@@ -85,6 +85,27 @@ public class Vehicle {
 			this.speed = 0;
 		}
 	}
+	public void removeCurrentConnection() {
+		if (!this.getRide().getNextConnections().isEmpty()) {
+			this.getRide().getNextConnections().remove(0);
+		}
+	}
+	public void goToXthNextCell(int x) {
+		Cell ci = this.getCell();
+		for (int iter=0; iter < x; ++iter) {
+			if (ci.getNextCell() != null) {
+				if (ci.getNextCell().getVehicle() != null) {
+					this.setSpeed(iter);
+					continue;
+				}
+				ci = ci.getNextCell();
+			} else {
+				this.setSpeed(iter);
+				continue;
+			}
+		}
+		this.setNextPlace(ci);
+	}
 	public int distanceFromNextConnection() {
 		int i = -1;
 		if (this.getCell() != null && this.getRide().getNextConnections() != null) {

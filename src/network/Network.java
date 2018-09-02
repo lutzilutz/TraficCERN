@@ -400,6 +400,17 @@ public class Network {
 		roads.add(rD984FNWS);
 		rD984FNWS.connectTo(raLHC, raLHC.getLength()-5);
 		
+		Road rD984FNWS2 = new Road(this, 46, "rD984FNWS2");
+		rD984FNWS2.setDirection(293);
+		rD984FNWS2.setX(rD984FNWS.getX());
+		rD984FNWS2.setY(rD984FNWS.getY()-this.getCellHeight());
+		//rD984FNWS2.setEndPositionFrom(raLHC, raLHC.getLength()-4,293);
+		roads.add(rD984FNWS2);
+		rD984FNWS2.connectTo(rD984FNWS, 46);
+		rD984FNWS2.setGenerateVehicules(true);
+		
+		
+		
 		// C5 ---------------------------------------------------------------------------------------------------------
 		// N-E (out)
 		Road rC5NE = new Road(this, 30, "rC5NE");

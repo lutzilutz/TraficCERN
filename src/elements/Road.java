@@ -202,6 +202,12 @@ public class Road {
 		this.addExit(r.getName(), this.getLength()-1);
 		r.addEnter(this.getName(), i);
 	}
+	public void connectFromiTo(Road r, int i) {
+		this.getRoadCells().get(i).setOutCell(r.getRoadCells().get(0));
+		r.getRoadCells().get(0).setInCell(this.getRoadCells().get(i));
+		this.addExit(r.getName(), i);
+		r.addEnter(this.getName(), 0);
+	}
 	public void connectTo(RoundAbout ra, int i) {
 		this.getRoadCells().get(this.getLength()-1).setOutCell(ra.getRoadCells().get(i));
 		this.addExit(ra.getName(), this.getLength()-1);
