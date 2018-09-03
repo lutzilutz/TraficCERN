@@ -132,7 +132,7 @@ public class NetworkComputing {
 		for (Road r: n.getRoads()) {
 			
 			// generation of new Vehicles
-			if (r.getGenerateVehicules() && r.getRoadCells().get(0).getVehicle() == null && Math.random()<0.10) {
+			if (r.getGenerateVehicules() > 0 && r.getRoadCells().get(0).getVehicle() == null && Math.random() < r.getGenerateVehicules() / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
 				tmp.setRide(n.selectARide(r.getName()));
 				tmp.setNextPlace(r.getRoadCells().get(0));

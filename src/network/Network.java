@@ -109,13 +109,14 @@ public class Network {
 		rIN1.connectTo(MLRA.getLanes()[0], 5);
 		rIN1.setEndPositionFrom(MLRA.getLanes()[0], 5, 180);
 		this.roads.add(rIN1);
-		rIN1.setGenerateVehicules(true);
+		rIN1.setGenerateVehicules(50);
 		
 		
 		System.out.println("");
 		
 	}
 	public void createTestNetwork3() {
+		/*
 		MultiLaneRoundAbout porteDeFrance = new MultiLaneRoundAbout(this, 2, 50);
 		porteDeFrance.setX(400);
 		porteDeFrance.setY(400);
@@ -161,6 +162,7 @@ public class Network {
 		for (int i=0; i<routeDeMeyrin.getLanesOUT().length; ++i) {
 			this.roads.add(routeDeMeyrin.getLanesOUT()[i]);
 		}
+		*/
 	}
 	
 	public void createTestNetwork1() {
@@ -346,7 +348,6 @@ public class Network {
 		//rD984FNWS2.setEndPositionFrom(raLHC, raLHC.getLength()-4,293);
 		roads.add(rD984FNWS2);
 		rD984FNWS2.connectTo(rD984FNWS, 46);
-		rD984FNWS2.setGenerateVehicules(true);
 		
 		
 		
@@ -491,13 +492,15 @@ public class Network {
 		*/
 		
 		// Network settings =================================================================================
-		rRueDeGeneveSE.setGenerateVehicules(true);
-		rRueGermaineTillionSW.setGenerateVehicules(true);
-		rD884NE.setGenerateVehicules(true);
-		rSortieCERNNW.setGenerateVehicules(true);
+		rRueDeGeneveSE.setGenerateVehicules(50);
+		rRueGermaineTillionSW.setGenerateVehicules(50);
+		rD884NE.setGenerateVehicules(50);
+		rSortieCERNNW.setGenerateVehicules(50);
 		//rD984FNWS.setGenerateVehicules(true);
-		rC5SW.setGenerateVehicules(true);
-		rTunnelNW.setGenerateVehicules(true);
+		rC5SW.setGenerateVehicules(50);
+		rTunnelNW.setGenerateVehicules(50);
+		rD984FNWS2.setGenerateVehicules(50);
+
 		/*
 		rRoutePauliNorthSW.setGenerateVehicules(true);
 		rRoutePauliSouthNE.setGenerateVehicules(true);
@@ -694,7 +697,7 @@ public class Network {
 		//rD984FNWS2.setEndPositionFrom(raLHC, raLHC.getLength()-4,293);
 		roads.add(rD984FNWS2);
 		rD984FNWS2.connectTo(rD984FNWS, 46);
-		rD984FNWS2.setGenerateVehicules(true);
+		
 		
 		
 		
@@ -836,18 +839,19 @@ public class Network {
 		rRouteBellNE.connectTo(raEntreeA, 8);
 		
 		// Network settings =================================================================================
-		rRueDeGeneveSE.setGenerateVehicules(true);
-		rRueGermaineTillionSW.setGenerateVehicules(true);
-		rD884NE.setGenerateVehicules(true);
-		rSortieCERNNW.setGenerateVehicules(true);
+		rRueDeGeneveSE.setGenerateVehicules(50);
+		rRueGermaineTillionSW.setGenerateVehicules(50);
+		rD884NE.setGenerateVehicules(50);
+		rSortieCERNNW.setGenerateVehicules(50);
 		//rD984FNWS.setGenerateVehicules(true);
-		rC5SW.setGenerateVehicules(true);
-		rTunnelNW.setGenerateVehicules(true);
-		rRoutePauliNorthSW.setGenerateVehicules(true);
-		rRoutePauliSouthNE.setGenerateVehicules(true);
-		rCheminMaisonnexS.setGenerateVehicules(true);
-		rRouteDeMeyrinSouthNW.setGenerateVehicules(true);
-		rRouteBellNE.setGenerateVehicules(true);
+		rC5SW.setGenerateVehicules(50);
+		rTunnelNW.setGenerateVehicules(50);
+		rRoutePauliNorthSW.setGenerateVehicules(50);
+		rRoutePauliSouthNE.setGenerateVehicules(50);
+		rCheminMaisonnexS.setGenerateVehicules(50);
+		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
+		rRouteBellNE.setGenerateVehicules(50);
+		rD984FNWS2.setGenerateVehicules(50);
 		
 		raEntreeA.setMaxSpeed(1);
 		raLHC.setMaxSpeed(1);
@@ -979,7 +983,7 @@ public class Network {
 	
 	public void generateAllNetworkRides(int n) {
 		for (Road r: this.roads) {
-			if (r.getGenerateVehicules()) {
+			if (r.getGenerateVehicules() > 0) {
 				r.generateRides(n);
 			}
 		}

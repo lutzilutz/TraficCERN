@@ -19,7 +19,7 @@ public class Road {
 	private int length;
 	private int maxSpeed;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
-	private boolean generateVehicules = false; // if generate Vehicles
+	private int generateVehicules = 0; // generate X vehicles per hour
 	private boolean isTrafficLightRed = false;
 	private EnumSet<Direction> directions;
 	private ArrayList<Point> reorientations = new ArrayList<Point>();
@@ -332,10 +332,10 @@ public class Road {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public boolean getGenerateVehicules() {
+	public int getGenerateVehicules() {
 		return this.generateVehicules;
 	}
-	public void setGenerateVehicules(boolean b) {
+	public void setGenerateVehicules(int b) {
 		generateVehicules = b;
 	}
 	public double getX() {
