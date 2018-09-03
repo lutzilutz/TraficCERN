@@ -411,11 +411,8 @@ public class NetworkRendering {
 		gg.setColor(Color.yellow);
 		DecimalFormat df = new DecimalFormat("##0.00");
 		for (Road r: n.getRoads()) {
-			if (r.getName().equals("rD984FSE")) {
-				Text.drawString(gg, df.format(NetworkComputing.getD984FSEFlow(n)), Color.yellow, (int) (r.getRoadCells().get(r.getLength()/2).getX()-2*n.getCellWidth()), (int) (r.getRoadCells().get(r.getLength()/2).getY()+2*n.getCellWidth()), true, Assets.normalBoldFont);
-			}
-			if (r.getName().equals("rD984FNW")) {
-				Text.drawString(gg, df.format(NetworkComputing.getD984FNWFlow(n)), Color.yellow, (int) (r.getRoadCells().get(r.getLength()/2).getX()+2*n.getCellWidth()), (int) (r.getRoadCells().get(r.getLength()/2).getY()-2*n.getCellWidth()), true, Assets.normalBoldFont);
+			if (r.getVehicleCounter() != null) {
+				Text.drawString(gg, df.format(r.getVehicleCounter().getFlow()), Color.yellow, (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 2*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getDirection()/360.0)), (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 2*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getDirection()/360.0)), true, Assets.normalBoldFont);
 			}
 		}
 	}

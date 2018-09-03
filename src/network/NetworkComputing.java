@@ -91,29 +91,12 @@ public class NetworkComputing {
 	// Computing operations #########################################################################################################################
 	// ##############################################################################################################################################	
 	
-	public static void computeFlows() {
-		flowD984FSE = flowCoefficient * flowD984FSE + (1-flowCoefficient) * counterD984FSE;
-		counterD984FSE = 0;
-		
-		flowD984FNW = flowCoefficient * flowD984FNW + (1-flowCoefficient) * counterD984FNW;
-		counterD984FNW = 0;
-	}
-	public static double getD984FSEFlow(Network n) {
-		return flowD984FSE;
-	}
-	public static double getD984FNWFlow(Network n) {
-		return flowD984FNW;
-	}
-	public static void incrementCounterD984FSE() {
-		counterD984FSE++;
-	}
-	public static void incrementCounterD984FNW() {
-		counterD984FNW++;
-	}
-	public static boolean vehicleComingToCounter(Road r) {
-		boolean vehicleOnCell = (r.getRoadCells().get(r.getLength()/2).getVehicle() != null);
-		boolean vehicleOnPreviousCellSpeed2 = (r.getRoadCells().get(r.getLength()/2 - 1).getVehicle() != null && r.getRoadCells().get(r.getLength()/2 - 1).getVehicle().getSpeed()==2);
-		return vehicleOnCell || vehicleOnPreviousCellSpeed2;
+	public static void computeFlows(Network n) {
+		for (Road r: n.getRoads()) {
+			if (r.getVehicleCounter() != null) {
+				r.getVehicleCounter().computeFlow();
+			}
+		}
 	}
 	// Update Cell of the Road according to the next state
 	public static void evolve(Network n) {
@@ -123,31 +106,14 @@ public class NetworkComputing {
 				//System.out.println("Coucou !");
 			}
 			
-			// Updating counter for D984F North, oriented South-East
 			for (Road r: n.getRoads()) {
-				if (r.getName().equals("rD984FSE")) {
-					if (vehicleComingToCounter(r)) {
-						if (!counterD984FSEHasVehicle) {
-							counterD984FSEHasVehicle = true;
-							incrementCounterD984FSE();
-						}
-					} else {
-						counterD984FSEHasVehicle = false;
-					}
-				} else if (r.getName().equals("rD984FNW")) {
-					if (vehicleComingToCounter(r)) {
-						if (!counterD984FNWHasVehicle) {
-							counterD984FNWHasVehicle = true;
-							incrementCounterD984FNW();
-						}
-					} else {
-						counterD984FNWHasVehicle = false;
-					}
+				if (r.getVehicleCounter() != null) {
+					r.getVehicleCounter().computeCounter();
 				}
 			}
 			if (n.getSimulation().getSimState().getStep()%60 == 0) {
 				if (!countersUpdated) {
-					computeFlows();
+					computeFlows(n);
 					countersUpdated = true;
 				}
 			} else {

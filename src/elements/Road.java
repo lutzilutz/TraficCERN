@@ -27,6 +27,7 @@ public class Road {
 	private int outflowCounter = 0; // outflow counter
 	private boolean isBlocked = false;
 	private boolean startOutflowCount = false;
+	private VehicleCounter vehicleCounter = null;
 	
 	// Display
 	private double x,y; // position in pixels from left upper corner
@@ -102,6 +103,9 @@ public class Road {
 		}
 		
 		roadCells.get(roadCells.size()-1).setBlocked(isBlocked);
+	}
+	public void setCounter(double location) {
+		vehicleCounter = new VehicleCounter(n, this, location);
 	}
 	public void setUnderground(int i, int j, boolean isUnderground) {
 		for (int k=i ; k<=j ; k++) {
@@ -312,6 +316,9 @@ public class Road {
 	}
 	
 	// Getters & setters ====================================================================================
+	public VehicleCounter getVehicleCounter() {
+		return this.vehicleCounter;
+	}
 	public void setMaxOutflow(int maxOutflow) {
 		this.maxOutflow = maxOutflow;
 		outflowCounter = maxOutflow;
