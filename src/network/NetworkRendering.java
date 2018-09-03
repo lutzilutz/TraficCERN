@@ -409,11 +409,13 @@ public class NetworkRendering {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.yellow);
+		DecimalFormat df = new DecimalFormat("##0.00");
 		for (Road r: n.getRoads()) {
 			if (r.getName().equals("rD984FSE")) {
-				DecimalFormat df = new DecimalFormat("##0.00");
-				//System.out.println(NetworkComputing.getD984FSEFlow(n));
 				Text.drawString(gg, df.format(NetworkComputing.getD984FSEFlow(n)), Color.yellow, (int) (r.getRoadCells().get(r.getLength()/2).getX()-2*n.getCellWidth()), (int) (r.getRoadCells().get(r.getLength()/2).getY()+2*n.getCellWidth()), true, Assets.normalBoldFont);
+			}
+			if (r.getName().equals("rD984FNW")) {
+				Text.drawString(gg, df.format(NetworkComputing.getD984FNWFlow(n)), Color.yellow, (int) (r.getRoadCells().get(r.getLength()/2).getX()+2*n.getCellWidth()), (int) (r.getRoadCells().get(r.getLength()/2).getY()-2*n.getCellWidth()), true, Assets.normalBoldFont);
 			}
 		}
 	}

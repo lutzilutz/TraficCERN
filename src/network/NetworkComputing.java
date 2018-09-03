@@ -10,12 +10,15 @@ import elements.Vehicle;
 public class NetworkComputing {
 	
 	private static int margin;
-	private static double flow = 0;
+	private static double flowD984FSE = 0;
+	private static double flowD984FNW = 0;
 	private static double flowCoefficient = 1/8.0;
 	private static int counterD984FSE = 0;
+	private static int counterD984FNW = 0;
+	private static boolean countersUpdated = false;
 	private static boolean counterD984FSEHasVehicle = false;
-	private static boolean counterD984FSEUpdated = false;
-
+	private static boolean counterD984FNWHasVehicle = false;
+	
 	// Pre-processing operations ####################################################################################################################
 	// ##############################################################################################################################################	
 	public static void computeCellsPosition(Network n) {
@@ -88,16 +91,24 @@ public class NetworkComputing {
 	// Computing operations #########################################################################################################################
 	// ##############################################################################################################################################	
 	
-	public static void computeD984FSEFlow() {
-		flow = flowCoefficient * flow + (1-flowCoefficient) * counterD984FSE;
-		System.out.println("flow=" + flow + " , count=" + counterD984FSE);
+	public static void computeFlows() {
+		flowD984FSE = flowCoefficient * flowD984FSE + (1-flowCoefficient) * counterD984FSE;
 		counterD984FSE = 0;
+		
+		flowD984FNW = flowCoefficient * flowD984FNW + (1-flowCoefficient) * counterD984FNW;
+		counterD984FNW = 0;
 	}
 	public static double getD984FSEFlow(Network n) {
-		return flow;
+		return flowD984FSE;
+	}
+	public static double getD984FNWFlow(Network n) {
+		return flowD984FNW;
 	}
 	public static void incrementCounterD984FSE() {
 		counterD984FSE++;
+	}
+	public static void incrementCounterD984FNW() {
+		counterD984FNW++;
 	}
 	public static boolean vehicleComingToCounter(Road r) {
 		boolean vehicleOnCell = (r.getRoadCells().get(r.getLength()/2).getVehicle() != null);
@@ -111,6 +122,7 @@ public class NetworkComputing {
 			if (v.getNextPlace() == null) {
 				//System.out.println("Coucou !");
 			}
+			
 			// Updating counter for D984F North, oriented South-East
 			for (Road r: n.getRoads()) {
 				if (r.getName().equals("rD984FSE")) {
@@ -118,20 +130,28 @@ public class NetworkComputing {
 						if (!counterD984FSEHasVehicle) {
 							counterD984FSEHasVehicle = true;
 							incrementCounterD984FSE();
-							//System.out.println(counterD984FSE);
 						}
 					} else {
 						counterD984FSEHasVehicle = false;
 					}
+				} else if (r.getName().equals("rD984FNW")) {
+					if (vehicleComingToCounter(r)) {
+						if (!counterD984FNWHasVehicle) {
+							counterD984FNWHasVehicle = true;
+							incrementCounterD984FNW();
+						}
+					} else {
+						counterD984FNWHasVehicle = false;
+					}
 				}
 			}
 			if (n.getSimulation().getSimState().getStep()%60 == 0) {
-				if (!counterD984FSEUpdated) {
-					computeD984FSEFlow();
-					counterD984FSEUpdated = true;
+				if (!countersUpdated) {
+					computeFlows();
+					countersUpdated = true;
 				}
 			} else {
-				counterD984FSEUpdated = false;
+				countersUpdated = false;
 			}
 			v.evolve();
 		}
