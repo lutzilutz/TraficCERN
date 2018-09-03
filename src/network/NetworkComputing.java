@@ -2,7 +2,6 @@ package network;
 
 import java.util.Iterator;
 
-import elements.Cell;
 import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
@@ -11,6 +10,11 @@ import elements.Vehicle;
 public class NetworkComputing {
 	
 	private static int margin;
+	private static double flow = 0;
+	private static double flowCoefficient = 1/8.0;
+	private static int counterD984FSE = 0;
+	private static boolean counterD984FSEHasVehicle = false;
+	private static boolean counterD984FSEUpdated = false;
 
 	// Pre-processing operations ####################################################################################################################
 	// ##############################################################################################################################################	
@@ -83,13 +87,51 @@ public class NetworkComputing {
 	
 	// Computing operations #########################################################################################################################
 	// ##############################################################################################################################################	
-		
+	
+	public static void computeD984FSEFlow() {
+		flow = flowCoefficient * flow + (1-flowCoefficient) * counterD984FSE;
+		System.out.println("flow=" + flow + " , count=" + counterD984FSE);
+		counterD984FSE = 0;
+	}
+	public static double getD984FSEFlow(Network n) {
+		return flow;
+	}
+	public static void incrementCounterD984FSE() {
+		counterD984FSE++;
+	}
+	public static boolean vehicleComingToCounter(Road r) {
+		boolean vehicleOnCell = (r.getRoadCells().get(r.getLength()/2).getVehicle() != null);
+		boolean vehicleOnPreviousCellSpeed2 = (r.getRoadCells().get(r.getLength()/2 - 1).getVehicle() != null && r.getRoadCells().get(r.getLength()/2 - 1).getVehicle().getSpeed()==2);
+		return vehicleOnCell || vehicleOnPreviousCellSpeed2;
+	}
 	// Update Cell of the Road according to the next state
 	public static void evolve(Network n) {
 		
 		for (Vehicle v: n.getVehicles()) {
 			if (v.getNextPlace() == null) {
 				//System.out.println("Coucou !");
+			}
+			// Updating counter for D984F North, oriented South-East
+			for (Road r: n.getRoads()) {
+				if (r.getName().equals("rD984FSE")) {
+					if (vehicleComingToCounter(r)) {
+						if (!counterD984FSEHasVehicle) {
+							counterD984FSEHasVehicle = true;
+							incrementCounterD984FSE();
+							//System.out.println(counterD984FSE);
+						}
+					} else {
+						counterD984FSEHasVehicle = false;
+					}
+				}
+			}
+			if (n.getSimulation().getSimState().getStep()%60 == 0) {
+				if (!counterD984FSEUpdated) {
+					computeD984FSEFlow();
+					counterD984FSEUpdated = true;
+				}
+			} else {
+				counterD984FSEUpdated = false;
 			}
 			v.evolve();
 		}

@@ -11,6 +11,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
@@ -323,6 +324,7 @@ public class NetworkRendering {
 		if (network.getDrawCenters()) {
 			renderElementCenter(network, g);
 		}
+		renderCounters(network, g);
 	}
 	public static void renderVehicles(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
@@ -402,6 +404,18 @@ public class NetworkRendering {
 		g.drawString("Steps :    " + Integer.toString(n.getSimulation().getSimState().getStep()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-60);
 		g.drawString("Time :    " + n.getSimulation().getSimState().getTime(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-40);
 		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getSimState().getStepSize())/10.0) + " km/h", n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-20);
+	}
+	public static void renderCounters(Network n, Graphics g) {
+		Graphics2D gg = (Graphics2D) g.create();
+		gg.translate(-bounds.x, -bounds.y);
+		gg.setColor(Color.yellow);
+		for (Road r: n.getRoads()) {
+			if (r.getName().equals("rD984FSE")) {
+				DecimalFormat df = new DecimalFormat("##0.00");
+				//System.out.println(NetworkComputing.getD984FSEFlow(n));
+				Text.drawString(gg, df.format(NetworkComputing.getD984FSEFlow(n)), Color.yellow, (int) (r.getRoadCells().get(r.getLength()/2).getX()-2*n.getCellWidth()), (int) (r.getRoadCells().get(r.getLength()/2).getY()+2*n.getCellWidth()), true, Assets.normalBoldFont);
+			}
+		}
 	}
 	// Render Vehicles according to Cells
 	public static void display(Network n) {
