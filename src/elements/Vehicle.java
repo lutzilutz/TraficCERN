@@ -49,13 +49,19 @@ public class Vehicle {
 	}
 	public boolean checkPreviousCells(int nCells, Cell cell) {
 		Cell tmp = cell;
-		for (int j=0; j < this.getSpeed()+1; ++j) {
+		if (tmp.getVehicle() != null) {
+			return false;
+		}
+		for (int j=1; j < nCells+1; ++j) {
 			tmp.getPreviousCell();
 			if (tmp.getVehicle() != null) {
-				if (tmp.getVehicle().getSpeed()>=j) {
+				if (tmp.getVehicle().getSpeed() == 0) {
+					return true;
+				} else if (tmp.getVehicle().getSpeed() >= j-1) {
 					return false;
 				}
 			}
+			tmp = tmp.getPreviousCell();
 		}
 		return true;
 	}
@@ -96,12 +102,12 @@ public class Vehicle {
 			if (ci.getNextCell() != null) {
 				if (ci.getNextCell().getVehicle() != null) {
 					this.setSpeed(iter);
-					continue;
+					break;
 				}
 				ci = ci.getNextCell();
 			} else {
 				this.setSpeed(iter);
-				continue;
+				break;
 			}
 		}
 		this.setNextPlace(ci);
@@ -161,6 +167,16 @@ public class Vehicle {
 				this.speed = Math.max(this.speed-1, 0);
 			}
 		}
+		if (this.getCell() != null) {
+			if (this.getRide() != null && !this.getRide().getNextConnections().isEmpty()) {
+				if (this.getCell().getPosition() == this.getRide().getNextConnections().get(0).getPosition()) {
+					if (this.getCell().getOutCell() != null && this.getCell().getOutCell().getVehicle() != null) {
+						this.setSpeed(0);
+					}
+				}
+			}
+		}
+		
 	}
 	
 	// Getters & setters ====================================================================================

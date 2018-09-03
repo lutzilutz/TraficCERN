@@ -3,6 +3,7 @@ package elements;
 import network.Network;
 
 public class MultiLaneRoundAbout {
+	private String name;
 	private RoundAbout[] lanes;
 	private Network n;
 	private double x=0,y=0;
@@ -16,6 +17,20 @@ public class MultiLaneRoundAbout {
 			nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
 			if (nCells > 0) {
 				lanes[i] = new RoundAbout(n, nCells);
+			}
+		}
+		
+	}
+	
+	public MultiLaneRoundAbout(Network n, int nLanes, int length, String name) {
+		this.name = name;
+		this.n = n;
+		int nCells = length;
+		lanes = new RoundAbout[nLanes];
+		for (int i=0; i<nLanes; ++i) {
+			nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
+			if (nCells > 0) {
+				lanes[i] = new RoundAbout(n, nCells, name + (i+1));
 			}
 		}
 		

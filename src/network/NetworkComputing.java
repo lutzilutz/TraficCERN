@@ -224,6 +224,7 @@ public class NetworkComputing {
 				else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
 					if (v.getCell().isBlocked()) {
 						v.stayHere();
+						v.setSpeed(0);
 					} else {
 						v.leaveNetwork();
 					}

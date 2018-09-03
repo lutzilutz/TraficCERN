@@ -76,7 +76,7 @@ public class Network {
 		descriptions[2] = "Actual network around the CERN";
 	}
 	public void createTestNetwork2() {
-		
+		/*
 		Road test = new Road(this, 50);
 		test.setDirection(110);
 		test.addPoint(new Point(18,90));
@@ -95,7 +95,24 @@ public class Network {
 		test2.setX(400);
 		test2.setY(500);
 		roads.add(test2);
-		test2.setGenerateVehicules(true);
+		test2.setGenerateVehicules(true); */
+		
+		MultiLaneRoundAbout MLRA = new MultiLaneRoundAbout(this, 3, 48, "RAPDF");
+		MLRA.setX(400);
+		MLRA.setY(400);
+
+		for (RoundAbout RA: MLRA.getLanes()) {
+			this.roundAbouts.add(RA);
+		}
+		
+		Road rIN1 = new Road (this, 15, "rIN1");
+		rIN1.connectTo(MLRA.getLanes()[0], 5);
+		rIN1.setEndPositionFrom(MLRA.getLanes()[0], 5, 180);
+		this.roads.add(rIN1);
+		rIN1.setGenerateVehicules(true);
+		
+		
+		System.out.println("");
 		
 	}
 	public void createTestNetwork3() {
@@ -147,7 +164,7 @@ public class Network {
 	}
 	
 	public void createTestNetwork1() {
-
+		
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
 		tmp.xpoints[0] = 13*cellWidth;
@@ -493,6 +510,7 @@ public class Network {
 		
 		//printNames();
 		this.generateAllNetworkRides(6);
+		this.cleanAllNetworkRides();
 		
 		rD984FSE.setCounter(0.5);
 		rD984FNW.setCounter(0.49);
@@ -802,7 +820,7 @@ public class Network {
 		rRouteDeMeyrinSouthNW.setDirection(293);
 		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA, raEntreeA.getLength()-4,293);
 		roads.add(rRouteDeMeyrinSouthNW);
-		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, 3);
+		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, raEntreeA.getLength()-4);
 		
 		// Route Bell---------------------------------------------------------------------------------------
 		Road rRouteBellSW = new Road(this, 20, "rRouteBellSW");
@@ -836,6 +854,7 @@ public class Network {
 		
 		//printNames();
 		this.generateAllNetworkRides(6);
+		this.cleanAllNetworkRides();
 		
 		rD984FSE.setCounter(0.5);
 		rD984FNW.setCounter(0.49);
@@ -901,7 +920,7 @@ public class Network {
 		}
 		System.out.println("(=^-^=)");
 		
-		this.cleanAllNetworkRides();
+		
 		for (AllNetworkRides ANR: this.allNetworkRides) {
 			ANR.print();
 			System.out.println("");
