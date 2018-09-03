@@ -349,7 +349,7 @@ public class Network {
 		rSortieCERNSE.addPoint(new Point(10,150));
 		roads.add(rSortieCERNSE);
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLength()-23);
-		rSortieCERNSE.setMaxOutflow(40);
+		rSortieCERNSE.setMaxOutflow(8);
 		
 		// N-W (in)
 		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
@@ -565,7 +565,7 @@ public class Network {
 		raLHC.setMaxSpeed(1);
 		
 		//printNames();
-		
+		this.generateAllNetworkRides(6);
 	}
 	
 	public void printNames() {
@@ -619,7 +619,6 @@ public class Network {
 		}
 		System.out.println("");
 		
-		this.generateAllNetworkRides(6);
 		for (AllNetworkRides ANR: this.allNetworkRides) {
 			ANR.print();
 			System.out.println("");

@@ -111,7 +111,7 @@ public class NetworkComputing {
 		for (Road r: n.getRoads()) {
 			
 			// generation of new Vehicles
-			if (r.getGenerateVehicules() && r.getRoadCells().get(0).getVehicle() == null && Math.random()<0.05) {
+			if (r.getGenerateVehicules() && r.getRoadCells().get(0).getVehicle() == null && Math.random()<0.10) {
 				Vehicle tmp = new Vehicle(n);
 				tmp.setRide(n.selectARide(r.getName()));
 				tmp.setNextPlace(r.getRoadCells().get(0));
@@ -141,17 +141,21 @@ public class NetworkComputing {
 				
 				//NEXT and OUT cells
 				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
-					
 					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
 					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && Math.random() < 0.5) {
 						v.goToOutCell();
 						v.setSpeed(1);
 						
 					// OUT cell EMPTY + Vehicle has RIDE + Vehicle on the NEXT Connection:
-					} else if (v.getCell().getOutCell().getVehicle() == null && !(v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && v.getCell().getPosition() == v.getRide().getNextConnections().get(0).getPosition()) {
-						v.removeCurrentConnection();
-						v.goToNextCell();
-						v.setSpeed(1);
+					} else if (v.getRide() != null && !v.getRide().getNextConnections().isEmpty() && v.getCell().getPosition() == v.getRide().getNextConnections().get(0).getPosition()) {
+						if (v.getCell().getOutCell().getVehicle() == null) {
+							v.goToOutCell();
+							v.removeCurrentConnection();
+							v.setSpeed(1);
+						} else {
+							v.stayHere();
+							v.setSpeed(0);
+						}
 					
 					// Else if NEXT cell EMPTY
 					} else if (v.getCell().getNextCell().getVehicle() == null && v.getSpeed() > 0){
@@ -187,8 +191,8 @@ public class NetworkComputing {
 					
 					// Check PREVIOUS cells
 					if (v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell())) {
-						v.removeCurrentConnection();
 						v.goToOutCell();
+						v.removeCurrentConnection();
 					} else {
 						v.stayHere();
 						v.setSpeed(0);
