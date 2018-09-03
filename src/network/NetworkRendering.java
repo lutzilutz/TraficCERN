@@ -412,7 +412,11 @@ public class NetworkRendering {
 		DecimalFormat df = new DecimalFormat("##0.00");
 		for (Road r: n.getRoads()) {
 			if (r.getVehicleCounter() != null) {
-				Text.drawString(gg, df.format(r.getVehicleCounter().getFlow()), Color.yellow, (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 2*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getDirection()/360.0)), (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 2*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getDirection()/360.0)), true, Assets.normalBoldFont);
+				gg.drawLine((int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 2*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)),
+						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 2*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)),
+						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 0*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)),
+						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 0*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)));
+				Text.drawString(gg, df.format(r.getVehicleCounter().getFlow()) + " / min", Color.yellow, (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 2*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)), (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 2*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)), true, Assets.normalBoldFont);
 			}
 		}
 	}

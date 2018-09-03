@@ -10,14 +10,7 @@ import elements.Vehicle;
 public class NetworkComputing {
 	
 	private static int margin;
-	private static double flowD984FSE = 0;
-	private static double flowD984FNW = 0;
-	private static double flowCoefficient = 1/8.0;
-	private static int counterD984FSE = 0;
-	private static int counterD984FNW = 0;
 	private static boolean countersUpdated = false;
-	private static boolean counterD984FSEHasVehicle = false;
-	private static boolean counterD984FNWHasVehicle = false;
 	
 	// Pre-processing operations ####################################################################################################################
 	// ##############################################################################################################################################	

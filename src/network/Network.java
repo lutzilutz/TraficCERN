@@ -569,10 +569,10 @@ public class Network {
 		this.generateAllNetworkRides(6);
 		
 		rD984FSE.setCounter(0.5);
-		rD984FNW.setCounter(0.5);
+		rD984FNW.setCounter(0.49);
 		
 		rD984FSES.setCounter(0.3);
-		rD984FNWS.setCounter(0.7);
+		rD984FNWS.setCounter(0.702);
 	}
 	
 	public void printNames() {

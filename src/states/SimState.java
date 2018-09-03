@@ -210,14 +210,15 @@ public class SimState extends State {
 		this.uiManager.addObject(centersOn);
 	}
 	public void init() {
+		
+		NetworkComputing.computeCellsPosition(network);
+		
 		// Rendering background ---------------------------------------------------
 		background = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_RGB);
 		networkDisplays = new BufferedImage[8];
 		hud = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		renderBG(network, networkDisplays);
 		// ------------------------------------------------------------------------
-		
-		NetworkComputing.computeCellsPosition(network);
 		
 		lastTick = System.nanoTime();
 		
@@ -228,7 +229,6 @@ public class SimState extends State {
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		g.dispose();
 		NetworkRendering.renderButtonsHeader(network, hud);
-		NetworkComputing.computeCellsPosition(network);
 		networkDisplays = NetworkRendering.renderAllBGs(network, backgrounds);
 		currentBackgroundID = 0;
 		if (network.getDrawRoadID()) {
