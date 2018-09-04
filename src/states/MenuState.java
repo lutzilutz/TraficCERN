@@ -34,10 +34,10 @@ public class MenuState extends State {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
-				simulation.getSimState().enableUIManager();
+				simulation.getSimSettingsState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 0));
 				simulation.getSimState().init();
-				State.setState(simulation.getSimState());
+				State.setState(simulation.getSimSettingsState());
 			}
 		});
 		this.uiManager.addObject(network1);
@@ -48,10 +48,10 @@ public class MenuState extends State {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
-				simulation.getSimState().enableUIManager();
+				simulation.getSimSettingsState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 1));
 				simulation.getSimState().init();
-				State.setState(simulation.getSimState());
+				State.setState(simulation.getSimSettingsState());
 			}
 		});
 		this.uiManager.addObject(network2);
@@ -62,10 +62,10 @@ public class MenuState extends State {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
-				simulation.getSimState().enableUIManager();
+				simulation.getSimSettingsState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 2));
 				simulation.getSimState().init();
-				State.setState(simulation.getSimState());
+				State.setState(simulation.getSimSettingsState());
 			}
 		});
 		this.uiManager.addObject(network3);

@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import elements.Road;
 import graphics.Assets;
 import graphics.Text;
 import input.KeyManager;
@@ -31,6 +32,7 @@ public class SimState extends State {
 	private boolean askExit = false;
 	private long lastTick;
 	private boolean restarting = false;
+	private boolean firstRun = true;
 	
 	private double defaultSimSpeed = 20;
 	private double simSpeed = defaultSimSpeed;
@@ -254,6 +256,11 @@ public class SimState extends State {
 	
 	public void tick(int n) {
 		
+		if (firstRun) {
+			applyUserSettings();
+			firstRun = false;
+		}
+		
 		if (!getPause() && !restarting) {
 			
 			if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
@@ -350,6 +357,14 @@ public class SimState extends State {
 			uiManager.render(g);
 			if (askExit) {
 				Text.drawString(g, "Are you sure ?", Assets.idleCol, simulation.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);
+			}
+		}
+	}
+	public void applyUserSettings() {
+		for (Road r: network.getRoads()) {
+			if (r.getName().equals("rSortieCERNNW")) {
+				System.out.println("yes !!!"); 
+				r.setGenerateVehicules(simulation.getEntranceERate());
 			}
 		}
 	}
