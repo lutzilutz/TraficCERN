@@ -24,13 +24,13 @@ public class SimSettingsState extends State {
 	private boolean isLeftPressed = false;
 	
 	private UISlider test;
-	private UITextButton run;
+	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
 		
-		test = new UISlider(simulation, xStart, yStart, 550, "Entrance E generation rate", 3600, 50, new ClickListener(){
+		test = new UISlider(simulation, xStart, yStart, 550, "Entrance E generation rate (vhc/hour)", 3600, 50, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -38,7 +38,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(test);
 		
-		run = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Run", new ClickListener(){
+		run = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60-buttonHeight-buttonYMargin, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
@@ -48,6 +48,16 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManager.addObject(run);
+		back = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Back", new ClickListener(){
+			@Override
+			public void onClick() {
+				// prevents user to continue clicking after state change
+				disableUIManager();
+				simulation.getMenuState().enableUIManager();
+				State.setState(simulation.getMenuState());
+			}
+		});
+		this.uiManager.addObject(back);
 	}
 	
 	public void tick(int n) {

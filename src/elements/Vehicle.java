@@ -117,7 +117,7 @@ public class Vehicle {
 	}
 	public int distanceFromNextConnection() {
 		int i = -1;
-		if (this.getCell() != null && this.getRide().getNextConnections() != null) {
+		if (this.getCell() != null && !this.getRide().getNextConnections().isEmpty()) {
 			if (this.getCell() != null && this.getCell().isInRoundAbout()) {
 				int l = this.getCell().getRoadLength();
 				i = (((this.getRide().getNextConnections().get(0).getPosition() - this.getCell().getPosition()) % l )+ l) % l;
