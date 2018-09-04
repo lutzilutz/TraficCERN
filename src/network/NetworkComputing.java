@@ -132,12 +132,10 @@ public class NetworkComputing {
 		for (Road r: n.getRoads()) {
 			
 			// generation of new Vehicles
-			//if (r.getGenerateVehicules() > 0 && r.getRoadCells().get(0).getVehicle() == null && Math.random() < r.getGenerateVehicules() / 3600.0) {
 			if (r.getGenerateVehicules() > 0 && Math.random() < r.getGenerateVehicules() / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
 				tmp.setRide(n.selectARide(r.getName()));
 				r.addNewVehicle(tmp);
-				//tmp.setNextPlace(r.getRoadCells().get(0));
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
 			}
@@ -256,7 +254,6 @@ public class NetworkComputing {
 		
 		for (Road r: n.getRoads()) {
 			if (r.getLeakyBucket().size()>0 && r.getRoadCells().get(0).getVehicle() == null) {
-				//r.getLeakyBucket().get(0).setNextPlace(r.getRoadCells().get(0));
 				Vehicle v = r.getLeakyBucket().get(0);
 				v.setNextPlace(r.getRoadCells().get(0));
 				v.setInBucket(false);

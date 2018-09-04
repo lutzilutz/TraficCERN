@@ -8,7 +8,6 @@ import java.util.HashSet;
 
 import elements.Connection;
 import elements.CrossRoad;
-import elements.MultiLaneRoad;
 import elements.MultiLaneRoundAbout;
 import elements.Ride;
 import elements.Road;
@@ -22,6 +21,7 @@ public class Network {
 	private static String[] descriptions;
 	
 	private Simulation sim;
+	private int n;
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
@@ -47,6 +47,7 @@ public class Network {
 		this.setCellHeight(6);
 		this.setCellWidth(6);
 		this.sim = sim;
+		this.n = n;
 		Road.resetID();
 		xOffset = 0;
 		yOffset = 0;
@@ -67,12 +68,12 @@ public class Network {
 		
 		titles = new String[3];
 		titles[0] = "CERN network WIP";
-		titles[1] = "Test 2";
+		titles[1] = "WIP on RoundAbout";
 		titles[2] = "CERN network";
 
 		descriptions = new String[3];
 		descriptions[0] = "Work in progress of actual network";
-		descriptions[1] = "Test road for turning roads";
+		descriptions[1] = "Work in progress of multi-lanes RoundAbouts";
 		descriptions[2] = "Actual network around the CERN";
 	}
 	public void createTestNetwork2() {
@@ -1007,6 +1008,9 @@ public class Network {
 	}
 	
 	// Getters & setters ====================================================================================
+	public int getN() {
+		return n;
+	}
 	public int getNumberOfVehicles() {
 		return numberOfVehicles;
 	}

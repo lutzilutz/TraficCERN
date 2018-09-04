@@ -15,6 +15,7 @@ import ui.UIImageButton;
 import ui.UIManager;
 import ui.UITextButton;
 import ui.UITextSwitch;
+import utils.Utils;
 
 public class SimState extends State {
 	
@@ -29,8 +30,10 @@ public class SimState extends State {
 	private boolean paused = false;
 	private boolean askExit = false;
 	private long lastTick;
+	private boolean restarting = false;
 	
-	private double simSpeed = 20;
+	private double defaultSimSpeed = 20;
+	private double simSpeed = defaultSimSpeed;
 	private double offsetSpeed = 1;
 	private double offsetSpeedDefault = offsetSpeed;
 	private long offsetTime = 0;
@@ -76,6 +79,12 @@ public class SimState extends State {
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.restartIdle, Assets.restartActive, new ClickListener(){
 			@Override
 			public void onClick() {
+				restarting = true;
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					Utils.log(e);
+				}
 				restartNetwork();
 			}
 		}));
@@ -245,12 +254,12 @@ public class SimState extends State {
 	
 	public void tick(int n) {
 		
-		if (!getPause()) {
+		if (!getPause() && !restarting) {
 			
 			if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
 				
 				if (simSpeed >= 5000) {
-					while((System.nanoTime()-lastTick) <= 1000000000/60) {
+					while((System.nanoTime()-lastTick) <= 1000000000/60 && !restarting) {
 						step++;
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
@@ -327,25 +336,32 @@ public class SimState extends State {
 	
 	public void render(Graphics g) {
 		
-		g.drawImage(background, 0, 0, null);
-		Graphics2D gg = (Graphics2D) g.create();
-		gg.translate(network.getxOffset(), network.getyOffset());
-		gg.rotate(network.getRotation(), simulation.getWidth()/2-network.getxOffset(), simulation.getHeight()/2-network.getyOffset());
-		gg.drawImage(currentDisplay, 0, 0, null);
-		g.drawImage(hud, 0, 0, null);
-		NetworkRendering.render(network, gg);
-		NetworkRendering.renderInformations(network, g);
-		gg.dispose();
-		uiManager.render(g);
-		if (askExit) {
-			Text.drawString(g, "Are you sure ?", Assets.idleCol, simulation.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);
+		
+		if (!restarting) {
+			g.drawImage(background, 0, 0, null);
+			Graphics2D gg = (Graphics2D) g.create();
+			gg.translate(network.getxOffset(), network.getyOffset());
+			gg.rotate(network.getRotation(), simulation.getWidth()/2-network.getxOffset(), simulation.getHeight()/2-network.getyOffset());
+			gg.drawImage(currentDisplay, 0, 0, null);
+			g.drawImage(hud, 0, 0, null);
+			NetworkRendering.render(network, gg);
+			NetworkRendering.renderInformations(network, g);
+			gg.dispose();
+			uiManager.render(g);
+			if (askExit) {
+				Text.drawString(g, "Are you sure ?", Assets.idleCol, simulation.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);
+			}
 		}
 	}
 	public void restartNetwork() {
-		network = null;
 		step = 0;
-		network = new Network(simulation, currentNetwork);
+		currentNetwork = network.getN();
+		simSpeed = defaultSimSpeed;
+		simulation.getSimState().setNetwork(null);
+		System.out.println("Current network : " + currentNetwork);
+		simulation.getSimState().setNetwork(new Network(simulation, currentNetwork));
 		NetworkComputing.computeCellsPosition(network);
+		restarting = false;
 	}
 	
 	// Return time in format "DDD hh:mm:ss"
