@@ -28,6 +28,7 @@ public class Road {
 	private boolean isBlocked = false;
 	private boolean startOutflowCount = false;
 	private VehicleCounter vehicleCounter = null;
+	private ArrayList<Vehicle> leakyBucket = new ArrayList<Vehicle>();
 	
 	// Display
 	private double x,y; // position in pixels from left upper corner
@@ -357,6 +358,15 @@ public class Road {
 	}
 	
 	// Getters & setters ====================================================================================
+	public ArrayList<Vehicle> getLeakyBucket() {
+		return leakyBucket;
+	}
+	public void addNewVehicle(Vehicle v) {
+		leakyBucket.add(v);
+	}
+	public void removeVehicleFromBucket(Vehicle v) {
+		leakyBucket.remove(v);
+	}
 	public VehicleCounter getVehicleCounter() {
 		return this.vehicleCounter;
 	}

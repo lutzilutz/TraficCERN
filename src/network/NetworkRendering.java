@@ -325,6 +325,7 @@ public class NetworkRendering {
 			renderElementCenter(network, g);
 		}
 		renderCounters(network, g);
+		renderLeakyBuckets(network, g);
 	}
 	public static void renderVehicles(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
@@ -417,6 +418,16 @@ public class NetworkRendering {
 						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 0*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)),
 						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 0*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)));
 				Text.drawString(gg, df.format(r.getVehicleCounter().getFlow()) + " / min", Color.yellow, (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 2*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)), (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 2*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)), true, Assets.normalBoldFont);
+			}
+		}
+	}
+	public static void renderLeakyBuckets(Network n, Graphics g) {
+		Graphics2D gg = (Graphics2D) g.create();
+		gg.translate(-bounds.x, -bounds.y);
+		gg.setColor(Color.pink);
+		for (Road r: n.getRoads()) {
+			if (r.getGenerateVehicules()>0) {
+				Text.drawString(gg, Integer.toString(r.getLeakyBucket().size()), Color.pink, (int) (r.getX()-5*n.getCellWidth()*Math.sin(2*Math.PI*r.getDirection()/360.0)), (int) (r.getY()+5*n.getCellWidth()*Math.cos(2*Math.PI*r.getDirection()/360.0)), true, Assets.normalBoldFont);
 			}
 		}
 	}

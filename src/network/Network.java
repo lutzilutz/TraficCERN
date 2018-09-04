@@ -66,12 +66,12 @@ public class Network {
 		}
 		
 		titles = new String[3];
-		titles[0] = "Test 1";
+		titles[0] = "CERN network WIP";
 		titles[1] = "Test 2";
 		titles[2] = "CERN network";
 
 		descriptions = new String[3];
-		descriptions[0] = "Test network with round-abouts and crossroad";
+		descriptions[0] = "Work in progress of actual network";
 		descriptions[1] = "Test road for turning roads";
 		descriptions[2] = "Actual network around the CERN";
 	}
@@ -493,13 +493,13 @@ public class Network {
 		*/
 		
 		// Network settings =================================================================================
-		rRueDeGeneveSE.setGenerateVehicules(50);
+		rRueDeGeneveSE.setGenerateVehicules(1200);
 		rRueGermaineTillionSW.setGenerateVehicules(50);
 		rD884NE.setGenerateVehicules(50);
-		rSortieCERNNW.setGenerateVehicules(50);
+		rSortieCERNNW.setGenerateVehicules(200);
 		//rD984FNWS.setGenerateVehicules(true);
-		rC5SW.setGenerateVehicules(50);
-		rTunnelNW.setGenerateVehicules(50);
+		rC5SW.setGenerateVehicules(100);
+		rTunnelNW.setGenerateVehicules(40);
 		rD984FNWS2.setGenerateVehicules(50);
 
 		/*

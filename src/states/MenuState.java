@@ -13,10 +13,10 @@ public class MenuState extends State {
 	
 	private UIManager uiManager;
 	
-	private int xStart = 200;
+	private int xStart = 180;
 	private int yStart = 200;
 	private int buttonYMargin = 20;
-	private int buttonWidth = 100;
+	private int buttonWidth = 140;
 	private int buttonHeight = 30;
 	private int descriptionMargin = 20;
 	

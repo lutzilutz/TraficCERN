@@ -13,6 +13,7 @@ public class Vehicle {
 	private int speed = 1;
 	private boolean hasToLeave = false;
 	private Ride ride;
+	private boolean inBucket = true;
 	
 	public Vehicle(Network n) {
 		this.n = n;
@@ -27,12 +28,14 @@ public class Vehicle {
 			if (cell != null) {
 				cell.setVehicle(null);
 			}
-			if (nextPlace == null) {
+			if (nextPlace == null && !inBucket) {
 				System.out.println("Err : nextPlace is null for this Vehicle (id:" + id);
 			}
-			cell = nextPlace;
-			cell.setVehicle(this);
-			nextPlace = null;
+			if (!inBucket) {
+				cell = nextPlace;
+				cell.setVehicle(this);
+				nextPlace = null;
+			}
 		} else {
 			cell.setVehicle(null);
 			cell = null;
@@ -180,6 +183,12 @@ public class Vehicle {
 	}
 	
 	// Getters & setters ====================================================================================
+	public boolean inBucket() {
+		return inBucket;
+	}
+	public void setInBucket(boolean inBucket) {
+		this.inBucket = inBucket;
+	}
 	public boolean hasToLeave() {
 		return hasToLeave;
 	}
