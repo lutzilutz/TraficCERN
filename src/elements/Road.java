@@ -137,6 +137,47 @@ public class Road {
 		this.setX((int) (1*n.getCellWidth()/2 * Math.sin(2*Math.PI*this.getDirection()/360.0) + r.getX() + (i*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
 		this.setY((int) (-1*n.getCellWidth()/2 * Math.cos(2*Math.PI*this.getDirection()/360.0) + r.getY() - (i*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
 	}
+	public void setStartPositionFrom(Road r, int i, int direction, double offsetNumberOfCells, double offsetDirection) {
+		if (this.getReorientations().size() == 0) {
+			setDirection(direction);
+		}
+		
+		double x = (int) (r.getX());
+		double y = (int) (r.getY());
+		double last = 0;
+		
+		for (int j=0 ; j<r.getReorientations().size() ; j++) {
+			// Last segment
+			if (j == r.getReorientations().size()-1) {
+				
+				if (r.getReorientations().get(r.getReorientations().size()-1).x < i) {
+				
+					x += n.getCellWidth() * (i-r.getReorientations().get(j).getX()) * Math.sin(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+					y += - n.getCellWidth() * (i-r.getReorientations().get(j).getX()) * Math.cos(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+				}
+			}
+			// All others
+			else {
+				
+				if (r.getReorientations().get(j+1).getX() >= i) {
+					x += n.getCellWidth() * (i-last) * Math.sin(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+					y += - n.getCellWidth() * (i-last) * Math.cos(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+					last = r.getReorientations().get(j+1).getX();
+				} else {
+					x += n.getCellWidth() * (r.getReorientations().get(j+1).getX()-last) * Math.sin(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+					y += - n.getCellWidth() * (r.getReorientations().get(j+1).getX()-last) * Math.cos(2*Math.PI*r.getReorientations().get(j).getY()/360.0);
+					last = r.getReorientations().get(j+1).getX();
+				}
+			}
+		}
+		
+		x += offsetNumberOfCells*n.getCellWidth()*Math.sin(2*Math.PI*offsetDirection/360.0);
+		y -= offsetNumberOfCells*n.getCellWidth()*Math.cos(2*Math.PI*offsetDirection/360.0);
+		
+		this.setX(x);
+		this.setY(y);
+		
+	}
 	// Set position and direction from a RoundAbout cell (in road)
 	public void setEndPositionFrom(RoundAbout ra, int i, int direction) {
 		if (this.getReorientations().size()==0) {

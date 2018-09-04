@@ -326,7 +326,7 @@ public class Network {
 		raLHC.connectTo(rD984FSES, raLHC.getLength()-7);
 		
 		Road rD984FSES2 = new Road(this, 46, "rD984FSES2");
-		rD984FSES2.setStartPositionFrom(rD984FSES, 46, 129);
+		rD984FSES2.setStartPositionFrom(rD984FSES, 45, 113, 1, (113+90));
 		//rD984FSES.setStartPositionFrom(raLHC, raLHC.getLength()-7);
 		//rD984FSES.setStartDirection(129);
 		//rD984FSES2.addPoint(new Point(4,113));
@@ -343,8 +343,9 @@ public class Network {
 		
 		Road rD984FNWS2 = new Road(this, 46, "rD984FNWS2");
 		rD984FNWS2.setDirection(293);
-		rD984FNWS2.setX(rD984FNWS.getX());
-		rD984FNWS2.setY(rD984FNWS.getY()-this.getCellHeight());
+		rD984FNWS2.setStartPositionFrom(rD984FNWS, 0, 293, 1, 293-270); // 293+90 == 293-270
+		//rD984FNWS2.setX(rD984FNWS.getX());
+		//rD984FNWS2.setY(rD984FNWS.getY()-this.getCellHeight());
 		//rD984FNWS2.setEndPositionFrom(raLHC, raLHC.getLength()-4,293);
 		roads.add(rD984FNWS2);
 		rD984FNWS2.connectTo(rD984FNWS, 46);
