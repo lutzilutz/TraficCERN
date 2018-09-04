@@ -80,6 +80,8 @@ public class Simulation implements Runnable {
 		mouseManager.setUIManager(menuState.getUIManager());
 		
 		State.setState(menuState);
+		
+		Utils.initData();
 		Utils.log("Running ----------------------------------------------------\n");
 	}
 	private void tick(int n) {

@@ -14,6 +14,7 @@ import elements.Road;
 import elements.RoundAbout;
 import elements.Vehicle;
 import main.Simulation;
+import utils.Utils;
 
 public class Network {
 
@@ -42,6 +43,12 @@ public class Network {
 	private double rotation=0;
 	
 	private int maxSpeed = 2;
+	
+	// Probabilities (data)
+	private int fromFrToGe = 12500;
+	private double fromFrToGeFrom7To10 = 0.68;
+	private double fromStGenisToGe = 0.6;
+	private double fromFerneyToGe = 0.2;
 	
 	public Network(Simulation sim, int n) {
 		this.setCellHeight(6);
@@ -514,7 +521,7 @@ public class Network {
 		raLHC.setMaxSpeed(1);
 		
 		//printNames();
-		this.generateAllNetworkRides(6);
+		this.generateAllNetworkRides(7);
 		this.cleanAllNetworkRides();
 		
 		rD984FSE.setCounter(0.5);
@@ -522,8 +529,21 @@ public class Network {
 		
 		rD984FSES.setCounter(0.3);
 		rD984FNWS.setCounter(0.702);
+		
+		createActualData();
 	}
-	
+	public void createActualData() {
+		for (AllNetworkRides anr: allNetworkRides) {
+			if (anr.getRoadName().equals("rD884NE")) {
+				anr.print();
+				/*for (Ride ride: anr.getNetworkRides()) {
+					if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
+						System.out.println("Premier trajer trouvé !");
+					}
+				}*/
+			}
+		}
+	}
 	public void createRealNetwork() {
 		
 		Polygon tmp = new Polygon();
@@ -867,6 +887,8 @@ public class Network {
 		
 		rD984FSES.setCounter(0.3);
 		rD984FNWS.setCounter(0.702);
+		
+		createActualData();
 	}
 	
 	public void printNames() {
@@ -952,7 +974,20 @@ public class Network {
 		}
 		return r;
 	}
-	
+	public Ride selectARide(String startName, String endName) {
+		Ride r = new Ride();
+		for (AllNetworkRides anr: allNetworkRides) {
+			if (anr.getRoadName().equals(startName)) {
+				for (Ride ride: anr.getNetworkRides()) {
+					if (ride.getRoadName().equals(endName)) {
+						return ride.clone();
+					}
+				}
+				
+			}
+		}
+		return r;
+	}
 	public void cleanAllNetworkRides() {
 		if (!this.getAllNetworkRides().isEmpty()) {
 			for (AllNetworkRides ANR: this.getAllNetworkRides()) {
@@ -1006,7 +1041,15 @@ public class Network {
 			this.allNetworkRides.get(index).addRide(ride);
 		}
 	}
-	
+	public Road selectARoad(String roadName) {
+		for (Road r: roads) {
+			if (r.getName().equals(roadName)) {
+				return r;
+			}
+		}
+		Utils.log("Error - while trying to find " + roadName + " in network");
+		return null;
+	}
 	// Getters & setters ====================================================================================
 	public int getN() {
 		return n;

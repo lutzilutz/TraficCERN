@@ -5,26 +5,40 @@ import java.util.ArrayList;
 import utils.Utils;
 
 public class Ride implements Cloneable {
-	String roadName;
-	ArrayList<Connection> nextConnections = new ArrayList<Connection>();
 	
-	public Ride() {
+	private String roadName;
+	private ArrayList<Connection> nextConnections = new ArrayList<Connection>();
+	private boolean ignoreFlow = false;
+	private int[] flow = new int[2]; // 0-day (without rush-hours), 1-rush-hours (7 to 10 am)
+	
+	public Ride(int flowDay, int flowRushHours) {
 		this.roadName = "" ;
+		flow[0] = flowDay;
+		flow[1] = flowRushHours;
 	}
-	
+	public Ride(String name, int flowDay, int flowRushHours) {
+		this.roadName = name ;
+		flow[0] = flowDay;
+		flow[1] = flowRushHours;
+	}
 	public Ride(String name) {
 		this.roadName = name ;
+		ignoreFlow = true;
+	}
+	public Ride() {
+		this.roadName = "" ;
+		ignoreFlow = true;
 	}
 	
 	public void print() {
 		System.out.print("Ride: ");
-		for (Connection e: nextConnections) {
-			e.print();
+		for (Connection c: nextConnections) {
+			c.print();
 		}
 	}
 	
-	public void addNextConnection(Connection e) {
-		this.nextConnections.add(e);
+	public void addNextConnection(Connection c) {
+		this.nextConnections.add(c);
 	}
 	
 	public void removeLastConnection() {
@@ -45,6 +59,9 @@ public class Ride implements Cloneable {
 	}
 	
 	// Getters & setters ====================================================================================
+	public boolean ignoreFlow() {
+		return ignoreFlow;
+	}
 	public String getRoadName() {
 		return roadName;
 	}

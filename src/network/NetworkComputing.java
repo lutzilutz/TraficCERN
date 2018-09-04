@@ -6,6 +6,7 @@ import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
 import elements.Vehicle;
+import utils.Utils;
 
 public class NetworkComputing {
 	
@@ -260,5 +261,19 @@ public class NetworkComputing {
 				r.removeVehicleFromBucket(r.getLeakyBucket().get(0));
 			}
 		}
+		
+		if (n.getSimulation().getSimState().getStep()%60 == 0) {
+			writeData(n);
+		}
+		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) {
+			Utils.saveData();
+		}
+	}
+	public static void writeData(Network n) {
+		Utils.writeData(n.getSimulation().getSimState().getTime() + " ");
+		Utils.writeData(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
+		Utils.writeData(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
+		Utils.writeData(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
+		Utils.writeData(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
 	}
 }

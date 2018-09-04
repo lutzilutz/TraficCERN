@@ -23,7 +23,7 @@ public class SimSettingsState extends State {
 	private int descriptionMargin = 20;
 	private boolean isLeftPressed = false;
 	
-	private UISlider test;
+	private UISlider test,fromFrToGe,fromFrToGeDuringRH;
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
@@ -37,6 +37,22 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManager.addObject(test);
+		
+		fromFrToGe = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), 550, "[Not Working] France to Geneva (vhc/day)", 3600, 50, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(fromFrToGe);
+		
+		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), 550, "[Not Working] Quantity during rush-hours", 3600, 50, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(fromFrToGeDuringRH);
 		
 		run = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60-buttonHeight-buttonYMargin, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override

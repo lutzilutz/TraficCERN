@@ -8,5 +8,6 @@
 # Java compiled class files
 bin/
 
-# log file
+# log and data file
+data_test.txt
 log.txt
