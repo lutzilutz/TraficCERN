@@ -44,7 +44,7 @@ public class NetworkComputing {
 			}
 		}
 		for (RoundAbout r: n.getRoundAbouts()) {
-			double radius = (r.getLength()*n.getCellWidth())/(2*Math.PI);
+			double radius = (r.getLength()*n.getCellWidth())/(2*Math.PI) - r.getInnerLane()*n.getCellWidth();
 			for (int i=0 ; i<r.getLength() ; i++) {
 				double angle = 2*Math.PI*i/r.getLength() - 2*Math.PI*r.getDirection()/360;
 				double x = r.getX()-radius*Math.sin(angle);

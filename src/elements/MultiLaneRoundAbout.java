@@ -11,13 +11,14 @@ public class MultiLaneRoundAbout {
 	
 	public MultiLaneRoundAbout(Network n, int nLanes, int length) {
 		this.n = n;
-		int nCells = length;
+		//int nCells = length;
 		lanes = new RoundAbout[nLanes];
 		for (int i=0; i<nLanes; ++i) {
-			nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
+			/*nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
 			if (nCells > 0) {
 				lanes[i] = new RoundAbout(n, nCells);
-			}
+			}*/
+			lanes[i] = new RoundAbout(n, length, i);
 		}
 		
 	}
@@ -25,13 +26,14 @@ public class MultiLaneRoundAbout {
 	public MultiLaneRoundAbout(Network n, int nLanes, int length, String name) {
 		this.name = name;
 		this.n = n;
-		int nCells = length;
+		//int nCells = length;
 		lanes = new RoundAbout[nLanes];
 		for (int i=0; i<nLanes; ++i) {
-			nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
+			/*nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
 			if (nCells > 0) {
 				lanes[i] = new RoundAbout(n, nCells, name + (i+1));
-			}
+			}*/
+			lanes[i] = new RoundAbout(n, length, i);
 		}
 		
 	}

@@ -230,7 +230,8 @@ public class NetworkRendering {
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
-			double radius = (r.getLength()*n.getCellWidth())/(2*Math.PI);
+			
+			double radius = (r.getLength()*n.getCellWidth())/(2*Math.PI) - r.getInnerLane()*n.getCellWidth();
 			double outRadius = radius+n.getCellHeight()/2;
 			double inRadius = radius-n.getCellHeight()/2;
 			double innerSize = 2*outRadius - (2 * n.getCellHeight());

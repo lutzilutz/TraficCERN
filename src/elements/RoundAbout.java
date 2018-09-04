@@ -4,9 +4,21 @@ import network.Network;
 
 public class RoundAbout extends Road {
 
+	private int innerLane = 0;
+	
 	public RoundAbout(Network n, int length) {
 		super(n, length);
 		this.n = n;
+		for (Cell c: this.getRoadCells()) {
+			c.setInRoundAbout(true);
+		}
+		this.getRoadCells().get(this.getLength()-1).setNextCell(this.getRoadCells().get(0));
+		this.getRoadCells().get(0).setPreviousCell(this.getRoadCells().get(this.getLength()-1));
+	}
+	public RoundAbout(Network n, int length, int innerLane) {
+		super(n, length);
+		this.n = n;
+		this.innerLane = innerLane;
 		for (Cell c: this.getRoadCells()) {
 			c.setInRoundAbout(true);
 		}
@@ -96,5 +108,8 @@ public class RoundAbout extends Road {
 		
 		this.setX(x);
 		this.setY(y);
+	}
+	public int getInnerLane() {
+		return innerLane;
 	}
 }
