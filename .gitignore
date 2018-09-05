@@ -4,6 +4,7 @@
 # LaTeX useless files
 *.aux
 *.log
+*.tex.backup
 
 # Java compiled class files
 bin/
