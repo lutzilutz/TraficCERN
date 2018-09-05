@@ -7,6 +7,7 @@ import main.Simulation;
 import ui.ClickListener;
 import ui.UIManager;
 import ui.UISlider;
+import ui.UISliderDouble;
 import ui.UITextButton;
 
 public class SimSettingsState extends State {
@@ -24,13 +25,14 @@ public class SimSettingsState extends State {
 	private boolean isLeftPressed = false;
 	
 	private UISlider test,fromFrToGe,fromFrToGeDuringRH;
+	private UISliderDouble test2;
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
 		
-		test = new UISlider(simulation, xStart, yStart, 550, "Entrance E generation rate (vhc/hour)", 3600, 50, new ClickListener(){
+		test = new UISlider(simulation, xStart, yStart, 550, "Entrance E generation rate (vhc/hour)", 3600, 50, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -38,7 +40,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(test);
 		
-		fromFrToGe = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), 550, "[Not Working] France to Geneva (vhc/day)", 3600, 50, new ClickListener(){
+		fromFrToGe = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), 550, "[Not Working] France to Geneva (vhc/day)", 20000, 12500, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -46,13 +48,21 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(fromFrToGe);
 		
-		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), 550, "[Not Working] Quantity during rush-hours", 3600, 50, new ClickListener(){
+		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), 550, "[Not Working] Quantity during rush-hours", 100, 70, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManager.addObject(fromFrToGeDuringRH);
+		
+		test2 = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), 550, "[Not Working] Repartition in 7-8-9h", 100, 30, 70, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(test2);
 		
 		run = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60-buttonHeight-buttonYMargin, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
@@ -99,6 +109,7 @@ public class SimSettingsState extends State {
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
 		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
+		Text.drawString(g, "Examples of the 3 types of sliders :", Assets.idleCol, simulation.getWidth()/2, 250, true, Assets.normalBoldFont);
 		
 		this.uiManager.render(g);
 	}
