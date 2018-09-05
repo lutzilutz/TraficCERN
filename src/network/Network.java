@@ -948,7 +948,16 @@ public class Network {
 		}
 		return null;
 	}
-	
+	public AllNetworkRides getAllRides(String roadName) {
+		
+		for (AllNetworkRides anr: allNetworkRides) {
+			if (anr.getRoadName().equals(roadName)) {
+				return anr;
+			}
+		}
+		
+		return null;
+	}
 	public Ride selectARide(String roadName) {
 		Ride r = new Ride();
 		for (AllNetworkRides ANR: allNetworkRides) {

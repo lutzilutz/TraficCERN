@@ -6,7 +6,12 @@ public class DataManager {
 
 	public static void loadData(Simulation simulation) {
 	
-		simulation.getSimSettingsState().getTest();
+		// From France to Geneva ============================================================================
+		// D884 to Geneva
+		
+		simulation.getSimState().getNetwork().selectARide("rD884NE", "rRouteDeMeyrinSouthSE").print();
+		simulation.getSimState().getNetwork().selectARide("rD884NE").print();
+		simulation.getSimState().getNetwork().getAllRides("rD884NE").print();
 		
 	}
 	public static void applyData(Simulation simulation) {

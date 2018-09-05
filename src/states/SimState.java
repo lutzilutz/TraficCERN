@@ -432,6 +432,9 @@ public class SimState extends State {
 	public void setNetwork(Network network) {
 		this.network = network;
 	}
+	public Network getNetwork() {
+		return network;
+	}
 	public UIManager getUIManager() {
 		return this.uiManager;
 	}

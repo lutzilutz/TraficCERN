@@ -80,4 +80,8 @@ public class UISlider extends UIObject {
 	public int getCurrentValue() {
 		return this.currentValue;
 	}
+	public void setDefaultValue(int defaultValue) {
+		this.defaultValue = defaultValue;
+		this.currentValue = defaultValue;
+	}
 }
