@@ -879,7 +879,7 @@ public class Network {
 		raLHC.setMaxSpeed(1);
 		
 		//printNames();
-		this.generateAllNetworkRides(6);
+		this.generateAllNetworkRides(10);
 		this.cleanAllNetworkRides();
 		
 		rD984FSE.setCounter(0.5);
@@ -1008,6 +1008,7 @@ public class Network {
 				HashSet<Integer> set = new HashSet<Integer>();
 				set.addAll(elmtsToChange);
 				elmtsToChange = new ArrayList<Integer>(set);
+				Collections.sort(elmtsToChange);
 				Collections.reverse(elmtsToChange);
 				if (!elmtsToChange.isEmpty()) {
 					for (int n: elmtsToChange) {
