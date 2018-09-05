@@ -1,6 +1,7 @@
 package states;
 import java.awt.Graphics;
 
+import data.DataManager;
 import graphics.Assets;
 import graphics.Text;
 import main.Simulation;
@@ -65,6 +66,7 @@ public class MenuState extends State {
 				simulation.getSimSettingsState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 2));
 				simulation.getSimState().init();
+				DataManager.loadData(simulation);
 				State.setState(simulation.getSimSettingsState());
 			}
 		});

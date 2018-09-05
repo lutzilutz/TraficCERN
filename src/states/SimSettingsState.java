@@ -1,6 +1,7 @@
 package states;
 import java.awt.Graphics;
 
+import data.DataManager;
 import graphics.Assets;
 import graphics.Text;
 import main.Simulation;
@@ -69,6 +70,7 @@ public class SimSettingsState extends State {
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
+				DataManager.applyData(simulation);
 				simulation.getSimState().enableUIManager();
 				State.setState(simulation.getSimState());
 			}
@@ -95,7 +97,7 @@ public class SimSettingsState extends State {
 		} else {
 			if (isLeftPressed) {
 				
-				simulation.setEntranceERate(test.getCurrentValue());
+				//simulation.setEntranceERate(test.getCurrentValue());
 				isLeftPressed = false;
 			}
 		}
@@ -115,6 +117,9 @@ public class SimSettingsState extends State {
 	}
 	
 	// Getters & setters ====================================================================================
+	public UISlider getTest() {
+		return test;
+	}
 	public UIManager getUIManager() {
 		return this.uiManager;
 	}

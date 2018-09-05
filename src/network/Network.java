@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import data.DataManager;
 import elements.Connection;
 import elements.CrossRoad;
 import elements.MultiLaneRoundAbout;
@@ -529,20 +530,6 @@ public class Network {
 		
 		rD984FSES.setCounter(0.3);
 		rD984FNWS.setCounter(0.702);
-		
-		createActualData();
-	}
-	public void createActualData() {
-		for (AllNetworkRides anr: allNetworkRides) {
-			if (anr.getRoadName().equals("rD884NE") || anr.getRoadName().equals("rRueDeGeneveSE")) {
-				anr.print();
-				/*for (Ride ride: anr.getNetworkRides()) {
-					if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
-						System.out.println("Premier trajer trouvé !");
-					}
-				}*/
-			}
-		}
 	}
 	public void createRealNetwork() {
 		
@@ -888,7 +875,6 @@ public class Network {
 		rD984FSES.setCounter(0.3);
 		rD984FNWS.setCounter(0.702);
 		
-		createActualData();
 	}
 	
 	public void printNames() {
