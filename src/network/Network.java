@@ -534,7 +534,7 @@ public class Network {
 	}
 	public void createActualData() {
 		for (AllNetworkRides anr: allNetworkRides) {
-			if (anr.getRoadName().equals("rD884NE")) {
+			if (anr.getRoadName().equals("rD884NE") || anr.getRoadName().equals("rRueDeGeneveSE")) {
 				anr.print();
 				/*for (Ride ride: anr.getNetworkRides()) {
 					if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {

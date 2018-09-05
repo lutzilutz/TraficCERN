@@ -34,6 +34,9 @@ public class SimState extends State {
 	private boolean restarting = false;
 	private boolean firstRun = true;
 	
+	private boolean leftPressed = false;
+	private double clickedX=0, clickedY=0;
+	
 	private double defaultSimSpeed = 20;
 	private double simSpeed = defaultSimSpeed;
 	private double offsetSpeed = 1;
@@ -329,6 +332,19 @@ public class SimState extends State {
 			offsetTime = 0;
 			offsetSpeed = offsetSpeedDefault;
 		}
+		// Left click to change offset
+		if (simulation.getMouseManager().isLeftPressed() && simulation.getMouseManager().getMouseY()>60 && simulation.getMouseManager().getMouseY()<simulation.getHeight()-60) {
+			if (!leftPressed) {
+				clickedX = simulation.getMouseManager().getMouseX()-network.getxOffset();
+				clickedY = simulation.getMouseManager().getMouseY()-network.getyOffset();
+				leftPressed = true;
+			} else {
+				network.setxOffset(0*network.getxOffset() + simulation.getMouseManager().getMouseX()-clickedX);
+				network.setyOffset(0*network.getyOffset() + simulation.getMouseManager().getMouseY()-clickedY);
+			}
+		} else {
+			leftPressed = false;
+		}
 	}
 	public void increaseOffset() {
 		if (offsetTime == 0) {
@@ -363,7 +379,6 @@ public class SimState extends State {
 	public void applyUserSettings() {
 		for (Road r: network.getRoads()) {
 			if (r.getName().equals("rSortieCERNNW")) {
-				System.out.println("yes !!!"); 
 				r.setGenerateVehicules(simulation.getEntranceERate());
 			}
 		}
