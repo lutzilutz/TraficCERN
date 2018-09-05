@@ -1,0 +1,98 @@
+\documentclass[a4paper,11pt]{extarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{charter}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{empheq}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[T1]{fontenc}
+\usepackage[top=2cm, bottom=2cm, left=1.5cm, right=1.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[normalem]{ulem}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{positioning,decorations.markings}
+\usepackage{amsmath}
+\usepackage{pdflscape}
+\usepackage{prftree}
+\usepackage{pdfpages}
+
+\titleformat{\title}
+{\color{black}\normalfont\Large\bfseries\centering}
+{\color{black}\thesection}{1em}{\hspace{0cm}}
+
+\titleformat{\section}
+{\color{black}\normalfont\Large\bfseries\centering}
+{\color{black}\thesection}{1em}{\hspace{0cm}}
+
+\titleformat{\subsection}
+{\color{black}\normalfont\large\bfseries}
+{\color{black}\thesubsection}{1em}{\hspace{.4cm}}
+
+\titleformat{\subsubsection}
+{\color{black}\normalfont\normalsize\bfseries}
+{\color{black}\thesubsubsection}{1em}{\hspace{.8cm}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\renewcommand{\headheight}{24pt}
+\lhead{Pavlos Tserevelakis et Raphaël Lutz}
+\rhead{\today}
+
+\section*{Trafic au CERN - Rapport}
+
+\subsection*{Présentation du projet}
+
+Le projet, demandé par Frédéric Magnin pour le CERN, vise à modéliser le réseau routier environnant le CERN afin d'en simuler le trafic dans un premier temps. La deuxième partie du projet vise à tester différents scénarios possibles pour améliorer la circulation aux abords du CERN, ainsi que de limiter l'impact du personnel du CERN sur la circulation.
+
+\subsection*{Buts du projet}
+
+\begin{itemize}
+\item Modéliser un réseau de trafic routier
+\item Modéliser le réseau autours du CERN
+\item Simuler la circulation telle qu'actuelle
+\item Mettre en place différents scénarios d'amélioration
+\item Simuler la circulation avec ces différents scénarios
+\end{itemize}
+
+
+\subsection*{Choix techniques du modèle}
+
+Nous choisissons d'implémenter un modèle discret du trafic routier, par automate cellulaire. Ce genre de modèle a fait ses preuves, comme présenté par le professeur Bastien Chopard\footnote{\emph{Cellular Automata Simulations of Traffic:
+A Model for the City of Geneva}, A. Dupuis et B. Chopard, Networks and Spatial Economics, 3: (2003) 9–21}. Ce genre de modèle est beaucoup plus simple à implémenter qu'un modèle continu, et offre pourtant une très bonne représentation de la circulation : embouteillages, accélération/décélération, effet accordéon, ... Ce choix nous a donc amener à procéder à plusieurs décisions nécessaires.\newline
+
+\noindent
+Nous décidons de prendre comme longueur d'une cellule $7,5 \; [m]$. Ceci correspond bien à la longueur moyenne d'un véhicule personnel. Nous décidons aussi de prendre 1 étape de simulation comme 1 seconde. Nous obtenons donc les deux vitesses suivante : $7,5 \; [\frac{m}{s}] = 27 [\frac{km}{h}]$ et $15 \; [\frac{m}{s}] = 54 [\frac{km}{h}]$.\newline
+
+\noindent
+Concernant le langage utilisé, nous avons d'abord commencé en C++ pour son optimisation vu qu'il s'agit de simuler au moins une journée de circulation. Mais rapidement, nous avons décidé de passer à Java, entre autre pour sa portabilité.
+
+\subsection*{Évolution du projet}
+
+La première remarque que nous pouvons faire est que nous avons sous-estimé la quantité de travail nécessaire afin d'atteindre ces objectifs. Le modèle étant simple, et la simulation ne s'intéressant qu'à une dizaine de route, nous avons pensé le projet plus court que ce qu'il s'est finalement avéré. Sur la table \ref{tabTemps} se trouve un résumé de la quantité écrite et du temps estimé.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+ & addition & suppression & total\\ \hline
+\#lignes & 13'000 & 7'000 & 6'000\\ \hline
+\#lignes par minute & 3 & 6 & - \\ \hline\hline
+temps (minute) & 4'333 & 1'1167 & 5'500\\ \hline
+temps par étudiant (heure) & 36 & 10 & 46\\ \hline
+\end{tabular}
+\end{center}
+\caption{Temps estimé par rapport au nombre de lignes écrites}
+\label{tabTemps}
+\end{table}
+
+Ce résultat ne prends pas en compte le temps que nous avons passé à discuter, par des réunions, des appels, ou des messages écrits. La durée totale de ces discussions dépasse facilement 20 heures. Nous arrivons donc à un total par étudiant de 66 heures de travail total.
+
+\end{document}

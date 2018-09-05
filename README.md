@@ -38,7 +38,7 @@ We will use the model presented by Bastien Chopard and Alexandre Dupuis in "*Net
 First `add` and `commit` your changes (at least the .gitignore file). Then
 
 ```sh
-  rm -r --cached .
+  git rm -r --cached .
   git add .
   git commit -m "Fixed untracked files"
   git push origin master
