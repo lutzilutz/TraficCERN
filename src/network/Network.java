@@ -998,7 +998,6 @@ public class Network {
 		for (AllNetworkRides anr: allNetworkRides) {
 			if (anr.getRoadName().equals(roadName)) {
 				
-				//for (Ride ride: anr.getNetworkRides()) {
 				for (int i=0 ; i<anr.getNetworkRides().size() ; i++) {
 					
 					Ride ride = anr.getNetworkRides().get(i);
@@ -1011,11 +1010,6 @@ public class Network {
 					}
 					
 				}
-				//System.out.print("For " + roadName + " : ");
-				for (int i: probas) {
-					//System.out.print(i + " ");
-				}
-				//System.out.println();
 				
 				double random = Math.random();
 				
@@ -1032,9 +1026,6 @@ public class Network {
 					}
 					Utils.log("No adapted probability found ?!?\n");
 				}
-				//int length = ANR.getNetworkRides().size();
-				//int index = (int) (Math.random() * length) ;
-				//return ANR.getNetworkRides().get(index).clone();
 			}
 		}
 		Utils.log("Road not found " + roadName + "\n");

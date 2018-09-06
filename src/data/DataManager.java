@@ -1,14 +1,10 @@
 package data;
 
-import java.util.ArrayList;
-
 import elements.Ride;
 import elements.Road;
 import main.Simulation;
-import network.AllNetworkRides;
 import network.Network;
 import states.SimSettingsState;
-import utils.Utils;
 
 public class DataManager {
 	
@@ -72,21 +68,12 @@ public class DataManager {
 				repartitionRH = 1;
 			}
 			r.setFlow((int) (value*(repartition2-repartition1)*(1-repartitionRH)/24.0));
-			//r.setFlowRH((int) (value*(repartition2-repartition1)*repartitionRH/24.0));
-			//r.setFlow(0, 24, (int) (value*(repartition2-repartition1)*(1-repartitionRH)/24.0));
-			//r.setFlow(7, 10, (int) (value*(repartition2-repartition1)*repartitionRH/24.0));
 			
 			if (repartitionRH7 > 0 && repartitionRH8 > 0 && repartitionRH9 > 0) {
 				r.setFlow(7, 8, (int) (value*(repartition2-repartition1)*repartitionRH*repartitionRH7/24.0));
 				r.setFlow(8, 9, (int) (value*(repartition2-repartition1)*repartitionRH*repartitionRH8/24.0));
 				r.setFlow(9, 10, (int) (value*(repartition2-repartition1)*repartitionRH*repartitionRH9/24.0));
 			}
-			/*r.print();
-			System.out.println();
-			for (Integer i: r.getFlow()) {
-				System.out.print(i + " ");
-			}
-			System.out.println();*/
 		}
 		// Rue de Genève to Geneva
 		for (Ride r: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
@@ -108,13 +95,8 @@ public class DataManager {
 				repartitionRH = 1;
 			}
 			r.setFlow((int) (value*(repartition2-repartition1)*(1-repartitionRH)/24.0));
-			//r.setFlowRH((int) (value*(repartition2-repartition1)*repartitionRH/24.0));
-			
-			//r.setFlow(0, 24, (int) (value*(repartition2-repartition1)*(1-repartitionRH)/24.0));
-			//r.setFlow(7, 10, (int) (value*(repartition2-repartition1)*repartitionRH/24.0));
 			
 			if (repartitionRH7 > 0 && repartitionRH8 > 0 && repartitionRH9 > 0) {
-				//System.out.println(repartitionRH7 + ", " + repartitionRH8 + ", " + repartitionRH9 + ", XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 				r.setFlow(7, 8, (int) (value*(repartition2-repartition1)*repartitionRH*repartitionRH7/24.0));
 				r.setFlow(8, 9, (int) (value*(repartition2-repartition1)*repartitionRH*repartitionRH8/24.0));
 				r.setFlow(9, 10, (int) (value*(repartition2-repartition1)*repartitionRH*repartitionRH9/24.0));
@@ -122,7 +104,9 @@ public class DataManager {
 		}
 		// Rue de Genève to Geneva
 		for (Ride r: n.getAllRides("rRueGermaineTillionSW").getNetworkRides()) {
+			
 			resetValues();
+			
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
 				value = (int) settings.fromFrToGe().getCurrentValue();
 				repartition1 = settings.fromFrToGeRepartition().getCurrentValue2() / (100.0);
@@ -138,10 +122,6 @@ public class DataManager {
 				repartitionRH = 1;
 			}
 			r.setFlow((int) (value*(repartition2-repartition1)*(1-repartitionRH)/24.0));
-			r.setFlowRH((int) (value*(repartition2-repartition1)*repartitionRH/24.0));
-			
-			r.setFlow(0, 24, (int) (value*(repartition2-repartition1)*(1-repartitionRH)/24.0));
-			r.setFlow(7, 10, (int) (value*(repartition2-repartition1)*repartitionRH/24.0));
 			
 			if (repartitionRH7 > 0 && repartitionRH8 > 0 && repartitionRH9 > 0) {
 				r.setFlow(7, 8, (int) (value*(repartition2-repartition1)*repartitionRH*repartitionRH7/24.0));
@@ -153,13 +133,6 @@ public class DataManager {
 	public static void applyRidesToRoads(Simulation simulation) {
 		
 		Network n = simulation.getSimState().getNetwork();
-		ArrayList<AllNetworkRides> anrAL = n.getAllNetworkRides();
-		
-		for (Ride tmp: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
-			//tmp.print();
-			//System.out.println(tmp.getFlow());
-		}
-		
 		
 		for (Road road: n.getRoads()) {
 			if (n.getAllRides(road.getName()) != null) {
@@ -177,23 +150,15 @@ public class DataManager {
 			}
 			for (int h=0 ; h<24 ; h++) {
 				int sum = 0;
-				//int sumRH = 0;
 				if (n.getAllRides(road.getName()) != null) {
 					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
 						sum += ride.getFlow().get(h);
-						//sumRH += ride.getFlowRH();
+						
 					}
 				}
-				//System.out.print(sum + " ");
-				//road.setGenerateVehicules(sum);
 				road.setGenerateVehicules(h, h+1, sum);
-				//road.setGenerateVehiculesRH(sumRH);
-				
-				//System.out.print(road.getFlow().get(h) + " ");
 			}
-			//System.out.println();
 		}
-		//System.out.println();
 		
 	}
 	public static void resetValues() {

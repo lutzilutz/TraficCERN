@@ -21,9 +21,6 @@ public class Road {
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
 	private int generateVehicules = 0; // generate X vehicles per hour NOT in rush hours
 	private int generateVehiculesRH = 0; // generate X vehicles per hour NOT in rush hours
-	private int generateVehiculesRH7 = 0;
-	private int generateVehiculesRH8 = 0;
-	private int generateVehiculesRH9 = 0;
 	private ArrayList<Integer> flow = new ArrayList<Integer>();
 	private boolean isTrafficLightRed = false;
 	private EnumSet<Direction> directions;
@@ -279,8 +276,8 @@ public class Road {
 	public void connectTo(MultiLaneRoundAbout MLRA, int i) {
 		int raSize = MLRA.getLanes()[0].getLength();
 		i = ((i % raSize)+raSize)%raSize;
-		int i1 = i;
-		int i2 = i+1;
+		//int i1 = i;
+		//int i2 = i+1;
 		
 		this.getRoadCells().get(this.getLength()-1).setOutCell(MLRA.getLanes()[0].getRoadCells().get(i));
 		this.addExit(MLRA.getName(), this.getLength()-1);

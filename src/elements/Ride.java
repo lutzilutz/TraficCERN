@@ -8,10 +8,7 @@ public class Ride implements Cloneable {
 	
 	private String roadName;
 	private ArrayList<Connection> nextConnections = new ArrayList<Connection>();
-	private int flowNotRH = 0;
-	private int flowRH = 0;
 	private ArrayList<Integer> flow = new ArrayList<Integer>();
-	//private int[] flow = new int[2]; // 0-day (without rush-hours), 1-rush-hours (7 to 10 am)
 	
 	public Ride(String name) {
 		this.roadName = name ;
@@ -46,7 +43,6 @@ public class Ride implements Cloneable {
 		try {
 			ride = (Ride) super.clone();
 		} catch (CloneNotSupportedException e) {
-			//cnse.printStackTrace(System.err);
 			Utils.log(e);
 		}
 		ride.nextConnections = new ArrayList<Connection>(this.getNextConnections());
@@ -56,13 +52,6 @@ public class Ride implements Cloneable {
 	}
 	
 	// Getters & setters ====================================================================================
-	public void setFlow(int flowNotRH, int flowRH) {
-		this.flowNotRH = flowNotRH;
-		this.flowRH = flowRH;
-	}
-	public void setFlowRH(int flowRH) {
-		this.flowRH = flowRH;
-	}
 	public void setFlow(int value) {
 		for (int i = 0 ; i<24 ; i++) {
 			flow.set(i, value);
@@ -75,12 +64,6 @@ public class Ride implements Cloneable {
 	}
 	public ArrayList<Integer> getFlow() {
 		return flow;
-	}
-	public int getFlowNotRH() {
-		return flowNotRH;
-	}
-	public int getFlowRH() {
-		return flowRH;
 	}
 	public String getRoadName() {
 		return roadName;
