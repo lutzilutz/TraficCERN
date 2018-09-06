@@ -212,7 +212,7 @@ public class NetworkComputing {
 					}
 					
 					// Check PREVIOUS cells
-					if (v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell())) {
+					if (v.getCell().getOutCell().getPreviousCell() == null || v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell())) {
 						v.goToOutCell();
 						v.removeCurrentConnection();
 					} else {
