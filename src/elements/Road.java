@@ -21,6 +21,10 @@ public class Road {
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
 	private int generateVehicules = 0; // generate X vehicles per hour NOT in rush hours
 	private int generateVehiculesRH = 0; // generate X vehicles per hour NOT in rush hours
+	private int generateVehiculesRH7 = 0;
+	private int generateVehiculesRH8 = 0;
+	private int generateVehiculesRH9 = 0;
+	private ArrayList<Integer> flow = new ArrayList<Integer>();
 	private boolean isTrafficLightRed = false;
 	private EnumSet<Direction> directions;
 	private ArrayList<Point> reorientations = new ArrayList<Point>();
@@ -57,6 +61,9 @@ public class Road {
 			
 			roadCells.add(tmp);
 		}
+		for (int i=0; i<24 ; i++) {
+			flow.add(0);
+		}
 	}
 	
 	public Road(Network n, int length, String name) {
@@ -81,6 +88,9 @@ public class Road {
 			tmp.setInRoundAbout(false);
 			
 			roadCells.add(tmp);
+		}
+		for (int i=0; i<24 ; i++) {
+			flow.add(0);
 		}
 	}
 	public void outflowTick() {
@@ -436,11 +446,21 @@ public class Road {
 	public void setGenerateVehiculesRH(int generateVehiculesRH) {
 		this.generateVehiculesRH = generateVehiculesRH;
 	}
-	public int getGenerateVehicules() {
+	public int getGeneArateVehicules() {
 		return this.generateVehicules;
 	}
-	public void setGenerateVehicules(int b) {
-		generateVehicules = b;
+	public ArrayList<Integer> getFlow() {
+		return flow;
+	}
+	public void setGenerateVehicules(int hourStart, int hourEnd, int value) {
+		for (int i=hourStart ; i<hourEnd ; i++) {
+			flow.set(i, value);
+		}
+	}
+	public void setGenerateVehicules(int value) {
+		for (int i=0 ; i<flow.size() ; i++) {
+			flow.set(i, value);
+		}
 	}
 	public double getX() {
 		return x;

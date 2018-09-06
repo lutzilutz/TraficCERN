@@ -29,7 +29,7 @@ public class SimSettingsState extends State {
 	private UISliderDouble fromFrToGeRepartition;
 	
 	private UISlider toEntranceE;
-	private UISliderDouble toEntranceERepartition;
+	private UISliderDouble toEntranceERepartition, toEntranceERepartitionRH;
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
@@ -76,6 +76,14 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManager.addObject(toEntranceERepartition);
+		
+		toEntranceERepartitionRH = new UISliderDouble(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), 550, "Distribution between 7am, 8am, 9am", 100, DataManager.nToE_7, DataManager.nToE_7+DataManager.nToE_8, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(toEntranceERepartitionRH);
 		
 		// ==================================================================================================
 		
@@ -135,6 +143,9 @@ public class SimSettingsState extends State {
 	}
 	public UISliderDouble toEntranceERepartition() {
 		return toEntranceERepartition;
+	}
+	public UISliderDouble toEntranceERepartitionRH() {
+		return toEntranceERepartitionRH;
 	}
 	public UISlider fromFrToGe() {
 		return fromFrToGe;

@@ -1003,8 +1003,8 @@ public class Network {
 					
 					Ride ride = anr.getNetworkRides().get(i);
 					
-					if (ride.getFlow()>0) {
-						totalProba += ride.getFlow();
+					if (ride.getFlow().get(sim.getSimState().getHours())>0) {
+						totalProba += ride.getFlow().get(sim.getSimState().getHours());
 						probas.add(totalProba);
 					} else {
 						probas.add(0);
@@ -1088,7 +1088,13 @@ public class Network {
 	
 	public void generateAllNetworkRides(int n) {
 		for (Road r: this.roads) {
-			if (r.getGenerateVehicules() > 0) {
+			boolean generateAtLeastOne = false;
+			for (Integer i: r.getFlow()) {
+				if (i>0) {
+					generateAtLeastOne = true;
+				}
+			}
+			if (generateAtLeastOne) {
 				r.generateRides(n);
 			}
 		}

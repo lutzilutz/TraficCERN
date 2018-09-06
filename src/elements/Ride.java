@@ -8,28 +8,22 @@ public class Ride implements Cloneable {
 	
 	private String roadName;
 	private ArrayList<Connection> nextConnections = new ArrayList<Connection>();
-	private boolean ignoreFlow = false;
 	private int flowNotRH = 0;
 	private int flowRH = 0;
+	private ArrayList<Integer> flow = new ArrayList<Integer>();
 	//private int[] flow = new int[2]; // 0-day (without rush-hours), 1-rush-hours (7 to 10 am)
 	
-	public Ride(int flowDay, int flowRushHours) {
-		this.roadName = "" ;
-		//flow[0] = flowDay;
-		//flow[1] = flowRushHours;
-	}
-	public Ride(String name, int flowDay, int flowRushHours) {
-		this.roadName = name ;
-		//flow[0] = flowDay;
-		//flow[1] = flowRushHours;
-	}
 	public Ride(String name) {
 		this.roadName = name ;
-		ignoreFlow = true;
+		for (int i=0; i<24 ; i++) {
+			flow.add(0);
+		}
 	}
 	public Ride() {
 		this.roadName = "" ;
-		ignoreFlow = true;
+		for (int i=0; i<24 ; i++) {
+			flow.add(0);
+		}
 	}
 	
 	public void print() {
@@ -56,6 +50,7 @@ public class Ride implements Cloneable {
 			Utils.log(e);
 		}
 		ride.nextConnections = new ArrayList<Connection>(this.getNextConnections());
+		ride.flow = new ArrayList<Integer>(this.flow);
 		return ride;
 		
 	}
@@ -65,23 +60,27 @@ public class Ride implements Cloneable {
 		this.flowNotRH = flowNotRH;
 		this.flowRH = flowRH;
 	}
-	public void setFlow(int flowNotRH) {
-		this.flowNotRH = flowNotRH;
-	}
 	public void setFlowRH(int flowRH) {
 		this.flowRH = flowRH;
 	}
-	public int getFlow() {
-		return flowNotRH;
+	public void setFlow(int value) {
+		for (int i = 0 ; i<24 ; i++) {
+			flow.set(i, value);
+		}
+	}
+	public void setFlow(int hourStart, int hourEnd, int value) {
+		for (int i = hourStart ; i<hourEnd ; i++) {
+			flow.set(i, value);
+		}
+	}
+	public ArrayList<Integer> getFlow() {
+		return flow;
 	}
 	public int getFlowNotRH() {
 		return flowNotRH;
 	}
 	public int getFlowRH() {
 		return flowRH;
-	}
-	public boolean ignoreFlow() {
-		return ignoreFlow;
 	}
 	public String getRoadName() {
 		return roadName;

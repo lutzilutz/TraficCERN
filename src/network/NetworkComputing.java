@@ -133,7 +133,7 @@ public class NetworkComputing {
 		for (Road r: n.getRoads()) {
 			
 			// generation of new Vehicles
-			if (n.getSimulation().getSimState().isRushHours()) {
+			/*if (n.getSimulation().getSimState().isRushHours()) {
 				if (r.getGenerateVehiculesRH() > 0 && Math.random() < r.getGenerateVehiculesRH() / 3600.0) {
 					Vehicle tmp = new Vehicle(n);
 					tmp.setRide(n.selectARideWithProbability(r.getName()));
@@ -149,6 +149,14 @@ public class NetworkComputing {
 					n.getVehicles().add(tmp);
 					n.increaseNumberOfVehicles(1);
 				}
+			}*/
+			
+			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
+				Vehicle tmp = new Vehicle(n);
+				tmp.setRide(n.selectARideWithProbability(r.getName()));
+				r.addNewVehicle(tmp);
+				n.getVehicles().add(tmp);
+				n.increaseNumberOfVehicles(1);
 			}
 			
 			// tick for outflow

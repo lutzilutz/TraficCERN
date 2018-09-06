@@ -25,7 +25,7 @@ public class SimState extends State {
 	
 	private Network network;
 	
-	private int step = 0; // step counter
+	private int step = 21600; // step counter
 	private double stepSize = 1; // duration of one step in seconds-
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 	private boolean paused = false;
