@@ -265,12 +265,41 @@ public class Road {
 		this.addExit(CR.getName(), this.getLength()-1);
 		CR.addEnter(this.getName(), i);
 	}
+	public void connectTo(MultiLaneRoundAbout MLRA, int i) {
+		int raSize = MLRA.getLanes()[0].getLength();
+		i = ((i % raSize)+raSize)%raSize;
+		int i1 = i;
+		int i2 = i+1;
+		
+		this.getRoadCells().get(this.getLength()-1).setOutCell(MLRA.getLanes()[0].getRoadCells().get(i));
+		this.addExit(MLRA.getName(), this.getLength()-1);
+		MLRA.addEnter(this.getName(), i);
+		
+		for (int j=1; j<MLRA.getLanes().length; ++j) {
+			//i1 = ((i1 % raSize)+raSize)%raSize;
+			//i2 = ((i2 % raSize)+raSize)%raSize;
+			MLRA.getLanes()[j-1].getRoadCells().get(i).setOutCell(MLRA.getLanes()[j].getRoadCells().get(i));
+			MLRA.getLanes()[j].getRoadCells().get(i).setInCell(MLRA.getLanes()[j-1].getRoadCells().get(i));
+			//i1 = i2;
+			//i2 = i2+1;
+		}
+	}
+	
+	public void removeLastGoInGoOutConnections(Ride ride) {
+
+		while (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals("GO IN") || ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals("GO OUT")) {
+			ride.getNextConnections().remove(ride.getNextConnections().size()-1);
+		}
+	}
 	
 	public void generateRides(int n) {
 		this.generateRidesAux(n, new Ride(this.getName()));
 	}
 	
 	public void generateRidesAux(int n, Ride ride) {
+		if (!ride.getNextConnections().isEmpty()) {
+			this.removeLastGoInGoOutConnections(ride);
+		}
 		if(n==0) {
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
 				this.n.addARideToAllNetworkRides(ride.clone());
@@ -304,6 +333,23 @@ public class Road {
 						}
 						canAdd = true;
 						
+					}
+				}
+				for (MultiLaneRoundAbout MLRA: this.n.getMultiLaneRoundAbouts()) {
+					if (e.getName().equals(MLRA.getName())) {
+						for(Connection c: ride.getNextConnections()) {
+							if (c.getName().equals(MLRA.getName())) {
+								if (!ride.getNextConnections().isEmpty()) {
+									ride.removeLastConnection();
+									this.removeLastGoInGoOutConnections(ride);
+								}
+								return;
+							}
+						}
+						Connection etilde = e.clone();
+						//etilde.setName(MLRA.getLanes()[0].getName());
+						ride.addNextConnection(etilde);
+						MLRA.generateRidesAux(n-1, ride);
 					}
 				}
 				for (RoundAbout ra: this.n.getRoundAbouts()) {

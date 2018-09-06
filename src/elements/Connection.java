@@ -1,5 +1,7 @@
 package elements;
 
+import java.util.Comparator;
+
 import utils.Utils;
 
 public class Connection implements Cloneable {
@@ -45,3 +47,4 @@ public class Connection implements Cloneable {
 		this.position = position;
 	}
 }
+

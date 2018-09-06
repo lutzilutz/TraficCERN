@@ -42,6 +42,7 @@ public class RoundAbout extends Road {
 	
 	
 	public void generateRidesAux(int n, Ride ride) {
+		this.removeLastGoInGoOutConnections(ride);
 		if(n==0) {
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
 				this.n.addARideToAllNetworkRides(ride.clone());
