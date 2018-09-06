@@ -16,24 +16,27 @@ public class SimSettingsState extends State {
 	private UIManager uiManager;
 	
 	private int xStart = 300;
-	private int yStart = 200;
-	private int buttonYMargin = 10;
+	private int yStart = 100;
+	private int buttonYMargin = 5;
 	private int buttonWidth = 140;
 	private int buttonHeight = 30;
 	private int sliderWidth = 140;
 	private int sliderHeight = 30;
-	private int descriptionMargin = 20;
+	//private int descriptionMargin = 20;
 	private boolean isLeftPressed = false;
 	
 	private UISlider fromFrToGe,fromFrToGeDuringRH;
-	private UISliderDouble fromFrToGeRepartition, test2;
+	private UISliderDouble fromFrToGeRepartition;
+	
+	private UISlider toEntranceE;
+	private UISliderDouble toEntranceERepartition;
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
 		
-		fromFrToGe = new UISlider(simulation, xStart, yStart, 550, "Flow from France to Geneva (vhc/hour)", 4000, (int) (DataManager.getFromFrToGe()/24.0), false, new ClickListener(){
+		fromFrToGe = new UISlider(simulation, xStart, yStart, 550, "Flow from France to Geneva (vhc/day)", 50000, (int) (DataManager.getFromFrToGe()), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -56,13 +59,25 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(fromFrToGeDuringRH);
 		
-		test2 = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), 550, "[Not Working] Repartition in 7-8-9h", 100, 30, 70, true, new ClickListener(){
+		// ==================================================================================================
+		
+		toEntranceE = new UISlider(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), 550, "Flow to Entrance E during rush-hours", 4000, DataManager.nToE, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
-		this.uiManager.addObject(test2);
+		this.uiManager.addObject(toEntranceE);
+		
+		toEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), 550, "Coming from Thoiry, St-Genis and Ferney", 100, DataManager.nToE_fromSW, DataManager.nToE_fromSW+DataManager.nToE_fromNW, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(toEntranceERepartition);
+		
+		// ==================================================================================================
 		
 		run = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60-buttonHeight-buttonYMargin, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
@@ -109,12 +124,18 @@ public class SimSettingsState extends State {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
-		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
+		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 50, true, Assets.largeFont);
 		
 		this.uiManager.render(g);
 	}
 	
 	// Getters & setters ====================================================================================
+	public UISlider toEntranceE() {
+		return toEntranceE;
+	}
+	public UISliderDouble toEntranceERepartition() {
+		return toEntranceERepartition;
+	}
 	public UISlider fromFrToGe() {
 		return fromFrToGe;
 	}

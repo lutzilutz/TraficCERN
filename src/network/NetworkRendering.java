@@ -431,7 +431,7 @@ public class NetworkRendering {
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.pink);
 		for (Road r: n.getRoads()) {
-			if (r.getGenerateVehicules()>0) {
+			if (r.getGenerateVehicules()>0 || r.getGenerateVehiculesRH()>0) {
 				Text.drawString(gg, Integer.toString(r.getLeakyBucket().size()), Color.pink, (int) (r.getX()-6*n.getCellWidth()*Math.sin(2*Math.PI*r.getDirection()/360.0)), (int) (r.getY()+2*n.getCellWidth()*Math.cos(2*Math.PI*r.getDirection()/360.0)), true, Assets.normalBoldFont);
 			}
 		}
