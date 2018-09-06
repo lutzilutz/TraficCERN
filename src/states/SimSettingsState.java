@@ -25,29 +25,28 @@ public class SimSettingsState extends State {
 	private int descriptionMargin = 20;
 	private boolean isLeftPressed = false;
 	
-	private UISlider test,fromFrToGe,fromFrToGeDuringRH;
-	private UISliderDouble test2;
+	private UISlider fromFrToGe,fromFrToGeDuringRH;
+	private UISliderDouble fromFrToGeRepartition, test2;
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
 		
-		test = new UISlider(simulation, xStart, yStart, 550, "Entrance E generation rate (vhc/hour)", 3600, 50, false, new ClickListener(){
-			@Override
-			public void onClick() {
-				
-			}
-		});
-		this.uiManager.addObject(test);
-		
-		fromFrToGe = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), 550, "[Not Working] France to Geneva (vhc/day)", 20000, 12500, false, new ClickListener(){
+		fromFrToGe = new UISlider(simulation, xStart, yStart, 550, "Flow from France to Geneva (vhc/hour)", 4000, (int) (DataManager.getFromFrToGe()/24.0), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManager.addObject(fromFrToGe);
+		fromFrToGeRepartition = new UISliderDouble(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), 550, "Coming from Thoiry, St-Genis and Ferney", 100, DataManager.nFrGe_fromSW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(fromFrToGeRepartition);
 		
 		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), 550, "[Not Working] Quantity during rush-hours", 100, 70, true, new ClickListener(){
 			@Override
@@ -111,14 +110,16 @@ public class SimSettingsState extends State {
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
 		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
-		Text.drawString(g, "Examples of the 3 types of sliders :", Assets.idleCol, simulation.getWidth()/2, 250, true, Assets.normalBoldFont);
 		
 		this.uiManager.render(g);
 	}
 	
 	// Getters & setters ====================================================================================
-	public UISlider getTest() {
-		return test;
+	public UISlider fromFrToGe() {
+		return fromFrToGe;
+	}
+	public UISliderDouble fromFrToGeRepartition() {
+		return fromFrToGeRepartition;
 	}
 	public UIManager getUIManager() {
 		return this.uiManager;

@@ -312,7 +312,7 @@ public class Network {
 		rSortieCERNSE.addPoint(new Point(10,150));
 		roads.add(rSortieCERNSE);
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLanes()[0].getLength()-23);
-		rSortieCERNSE.setMaxOutflow(8);
+		rSortieCERNSE.setMaxOutflow(80);
 		
 		// N-W (in)
 		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
@@ -990,6 +990,54 @@ public class Network {
 			}
 		}
 		return r;
+	}
+	public Ride selectARideWithProbability(String roadName) {
+		Ride voidRide = new Ride();
+		ArrayList<Integer> probas = new ArrayList<Integer>();
+		int totalProba = 0;
+		for (AllNetworkRides anr: allNetworkRides) {
+			if (anr.getRoadName().equals(roadName)) {
+				
+				//for (Ride ride: anr.getNetworkRides()) {
+				for (int i=0 ; i<anr.getNetworkRides().size() ; i++) {
+					
+					Ride ride = anr.getNetworkRides().get(i);
+					
+					if (ride.getFlow()>0) {
+						totalProba += ride.getFlow();
+						probas.add(totalProba);
+					} else {
+						probas.add(0);
+					}
+					
+				}
+				System.out.print("For " + roadName + " : ");
+				for (int i: probas) {
+					System.out.print(i + " ");
+				}
+				System.out.println();
+				
+				double random = Math.random();
+				
+				if (probas.size() == 0) {
+					Utils.log("No probability in selectARideWithProbability() for " + roadName + "\n");
+				} else if (probas.size() == 1) {
+					return anr.getNetworkRides().get(0).clone();
+				} else {
+					for (int i=0 ; i<probas.size() ; i++) {
+						if (random < probas.get(i) / (float) totalProba) {
+							return anr.getNetworkRides().get(i).clone();
+						}
+					}
+					//Utils.log("No adapted probability found\n");
+				}
+				//int length = ANR.getNetworkRides().size();
+				//int index = (int) (Math.random() * length) ;
+				//return ANR.getNetworkRides().get(index).clone();
+			}
+		}
+		//Utils.log("Road not found " + roadName + "\n");
+		return voidRide;
 	}
 	public Ride selectARide(String startName, String endName) {
 		Ride r = new Ride();

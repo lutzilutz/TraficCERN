@@ -135,7 +135,9 @@ public class NetworkComputing {
 			// generation of new Vehicles
 			if (r.getGenerateVehicules() > 0 && Math.random() < r.getGenerateVehicules() / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
-				tmp.setRide(n.selectARide(r.getName()));
+				tmp.setRide(n.selectARideWithProbability(r.getName()));
+				tmp.getRide().print();
+				System.out.println();
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
