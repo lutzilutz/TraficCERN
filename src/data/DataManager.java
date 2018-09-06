@@ -7,6 +7,8 @@ import elements.Road;
 import main.Simulation;
 import network.AllNetworkRides;
 import network.Network;
+import states.SimSettingsState;
+import utils.Utils;
 
 public class DataManager {
 	
@@ -37,32 +39,58 @@ public class DataManager {
 	public static void applyDataToRides(Simulation simulation) {
 		
 		Network n = simulation.getSimState().getNetwork();
+		SimSettingsState settings = simulation.getSimSettingsState();
+		
 		
 		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
+			int value = 0;
+			double repartition1 = 0;
+			double repartition2 = 0;
+			double repartitionRH = 0;
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				r.setFlow((int) (simulation.getSimSettingsState().fromFrToGe().getCurrentValue()*simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue1() / (24.0*100.0)));
-			} else {
-				r.setFlow(0);
+				value = (int) settings.fromFrToGe().getCurrentValue();
+				repartition2 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
+				repartitionRH = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				//r.setFlow((int) (simulation.getSimSettingsState().fromFrToGe().getCurrentValue()*simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue1() / (100.0)));	
 			}
 			
+			r.setFlow((int) (value*(repartition2-repartition1)*(1-repartitionRH)));
+			r.setFlowRH((int) (value*(repartition2-repartition1)*repartitionRH));
 		}
 		// Rue de Genève to Geneva
 		for (Ride r: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
+			int value = 0;
+			double repartition1 = 0;
+			double repartition2 = 0;
+			double repartitionRH = 0;
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				r.setFlow((int) (simulation.getSimSettingsState().fromFrToGe().getCurrentValue()*(simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue2()-simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue1()) / (24.0*100.0)));
-			} else {
-				r.setFlow(0);
+				value = (int) settings.fromFrToGe().getCurrentValue();
+				repartition1 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
+				repartition2 = settings.fromFrToGeRepartition().getCurrentValue2() / (100.0);
+				repartitionRH = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				//r.setFlow((int) (simulation.getSimSettingsState().fromFrToGe().getCurrentValue()*(simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue2()-simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue1()) / (100.0)));
 			}
-			r.print();
-			System.out.println(" -> " + r.getFlow());
+			r.setFlow((int) (value*(repartition2-repartition1)*(1-repartitionRH)));
+			r.setFlowRH((int) (value*(repartition2-repartition1)*repartitionRH));
+			//r.print();
+			//System.out.println(" -> " + r.getFlow());
 		}
 		// Rue de Genève to Geneva
 		for (Ride r: n.getAllRides("rRueGermaineTillionSW").getNetworkRides()) {
+			int value = 0;
+			double repartition1 = 0;
+			double repartition2 = 0;
+			double repartitionRH = 0;
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				r.setFlow((int) (simulation.getSimSettingsState().fromFrToGe().getCurrentValue()*(100-simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue2()) / (24.0*100.0)));
-			} else {
-				r.setFlow(0);
+				value = (int) settings.fromFrToGe().getCurrentValue();
+				repartition1 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
+				repartition2 = settings.fromFrToGeRepartition().getCurrentValue2() / (100.0);
+				repartitionRH = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				//r.setFlow((int) (simulation.getSimSettingsState().fromFrToGe().getCurrentValue()*(100-simulation.getSimSettingsState().fromFrToGeRepartition().getCurrentValue2()) / (100.0)));
 			}
+			r.setFlow((int) (value*(repartition2-repartition1)*(1-repartitionRH)));
+			r.setFlowRH((int) (value*(repartition2-repartition1)*repartitionRH));
+			
 		}
 	}
 	public static void applyRidesToRoads(Simulation simulation) {
@@ -71,38 +99,29 @@ public class DataManager {
 		ArrayList<AllNetworkRides> anrAL = n.getAllNetworkRides();
 		
 		for (Ride tmp: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
-			tmp.print();
-			System.out.println(tmp.getFlow());
+			//tmp.print();
+			//System.out.println(tmp.getFlow());
 		}
 		
 		
 		for (Road road: n.getRoads()) {
 			int sum = 0;
-			
+			int sumRH = 0;
 			if (n.getAllRides(road.getName()) != null) {
 				for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
-					
 					sum += ride.getFlow();
-					
+					sumRH += ride.getFlowRH();
 				}
 			}
-			/*for (AllNetworkRides anr: anrAL.g) {
-				if (anr.getRoadName().equals(road.getName())) {
-					//for (Ride ride: anr.getNetworkRides()) {
-					for (Ride ride: anr.getNetworkRides()) {
-							if (road.getName().equals("rRueDeGeneveSE")) {
-							ride.print();
-							System.out.println(" -> " + ride.getFlow());
-						}
-						sum += ride.getFlow();
-					}
-				}
-			}*/
-			System.out.print(sum + " ");
+			//System.out.print(sum + " ");
 			road.setGenerateVehicules(sum);
+			road.setGenerateVehiculesRH(sumRH);
 			
+			if (road.getName().equals("rRueDeGeneveSE")) {
+				System.out.println("NotRH : " + road.getGenerateVehicules() + " , RH :" + road.getGenerateVehiculesRH());
+			}
 		}
-		System.out.println();
+		//System.out.println();
 		
 	}
 	public static int getFromFrToGe() {

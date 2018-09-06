@@ -1011,16 +1011,17 @@ public class Network {
 					}
 					
 				}
-				System.out.print("For " + roadName + " : ");
+				//System.out.print("For " + roadName + " : ");
 				for (int i: probas) {
-					System.out.print(i + " ");
+					//System.out.print(i + " ");
 				}
-				System.out.println();
+				//System.out.println();
 				
 				double random = Math.random();
 				
 				if (probas.size() == 0) {
 					Utils.log("No probability in selectARideWithProbability() for " + roadName + "\n");
+					return voidRide;
 				} else if (probas.size() == 1) {
 					return anr.getNetworkRides().get(0).clone();
 				} else {
@@ -1029,14 +1030,14 @@ public class Network {
 							return anr.getNetworkRides().get(i).clone();
 						}
 					}
-					//Utils.log("No adapted probability found\n");
+					Utils.log("No adapted probability found ?!?\n");
 				}
 				//int length = ANR.getNetworkRides().size();
 				//int index = (int) (Math.random() * length) ;
 				//return ANR.getNetworkRides().get(index).clone();
 			}
 		}
-		//Utils.log("Road not found " + roadName + "\n");
+		Utils.log("Road not found " + roadName + "\n");
 		return voidRide;
 	}
 	public Ride selectARide(String startName, String endName) {

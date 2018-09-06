@@ -9,7 +9,8 @@ public class Ride implements Cloneable {
 	private String roadName;
 	private ArrayList<Connection> nextConnections = new ArrayList<Connection>();
 	private boolean ignoreFlow = false;
-	private int flow = 0;
+	private int flowNotRH = 0;
+	private int flowRH = 0;
 	//private int[] flow = new int[2]; // 0-day (without rush-hours), 1-rush-hours (7 to 10 am)
 	
 	public Ride(int flowDay, int flowRushHours) {
@@ -60,11 +61,24 @@ public class Ride implements Cloneable {
 	}
 	
 	// Getters & setters ====================================================================================
-	public void setFlow(int flow) {
-		this.flow = flow;
+	public void setFlow(int flowNotRH, int flowRH) {
+		this.flowNotRH = flowNotRH;
+		this.flowRH = flowRH;
+	}
+	public void setFlow(int flowNotRH) {
+		this.flowNotRH = flowNotRH;
+	}
+	public void setFlowRH(int flowRH) {
+		this.flowRH = flowRH;
 	}
 	public int getFlow() {
-		return flow;
+		return flowNotRH;
+	}
+	public int getFlowNotRH() {
+		return flowNotRH;
+	}
+	public int getFlowRH() {
+		return flowRH;
 	}
 	public boolean ignoreFlow() {
 		return ignoreFlow;

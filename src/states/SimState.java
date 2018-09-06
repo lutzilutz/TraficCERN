@@ -34,6 +34,8 @@ public class SimState extends State {
 	private boolean restarting = false;
 	private boolean firstRun = true;
 	
+	private boolean rushHours = false;
+	
 	private boolean leftPressed = false;
 	private double clickedX=0, clickedY=0;
 	
@@ -271,12 +273,14 @@ public class SimState extends State {
 				if (simSpeed >= 5000) {
 					while((System.nanoTime()-lastTick) <= 1000000000/60 && !restarting) {
 						step++;
+						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
 					}
 				} else {
 					for (int i=0 ; i<n ; i++) {
 						step++;
+						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
 					}
@@ -420,8 +424,25 @@ public class SimState extends State {
 		
 		return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
 	}
-	
+	public int getHours() {
+		int time = (int) (step*stepSize);
+		int sec = time % 60;
+		int min = ((time - sec)/60) % 60;
+		int hr = ((((time - sec)/60) - min)/60) % 24;
+		
+		return hr;
+	}
+	public void updateRH() {
+		if (getHours() >= 7 && getHours() < 10) {
+			rushHours = true;
+		} else {
+			rushHours = false;
+		}
+	}
 	// Getters & setters ====================================================================================
+	public boolean isRushHours() {
+		return rushHours;
+	}
 	public void setCurrentNetwork(int currentNetwork) {
 		network = null;
 		this.currentNetwork = currentNetwork;

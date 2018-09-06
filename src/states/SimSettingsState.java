@@ -17,7 +17,7 @@ public class SimSettingsState extends State {
 	
 	private int xStart = 300;
 	private int yStart = 200;
-	private int buttonYMargin = 20;
+	private int buttonYMargin = 10;
 	private int buttonWidth = 140;
 	private int buttonHeight = 30;
 	private int sliderWidth = 140;
@@ -48,7 +48,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(fromFrToGeRepartition);
 		
-		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), 550, "[Not Working] Quantity during rush-hours", 100, 70, true, new ClickListener(){
+		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), 550, "Quantity during rush-hours", 100, 70, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -120,6 +120,9 @@ public class SimSettingsState extends State {
 	}
 	public UISliderDouble fromFrToGeRepartition() {
 		return fromFrToGeRepartition;
+	}
+	public UISlider fromFrToGeDuringRH() {
+		return fromFrToGeDuringRH;
 	}
 	public UIManager getUIManager() {
 		return this.uiManager;
