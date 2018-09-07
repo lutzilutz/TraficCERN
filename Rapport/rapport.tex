@@ -96,13 +96,13 @@
 \pagestyle{fancy}
 \renewcommand{\headheight}{24pt}
 \lhead{Pavlos Tserevelakis et Raphaël Lutz}
-\rhead{\today}
+\rhead{7 septembre 2018}
 
 \section{Présentation du projet}
 
 Le projet, demandé par Frédéric Magnin pour le CERN, vise à modéliser le réseau routier environnant le CERN afin d'en simuler le trafic dans un premier temps. La deuxième partie du projet vise à tester différents scénarios possibles pour améliorer la circulation aux abords du CERN, ainsi que de limiter l'impact du personnel du CERN sur la circulation.
 
-\section{Buts du projet}
+\subsection{Buts du projet}
 
 \begin{itemize}
 \item Modéliser un réseau de trafic routier
@@ -205,7 +205,7 @@ Un carrefour quant à lui doit contenir le lien avec les routes qui lui sont con
 
 \paragraph{Véhicule}
 
-Finalement, un véhicule doit savoir sur quelle cellule il se situe, et une cellule doit aussi connaître le véhicule qui l'occupe.
+Finalement, un véhicule doit savoir sur quelle cellule il se situe, et une cellule doit aussi connaître le véhicule qui l'occupe. Le véhicule retient également en mémoire son emplacement pour le pas de temps suivant. La méthode \texttt{evolve()} permet de mettre à jour la position du véhicule lors d'un pas de temps.
 
 \paragraph{Network}
 
@@ -217,13 +217,9 @@ Finalement, un véhicule doit savoir sur quelle cellule il se situe, et une cell
 \end{center}
 \end{figure}
 
-La classe \texttt{Network} doit utiliser tous les éléments afin de les combiner et mettre en place le réseau routier. Elle va non seulement créer les éléments et les garder en mémoire, mais aussi les connecter entre eux, ainsi que les placer visuellement sur l'écran. Elle contiendra donc une liste des véhicules, une liste des routes, une liste des rond-points et une liste des carrefours. Elle met à disposition plusieurs méthodes de la forme \texttt{create[...]Network()}, chacune permettant de générer un réseau différent.
+La classe \texttt{Network} doit utiliser tous les éléments afin de les combiner et mettre en place le réseau routier. Elle va non seulement créer les éléments et les garder en mémoire, mais aussi les connecter entre eux, ainsi que les placer visuellement sur l'écran. Elle contiendra donc une liste des véhicules, une liste des routes, une liste des rond-points et une liste des carrefours. Elle met à disposition plusieurs méthodes de la forme \texttt{create[...]Network()}, chacune permettant de générer un réseau différent. Cette classe reste cependant statique du point de vue de l'évolution : elle contient uniquement les éléments, et n'est pas responsable de les faire évoluer (voir section \ref{sctEvolution}). Elle fait uniquement office de conteneur d'information.
 
 Ces premières réflexion nous amènent donc à considérer la structure présentée en figure \ref{imgElements}.
-
-\newpage
-
-
 
 \subsubsection{Leaky Buckets}
 
@@ -269,7 +265,7 @@ Au moment du choix d'un des réseaux dans le menu, les données récoltées par 
 
 Afin d'être sûr de rendre le programme aussi léger que possible, l'image du réseau est calculé avant la simulation et placée en mémoire. Seuls les véhicules et les boutons sont recalculés à chaque pas de temps. Ceci permet de changer les options de visualisation quasi instantanément et assure une simulation aussi rapide que possible.
 
-\subsection{Évolution du modèle}
+\subsection{\label{sctEvolution}Évolution du modèle}
 
 L'évolution du réseau est effectué du point de vue des véhicules par la classe \texttt{NetworkComputing}.
 

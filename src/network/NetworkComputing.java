@@ -135,7 +135,12 @@ public class NetworkComputing {
 			// generation of new Vehicles
 			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
-				tmp.setRide(n.selectARideWithProbability(r.getName()));
+				if (!n.isRandomGeneration()) {
+					tmp.setRide(n.selectARideWithProbability(r.getName()));
+				} else {
+					tmp.setRide(n.selectARide(r.getName()));
+					tmp.getRide().print();
+				}
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
