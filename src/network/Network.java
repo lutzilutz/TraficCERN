@@ -54,6 +54,8 @@ public class Network {
 	private double fromStGenisToGe = 0.6;
 	private double fromFerneyToGe = 0.2;
 	
+	private boolean randomGeneration = true;
+	
 	public Network(Simulation sim, int n) {
 		this.setCellHeight(8);
 		this.setCellWidth(8);
@@ -702,6 +704,8 @@ public class Network {
 	}
 	public void createRealNetwork() {
 		
+		randomGeneration = false;
+		
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
 		tmp.xpoints[0] = 13*cellWidth;
@@ -1263,6 +1267,9 @@ public class Network {
 		return null;
 	}
 	// Getters & setters ====================================================================================
+	public boolean isRandomGeneration() {
+		return randomGeneration;
+	}
 	public int getN() {
 		return n;
 	}

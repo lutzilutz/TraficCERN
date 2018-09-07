@@ -44,9 +44,10 @@ public class DataManager {
 	}
 	public static void applyData(Simulation simulation) {
 		
-		applyDataToRides(simulation);
-		applyRidesToRoads(simulation);
-		
+		if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
+			applyDataToRides(simulation);
+			applyRidesToRoads(simulation);
+		}
 	}
 	public static void applyDataToRides(Simulation simulation) {
 		
