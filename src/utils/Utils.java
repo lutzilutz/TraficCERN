@@ -10,6 +10,7 @@ public class Utils {
 	public static PrintStream log;
 	public static PrintStream data;
 	public static String dataStr = "";
+	public static long time = 0;
 	
 	public static void initLog() {
 		try {
@@ -36,6 +37,17 @@ public class Utils {
 			log.print("   " + e.getStackTrace()[i] + "\n");
 			System.out.print("   " + e.getStackTrace()[i] + "\n");
 		}
+	}
+	public static void tick() {
+		time = System.nanoTime();
+	}
+	public static void logTime() {
+		long delta = (System.nanoTime()-time) / 100000;
+		double deltaMilli = delta / 10.0;
+		String text = " in ";
+		text = text + deltaMilli + " ms\n";
+		log.print(text);
+		System.out.print(text);
 	}
 	public static void writeData(String text) {
 		dataStr = dataStr + text;

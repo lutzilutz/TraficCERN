@@ -60,6 +60,7 @@ public class Network {
 	
 		if (n >= 0) {
 			Utils.log("creating Network #" + n + " ");
+			Utils.tick();
 		}
 		switch (n) {
 		case 0:
@@ -584,7 +585,8 @@ public class Network {
 		raEntreeA.setMaxSpeed(1); */
 		raLHC.setMaxSpeed(1);
 		
-		Utils.log("done\n");
+		Utils.log("done");
+		Utils.logTime();
 		
 		this.generateAllNetworkRides(30);
 		this.cleanAllNetworkRides();
@@ -935,7 +937,8 @@ public class Network {
 		raEntreeA.setMaxSpeed(1);
 		raLHC.setMaxSpeed(1);
 		
-		Utils.log("done\n");
+		Utils.log("done");
+		Utils.logTime();
 		
 		//printNames();
 		this.generateAllNetworkRides(10);
@@ -1125,6 +1128,7 @@ public class Network {
 	
 	public void generateAllNetworkRides(int n) {
 		Utils.log("generating Rides ... ");
+		Utils.tick();
 		for (Road r: this.roads) {
 			boolean generateAtLeastOne = false;
 			for (Integer i: r.getFlow()) {
@@ -1138,11 +1142,10 @@ public class Network {
 		}
 		int i=0;
 		for (AllNetworkRides anr: allNetworkRides) {
-			for (Ride ride: anr.getNetworkRides()) {
-				i++;
-			}
+			i += anr.getNetworkRides().size();
 		}
-		Utils.log(i + "\n");
+		Utils.log(Integer.toString(i));
+		Utils.logTime();
 	}
 	
 	public void addARideToAllNetworkRides(Ride ride) {

@@ -61,7 +61,8 @@ public class NetworkRendering {
 		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, true, true, true);
 		
-		Utils.log("done\n");
+		Utils.log("done");
+		Utils.logTime();
 		
 		return tmp;
 	}
