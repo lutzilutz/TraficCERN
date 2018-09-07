@@ -91,13 +91,12 @@ public class SimSettingsState extends State {
 		run = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60-buttonHeight-buttonYMargin, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
 			public void onClick() {
-				Utils.log("settings chosen\n");
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				DataManager.applyData(simulation);
 				simulation.getSimState().enableUIManager();
 				State.setState(simulation.getSimState());
-				Utils.log("simulation starts\n");
+				Utils.log("Simulation starts\n");
 			}
 		});
 		this.uiManager.addObject(run);

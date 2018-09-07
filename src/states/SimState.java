@@ -162,7 +162,7 @@ public class SimState extends State {
 		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
 			@Override
 			public void onClick() {
-				Utils.log("simulation ends\n");
+				Utils.log("Simulation ends at step " + step + "\n");
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
 				State.setState(simulation.getMenuState());

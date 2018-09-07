@@ -59,22 +59,20 @@ public class Network {
 		yDefaultOffset = 0;
 	
 		if (n >= 0) {
-			Utils.log("creating network #" + n + " ... ");
+			Utils.log("creating Network #" + n + " ");
 		}
 		switch (n) {
 		case 0:
+			Utils.log("(single-lane) ... ");
 			createRealNetwork();
 			break;
 		case 1:
+			Utils.log("(multi-lane) ... ");
 			createTestNetwork1();
 			break;
 		case 2:
 			createRealNetwork();
 			break;
-		}
-		
-		if (n >= 0) {
-			Utils.log("done\n");
 		}
 		
 		titles = new String[3];
@@ -586,6 +584,7 @@ public class Network {
 		raEntreeA.setMaxSpeed(1); */
 		raLHC.setMaxSpeed(1);
 		
+		Utils.log("done\n");
 		
 		this.generateAllNetworkRides(30);
 		this.cleanAllNetworkRides();
@@ -936,6 +935,8 @@ public class Network {
 		raEntreeA.setMaxSpeed(1);
 		raLHC.setMaxSpeed(1);
 		
+		Utils.log("done\n");
+		
 		//printNames();
 		this.generateAllNetworkRides(10);
 		//this.cleanAllNetworkRides();
@@ -1123,6 +1124,7 @@ public class Network {
 	
 	
 	public void generateAllNetworkRides(int n) {
+		Utils.log("generating Rides ... ");
 		for (Road r: this.roads) {
 			boolean generateAtLeastOne = false;
 			for (Integer i: r.getFlow()) {
@@ -1134,6 +1136,13 @@ public class Network {
 				r.generateRides(n);
 			}
 		}
+		int i=0;
+		for (AllNetworkRides anr: allNetworkRides) {
+			for (Ride ride: anr.getNetworkRides()) {
+				i++;
+			}
+		}
+		Utils.log(i + "\n");
 	}
 	
 	public void addARideToAllNetworkRides(Ride ride) {

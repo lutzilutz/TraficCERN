@@ -5,6 +5,7 @@ import elements.Road;
 import main.Simulation;
 import network.Network;
 import states.SimSettingsState;
+import utils.Utils;
 
 public class DataManager {
 	
@@ -45,8 +46,12 @@ public class DataManager {
 	public static void applyData(Simulation simulation) {
 		
 		if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
+			Utils.log("applying data to Network ... ");
 			applyDataToRides(simulation);
 			applyRidesToRoads(simulation);
+			Utils.log("done\n");
+		} else {
+			Utils.log("applying random gen to Network ... done\n");
 		}
 	}
 	public static void applyDataToRides(Simulation simulation) {

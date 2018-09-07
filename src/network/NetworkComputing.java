@@ -16,6 +16,7 @@ public class NetworkComputing {
 	// Pre-processing operations ####################################################################################################################
 	// ##############################################################################################################################################	
 	public static void computeCellsPosition(Network n) {
+		Utils.log("computing Cells position ... ");
 		margin = n.getCellWidth()*10;
 		for (CrossRoad cr: n.getCrossRoads()) {
 			for (int i=0 ; i<4 ; i++) {
@@ -65,6 +66,8 @@ public class NetworkComputing {
 		n.setyDefaultOffset(NetworkRendering.bounds.y);
 		n.setxOffset(n.getxDefaultOffset());
 		n.setyOffset(n.getyDefaultOffset());
+		
+		Utils.log("done\n");
 	}
 	public static void correctBounds(double x, double y) {
 		if (x<NetworkRendering.bounds.x) {

@@ -3,6 +3,7 @@ package states;
 import java.awt.Graphics;
 
 import main.Simulation;
+import utils.Utils;
 
 public abstract class State {
 
@@ -16,6 +17,7 @@ public abstract class State {
 	}
 	
 	public static void setState(State state) {
+		Utils.log("--- " + state.getClass().getSimpleName() + "\n");
 		currentState = state;
 	}
 	public static State getState() {

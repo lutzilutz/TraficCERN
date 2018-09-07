@@ -19,6 +19,7 @@ import elements.Road;
 import elements.RoundAbout;
 import graphics.Assets;
 import graphics.Text;
+import utils.Utils;
 
 public class NetworkRendering {
 
@@ -30,6 +31,7 @@ public class NetworkRendering {
 	
 	// Compute Background (one-time operation)
 	public static BufferedImage[] renderAllBGs(Network n, BufferedImage[] backgrounds) {
+		Utils.log("generating Network images ... ");
 		BufferedImage[] tmp = new BufferedImage[8];
 		for (int i=0 ; i<8 ; i++) {
 			tmp[i] = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
@@ -58,6 +60,8 @@ public class NetworkRendering {
 		g2d = tmp[7].createGraphics();
 		g2d.translate(-bounds.x, -bounds.y);
 		renderBG(n, g2d, true, true, true);
+		
+		Utils.log("done\n");
 		
 		return tmp;
 	}
