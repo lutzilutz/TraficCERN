@@ -4,17 +4,14 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 
-import data.DataManager;
 import elements.Connection;
 import elements.CrossRoad;
 import elements.MultiLaneRoundAbout;
 import elements.Ride;
 import elements.Road;
 import elements.RoundAbout;
-import elements.SortByPos;
 import elements.Vehicle;
 import main.Simulation;
 import utils.Utils;
@@ -49,10 +46,10 @@ public class Network {
 	private int maxSpeed = 2;
 	
 	// Probabilities (data)
-	private int fromFrToGe = 12500;
-	private double fromFrToGeFrom7To10 = 0.68;
-	private double fromStGenisToGe = 0.6;
-	private double fromFerneyToGe = 0.2;
+	//private int fromFrToGe = 12500;
+	//private double fromFrToGeFrom7To10 = 0.68;
+	//private double fromStGenisToGe = 0.6;
+	//private double fromFerneyToGe = 0.2;
 	
 	private boolean randomGeneration = true;
 	
@@ -1040,7 +1037,7 @@ public class Network {
 		
 		//printNames();
 		this.generateAllNetworkRides(10);
-		this.cleanAllNetworkRides();
+		//this.cleanAllNetworkRides();
 		
 		rD984FSE.setCounter(0.5);
 		rD984FNW.setCounter(0.49);
@@ -1048,10 +1045,12 @@ public class Network {
 		rD984FSES.setCounter(0.3);
 		rD984FNWS.setCounter(0.702);
 		
+		//printNames();
+		
 	}
 	
 	public void printNames() {
-		System.out.println("====== Road names: ======");
+		/*System.out.println("====== Road names: ======");
 		for (Road r: this.roads) {
 			System.out.println("");
 			System.out.println(r.getName());
@@ -1100,18 +1099,12 @@ public class Network {
 			System.out.println("");
 		}
 		System.out.println("");
-		
+		*/
 		for (AllNetworkRides ANR: this.allNetworkRides) {
 			ANR.print();
 			System.out.println("");
 		}
 		System.out.println("(=^-^=)");
-		
-		
-		for (AllNetworkRides ANR: this.allNetworkRides) {
-			ANR.print();
-			System.out.println("");
-		}
 	}
 	public Road getRoad(String name) {
 		for (Road r: this.getRoads()) {

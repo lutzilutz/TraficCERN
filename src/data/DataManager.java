@@ -137,7 +137,7 @@ public class DataManager {
 		
 		for (Road road: n.getRoads()) {
 			if (n.getAllRides(road.getName()) != null) {
-				if (road.getName().equals("rRueDeGeneveSE")) {
+				if (road.getName().equals("rRueDeGeneveSE XXX")) {
 					System.out.println(road.getName() + " : ");
 					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
 						ride.print();

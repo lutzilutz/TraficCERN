@@ -275,12 +275,13 @@ public class NetworkComputing {
 		}
 	}
 	public static void writeData(Network n) {
-		/*
-		Utils.writeData(n.getSimulation().getSimState().getTime() + " ");
-		Utils.writeData(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
-		Utils.writeData(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
-		Utils.writeData(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
-		Utils.writeData(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
-		*/
+		
+		if (!n.isRandomGeneration()) {
+			Utils.writeData(n.getSimulation().getSimState().getTime() + " ");
+			Utils.writeData(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
+			Utils.writeData(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
+			Utils.writeData(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
+			Utils.writeData(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
+		}
 	}
 }

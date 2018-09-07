@@ -87,13 +87,6 @@ public class Vehicle {
 	public void decelerate() {
 		--speed;
 	}
-	public void decelerate(int vit) {
-		if (vit > 0) {
-			this.speed = vit;
-		} else {
-			this.speed = 0;
-		}
-	}
 	public void removeCurrentConnection() {
 		if (!this.getRide().getNextConnections().isEmpty()) {
 			this.getRide().getNextConnections().remove(0);

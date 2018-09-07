@@ -30,17 +30,14 @@ public class AllNetworkRides {
 		networkRides.add(r);
 	}
 
+	// Getters & setters ====================================================================================
 	public ArrayList<Ride> getNetworkRides() {
 		return networkRides;
 	}
-
 	public String getRoadName() {
 		return roadName;
 	}
-
 	public void setRoadName(String roadName) {
 		this.roadName = roadName;
 	}
-	
-
 }

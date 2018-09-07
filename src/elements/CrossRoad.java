@@ -51,7 +51,6 @@ public class CrossRoad {
 		middleCells[3].setRoadLength(4);
 		middleCells[3].setMaxSpeed(maxSpeed);
 
-		
 		for (int i=0; i<4; ++i) {
 			middleCells[i].setNextCell(middleCells[(i+1)%4]);
 		}
@@ -76,13 +75,11 @@ public class CrossRoad {
 		middleCells[0].setRoadLength(4);
 		middleCells[0].setMaxSpeed(maxSpeed);
 
-		
 		middleCells[1] = new Cell(name);
 		middleCells[1].setPosition(1);
 		middleCells[1].setInRoundAbout(false);
 		middleCells[1].setRoadLength(4);
 		middleCells[1].setMaxSpeed(maxSpeed);
-
 
 		middleCells[2] = new Cell(name);
 		middleCells[2].setPosition(2);
@@ -90,15 +87,12 @@ public class CrossRoad {
 		middleCells[2].setRoadLength(4);
 		middleCells[2].setMaxSpeed(maxSpeed);
 
-
 		middleCells[3] = new Cell(name);
 		middleCells[3].setPosition(3);
 		middleCells[3].setInRoundAbout(false);
 		middleCells[3].setRoadLength(4);
 		middleCells[3].setMaxSpeed(maxSpeed);
 
-
-		
 		for (int i=0; i<4; ++i) {
 			middleCells[i].setNextCell(middleCells[(i+1)%4]);
 		}
@@ -107,10 +101,6 @@ public class CrossRoad {
 		}	
 	}
 	
-	public void setPositionFromStart(Road r, int i) {
-		this.setX((int) (- 1*n.getCellWidth()/2 * Math.sin(2*Math.PI*r.getDirection()/360.0) + r.getX() + (i*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
-		this.setY((int) (5*n.getCellWidth()/2 * Math.cos(2*Math.PI*r.getDirection()/360.0) + r.getY() - (i*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
-	}
 	public void setAllTrafficLightsRed() {
 		for (Road r: this.roadsIN) {
 			r.setTrafficLightRed(true);
@@ -128,8 +118,6 @@ public class CrossRoad {
 			this.middleCells[j].setNextCell(this.middleCells[(j+1)%4]);
 		}
 		this.middleCells[(i+2)%4].setNextCell(this.roadsOUT[(i+2)%4].getRoadCells().get(0));
-		
-		
 	}
 	
 	public void setPositionFromIn(Road r, int i) {

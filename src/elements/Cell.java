@@ -3,8 +3,6 @@ package elements;
 public class Cell {
 	
 	// Simulation
-	private boolean isOccupied;
-	private int isOccupiedNext;
 	private Cell inCell;
 	private Cell previousCell;
 	private Cell nextCell;
@@ -22,8 +20,6 @@ public class Cell {
 	private boolean isUnderground = false;
 	
 	public Cell() {
-		isOccupied = false;
-		isOccupiedNext = -1;
 		previousCell = null;
 		nextCell = null;
 		outCell = null;
@@ -32,27 +28,11 @@ public class Cell {
 	
 	public Cell(String name) {
 		this.roadName = name;
-		isOccupied = false;
-		isOccupiedNext = -1;
 		inCell = null;
 		previousCell = null;
 		nextCell = null;
 		outCell = null;
 		vehicle = null;
-	}
-
-	public void evolve() {
-		if (isOccupiedNext == 0) {
-			isOccupied = false;
-		} else if (isOccupiedNext == 1) {
-			isOccupied = true;
-		} else if (isOccupiedNext == -1) {
-			//System.out.println("Error - Unupdated Cell ========");
-		} else {
-			System.out.println("Error - Invalid value (isOccupiedNext) ========");
-		}
-		
-		isOccupiedNext = -1;
 	}
 	
 	public int checkNextCells(int nCells, int i) {
@@ -67,13 +47,6 @@ public class Cell {
 		return this.getNextCell().checkNextCells(nCells-1, i) ;
 	}
 	
-	public void display() {
-		if (isOccupied) {
-			System.out.print("[X]");
-		} else {
-			System.out.print("[ ]");
-		}
-	}
 	// Getters & setters ------------------------------------------------------------------------------------
 	public boolean isBlocked() {
 		return isBlocked;
@@ -110,18 +83,6 @@ public class Cell {
 	}
 	public void setNextCell(Cell nextCell) {
 		this.nextCell = nextCell;
-	}
-	public boolean isOccupied() {
-		return isOccupied;
-	}
-	public void setOccupied(boolean isOccupied) {
-		this.isOccupied = isOccupied;
-	}
-	public int getIsOccupiedNext() {
-		return isOccupiedNext;
-	}
-	public void setIsOccupiedNext(int isOccupiedNext) {
-		this.isOccupiedNext = isOccupiedNext;
 	}
 	public Cell getOutCell() {
 		return outCell;

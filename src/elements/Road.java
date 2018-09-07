@@ -19,8 +19,6 @@ public class Road {
 	private int length;
 	private int maxSpeed;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
-	private int generateVehicules = 0; // generate X vehicles per hour NOT in rush hours
-	private int generateVehiculesRH = 0; // generate X vehicles per hour NOT in rush hours
 	private ArrayList<Integer> flow = new ArrayList<Integer>();
 	private boolean isTrafficLightRed = false;
 	private EnumSet<Direction> directions;
@@ -369,12 +367,32 @@ public class Road {
 				}
 				for (RoundAbout ra: this.n.getRoundAbouts()) {
 					if (e.getName().equals(ra.getName())) {
+						for(Connection c: ride.getNextConnections()) {
+							if (c.getName().equals(ra.getName())) {
+								if (!ride.getNextConnections().isEmpty()) {
+									ride.removeLastConnection();
+									this.removeLastGoInGoOutConnections(ride);
+								}
+								return;
+							}
+						}
+						
 						ride.addNextConnection(e.clone());
 						ra.generateRidesAux(n-1, ride);
 					}
 				}
 				for (CrossRoad cr: this.n.getCrossRoads()) {
 					if (e.getName().equals(cr.getName())) {
+						for(Connection c: ride.getNextConnections()) {
+							if (c.getName().equals(cr.getName())) {
+								if (!ride.getNextConnections().isEmpty()) {
+									ride.removeLastConnection();
+									this.removeLastGoInGoOutConnections(ride);
+								}
+								return;
+							}
+						}
+						
 						ride.addNextConnection(e.clone());
 						cr.generateRidesAux(n-1, ride);
 					}
@@ -394,12 +412,6 @@ public class Road {
 			return;
 		}
 		
-	}
-	
-	public void display() {
-		for (Cell c: roadCells) {
-			c.display();
-		}
 	}
 	
 	public void addRoadDirection(Direction d) {
@@ -444,15 +456,6 @@ public class Road {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getGenerateVehiculesRH() {
-		return this.generateVehiculesRH;
-	}
-	public void setGenerateVehiculesRH(int generateVehiculesRH) {
-		this.generateVehiculesRH = generateVehiculesRH;
-	}
-	public int getGeneArateVehicules() {
-		return this.generateVehicules;
-	}
 	public ArrayList<Integer> getFlow() {
 		return flow;
 	}
@@ -465,11 +468,11 @@ public class Road {
 		for (int i=0 ; i<flow.size() ; i++) {
 			flow.set(i, value);
 		}
-		System.out.print(name + " : ");
+		/*System.out.print(name + " : ");
 		for (Integer i: flow) {
 			System.out.print(i + " ");
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 	public double getX() {
 		return x;

@@ -436,16 +436,4 @@ public class NetworkRendering {
 			}
 		}
 	}
-	// Render Vehicles according to Cells
-	public static void display(Network n) {
-		for (Road r: n.getRoads()) {
-			r.display();
-		}
-		System.out.print("\n");
-		for (RoundAbout r: n.getRoundAbouts()) {
-			r.display();
-		}
-		System.out.print("\n");
-	}
-	
 }

@@ -36,6 +36,8 @@ public class VehicleCounter {
 		flow = flowCoefficient * flow + (1-flowCoefficient) * counter;
 		counter = 0;
 	}
+	
+	// Getters & setters ====================================================================================
 	public int getCounter() {
 		return counter;
 	}

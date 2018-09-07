@@ -1,7 +1,5 @@
 package elements;
 
-import java.util.Comparator;
-
 import utils.Utils;
 
 public class Connection implements Cloneable {
