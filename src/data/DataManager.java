@@ -136,8 +136,8 @@ public class DataManager {
 		Network n = simulation.getSimState().getNetwork();
 		
 		for (Road road: n.getRoads()) {
-			if (n.getAllRides(road.getName()) != null) {
-				if (road.getName().equals("rRueDeGeneveSE XXX")) {
+			/*if (n.getAllRides(road.getName()) != null) {
+				if (road.getName().equals("rRueDeGeneveSE X")) {
 					System.out.println(road.getName() + " : ");
 					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
 						ride.print();
@@ -148,7 +148,7 @@ public class DataManager {
 						System.out.println();
 					}
 				}
-			}
+			}*/
 			for (int h=0 ; h<24 ; h++) {
 				int sum = 0;
 				if (n.getAllRides(road.getName()) != null) {

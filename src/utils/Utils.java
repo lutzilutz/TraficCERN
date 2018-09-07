@@ -20,7 +20,7 @@ public class Utils {
 	}
 	public static void initData() {
 		try {
-			data = new PrintStream(new FileOutputStream("data_test.txt", false));
+			data = new PrintStream(new FileOutputStream("data_counters.txt", false));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -70,7 +70,7 @@ public class MenuState extends State {
 				State.setState(simulation.getSimSettingsState());
 			}
 		});
-		this.uiManager.addObject(network3);
+		//this.uiManager.addObject(network3);
 		
 		this.uiManager.addObject(new UITextButton(xStart, yStart+3*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
@@ -106,9 +106,9 @@ public class MenuState extends State {
 		}
 		
 		if (network3.isHovering()) {
-			Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			//Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		} else {
-			Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			//Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		}
 		
 		this.uiManager.render(g);

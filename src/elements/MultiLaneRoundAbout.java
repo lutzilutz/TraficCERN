@@ -71,8 +71,8 @@ public class MultiLaneRoundAbout {
 	public void connectTo(Road R, int i) {
 		int raSize = this.getLanes()[0].getLength();
 		i = ((i % raSize)+raSize)%raSize;
-		int i1 = i;
-		int i2 = i-1;
+		//int i1 = i;
+		//int i2 = i-1;
 		this.getLanes()[0].getRoadCells().get(i).setOutCell(R.getRoadCells().get(0));
 		R.getRoadCells().get(0).setInCell(this.getLanes()[0].getRoadCells().get(i));
 		this.addExit(R.getName(), i);
@@ -95,7 +95,7 @@ public class MultiLaneRoundAbout {
 			ride.removeLastConnection();
 			return;
 		} else if (n > 0) {
-			int L = this.getLanes()[0].getLength();
+			//int L = this.getLanes()[0].getLength();
 			int numOfLanes = this.getLanes().length;
 			int laneInt = 0;
 			int indexOfEnter = -1;

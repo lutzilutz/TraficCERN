@@ -139,7 +139,7 @@ public class NetworkComputing {
 					tmp.setRide(n.selectARideWithProbability(r.getName()));
 				} else {
 					tmp.setRide(n.selectARide(r.getName()));
-					tmp.getRide().print();
+					//tmp.getRide().print();
 				}
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);

@@ -25,9 +25,10 @@ public class SimState extends State {
 	
 	private Network network;
 	
-	private int step = 21600; // step counter
+	private int step = 1; // step counter
 	private double stepSize = 1; // duration of one step in seconds-
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+	private int startHour = 5;
 	private boolean paused = false;
 	private boolean askExit = false;
 	private long lastTick;
@@ -161,6 +162,7 @@ public class SimState extends State {
 		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
 			@Override
 			public void onClick() {
+				Utils.log("simulation ends\n");
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
 				State.setState(simulation.getMenuState());
@@ -326,11 +328,6 @@ public class SimState extends State {
 			network.setRotation(0);
 		}
 		
-		if (simulation.getKeyManager().escape) {
-			disableUIManager();
-			simulation.getMenuState().enableUIManager();
-			State.setState(simulation.getMenuState());
-		}
 		// Acceleration of movement
 		if (!simulation.getKeyManager().up && !simulation.getKeyManager().down && !simulation.getKeyManager().right && !simulation.getKeyManager().left) {
 			offsetTime = 0;
@@ -400,7 +397,7 @@ public class SimState extends State {
 	
 	// Return time in format "DDD hh:mm:ss"
 	public String getTime() {
-		int time = (int) (step*stepSize);
+		int time = (int) (step*stepSize+startHour*60*60);
 		int sec = time % 60;
 		int min = ((time - sec)/60) % 60;
 		int hr = ((((time - sec)/60) - min)/60) % 24;
@@ -425,7 +422,7 @@ public class SimState extends State {
 		return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
 	}
 	public int getHours() {
-		int time = (int) (step*stepSize);
+		int time = (int) (step*stepSize+startHour*60*60);
 		int sec = time % 60;
 		int min = ((time - sec)/60) % 60;
 		int hr = ((((time - sec)/60) - min)/60) % 24;
