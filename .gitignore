@@ -12,4 +12,4 @@ bin/
 # log and data file
 data_test.txt
 log.txt
-data/
+data/*.txt
