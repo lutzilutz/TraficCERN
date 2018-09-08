@@ -20,7 +20,7 @@ public class SimSettingsState extends State {
 	private UIManager uiManager2;
 	private UIManager uiManager3;
 	private int activePage = 1;
-	private int nPages = 3;
+	private int nPages = 2;
 	
 	private int xStart = 320;
 	private int yStart = 100;
@@ -86,7 +86,7 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManager1.addObject(fromGeToFr);
-		fromGeToFrRepartition = new UISliderTriple(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nFrGe_fromSW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW+DataManager.nFrGe_fromTun, true, new ClickListener(){
+		fromGeToFrRepartition = new UISliderTriple(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nGeFr_toSW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW+DataManager.nGeFr_toTun, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				

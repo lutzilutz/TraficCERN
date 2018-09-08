@@ -272,6 +272,8 @@ public class NetworkComputing {
 						v.stayHere();
 						v.setSpeed(0);
 					} else {
+						v.getRide().print();
+						System.out.println();
 						v.leaveNetwork();
 					}
 				}
