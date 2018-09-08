@@ -6,6 +6,7 @@ import graphics.Assets;
 import graphics.Text;
 import main.Simulation;
 import ui.ClickListener;
+import ui.UIImageButton;
 import ui.UIManager;
 import ui.UISlider;
 import ui.UISliderDouble;
@@ -17,11 +18,14 @@ public class SimSettingsState extends State {
 	
 	private UIManager uiManager1;
 	private UIManager uiManager2;
+	private UIManager uiManager3;
 	private int activePage = 1;
+	private int nPages = 3;
 	
 	private int xStart = 320;
 	private int yStart = 100;
 	private int buttonYMargin = 5;
+	private int buttonXMargin = 15;
 	private int buttonWidth = 140;
 	private int buttonHeight = 30;
 	private int sliderWidth = 500;
@@ -39,12 +43,14 @@ public class SimSettingsState extends State {
 	
 	private UISlider toEntranceE;
 	private UISliderDouble toEntranceERepartition, toEntranceERepartitionRH;
+	private UIImageButton previous, next;
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
 		super(simulation);
 		this.uiManager1 = new UIManager(simulation);
 		this.uiManager2 = new UIManager(simulation);
+		this.uiManager3 = new UIManager(simulation);
 		
 		// From France to Geneva
 		
@@ -134,7 +140,26 @@ public class SimSettingsState extends State {
 		
 		// ==================================================================================================
 		
-		run = new UITextButton((simulation.getWidth()-buttonWidth)/2, simulation.getHeight()-60-buttonHeight-buttonYMargin, buttonWidth, buttonHeight, "Run", new ClickListener(){
+		previous = new UIImageButton(325, 593, 50, buttonHeight, Assets.previousIdle, Assets.previousActive, new ClickListener(){
+			@Override
+			public void onClick() {
+				previousPage();
+			}
+		});
+		this.uiManager1.addObject(previous);
+		this.uiManager2.addObject(previous);
+		this.uiManager3.addObject(previous);
+		next = new UIImageButton(625, 593, 50, buttonHeight, Assets.nextIdle, Assets.nextActive, new ClickListener(){
+			@Override
+			public void onClick() {
+				nextPage();
+			}
+		});
+		this.uiManager1.addObject(next);
+		this.uiManager2.addObject(next);
+		this.uiManager3.addObject(next);
+		
+		run = new UITextButton((simulation.getWidth()-0*buttonWidth)/2 + buttonXMargin/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
@@ -146,7 +171,9 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManager1.addObject(run);
-		back = new UITextButton((simulation.getWidth()-buttonWidth)/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Back", new ClickListener(){
+		this.uiManager2.addObject(run);
+		this.uiManager3.addObject(run);
+		back = new UITextButton((simulation.getWidth()-2*buttonWidth)/2 - buttonXMargin/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Back", new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
@@ -156,10 +183,19 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManager1.addObject(back);
+		this.uiManager2.addObject(back);
+		this.uiManager3.addObject(back);
 	}
 	
 	public void tick(int n) {
-		this.uiManager1.tick();
+		
+		if (activePage == 1) {
+			this.uiManager1.tick();
+		} else if (activePage == 2) {
+			this.uiManager2.tick();
+		} else if (activePage == 3) {
+			this.uiManager3.tick();
+		}
 		
 		if (simulation.getMouseManager().isLeftPressed()) {
 			isLeftPressed = true;
@@ -175,14 +211,88 @@ public class SimSettingsState extends State {
 	public void tick() {
 		
 	}
-	
+	public void nextPage() {
+		
+		if (activePage+1 > nPages) {
+			activePage = 1;
+		} else {
+			activePage++;
+		}
+		
+		if (activePage == 1) {
+			enableUIManager(uiManager1);
+		} else if (activePage == 2) {
+			enableUIManager(uiManager2);
+		} else if (activePage == 3) {
+			enableUIManager(uiManager3);
+		}
+	}
+	public void previousPage() {
+		
+		if (activePage-1 < 1) {
+			activePage = nPages;
+		} else {
+			activePage--;
+		}
+		
+		if (activePage == 1) {
+			enableUIManager(uiManager1);
+		} else if (activePage == 2) {
+			enableUIManager(uiManager2);
+		} else if (activePage == 3) {
+			enableUIManager(uiManager3);
+		}
+	}
+	public void renderPageIndication(Graphics g) {
+		int smallR = 4;
+		int bigR = 8;
+		int spacing = 30;
+		double x = (simulation.getWidth() - 2*(nPages)*smallR - Math.max(0, nPages-1)*spacing ) /2.0;
+		int y = 600;
+		int r = 0;
+		for (int i=1; i<=nPages ; i++) {
+			if (activePage == i) {
+				g.setColor(Assets.textCol);
+			} else {
+				g.setColor(Assets.idleCol);
+			}
+			if (activePage == i) {
+				x -= (bigR-smallR);
+				y -= (bigR-smallR);
+				r = bigR;
+			} else {
+				r = smallR;
+			}
+			g.fillRect((int) (x), y, 2*r, 2*r);
+			
+			if (activePage == i) {
+				x += (bigR-smallR);
+				y += (bigR-smallR);
+				r = smallR;
+			}
+			if (activePage == i) {
+				g.setColor(Assets.idleCol);
+			}
+			
+			x += 2*r + spacing;
+		}
+		
+	}
 	public void render(Graphics g) {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
 		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 50, true, Assets.largeFont);
 		
-		this.uiManager1.render(g);
+		if (activePage == 1) {
+			this.uiManager1.render(g);
+		} else if (activePage == 2) {
+			this.uiManager2.render(g);
+		} else if (activePage == 3) {
+			this.uiManager3.render(g);
+		}
+		
+		renderPageIndication(g);
 	}
 	
 	// Getters & setters ====================================================================================

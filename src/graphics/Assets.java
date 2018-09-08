@@ -8,6 +8,7 @@ public class Assets {
 
 	// Dimensions
 	public static int buttonW = 90, buttonH = 34;
+	public static int smallButtonW = 50;
 	public static int buttonXStart = 20, buttonYStart = 30;
 	public static int buttonSpacing = 10;
 	
@@ -25,7 +26,7 @@ public class Assets {
 	public static Font hugeFont = new Font("Arial", Font.PLAIN, 50);
 	
 	// Images
-	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, restartIdle, restartActive, fastIdle, fastActive, fastFastIdle, fastFastActive, fastFastFastIdle, fastFastFastActive;
+	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, restartIdle, restartActive, fastIdle, fastActive, fastFastIdle, fastFastActive, fastFastFastIdle, fastFastFastActive, previousIdle, previousActive, nextIdle, nextActive;
 	
 	public static void init() {
 		
@@ -43,6 +44,12 @@ public class Assets {
 		fastFastActive = sheet.crop(buttonW*1, buttonH*2, buttonW, buttonH);
 		fastFastFastIdle = sheet.crop(buttonW*2, buttonH*2, buttonW, buttonH);
 		fastFastFastActive = sheet.crop(buttonW*3, buttonH*2, buttonW, buttonH);
+		
+		previousIdle = sheet.crop(smallButtonW*0, buttonH*3, smallButtonW, buttonH);
+		previousActive = sheet.crop(smallButtonW*1, buttonH*3, smallButtonW, buttonH);
+		nextIdle = sheet.crop(smallButtonW*2, buttonH*3, smallButtonW, buttonH);
+		nextActive = sheet.crop(smallButtonW*3, buttonH*3, smallButtonW, buttonH);
+		
 	}
 	
 }

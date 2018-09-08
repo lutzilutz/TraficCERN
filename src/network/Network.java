@@ -1066,6 +1066,10 @@ public class Network {
 					Utils.log("No probability in selectARideWithProbability() for " + roadName + "\n");
 					return voidRide;
 				} else if (probas.size() == 1) {
+					if (anr.getNetworkRides().get(0).getRoadName().equals("rRouteDeMeyrinSouthNW")) {// && anr.getNetworkRides().get(i).getNextConnections().get(anr.getNetworkRides().get(i).getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
+						anr.getNetworkRides().get(0).print();
+						System.out.println();
+					}
 					return anr.getNetworkRides().get(0).clone();
 				} else {
 					for (int i=0 ; i<probas.size() ; i++) {
