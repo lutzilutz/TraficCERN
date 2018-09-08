@@ -155,6 +155,14 @@ public class NetworkComputing {
 			} else if (endRoad.equals("rSortieCERNSE")) {
 				DataManager.nToEEmpiric++;
 			}
+		} else if (startRoad.equals("rC5SW")) {
+			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+				DataManager.nFrGeEmpiric++;
+			}
+		} else if (startRoad.equals("rRouteDeMeyrinSouthNW")) {
+			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE")) {
+				DataManager.nGeFrEmpiric++;
+			}
 		}
 	}
 	// Compute future state of the Cells of the Road

@@ -1070,6 +1070,10 @@ public class Network {
 				} else {
 					for (int i=0 ; i<probas.size() ; i++) {
 						if (random < probas.get(i) / (float) totalProba) {
+							if (anr.getNetworkRides().get(i).getRoadName().equals("rRouteDeMeyrinSouthNW")) {// && anr.getNetworkRides().get(i).getNextConnections().get(anr.getNetworkRides().get(i).getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
+								anr.getNetworkRides().get(i).print();
+								System.out.println();
+							}
 							return anr.getNetworkRides().get(i).clone();
 						}
 					}
