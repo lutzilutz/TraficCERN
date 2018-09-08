@@ -1,6 +1,7 @@
 package elements;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import network.Network;
 
@@ -61,7 +62,7 @@ public class CrossRoad {
 	
 	public CrossRoad(Network n, String name) {
 		this.n = n;
-		this.maxSpeed = 2;
+		this.maxSpeed = 1;
 		this.name = name;
 		this.x = 0;
 		this.y = 0;
@@ -99,6 +100,14 @@ public class CrossRoad {
 		for (int i=0; i<4; ++i) {
 			middleCells[i].setPreviousCell(middleCells[(i+3)%4]);
 		}	
+	}
+	
+	public void sortEnters() {
+		Collections.sort(this.enters, new SortByPos());
+	}
+	
+	public void sortExits() {
+		Collections.sort(this.exits, new SortByPos());
 	}
 	
 	public void setAllTrafficLightsRed() {

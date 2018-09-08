@@ -48,8 +48,8 @@ public class Network {
 	private boolean randomGeneration = true;
 	
 	public Network(Simulation sim, int n) {
-		this.setCellHeight(8);
-		this.setCellWidth(8);
+		this.setCellHeight(16);
+		this.setCellWidth(16);
 		this.sim = sim;
 		this.n = n;
 		Road.resetID();
@@ -870,6 +870,10 @@ public class Network {
 		rRouteDeMeyrinNorthSE.setPositionOutFrom(crEntreeB, 2);
 		crEntreeB.connectTo(rRouteDeMeyrinNorthSE, 2);
 		roads.add(rRouteDeMeyrinNorthSE);
+		
+		//crEntreeB.sortEnters();
+		//crEntreeB.sortExits();
+		
 		
 		// RA entree A ------------------------------------------------------------------------------------------------
 		RoundAbout raEntreeA = new RoundAbout(this, 15, "raEntreeA");
