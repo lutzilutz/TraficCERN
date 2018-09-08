@@ -224,7 +224,7 @@ public class DataManager {
 		
 		for (Road road: n.getRoads()) {
 			Utils.saveCheckingValues(road.getName() + " ---\n");
-			if (n.getAllRides(road.getName()) != null) {
+			/*if (n.getAllRides(road.getName()) != null) {
 				if (road.getName().equals("rRouteDeMeyrinSouthNW")) {
 					System.out.println(road.getName() + " : ");
 					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
@@ -239,7 +239,7 @@ public class DataManager {
 						System.out.println(tmp);
 					}
 				}
-			}
+			}*/
 			int tmp = 0;
 			
 			for (int h=0 ; h<24 ; h++) {
@@ -259,6 +259,14 @@ public class DataManager {
 			}
 			Utils.saveCheckingValues("\n");
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
+			
+			/*for (Road road2: n.getRoads()) {
+				System.out.println(road2.getName() + " : ");
+				for (int i=0; i<road2.getFlow().size() ; i++) {
+					System.out.print(road2.getFlow().get(i));
+				}
+				System.out.println();
+			}*/
 		}
 		
 	}

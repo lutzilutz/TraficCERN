@@ -936,6 +936,7 @@ public class Network {
 		
 		raEntreeA.setMaxSpeed(1);
 		raLHC.setMaxSpeed(1);
+		crEntreeB.setMaxSpeed(1);
 		
 		Utils.log("done");
 		Utils.logTime();
@@ -1066,18 +1067,18 @@ public class Network {
 					Utils.log("No probability in selectARideWithProbability() for " + roadName + "\n");
 					return voidRide;
 				} else if (probas.size() == 1) {
-					if (anr.getNetworkRides().get(0).getRoadName().equals("rRouteDeMeyrinSouthNW")) {// && anr.getNetworkRides().get(i).getNextConnections().get(anr.getNetworkRides().get(i).getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
-						//anr.getNetworkRides().get(0).print();
-						//System.out.println();
-					}
+					//System.out.println(anr.getNetworkRides().get(0).getRoadName());
+					//System.out.print("   ");
+					//anr.getNetworkRides().get(0).print();
+					//System.out.println();
 					return anr.getNetworkRides().get(0).clone();
 				} else {
 					for (int i=0 ; i<probas.size() ; i++) {
 						if (random < probas.get(i) / (float) totalProba) {
-							if (anr.getNetworkRides().get(i).getRoadName().equals("rRouteDeMeyrinSouthNW")) {// && anr.getNetworkRides().get(i).getNextConnections().get(anr.getNetworkRides().get(i).getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
-								//anr.getNetworkRides().get(i).print();
-								//System.out.println();
-							}
+							//System.out.println(anr.getNetworkRides().get(0).getRoadName());
+							//System.out.print("   ");
+							//anr.getNetworkRides().get(i).print();
+							//System.out.println();
 							return anr.getNetworkRides().get(i).clone();
 						}
 					}
@@ -1143,6 +1144,9 @@ public class Network {
 				if (i>0) {
 					generateAtLeastOne = true;
 				}
+			}
+			if (r.getName().equals("rD984FNWS")) {
+				System.out.println(generateAtLeastOne);
 			}
 			if (generateAtLeastOne) {
 				r.generateRides(n);
