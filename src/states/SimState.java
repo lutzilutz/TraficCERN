@@ -90,7 +90,7 @@ public class SimState extends State {
 			public void onClick() {
 				restarting = true;
 				try {
-					Thread.sleep(100);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					Utils.log(e);
 				}
@@ -392,7 +392,7 @@ public class SimState extends State {
 		}
 	}
 	public void restartNetwork() {
-		step = 0;
+		step = 1;
 		currentNetwork = network.getN();
 		simSpeed = defaultSimSpeed;
 		simulation.getSimState().setNetwork(null);

@@ -1145,9 +1145,6 @@ public class Network {
 					generateAtLeastOne = true;
 				}
 			}
-			if (r.getName().equals("rD984FNWS")) {
-				System.out.println(generateAtLeastOne);
-			}
 			if (generateAtLeastOne) {
 				r.generateRides(n);
 			}
