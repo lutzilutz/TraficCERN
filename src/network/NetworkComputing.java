@@ -2,7 +2,9 @@ package network;
 
 import java.util.Iterator;
 
+import data.DataManager;
 import elements.CrossRoad;
+import elements.Ride;
 import elements.Road;
 import elements.RoundAbout;
 import elements.Vehicle;
@@ -131,7 +133,30 @@ public class NetworkComputing {
 			}
 		}
 	}
-	
+	public static void saveRideIntoData(Ride ride) {
+		String startRoad = ride.getRoadName();
+		String endRoad = ride.getNextConnections().get(ride.getNextConnections().size()-1).getName();
+		
+		if (startRoad.equals("rD884NE")) {
+			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+				DataManager.nFrGeEmpiric++;
+			} else if (endRoad.equals("rSortieCERNSE") || endRoad.equals("rD884CERN")) {
+				DataManager.nToEEmpiric++;
+			}
+		} else if (startRoad.equals("rRueDeGeneveSE")) {
+			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+				DataManager.nFrGeEmpiric++;
+			} else if (endRoad.equals("rSortieCERNSE")) {
+				DataManager.nToEEmpiric++;
+			}
+		} else if (startRoad.equals("rRueGermaineTillionSW")) {
+			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+				DataManager.nFrGeEmpiric++;
+			} else if (endRoad.equals("rSortieCERNSE")) {
+				DataManager.nToEEmpiric++;
+			}
+		}
+	}
 	// Compute future state of the Cells of the Road
 	public static void computeEvolution(Network n) {
 		
@@ -143,6 +168,7 @@ public class NetworkComputing {
 				Vehicle tmp = new Vehicle(n);
 				if (!n.isRandomGeneration()) {
 					tmp.setRide(n.selectARideWithProbability(r.getName()));
+					saveRideIntoData(tmp.getRide());
 				} else {
 					tmp.setRide(n.selectARide(r.getName()));
 					//tmp.getRide().print();

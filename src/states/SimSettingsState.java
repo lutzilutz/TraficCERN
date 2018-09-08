@@ -26,6 +26,8 @@ public class SimSettingsState extends State {
 	//private int descriptionMargin = 20;
 	private boolean isLeftPressed = false;
 	
+	private UISlider timePerVhcEntrance;
+	
 	private UISlider fromFrToGe,fromFrToGeDuringRH;
 	private UISliderDouble fromFrToGeRepartition;
 	
@@ -88,6 +90,16 @@ public class SimSettingsState extends State {
 		
 		// ==================================================================================================
 		
+		timePerVhcEntrance = new UISlider(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), 550, "Control duration of 1 vehicle at entrances", 30, 8, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(timePerVhcEntrance);
+		
+		// ==================================================================================================
+		
 		run = new UITextButton((simulation.getWidth()-sliderWidth)/2, simulation.getHeight()-60-buttonHeight-buttonYMargin, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -140,6 +152,9 @@ public class SimSettingsState extends State {
 	}
 	
 	// Getters & setters ====================================================================================
+	public UISlider timePerVhcEntrance() {
+		return timePerVhcEntrance;
+	}
 	public UISlider toEntranceE() {
 		return toEntranceE;
 	}

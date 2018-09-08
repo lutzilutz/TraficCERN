@@ -28,12 +28,13 @@ public class SimState extends State {
 	private int step = 1; // step counter
 	private double stepSize = 1; // duration of one step in seconds-
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
-	private int startHour = 5;
+	private int startHour = 0;
 	private boolean paused = false;
 	private boolean askExit = false;
 	private long lastTick;
 	private boolean restarting = false;
 	private boolean firstRun = true;
+	private boolean finished = false;
 	
 	private boolean rushHours = false;
 	
@@ -289,6 +290,12 @@ public class SimState extends State {
 				}
 				lastTick = System.nanoTime();
 			}
+		}
+		
+		if (step >= 86400 && !finished) {
+			Utils.saveCheckingValues();
+			switchPause();
+			finished = true;
 		}
 		
 		uiManager.tick();

@@ -1,15 +1,20 @@
 package utils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+
+import data.DataManager;
 
 
 public class Utils {
 
 	public static PrintStream log;
-	public static PrintStream data;
+	public static PrintStream dataCounters;
+	public static PrintStream dataChecking;
 	public static String dataStr = "";
+	public static String dataDir = "data";
 	public static long time = 0;
 	
 	public static void initLog() {
@@ -19,15 +24,40 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
-	public static void initData() {
+	public static void initAllData() {
+		File directory = new File(dataDir);
+		if (! directory.exists()){
+			directory.mkdir();
+		}
+		
+		initDataCounters();
+		initCheckingValues();
+		
+	}
+	public static void initDataCounters() {
 		try {
-			data = new PrintStream(new FileOutputStream("data_counters.txt", false));
+			dataCounters = new PrintStream(new FileOutputStream(dataDir + "/" + "data_counters.txt", false));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		data.print("Time Counter1 Counter2 Counter3 Counter4\n");
+		dataCounters.print("Time Counter1 Counter2 Counter3 Counter4\n");
 	}
-	
+	public static void initCheckingValues() {
+		try {
+			dataChecking = new PrintStream(new FileOutputStream(dataDir + "/" + "data_checking.txt", false));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		dataChecking.print("Checking probabilities\n");
+	}
+	public static void saveCheckingValues() {
+		dataChecking.print("From France to Geneva (per day) :     expected " + DataManager.nFrGeChosen + ", got " + DataManager.nFrGeEmpiric + "\n");
+		dataChecking.print("From France to Entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + "\n");
+		
+	}
+	public static void saveCheckingValues(String text) {
+		//dataChecking.print(text);	
+	}
 	public static void log(String text) {
 		log.print(text);
 		System.out.print(text);
@@ -53,7 +83,7 @@ public class Utils {
 		dataStr = dataStr + text;
 	}
 	public static void saveData() {
-		data.print(dataStr);
+		dataCounters.print(dataStr);
 		dataStr = "";
 	}
 	public static int parseInt(String number) {
