@@ -17,11 +17,12 @@ import utils.Utils;
 
 public class SimSettingsState extends State {
 	
-	private UIManager uiManager1;
-	private UIManager uiManager2;
-	private UIManager uiManager3;
+	private UIManager uiManagerTransit;
+	private UIManager uiManagerE;
+	private UIManager uiManagerA;
+	private UIManager uiManagerB;
 	private int activePage = 1;
-	private int nPages = 3;
+	private int nPages = 4;
 	
 	private int xStart = 320;
 	private int yStart = 150;
@@ -56,14 +57,18 @@ public class SimSettingsState extends State {
 	private UISlider fromEntranceA, fromEntranceARepartition;
 	private UISliderDouble fromEntranceARepartitionRH2;
 	
+	private UISlider toEntranceB, toEntranceBRepartition;
+	private UISliderDouble toEntranceBRepartitionRH;
+	
 	private UIImageButton previous, next;
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulation simulation) {
 		super(simulation);
-		this.uiManager1 = new UIManager(simulation);
-		this.uiManager2 = new UIManager(simulation);
-		this.uiManager3 = new UIManager(simulation);
+		this.uiManagerTransit = new UIManager(simulation);
+		this.uiManagerE = new UIManager(simulation);
+		this.uiManagerA = new UIManager(simulation);
+		this.uiManagerB = new UIManager(simulation);
 
 		// ##################################################################################################
 		// PAGE 1 ###########################################################################################
@@ -76,14 +81,14 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager1.addObject(fromFrToGe);
+		this.uiManagerTransit.addObject(fromFrToGe);
 		fromFrToGeRepartition = new UISliderTriple(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nFrGe_fromSW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW+DataManager.nFrGe_fromTun, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
-		this.uiManager1.addObject(fromFrToGeRepartition);
+		this.uiManagerTransit.addObject(fromFrToGeRepartition);
 		
 		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (morning)", 100, 70, true, new ClickListener(){
 			@Override
@@ -91,7 +96,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager1.addObject(fromFrToGeDuringRH);
+		this.uiManagerTransit.addObject(fromFrToGeDuringRH);
 		
 		fromFrToGeRepartitionRH = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nFrGe_7, DataManager.nFrGe_7+DataManager.nFrGe_8, true, new ClickListener(){
 			@Override
@@ -99,7 +104,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager1.addObject(fromFrToGeRepartitionRH);
+		this.uiManagerTransit.addObject(fromFrToGeRepartitionRH);
 		
 		// From Geneva to France ============================================================================
 		
@@ -109,14 +114,14 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager1.addObject(fromGeToFr);
+		this.uiManagerTransit.addObject(fromGeToFr);
 		fromGeToFrRepartition = new UISliderTriple(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nGeFr_toSW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW+DataManager.nGeFr_toTun, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
-		this.uiManager1.addObject(fromGeToFrRepartition);
+		this.uiManagerTransit.addObject(fromGeToFrRepartition);
 		
 		fromGeToFrDuringRH2 = new UISlider(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (evening)", 100, 70, true, new ClickListener(){
 			@Override
@@ -124,7 +129,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager1.addObject(fromGeToFrDuringRH2);
+		this.uiManagerTransit.addObject(fromGeToFrDuringRH2);
 		
 		fromGeToFrRepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nGeFr_17, DataManager.nGeFr_17+DataManager.nGeFr_18, true, new ClickListener(){
 			@Override
@@ -132,7 +137,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager1.addObject(fromGeToFrRepartitionRH2);
+		this.uiManagerTransit.addObject(fromGeToFrRepartitionRH2);
 		
 		// ##################################################################################################
 		// PAGE 2 ###########################################################################################
@@ -144,7 +149,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager2.addObject(timePerVhcEntrance);
+		this.uiManagerE.addObject(timePerVhcEntrance);
 		
 		// To entrance E ====================================================================================
 		
@@ -154,7 +159,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager2.addObject(toEntranceE);
+		this.uiManagerE.addObject(toEntranceE);
 		
 		toEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Thoiry, St-Genis and Ferney", 100, DataManager.nToE_fromSW, DataManager.nToE_fromSW+DataManager.nToE_fromNW, true, new ClickListener(){
 			@Override
@@ -162,7 +167,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager2.addObject(toEntranceERepartition);
+		this.uiManagerE.addObject(toEntranceERepartition);
 		
 		toEntranceERepartitionRH = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToE_7, DataManager.nToE_7+DataManager.nToE_8, true, new ClickListener(){
 			@Override
@@ -170,7 +175,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager2.addObject(toEntranceERepartitionRH);
+		this.uiManagerE.addObject(toEntranceERepartitionRH);
 		
 		// From entrance E ====================================================================================
 		
@@ -180,7 +185,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager2.addObject(fromEntranceE);
+		this.uiManagerE.addObject(fromEntranceE);
 		
 		fromEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis and Ferney", 100, DataManager.nFromE_toSW, DataManager.nFromE_toSW+DataManager.nFromE_toNW, true, new ClickListener(){
 			@Override
@@ -188,7 +193,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager2.addObject(fromEntranceERepartition);
+		this.uiManagerE.addObject(fromEntranceERepartition);
 		
 		fromEntranceERepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nFromE_17, DataManager.nFromE_17+DataManager.nFromE_18, true, new ClickListener(){
 			@Override
@@ -196,7 +201,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager2.addObject(fromEntranceERepartitionRH2);
+		this.uiManagerE.addObject(fromEntranceERepartitionRH2);
 		
 		// ##################################################################################################
 		// PAGE 3 ###########################################################################################
@@ -210,7 +215,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager3.addObject(toEntranceA);
+		this.uiManagerA.addObject(toEntranceA);
 		
 		toEntranceARepartition = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Geneva, France", 100, DataManager.nToA_fromGe, true, true, new ClickListener(){
 			@Override
@@ -218,7 +223,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager3.addObject(toEntranceARepartition);
+		this.uiManagerA.addObject(toEntranceARepartition);
 		
 		toEntranceARepartitionRH = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToA_7, DataManager.nToA_7+DataManager.nToA_8, true, new ClickListener(){
 			@Override
@@ -226,7 +231,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager3.addObject(toEntranceARepartitionRH);
+		this.uiManagerA.addObject(toEntranceARepartitionRH);
 		
 		// From entrance A ====================================================================================
 		
@@ -236,7 +241,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager3.addObject(fromEntranceA);
+		this.uiManagerA.addObject(fromEntranceA);
 		
 		fromEntranceARepartition = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Going to Geneva, France", 100, DataManager.nFromA_toGe, true, true, new ClickListener(){
 			@Override
@@ -244,7 +249,7 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager3.addObject(fromEntranceARepartition);
+		this.uiManagerA.addObject(fromEntranceARepartition);
 		
 		fromEntranceARepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nFromA_17, DataManager.nFromA_17+DataManager.nFromA_18, true, new ClickListener(){
 			@Override
@@ -252,7 +257,37 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager3.addObject(fromEntranceARepartitionRH2);
+		this.uiManagerA.addObject(fromEntranceARepartitionRH2);
+		
+		// ##################################################################################################
+		// PAGE 3 ###########################################################################################
+		// ##################################################################################################
+		
+		// To entrance B ====================================================================================
+		
+		toEntranceB = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Flow to Entrance B during rush-hours", 4000, DataManager.nToB, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerB.addObject(toEntranceB);
+		
+		toEntranceBRepartition = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Geneva, France", 100, DataManager.nToB_fromGe, true, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerB.addObject(toEntranceBRepartition);
+		
+		toEntranceBRepartitionRH = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToB_7, DataManager.nToB_7+DataManager.nToB_8, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerB.addObject(toEntranceBRepartitionRH);
 		
 		// ##################################################################################################
 		// BUTTONS ##########################################################################################
@@ -264,18 +299,20 @@ public class SimSettingsState extends State {
 				previousPage();
 			}
 		});
-		this.uiManager1.addObject(previous);
-		this.uiManager2.addObject(previous);
-		this.uiManager3.addObject(previous);
+		this.uiManagerTransit.addObject(previous);
+		this.uiManagerE.addObject(previous);
+		this.uiManagerA.addObject(previous);
+		this.uiManagerB.addObject(previous);
 		next = new UIImageButton(625, 593, 50, buttonHeight, Assets.nextIdle, Assets.nextActive, new ClickListener(){
 			@Override
 			public void onClick() {
 				nextPage();
 			}
 		});
-		this.uiManager1.addObject(next);
-		this.uiManager2.addObject(next);
-		this.uiManager3.addObject(next);
+		this.uiManagerTransit.addObject(next);
+		this.uiManagerE.addObject(next);
+		this.uiManagerA.addObject(next);
+		this.uiManagerB.addObject(next);
 		
 		run = new UITextButton((simulation.getWidth()-0*buttonWidth)/2 + buttonXMargin/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
@@ -289,9 +326,10 @@ public class SimSettingsState extends State {
 				
 			}
 		});
-		this.uiManager1.addObject(run);
-		this.uiManager2.addObject(run);
-		this.uiManager3.addObject(run);
+		this.uiManagerTransit.addObject(run);
+		this.uiManagerE.addObject(run);
+		this.uiManagerA.addObject(run);
+		this.uiManagerB.addObject(run);
 		back = new UITextButton((simulation.getWidth()-2*buttonWidth)/2 - buttonXMargin/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Back", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -301,19 +339,22 @@ public class SimSettingsState extends State {
 				State.setState(simulation.getMenuState());
 			}
 		});
-		this.uiManager1.addObject(back);
-		this.uiManager2.addObject(back);
-		this.uiManager3.addObject(back);
+		this.uiManagerTransit.addObject(back);
+		this.uiManagerE.addObject(back);
+		this.uiManagerA.addObject(back);
+		this.uiManagerB.addObject(back);
 	}
 	
 	public void tick(int n) {
 		
 		if (activePage == 1) {
-			this.uiManager1.tick();
+			this.uiManagerTransit.tick();
 		} else if (activePage == 2) {
-			this.uiManager2.tick();
+			this.uiManagerE.tick();
 		} else if (activePage == 3) {
-			this.uiManager3.tick();
+			this.uiManagerA.tick();
+		} else if (activePage == 4) {
+			this.uiManagerB.tick();
 		}
 		
 		if (simulation.getMouseManager().isLeftPressed()) {
@@ -339,11 +380,13 @@ public class SimSettingsState extends State {
 		}
 		
 		if (activePage == 1) {
-			enableUIManager(uiManager1);
+			enableUIManager(uiManagerTransit);
 		} else if (activePage == 2) {
-			enableUIManager(uiManager2);
+			enableUIManager(uiManagerE);
 		} else if (activePage == 3) {
-			enableUIManager(uiManager3);
+			enableUIManager(uiManagerA);
+		} else if (activePage == 4) {
+			enableUIManager(uiManagerB);
 		}
 	}
 	public void previousPage() {
@@ -355,11 +398,13 @@ public class SimSettingsState extends State {
 		}
 		
 		if (activePage == 1) {
-			enableUIManager(uiManager1);
+			enableUIManager(uiManagerTransit);
 		} else if (activePage == 2) {
-			enableUIManager(uiManager2);
+			enableUIManager(uiManagerE);
 		} else if (activePage == 3) {
-			enableUIManager(uiManager3);
+			enableUIManager(uiManagerA);
+		} else if (activePage == 4) {
+			enableUIManager(uiManagerB);
 		}
 	}
 	public void renderPageIndication(Graphics g) {
@@ -405,13 +450,16 @@ public class SimSettingsState extends State {
 		
 		if (activePage == 1) {
 			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
-			this.uiManager1.render(g);
+			this.uiManagerTransit.render(g);
 		} else if (activePage == 2) {
 			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
-			this.uiManager2.render(g);
+			this.uiManagerE.render(g);
 		} else if (activePage == 3) {
 			Text.drawString(g, "entrance A", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
-			this.uiManager3.render(g);
+			this.uiManagerA.render(g);
+		} else if (activePage == 4) {
+			Text.drawString(g, "entrance B", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			this.uiManagerB.render(g);
 		}
 		
 		renderPageIndication(g);
@@ -488,15 +536,25 @@ public class SimSettingsState extends State {
 	public UISliderDouble fromEntranceARepartitionRH2() {
 		return fromEntranceARepartitionRH2;
 	}
+	// To entrance B ----------------------------------------------------------------------------------------
+	public UISlider toEntranceB() {
+		return toEntranceB;
+	}
+	public UISlider toEntranceBRepartition() {
+		return toEntranceBRepartition;
+	}
+	public UISliderDouble toEntranceBRepartitionRH() {
+		return toEntranceBRepartitionRH;
+	}
 	// ------------------------------------------------------------------------------------------------------
 	public UIManager getUIManager() {
-		return this.uiManager1;
+		return this.uiManagerTransit;
 	}
 	public void disableUIManager() {
 		simulation.getMouseManager().setUIManager(null);
 	}
 	public void enableUIManager() {
-		simulation.getMouseManager().setUIManager(this.uiManager1);
+		simulation.getMouseManager().setUIManager(this.uiManagerTransit);
 	}
 	public void enableUIManager(UIManager uiManager) {
 		simulation.getMouseManager().setUIManager(uiManager);
