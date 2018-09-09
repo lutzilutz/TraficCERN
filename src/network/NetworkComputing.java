@@ -191,6 +191,10 @@ public class NetworkComputing {
 			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
 				DataManager.nFromAEmpiric++;
 			}
+		} else if (startRoad.equals("rRoutePauliSouthNE")) {
+			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
+				DataManager.nFromBEmpiric++;
+			}
 		}
 	}
 	// Compute future state of the Cells of the Road
