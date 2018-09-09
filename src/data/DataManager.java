@@ -63,12 +63,20 @@ public class DataManager {
 	public static int nToA_8 = 47;
 	public static int nToA_9 = 33;
 	
+	public static int nFromA = 116;
+	public static int nFromA_toFr = 30;
+	public static int nFromA_toGe = 70;
+	public static int nFromA_17 = 62;
+	public static int nFromA_18 = 34;
+	public static int nFromA_19 = 4;
+	
 	// Theoritical chosen values --------------------------
 	public static int nFrGeChosen = 0;
 	public static int nGeFrChosen = 0;
 	public static int nToEChosen = 0;
 	public static int nFromEChosen = 0;
 	public static int nToAChosen = 0;
+	public static int nFromAChosen = 0;
 	
 	// Empirical values -----------------------------------
 	public static int nFrGeEmpiric = 0;
@@ -76,6 +84,7 @@ public class DataManager {
 	public static int nToEEmpiric = 0;
 	public static int nFromEEmpiric = 0;
 	public static int nToAEmpiric = 0;
+	public static int nFromAEmpiric = 0;
 	
 	public static void loadData(Simulation simulation) {
 		
@@ -97,6 +106,7 @@ public class DataManager {
 		nToEChosen = simulation.getSimSettingsState().toEntranceE().getCurrentValue();
 		nFromEChosen = simulation.getSimSettingsState().fromEntranceE().getCurrentValue();
 		nToAChosen = simulation.getSimSettingsState().toEntranceA().getCurrentValue();
+		nFromAChosen = simulation.getSimSettingsState().fromEntranceA().getCurrentValue();
 		
 		if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
 			Utils.log("applying data to Network ... ");
@@ -314,6 +324,26 @@ public class DataManager {
 			repartitionRH17 = settings.fromEntranceERepartitionRH2().getCurrentValue1() / 100.0;
 			repartitionRH18 = (settings.fromEntranceERepartitionRH2().getCurrentValue2() - settings.fromEntranceERepartitionRH2().getCurrentValue1()) / 100.0;
 			repartitionRH19 = (100 - settings.fromEntranceERepartitionRH2().getCurrentValue2()) / 100.0;
+			repartitionRHEvening = 1;
+			applyFlowFromVariables(r);
+		}
+		
+		// From entrance A ==================================================================================
+		
+		for (Ride r: n.getAllRides("rRouteBellNE").getNetworkRides()) {
+			
+			resetValues();
+			
+			if (lastRoadIs(r, "rD884SW") || lastRoadIs(r, "rRueDeGeneveNW") || lastRoadIs(r, "rRueGermaineTillionNE") || lastRoadIs(r, "rC5NE")) {
+				value = (int) settings.fromEntranceA().getCurrentValue();
+				repartition2 = (100-settings.fromEntranceARepartition().getCurrentValue()) / (100.0*4);
+			} else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
+				value = (int) settings.fromEntranceA().getCurrentValue();
+				repartition2 = (settings.fromEntranceARepartition().getCurrentValue()) / (100.0);
+			}
+			repartitionRH17 = settings.fromEntranceARepartitionRH2().getCurrentValue1() / 100.0;
+			repartitionRH18 = (settings.fromEntranceARepartitionRH2().getCurrentValue2() - settings.fromEntranceARepartitionRH2().getCurrentValue1()) / 100.0;
+			repartitionRH19 = (100 - settings.fromEntranceARepartitionRH2().getCurrentValue2()) / 100.0;
 			repartitionRHEvening = 1;
 			applyFlowFromVariables(r);
 		}

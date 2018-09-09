@@ -56,6 +56,7 @@ public class Utils {
 		dataChecking.print("From France to entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + "\n");
 		dataChecking.print("From entrance E to France (per day) : expected " + DataManager.nFromEChosen + ", got " + DataManager.nFromEEmpiric + "\n");
 		dataChecking.print("To entrance A (per day) :             expected " + DataManager.nToAChosen + ", got " + DataManager.nToAEmpiric + "\n");
+		dataChecking.print("From entrance A (per day) :           expected " + DataManager.nFromAChosen + ", got " + DataManager.nFromAEmpiric + "\n");
 		
 	}
 	public static void saveCheckingValues(String text) {

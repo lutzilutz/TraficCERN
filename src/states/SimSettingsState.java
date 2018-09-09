@@ -53,6 +53,9 @@ public class SimSettingsState extends State {
 	private UISlider toEntranceA, toEntranceARepartition;
 	private UISliderDouble toEntranceARepartitionRH;
 	
+	private UISlider fromEntranceA, fromEntranceARepartition;
+	private UISliderDouble fromEntranceARepartitionRH2;
+	
 	private UIImageButton previous, next;
 	private UITextButton run, back;
 	
@@ -201,7 +204,7 @@ public class SimSettingsState extends State {
 		
 		// To entrance A ====================================================================================
 		
-		toEntranceA = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Flow to Entrance A during rush-hours", 4000, DataManager.nToA, false, new ClickListener(){
+		toEntranceA = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Flow to Entrance A during rush-hours", 4000, DataManager.nToA, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -209,7 +212,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager3.addObject(toEntranceA);
 		
-		toEntranceARepartition = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Geneva, France", 100, DataManager.nToA_fromGe, true, true, new ClickListener(){
+		toEntranceARepartition = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Geneva, France", 100, DataManager.nToA_fromGe, true, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -217,13 +220,39 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager3.addObject(toEntranceARepartition);
 		
-		toEntranceARepartitionRH = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToA_7, DataManager.nToA_7+DataManager.nToA_8, true, new ClickListener(){
+		toEntranceARepartitionRH = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToA_7, DataManager.nToA_7+DataManager.nToA_8, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManager3.addObject(toEntranceARepartitionRH);
+		
+		// From entrance A ====================================================================================
+		
+		fromEntranceA = new UISlider(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Flow from Entrance A during rush-hours", 4000, DataManager.nFromA, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager3.addObject(fromEntranceA);
+		
+		fromEntranceARepartition = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Going to Geneva, France", 100, DataManager.nFromA_toGe, true, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager3.addObject(fromEntranceARepartition);
+		
+		fromEntranceARepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nFromA_17, DataManager.nFromA_17+DataManager.nFromA_18, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager3.addObject(fromEntranceARepartitionRH2);
 		
 		// ##################################################################################################
 		// BUTTONS ##########################################################################################
@@ -448,6 +477,16 @@ public class SimSettingsState extends State {
 	}
 	public UISliderDouble toEntranceARepartitionRH() {
 		return toEntranceARepartitionRH;
+	}
+	// From entrance A ----------------------------------------------------------------------------------------
+	public UISlider fromEntranceA() {
+		return fromEntranceA;
+	}
+	public UISlider fromEntranceARepartition() {
+		return fromEntranceARepartition;
+	}
+	public UISliderDouble fromEntranceARepartitionRH2() {
+		return fromEntranceARepartitionRH2;
 	}
 	// ------------------------------------------------------------------------------------------------------
 	public UIManager getUIManager() {

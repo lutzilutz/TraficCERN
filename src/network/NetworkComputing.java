@@ -177,6 +177,10 @@ public class NetworkComputing {
 			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE")) {
 				DataManager.nFromEEmpiric++;
 			}
+		} else if (startRoad.equals("rRouteBellNE")) {
+			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
+				DataManager.nFromAEmpiric++;
+			}
 		}
 	}
 	// Compute future state of the Cells of the Road
