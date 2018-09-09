@@ -264,10 +264,10 @@ public class SimState extends State {
 	
 	public void tick(int n) {
 		
-		if (firstRun) {
+		/*if (firstRun) {
 			applyUserSettings();
 			firstRun = false;
-		}
+		}*/
 		
 		if (!getPause() && !restarting) {
 			
@@ -384,13 +384,13 @@ public class SimState extends State {
 			}
 		}
 	}
-	public void applyUserSettings() {
+	/*public void applyUserSettings() {
 		for (Road r: network.getRoads()) {
 			if (r.getName().equals("rSortieCERNNW")) {
 				r.setGenerateVehicules(simulation.getEntranceERate());
 			}
 		}
-	}
+	}*/
 	public void restartNetwork() {
 		step = 1;
 		currentNetwork = network.getN();

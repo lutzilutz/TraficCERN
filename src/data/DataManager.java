@@ -48,15 +48,25 @@ public class DataManager {
 	public static int nToE_8 = 47;
 	public static int nToE_9 = 20;
 	
+	public static int nFromE = 1500;
+	public static int nFromE_toSW = 30;
+	public static int nFromE_toNW = 65;
+	public static int nFromE_toNE = 5;
+	public static int nFromE_17 = 33;
+	public static int nFromE_18 = 40;
+	public static int nFromE_19 = 27;
+	
 	// Theoritical chosen values --------------------------
 	public static int nFrGeChosen = 0;
 	public static int nGeFrChosen = 0;
 	public static int nToEChosen = 0;
+	public static int nFromEChosen = 0;
 	
 	// Empirical values -----------------------------------
 	public static int nFrGeEmpiric = 0;
 	public static int nGeFrEmpiric = 0;
 	public static int nToEEmpiric = 0;
+	public static int nFromEEmpiric = 0;
 	
 	public static void loadData(Simulation simulation) {
 		
@@ -76,6 +86,7 @@ public class DataManager {
 		nFrGeChosen = simulation.getSimSettingsState().fromFrToGe().getCurrentValue();
 		nGeFrChosen = simulation.getSimSettingsState().fromGeToFr().getCurrentValue();
 		nToEChosen = simulation.getSimSettingsState().toEntranceE().getCurrentValue();
+		nFromEChosen = simulation.getSimSettingsState().fromEntranceE().getCurrentValue();
 		
 		if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
 			Utils.log("applying data to Network ... ");
@@ -232,6 +243,31 @@ public class DataManager {
 			applyFlowFromVariables(r);
 		}
 		
+		// From entrance E to France ========================================================================
+		
+		for (Ride r: n.getAllRides("rSortieCERNNW").getNetworkRides()) {
+			
+			resetValues();
+			
+			if (lastRoadIs(r, "rD884SW")) {
+				value = (int) settings.fromEntranceE().getCurrentValue();
+				repartition1 = 0;
+				repartition2 = settings.fromEntranceERepartition().getCurrentValue1() / (100.0);
+			} else if (lastRoadIs(r, "rRueDeGeneveNW")) {
+				value = (int) settings.fromEntranceE().getCurrentValue();
+				repartition1 = settings.fromEntranceERepartition().getCurrentValue1() / (100.0);
+				repartition2 = settings.fromEntranceERepartition().getCurrentValue2() / (100.0);
+			} else if (lastRoadIs(r, "rRueGermaineTillionNE")) {
+				value = (int) settings.fromEntranceE().getCurrentValue();
+				repartition1 = settings.fromEntranceERepartition().getCurrentValue2() / (100.0);
+				repartition2 = 1;
+			}
+			repartitionRH17 = settings.fromEntranceERepartitionRH2().getCurrentValue1() / 100.0;
+			repartitionRH18 = (settings.fromEntranceERepartitionRH2().getCurrentValue2() - settings.fromEntranceERepartitionRH2().getCurrentValue1()) / 100.0;
+			repartitionRH19 = (100 - settings.fromEntranceERepartitionRH2().getCurrentValue2()) / 100.0;
+			repartitionRHEvening = 1;
+			applyFlowFromVariables(r);
+		}
 		
 		for (Road road: n.getRoads()) {
 			if (road.getName().equals("rSortieCERNSE") || road.getName().equals("rD884CERN") || road.getName().equals("rRoutePauliSouthSW") || road.getName().equals("rRouteBellSW")) {
@@ -244,9 +280,8 @@ public class DataManager {
 		Network n = simulation.getSimState().getNetwork();
 		
 		for (Road road: n.getRoads()) {
-			Utils.saveCheckingValues(road.getName() + " ---\n");
 			/*if (n.getAllRides(road.getName()) != null) {
-				if (road.getName().equals("rRouteDeMeyrinSouthNW")) {
+				if (road.getName().equals("rSortieCERNNW")) {//rRueDeGeneveSE//rSortieCERNNW
 					System.out.println(road.getName() + " : ");
 					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
 						ride.print();
@@ -280,16 +315,17 @@ public class DataManager {
 			}
 			Utils.saveCheckingValues("\n");
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
-			
-			/*for (Road road2: n.getRoads()) {
-				System.out.println(road2.getName() + " : ");
-				for (int i=0; i<road2.getFlow().size() ; i++) {
-					System.out.print(road2.getFlow().get(i));
-				}
-				System.out.println();
-			}*/
 		}
 		
+		/*for (Road road2: n.getRoads()) {
+			if (road2.getName().equals("rSortieCERNNW")) {
+				System.out.println(road2.getName() + " : ");
+				for (int i=0; i<road2.getFlow().size() ; i++) {
+					System.out.print(road2.getFlow().get(i) + " ");
+				}
+				System.out.println();
+			}
+		}*/
 	}
 	public static void resetValues() {
 		value = 0;

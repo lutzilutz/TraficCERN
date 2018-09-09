@@ -2,6 +2,7 @@ package states;
 import java.awt.Graphics;
 
 import data.DataManager;
+import elements.Road;
 import graphics.Assets;
 import graphics.Text;
 import main.Simulation;
@@ -45,6 +46,10 @@ public class SimSettingsState extends State {
 	
 	private UISlider toEntranceE;
 	private UISliderDouble toEntranceERepartition, toEntranceERepartitionRH;
+	
+	private UISlider fromEntranceE;
+	private UISliderDouble fromEntranceERepartition, fromEntranceERepartitionRH2;
+	
 	private UIImageButton previous, next;
 	private UITextButton run, back;
 	
@@ -161,7 +166,35 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager2.addObject(toEntranceERepartitionRH);
 		
-		// ==================================================================================================
+		// From entrance E ====================================================================================
+		
+		fromEntranceE = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Flow from Entrance E during rush-hours", 4000, DataManager.nFromE, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager2.addObject(fromEntranceE);
+		
+		fromEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis and Ferney", 100, DataManager.nFromE_toSW, DataManager.nFromE_toSW+DataManager.nFromE_toNW, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager2.addObject(fromEntranceERepartition);
+		
+		fromEntranceERepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nFromE_17, DataManager.nFromE_17+DataManager.nFromE_18, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager2.addObject(fromEntranceERepartitionRH2);
+		
+		// ##################################################################################################
+		// BUTTONS ##########################################################################################
+		// ##################################################################################################
 		
 		previous = new UIImageButton(325, 593, 50, buttonHeight, Assets.previousIdle, Assets.previousActive, new ClickListener(){
 			@Override
@@ -191,6 +224,7 @@ public class SimSettingsState extends State {
 				simulation.getSimState().enableUIManager();
 				State.setState(simulation.getSimState());
 				Utils.log("Simulation starts\n");
+				
 			}
 		});
 		this.uiManager1.addObject(run);
@@ -305,14 +339,16 @@ public class SimSettingsState extends State {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
+		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 50, true, Assets.largeFont);
+		
 		if (activePage == 1) {
-			Text.drawString(g, "Simulation settings : transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 75, true, Assets.largeFont);
+			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManager1.render(g);
 		} else if (activePage == 2) {
-			Text.drawString(g, "Simulation settings : entrances of the CERN", Assets.idleCol, simulation.getWidth()/2, 75, true, Assets.largeFont);
+			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManager2.render(g);
 		} else if (activePage == 3) {
-			Text.drawString(g, "Simulation settings : transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 75, true, Assets.largeFont);
+			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManager3.render(g);
 		}
 		
@@ -320,18 +356,6 @@ public class SimSettingsState extends State {
 	}
 	
 	// Getters & setters ====================================================================================
-	public UISlider timePerVhcEntrance() {
-		return timePerVhcEntrance;
-	}
-	public UISlider toEntranceE() {
-		return toEntranceE;
-	}
-	public UISliderDouble toEntranceERepartition() {
-		return toEntranceERepartition;
-	}
-	public UISliderDouble toEntranceERepartitionRH() {
-		return toEntranceERepartitionRH;
-	}
 	// FR to GE ---------------------------------------------------------------------------------------------
 	public UISlider fromFrToGe() {
 		return fromFrToGe;
@@ -357,6 +381,30 @@ public class SimSettingsState extends State {
 	}
 	public UISliderDouble fromGeToFrRepartitionRH2() {
 		return fromGeToFrRepartitionRH2;
+	}
+	// Entrance flow ----------------------------------------------------------------------------------------
+	public UISlider timePerVhcEntrance() {
+		return timePerVhcEntrance;
+	}
+	// To entrance E ----------------------------------------------------------------------------------------
+	public UISlider toEntranceE() {
+		return toEntranceE;
+	}
+	public UISliderDouble toEntranceERepartition() {
+		return toEntranceERepartition;
+	}
+	public UISliderDouble toEntranceERepartitionRH() {
+		return toEntranceERepartitionRH;
+	}
+	// From entrance E --------------------------------------------------------------------------------------
+	public UISlider fromEntranceE() {
+		return fromEntranceE;
+	}
+	public UISliderDouble fromEntranceERepartition() {
+		return fromEntranceERepartition;
+	}
+	public UISliderDouble fromEntranceERepartitionRH2() {
+		return fromEntranceERepartitionRH2;
 	}
 	// ------------------------------------------------------------------------------------------------------
 	public UIManager getUIManager() {

@@ -163,6 +163,10 @@ public class NetworkComputing {
 			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE")) {
 				DataManager.nGeFrEmpiric++;
 			}
+		} else if (startRoad.equals("rSortieCERNNW")) {
+			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE")) {
+				DataManager.nFromEEmpiric++;
+			}
 		}
 	}
 	// Compute future state of the Cells of the Road
@@ -171,9 +175,19 @@ public class NetworkComputing {
 		// pre-process
 		for (Road r: n.getRoads()) {
 			
+			/*for (Road road2: n.getRoads()) {
+				if (road2.getName().equals("rSortieCERNNW")) {
+					System.out.println(road2.getName() + " : ");
+					for (int i=0; i<road2.getFlow().size() ; i++) {
+						System.out.print(road2.getFlow().get(i) + " ");
+					}
+					System.out.println();
+				}
+			}*/
 			// generation of new Vehicles
 			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
+				//System.out.println("vhc gen");
 				if (!n.isRandomGeneration()) {
 					tmp.setRide(n.selectARideWithProbability(r.getName()));
 					saveRideIntoData(tmp.getRide());
