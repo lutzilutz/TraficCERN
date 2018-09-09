@@ -21,7 +21,7 @@ public class SimSettingsState extends State {
 	private UIManager uiManager2;
 	private UIManager uiManager3;
 	private int activePage = 1;
-	private int nPages = 2;
+	private int nPages = 3;
 	
 	private int xStart = 320;
 	private int yStart = 150;
@@ -49,6 +49,9 @@ public class SimSettingsState extends State {
 	
 	private UISlider fromEntranceE;
 	private UISliderDouble fromEntranceERepartition, fromEntranceERepartitionRH2;
+	
+	private UISlider toEntranceA, toEntranceARepartition;
+	private UISliderDouble toEntranceARepartitionRH;
 	
 	private UIImageButton previous, next;
 	private UITextButton run, back;
@@ -193,6 +196,36 @@ public class SimSettingsState extends State {
 		this.uiManager2.addObject(fromEntranceERepartitionRH2);
 		
 		// ##################################################################################################
+		// PAGE 3 ###########################################################################################
+		// ##################################################################################################
+		
+		// To entrance A ====================================================================================
+		
+		toEntranceA = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Flow to Entrance A during rush-hours", 4000, DataManager.nToA, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager3.addObject(toEntranceA);
+		
+		toEntranceARepartition = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Geneva, France", 100, DataManager.nToA_fromGe, true, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager3.addObject(toEntranceARepartition);
+		
+		toEntranceARepartitionRH = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToA_7, DataManager.nToA_7+DataManager.nToA_8, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager3.addObject(toEntranceARepartitionRH);
+		
+		// ##################################################################################################
 		// BUTTONS ##########################################################################################
 		// ##################################################################################################
 		
@@ -302,7 +335,7 @@ public class SimSettingsState extends State {
 	}
 	public void renderPageIndication(Graphics g) {
 		int smallR = 4;
-		int bigR = 8;
+		int bigR = 6;
 		int spacing = 30;
 		double x = (simulation.getWidth() - 2*(nPages)*smallR - Math.max(0, nPages-1)*spacing ) /2.0;
 		int y = 600;
@@ -348,7 +381,7 @@ public class SimSettingsState extends State {
 			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManager2.render(g);
 		} else if (activePage == 3) {
-			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			Text.drawString(g, "entrance A", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManager3.render(g);
 		}
 		
@@ -405,6 +438,16 @@ public class SimSettingsState extends State {
 	}
 	public UISliderDouble fromEntranceERepartitionRH2() {
 		return fromEntranceERepartitionRH2;
+	}
+	// To entrance A ----------------------------------------------------------------------------------------
+	public UISlider toEntranceA() {
+		return toEntranceA;
+	}
+	public UISlider toEntranceARepartition() {
+		return toEntranceARepartition;
+	}
+	public UISliderDouble toEntranceARepartitionRH() {
+		return toEntranceARepartitionRH;
 	}
 	// ------------------------------------------------------------------------------------------------------
 	public UIManager getUIManager() {
