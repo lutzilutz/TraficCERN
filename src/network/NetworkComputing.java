@@ -142,26 +142,44 @@ public class NetworkComputing {
 				DataManager.nFrGeEmpiric++;
 			} else if (endRoad.equals("rSortieCERNSE") || endRoad.equals("rD884CERN")) {
 				DataManager.nToEEmpiric++;
+			} else if (endRoad.equals("rRouteBellSW")) {
+				DataManager.nToAEmpiric++;
 			}
 		} else if (startRoad.equals("rRueDeGeneveSE")) {
 			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
 				DataManager.nFrGeEmpiric++;
 			} else if (endRoad.equals("rSortieCERNSE")) {
 				DataManager.nToEEmpiric++;
+			} else if (endRoad.equals("rRouteBellSW")) {
+				DataManager.nToAEmpiric++;
 			}
 		} else if (startRoad.equals("rRueGermaineTillionSW")) {
 			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
 				DataManager.nFrGeEmpiric++;
 			} else if (endRoad.equals("rSortieCERNSE")) {
 				DataManager.nToEEmpiric++;
+			} else if (endRoad.equals("rRouteBellSW")) {
+				DataManager.nToAEmpiric++;
 			}
 		} else if (startRoad.equals("rC5SW")) {
 			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
 				DataManager.nFrGeEmpiric++;
+			} else if (endRoad.equals("rRouteBellSW")) {
+				DataManager.nToAEmpiric++;
 			}
 		} else if (startRoad.equals("rRouteDeMeyrinSouthNW")) {
 			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE")) {
 				DataManager.nGeFrEmpiric++;
+			} else if (endRoad.equals("rRouteBellSW")) {
+				DataManager.nToAEmpiric++;
+			}
+		} else if (startRoad.equals("rSortieCERNNW")) {
+			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE")) {
+				DataManager.nFromEEmpiric++;
+			}
+		} else if (startRoad.equals("rRouteBellNE")) {
+			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
+				DataManager.nFromAEmpiric++;
 			}
 		}
 	}
@@ -171,9 +189,19 @@ public class NetworkComputing {
 		// pre-process
 		for (Road r: n.getRoads()) {
 			
+			/*for (Road road2: n.getRoads()) {
+				if (road2.getName().equals("rSortieCERNNW")) {
+					System.out.println(road2.getName() + " : ");
+					for (int i=0; i<road2.getFlow().size() ; i++) {
+						System.out.print(road2.getFlow().get(i) + " ");
+					}
+					System.out.println();
+				}
+			}*/
 			// generation of new Vehicles
 			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
+				//System.out.println("vhc gen");
 				if (!n.isRandomGeneration()) {
 					tmp.setRide(n.selectARideWithProbability(r.getName()));
 					saveRideIntoData(tmp.getRide());

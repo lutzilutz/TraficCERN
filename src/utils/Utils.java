@@ -53,7 +53,10 @@ public class Utils {
 	public static void saveCheckingValues() {
 		dataChecking.print("From France to Geneva (per day) :     expected " + DataManager.nFrGeChosen + ", got " + DataManager.nFrGeEmpiric + "\n");
 		dataChecking.print("From Geneva to France (per day) :     expected " + DataManager.nGeFrChosen + ", got " + DataManager.nGeFrEmpiric + "\n");
-		dataChecking.print("From France to Entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + "\n");
+		dataChecking.print("From France to entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + "\n");
+		dataChecking.print("From entrance E to France (per day) : expected " + DataManager.nFromEChosen + ", got " + DataManager.nFromEEmpiric + "\n");
+		dataChecking.print("To entrance A (per day) :             expected " + DataManager.nToAChosen + ", got " + DataManager.nToAEmpiric + "\n");
+		dataChecking.print("From entrance A (per day) :           expected " + DataManager.nFromAChosen + ", got " + DataManager.nFromAEmpiric + "\n");
 		
 	}
 	public static void saveCheckingValues(String text) {

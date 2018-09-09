@@ -17,6 +17,7 @@ public class UISlider extends UIObject {
 	private int width;
 	private float radius = 6;
 	private boolean percentage = false;
+	private boolean printBothValues = false;
 
 	public UISlider(Simulation simulation, float x, float y, int width, String text, int nValues, int defaultValue, boolean percentage, ClickListener clicker) {
 		super(x, y, width, 12);
@@ -28,6 +29,18 @@ public class UISlider extends UIObject {
 		this.currentValue = defaultValue;
 		this.clicker = clicker;
 		this.percentage = percentage;
+	}
+	public UISlider(Simulation simulation, float x, float y, int width, String text, int nValues, int defaultValue, boolean percentage, boolean printBothValues, ClickListener clicker) {
+		super(x, y, width, 12);
+		this.simulation = simulation;
+		this.width = width;
+		this.text = text;
+		this.nValues = nValues;
+		this.defaultValue = defaultValue;
+		this.currentValue = defaultValue;
+		this.clicker = clicker;
+		this.percentage = percentage;
+		this.printBothValues = printBothValues;
 	}
 
 	@Override
@@ -47,11 +60,21 @@ public class UISlider extends UIObject {
 			g.fillOval((int) (sliderX-radius), (int) (this.y), (int) (2*radius), (int) (2*radius));
 			g.fillRect((int) this.x, (int) this.y+5, this.width, 2);
 			Text.drawString(g, text, Assets.textCol, (int) (x/2), (int) y+2, true, Assets.normalFont);
+			
 			if (!percentage) {
-				Text.drawString(g, Integer.toString(currentValue), Assets.textCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				if (!printBothValues) {
+					Text.drawString(g, Integer.toString(currentValue), Assets.textCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				} else {
+					Text.drawString(g, Integer.toString(currentValue) + " - " + Integer.toString(nValues-currentValue), Assets.textCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				}
 			} else {
-				Text.drawString(g, Integer.toString(currentValue) + "%", Assets.textCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				if (!printBothValues) {
+					Text.drawString(g, Integer.toString(currentValue) + "%", Assets.textCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				} else {
+					Text.drawString(g, Integer.toString(currentValue) + "% - " + Integer.toString(nValues-currentValue) + "%", Assets.textCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				}
 			}
+			
 			Text.drawString(g, Integer.toString(0), Assets.textCol, (int) (x), (int) y+15, true, Assets.normalFont);
 			Text.drawString(g, Integer.toString(nValues), Assets.textCol, (int) (x+width), (int) y+15, true, Assets.normalFont);
 		} else if (!hovering) {
@@ -60,11 +83,21 @@ public class UISlider extends UIObject {
 			g.fillOval((int) (sliderX-radius), (int) (this.y), (int) (2*radius), (int) (2*radius));
 			g.fillRect((int) this.x, (int) this.y+5, this.width, 2);
 			Text.drawString(g, text, Assets.idleCol, (int) (x/2), (int) y+2, true, Assets.normalFont);
+			
 			if (!percentage) {
-				Text.drawString(g, Integer.toString(currentValue), Assets.idleCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				if (!printBothValues) {
+					Text.drawString(g, Integer.toString(currentValue), Assets.idleCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				} else {
+					Text.drawString(g, Integer.toString(currentValue) + " - " + Integer.toString(nValues-currentValue), Assets.idleCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				}
 			} else {
-				Text.drawString(g, Integer.toString(currentValue) + "%", Assets.idleCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				if (!printBothValues) {
+					Text.drawString(g, Integer.toString(currentValue) + "%", Assets.idleCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				} else {
+					Text.drawString(g, Integer.toString(currentValue) + "% - " + Integer.toString(nValues-currentValue) + "%", Assets.idleCol, (int) (x+width+50), (int) y+9, false, Assets.normalFont);
+				}
 			}
+			
 			Text.drawString(g, Integer.toString(0), Assets.idleCol, (int) (x), (int) y+15, true, Assets.normalFont);
 			Text.drawString(g, Integer.toString(nValues), Assets.idleCol, (int) (x+width), (int) y+15, true, Assets.normalFont);
 		}
