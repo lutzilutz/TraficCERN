@@ -27,12 +27,18 @@ public class DataManager {
 	public static int nFrGe_fromNW = 33;
 	public static int nFrGe_fromNE = 5;
 	public static int nFrGe_fromTun = 5;
+	public static int nFrGe_7 = 30;
+	public static int nFrGe_8 = 40;
+	public static int nFrGe_9 = 30;
 	
 	public static int nGeFr = 12500;
 	public static int nGeFr_toSW = 54;
 	public static int nGeFr_toNW = 27;
 	public static int nGeFr_toNE = 9;
 	public static int nGeFr_toTun = 10;
+	public static int nGeFr_17 = 30;
+	public static int nGeFr_18 = 40;
+	public static int nGeFr_19 = 30;
 	
 	public static int nToE = 1605;
 	public static int nToE_fromSW = 30;
@@ -116,6 +122,9 @@ public class DataManager {
 				value = (int) settings.fromFrToGe().getCurrentValue();
 				repartition2 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			} else if (lastRoadIs(r, "rD884CERN")) {
 				value = (int) settings.toEntranceE().getCurrentValue();
 				repartition2 = settings.toEntranceERepartition().getCurrentValue1() / (100.0);
@@ -136,6 +145,9 @@ public class DataManager {
 				repartition1 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
 				repartition2 = settings.fromFrToGeRepartition().getCurrentValue2() / (100.0);
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			} else if (lastRoadIs(r, "rSortieCERNSE")) {
 				value = (int) settings.toEntranceE().getCurrentValue();
 				repartition1 = settings.toEntranceERepartition().getCurrentValue1() / (100.0);
@@ -155,8 +167,11 @@ public class DataManager {
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
 				value = (int) settings.fromFrToGe().getCurrentValue();
 				repartition1 = settings.fromFrToGeRepartition().getCurrentValue2() / (100.0);
-				repartition2 = settings.fromFrToGeRepartition().getCurrentValue3() / (100.0);;
+				repartition2 = settings.fromFrToGeRepartition().getCurrentValue3() / (100.0);
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			} else if (lastRoadIs(r, "rSortieCERNSE")) {
 				value = (int) settings.toEntranceE().getCurrentValue();
 				repartition1 = settings.toEntranceERepartition().getCurrentValue2() / (100.0);
@@ -177,6 +192,9 @@ public class DataManager {
 				repartition1 = settings.fromFrToGeRepartition().getCurrentValue3() / (100.0);
 				repartition2 = 1;
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			}
 			applyFlowFromVariables(r);
 		}
@@ -208,6 +226,9 @@ public class DataManager {
 				repartition2 = 1;
 				repartitionRHEvening = settings.fromGeToFrDuringRH2().getCurrentValue() / 100.0;
 			}
+			repartitionRH17 = settings.fromGeToFrRepartitionRH2().getCurrentValue1() / 100.0;
+			repartitionRH18 = (settings.fromGeToFrRepartitionRH2().getCurrentValue2() - settings.fromGeToFrRepartitionRH2().getCurrentValue1()) / 100.0;
+			repartitionRH19 = (100 - settings.fromGeToFrRepartitionRH2().getCurrentValue2()) / 100.0;
 			applyFlowFromVariables(r);
 		}
 		
@@ -224,7 +245,7 @@ public class DataManager {
 		
 		for (Road road: n.getRoads()) {
 			Utils.saveCheckingValues(road.getName() + " ---\n");
-			if (n.getAllRides(road.getName()) != null) {
+			/*if (n.getAllRides(road.getName()) != null) {
 				if (road.getName().equals("rRouteDeMeyrinSouthNW")) {
 					System.out.println(road.getName() + " : ");
 					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
@@ -239,7 +260,7 @@ public class DataManager {
 						System.out.println(tmp);
 					}
 				}
-			}
+			}*/
 			int tmp = 0;
 			
 			for (int h=0 ; h<24 ; h++) {
@@ -259,6 +280,14 @@ public class DataManager {
 			}
 			Utils.saveCheckingValues("\n");
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
+			
+			/*for (Road road2: n.getRoads()) {
+				System.out.println(road2.getName() + " : ");
+				for (int i=0; i<road2.getFlow().size() ; i++) {
+					System.out.print(road2.getFlow().get(i));
+				}
+				System.out.println();
+			}*/
 		}
 		
 	}

@@ -29,16 +29,20 @@ public class KeyManager implements KeyListener {
 	}
 	
 	public void keyPressed(KeyEvent e) {
-		if (keys[e.getKeyCode()] == false) {
-			keysCounter += 1;
+		if (e.getKeyCode()<256) {
+			if (keys[e.getKeyCode()] == false) {
+				keysCounter += 1;
+			}
+			keys[e.getKeyCode()] = true;
 		}
-		keys[e.getKeyCode()] = true;
 	}
 	public void keyReleased(KeyEvent e) {
-		if (keys[e.getKeyCode()] == true) {
-			keysCounter -= 1;
+		if (e.getKeyCode()<256) {
+			if (keys[e.getKeyCode()] == true) {
+				keysCounter -= 1;
+			}
+			keys[e.getKeyCode()] = false;
 		}
-		keys[e.getKeyCode()] = false;
 	}
 	public void keyTyped(KeyEvent e) {
 		

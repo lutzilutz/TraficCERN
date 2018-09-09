@@ -1,6 +1,8 @@
-package elements;
+package utils;
 
 import java.util.Comparator;
+
+import elements.Connection;
 
 public class SortByPos implements Comparator<Connection> {
 

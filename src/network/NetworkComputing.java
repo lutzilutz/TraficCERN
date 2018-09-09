@@ -179,7 +179,6 @@ public class NetworkComputing {
 					saveRideIntoData(tmp.getRide());
 				} else {
 					tmp.setRide(n.selectARide(r.getName()));
-					//tmp.getRide().print();
 				}
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
@@ -209,7 +208,7 @@ public class NetworkComputing {
 				//NEXT and OUT cells
 				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
 					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
-					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && Math.random() < 0.5) {
+					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && Math.random() < 0) {// < 0.5) {
 						v.goToOutCell();
 						v.setSpeed(1);
 						
@@ -272,8 +271,8 @@ public class NetworkComputing {
 						v.stayHere();
 						v.setSpeed(0);
 					} else {
-						v.getRide().print();
-						System.out.println();
+						//v.getRide().print();
+						//System.out.println();
 						v.leaveNetwork();
 					}
 				}
