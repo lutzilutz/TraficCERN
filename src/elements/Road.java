@@ -324,6 +324,7 @@ public class Road {
 				boolean canAdd = true;
 				for (Road r: this.n.getRoads()) {
 					if (e.getName().equals(r.getName())) {
+						/*
 						if (!ride.getNextConnections().isEmpty()) {
 							for (Connection ent: this.getEnters()) {
 								
@@ -340,11 +341,11 @@ public class Road {
 								}
 							}
 						}
-						if (canAdd) {
+						if (canAdd) { */
 							ride.addNextConnection(e.clone());
 							r.generateRidesAux(n-1, ride);
-						}
-						canAdd = true;
+						/*}
+						canAdd = true;*/
 						
 					}
 				}

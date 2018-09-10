@@ -127,6 +127,7 @@ public class Network {
 	}
 	
 	public void createTestNetwork1() {
+		//randomGeneration = false;
 		
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
@@ -737,7 +738,7 @@ public class Network {
 		Utils.log("done");
 		Utils.logTime();
 		
-		this.generateAllNetworkRides(30);
+		this.generateAllNetworkRides(50);
 		//this.cleanAllNetworkRides();
 		printNames();
 		
@@ -1057,6 +1058,7 @@ public class Network {
 		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA, raEntreeA.getLength()-4,293);
 		roads.add(rRouteDeMeyrinSouthNW);
 		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, raEntreeA.getLength()-4);
+		rRouteDeMeyrinSouthNW.setGenerateVehicules(300);
 		
 		// Route Bell---------------------------------------------------------------------------------------
 		Road rRouteBellSW = new Road(this, 20, "rRouteBellSW");
