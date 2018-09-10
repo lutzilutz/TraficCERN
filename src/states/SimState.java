@@ -164,6 +164,7 @@ public class SimState extends State {
 			@Override
 			public void onClick() {
 				Utils.log("Simulation ends at step " + step + "\n");
+				Utils.initAllData();
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
 				State.setState(simulation.getMenuState());
@@ -276,6 +277,12 @@ public class SimState extends State {
 				if (simSpeed >= 5000) {
 					while((System.nanoTime()-lastTick) <= 1000000000/60 && !restarting) {
 						step++;
+						if (step >= 86400 && !finished) {
+							Utils.saveCheckingValues();
+							switchPause();
+							finished = true;
+							break;
+						}
 						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
@@ -283,6 +290,11 @@ public class SimState extends State {
 				} else {
 					for (int i=0 ; i<n ; i++) {
 						step++;
+						if (step >= 86400 && !finished) {
+							Utils.saveCheckingValues();
+							switchPause();
+							finished = true;
+						}
 						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
@@ -292,11 +304,7 @@ public class SimState extends State {
 			}
 		}
 		
-		if (step >= 86400 && !finished) {
-			Utils.saveCheckingValues();
-			switchPause();
-			finished = true;
-		}
+		
 		
 		uiManager.tick();
 		keyManager.tick();

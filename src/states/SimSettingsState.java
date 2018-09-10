@@ -60,6 +60,9 @@ public class SimSettingsState extends State {
 	private UISlider toEntranceB, toEntranceBRepartition;
 	private UISliderDouble toEntranceBRepartitionRH;
 	
+	private UISlider fromEntranceB, fromEntranceBRepartition;
+	private UISliderDouble fromEntranceBRepartitionRH2;
+	
 	private UIImageButton previous, next;
 	private UITextButton run, back;
 	
@@ -288,6 +291,32 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManagerB.addObject(toEntranceBRepartitionRH);
+		
+		// From entrance B ====================================================================================
+		
+		fromEntranceB = new UISlider(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Flow from Entrance B during rush-hours", 4000, DataManager.nFromB, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerB.addObject(fromEntranceB);
+		
+		fromEntranceBRepartition = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Going to Geneva, France", 100, DataManager.nFromB_toGe, true, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerB.addObject(fromEntranceBRepartition);
+		
+		fromEntranceBRepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nFromB_17, DataManager.nFromB_17+DataManager.nFromB_18, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerB.addObject(fromEntranceBRepartitionRH2);
 		
 		// ##################################################################################################
 		// BUTTONS ##########################################################################################
@@ -545,6 +574,16 @@ public class SimSettingsState extends State {
 	}
 	public UISliderDouble toEntranceBRepartitionRH() {
 		return toEntranceBRepartitionRH;
+	}
+	// From entrance A ----------------------------------------------------------------------------------------
+	public UISlider fromEntranceB() {
+		return fromEntranceB;
+	}
+	public UISlider fromEntranceBRepartition() {
+		return fromEntranceBRepartition;
+	}
+	public UISliderDouble fromEntranceBRepartitionRH2() {
+		return fromEntranceBRepartitionRH2;
 	}
 	// ------------------------------------------------------------------------------------------------------
 	public UIManager getUIManager() {

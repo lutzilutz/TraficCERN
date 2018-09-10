@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import data.DataManager;
 
@@ -15,6 +18,9 @@ public class Utils {
 	public static PrintStream dataChecking;
 	public static String dataStr = "";
 	public static String dataDir = "data";
+	private static Date date = new Date();
+	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+	public static String dataDirSim;
 	public static long time = 0;
 	
 	public static void initLog() {
@@ -25,9 +31,18 @@ public class Utils {
 		}
 	}
 	public static void initAllData() {
+		date = new Date();
+		dataDirSim = dataDir + "/" + dateFormat.format(date);
+		
 		File directory = new File(dataDir);
+		File directorySim = new File(dataDirSim);
+		
 		if (! directory.exists()){
 			directory.mkdir();
+		}
+		
+		if (! directorySim.exists()){
+			directorySim.mkdir();
 		}
 		
 		initDataCounters();
@@ -36,7 +51,7 @@ public class Utils {
 	}
 	public static void initDataCounters() {
 		try {
-			dataCounters = new PrintStream(new FileOutputStream(dataDir + "/" + "data_counters.txt", false));
+			dataCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters.txt", false));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -44,7 +59,7 @@ public class Utils {
 	}
 	public static void initCheckingValues() {
 		try {
-			dataChecking = new PrintStream(new FileOutputStream(dataDir + "/" + "data_checking.txt", false));
+			dataChecking = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_checking.txt", false));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -58,7 +73,7 @@ public class Utils {
 		dataChecking.print("To entrance A (per day) :             expected " + DataManager.nToAChosen + ", got " + DataManager.nToAEmpiric + "\n");
 		dataChecking.print("From entrance A (per day) :           expected " + DataManager.nFromAChosen + ", got " + DataManager.nFromAEmpiric + "\n");
 		dataChecking.print("To entrance B (per day) :             expected " + DataManager.nToBChosen + ", got " + DataManager.nToBEmpiric + "\n");
-		
+		dataChecking.print("From entrance B (per day) :           expected " + DataManager.nFromBChosen + ", got " + DataManager.nFromBEmpiric + "\n");
 	}
 	public static void saveCheckingValues(String text) {
 		//dataChecking.print(text);	
