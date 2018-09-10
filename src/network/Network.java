@@ -324,12 +324,14 @@ public class Network {
 		rWE1.setX(rWE1.getX()+this.getCellWidth()/4);
 		rWE1.setY(rWE1.getY()-this.getCellWidth()/4);
 		rD984FSES.connectTo(rWE1, 0);
+		rWE1.setMaxSpeed(1);
 		this.roads.add(rWE1);
 		
 		Road rWE2 = new Road(this, 5, "rWE2");
 		rWE2.setStartPositionFrom(rD984FSES2, rD984FSES2.getLength()-1, rD984FSES2.getDirection(), 1, rD984FSES2.getDirection());
 		rWE2.setDirection(rWE1.getDirection());
 		rD984FSES2.connectTo(rWE2, 0);
+		rWE2.setMaxSpeed(1);
 		this.roads.add(rWE2);
 		
 		
@@ -406,6 +408,7 @@ public class Network {
 		rEW1.setY(rEW1.getY());
 		rRouteDeMeyrinNorthNW3.connectTo(rEW1, 0);
 		rEW1.connectTo(rD984FNWS2, 0);
+		rEW1.setMaxSpeed(1);
 		this.roads.add(rEW1);
 		
 		
@@ -414,6 +417,7 @@ public class Network {
 		rEW2.setDirection(rEW1.getDirection());
 		rRouteDeMeyrinNorthNW2.connectTo(rEW2, 0);
 		rEW2.connectTo(rD984FNWS, 0);
+		rEW2.setMaxSpeed(1);
 		this.roads.add(rEW2);
 		
 		// Route Pauli ------------------------------------------------------------------------------------------------
@@ -450,6 +454,7 @@ public class Network {
 		rSN.setStartPositionFrom(rRoutePauliSouthSW1, 2, 17, 1.25, rRoutePauliSouthSW1.getDirection());
 		rRoutePauliSouthSW1.connectFromiToj(rSN, 2, 0);
 		rSN.connectFromiToj(rRoutePauliNorthSW, rSN.getLength()-1, 0);
+		rSN.setMaxSpeed(1);
 		roads.add(rSN);
 
 		// CrossRoad middle roads N -> S:
@@ -458,6 +463,7 @@ public class Network {
 		rNS.setStartPositionFrom(rRoutePauliNorthNE, rRoutePauliNorthNE.getRoadCells().size()-1, 202, 1, 192);
 		rNS.connectFromiToj(rRoutePauliSouthNE, rNS.getLength()-1, 0);
 		rRoutePauliNorthNE.connectFromiToj(rNS, rRoutePauliNorthNE.getLength()-1, 0);
+		rNS.setMaxSpeed(1);
 		roads.add(rNS);
 
 		// CrossRoad middle roads N -> E:
@@ -467,6 +473,7 @@ public class Network {
 		
 		rNS.connectFromiToj(rNE, 2, 0);
 		rNE.connectFromiToj(rD984FNWS2, 0, 0);
+		rNE.setMaxSpeed(1);
 		roads.add(rNE);
 		
 		// CrossRoad middle roads N -> W:
@@ -476,6 +483,7 @@ public class Network {
 		
 		rNS.connectFromiToj(rNW, 4, 0);
 		rNW.connectFromiToj(rRouteDeMeyrinNorthSE1, 2, 0);
+		rNW.setMaxSpeed(1);
 		roads.add(rNW);
 		
 		// CrossRoad middle roads S -> W:
@@ -484,6 +492,7 @@ public class Network {
 		rSW.setStartPositionFrom(rRoutePauliSouthSW2, rRoutePauliSouthSW2.getLength()-1, 355, 1, rRoutePauliSouthSW2.getDirection());
 		rRoutePauliSouthSW2.connectFromiToj(rSW, rRoutePauliSouthSW2.getLength()-1, 0);
 		rSW.connectFromiToj(rEW2, rSW.getLength()-1, 5);
+		rSW.setMaxSpeed(1);
 		roads.add(rSW);
 		
 		// CrossRoad middle roads S -> E:
@@ -492,6 +501,7 @@ public class Network {
 		rSE.setStartPositionFrom(rSN, 1, 100, 0.5, rSN.getDirection()+90);
 		rSN.connectFromiToj(rSE, 0, 0);
 		rSE.connectFromiToj(rRouteDeMeyrinNorthSE2, 0, 0);
+		rSE.setMaxSpeed(1);
 		roads.add(rSE); 
 		
 		
@@ -501,6 +511,7 @@ public class Network {
 		rES.setStartPositionFrom(rD984FSES3, rD984FSES3.getLength()-1, rD984FSES3.getDirection(), 1, rD984FSES3.getDirection());
 		rD984FSES3.connectFromiToj(rES, rD984FSES3.getLength()-1, 0);
 		rES.connectFromiToj(rNS, 0, rNS.getLength()-1);
+		rES.setMaxSpeed(1);
 		roads.add(rES);
 		
 		// CrossRoad middle roads E -> N:
@@ -509,6 +520,7 @@ public class Network {
 		rEN.setStartPositionFrom(rWE1, 2, rWE1.getDirection()-90, 1, rWE1.getDirection()-90);
 		rWE1.connectFromiToj(rEN, 1, 0);
 		rEN.connectFromiToj(rRoutePauliNorthSW, rEN.getLength()-1, 0);
+		rEN.setMaxSpeed(1);
 		roads.add(rEN);
 		
 		// CrossRoad middle roads W -> S:
@@ -517,6 +529,7 @@ public class Network {
 		rWS.setStartPositionFrom(rRouteDeMeyrinNorthNW1, rRouteDeMeyrinNorthNW1.getLength()-1, rRouteDeMeyrinNorthNW1.getDirection()-30, 1, rRouteDeMeyrinNorthNW1.getDirection());
 		rRouteDeMeyrinNorthNW1.connectFromiToj(rWS, rRouteDeMeyrinNorthNW1.getLength()-1, 0);
 		rWS.connectFromiToj(rNS, rWS.getLength()-1, 5);
+		rWS.setMaxSpeed(1);
 		roads.add(rWS);
 		
 		// CrossRoad middle roads W -> N:
@@ -525,6 +538,7 @@ public class Network {
 		rWN.setStartPositionFrom(rEW1, 1, rEW1.getDirection()+90, 0.75, rEW1.getDirection()+90);
 		rEW1.connectFromiToj(rWN, 0, 0);
 		rWN.connectFromiToj(rRoutePauliNorthSW, 0, 0);
+		rWN.setMaxSpeed(1);
 		roads.add(rWN);
 		
 		// Entree A ---------------------------------------------------------------------------------------------------
@@ -549,12 +563,12 @@ public class Network {
 		roads.add(rEntreeAOut2);
 		
 		// Route de Meyrin SOUTH---------------------------------------------------------------------------------------
-		Road rRouteDeMeyrinSouthSE1 = new Road(this, 20, "rRouteDeMeyrinSouthSE1");
-		rRouteDeMeyrinSouthSE1.setStartPositionFrom(raEntreeA.getLanes()[0], 10);
-		rRouteDeMeyrinSouthSE1.setStartDirection(100);
-		rRouteDeMeyrinSouthSE1.addPoint(new Point(1, 113));
-		roads.add(rRouteDeMeyrinSouthSE1);
-		raEntreeA.connectTo(rRouteDeMeyrinSouthSE1, 10);
+		Road rRouteDeMeyrinSouthSE = new Road(this, 20, "rRouteDeMeyrinSouthSE");
+		rRouteDeMeyrinSouthSE.setStartPositionFrom(raEntreeA.getLanes()[0], 10);
+		rRouteDeMeyrinSouthSE.setStartDirection(100);
+		rRouteDeMeyrinSouthSE.addPoint(new Point(1, 113));
+		roads.add(rRouteDeMeyrinSouthSE);
+		raEntreeA.connectTo(rRouteDeMeyrinSouthSE, 10);
 		
 		/*
 		Road rRouteDeMeyrinSouthSE2 = new Road(this, 10, "rRouteDeMeyrinSouthSE2");
@@ -567,11 +581,11 @@ public class Network {
 		rRouteDeMeyrinSouthSE2.connectFromiToj(rRouteDeMeyrinSouthSE1, 9, 10);
 		*/
 		
-		Road rRouteDeMeyrinSouthNW1 = new Road(this, 20, "rRouteDeMeyrinSouthNW1");
-		rRouteDeMeyrinSouthNW1.setDirection(293);
-		rRouteDeMeyrinSouthNW1.setEndPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-4,293);
-		roads.add(rRouteDeMeyrinSouthNW1);
-		rRouteDeMeyrinSouthNW1.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-4);
+		Road rRouteDeMeyrinSouthNW = new Road(this, 20, "rRouteDeMeyrinSouthNW");
+		rRouteDeMeyrinSouthNW.setDirection(293);
+		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-4,293);
+		roads.add(rRouteDeMeyrinSouthNW);
+		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-4);
 		
 		/*
 		Road rRouteDeMeyrinSouthNW2 = new Road(this, 7, "rRouteDeMeyrinSouthNW2");
@@ -724,8 +738,8 @@ public class Network {
 		Utils.logTime();
 		
 		this.generateAllNetworkRides(30);
-		this.cleanAllNetworkRides();
-		//printNames();
+		//this.cleanAllNetworkRides();
+		printNames();
 		
 		rD984FSE.setCounter(0.5);
 		rD984FNW.setCounter(0.49);
