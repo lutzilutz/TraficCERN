@@ -90,6 +90,8 @@ public class MenuState extends State {
 	public void render(Graphics g) {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
+
+		Text.drawString(g, simulation.getVersionID(), Assets.idleCol, 10, simulation.getHeight()-10, false, Assets.normalFont);
 		
 		Text.drawString(g, "Trafic simulation at CERN", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
 		

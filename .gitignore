@@ -13,3 +13,4 @@ bin/
 data_test.txt
 log.txt
 data/*.txt
+data/*/*.txt

@@ -475,6 +475,8 @@ public class SimSettingsState extends State {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
+		Text.drawString(g, simulation.getVersionID(), Assets.idleCol, 10, simulation.getHeight()-10, false, Assets.normalFont);
+		
 		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 50, true, Assets.largeFont);
 		
 		if (activePage == 1) {
