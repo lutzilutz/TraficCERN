@@ -48,8 +48,8 @@ public class Network {
 	private boolean randomGeneration = true;
 	
 	public Network(Simulation sim, int n) {
-		this.setCellHeight(16);
-		this.setCellWidth(16);
+		this.setCellHeight(8);
+		this.setCellWidth(8);
 		this.sim = sim;
 		this.n = n;
 		Road.resetID();
@@ -293,21 +293,6 @@ public class Network {
 		rD984FSES2.connectTo(rWE2, 0);
 		this.roads.add(rWE2);
 		
-		// Route Pauli ------------------------------------------------------------------------------------------------
-		// North ------------------------------------------------------------------------------------------------------
-		
-		//Road rRoutePauliNorthSW = new Road(this, 3, "rRoutePauliNorthSW");
-		//roads.add(rRoutePauliNorthSW);
-		
-		//Road rRoutePauliNorthNE = new Road(this, 3, "rRoutePauliNorthNE");
-		//roads.add(rRoutePauliNorthNE);
-		
-		// South ------------------------------------------------------------------------------------------------------
-		//Road rRoutePauliSouthNE = new Road(this, 3, "rRoutePauliSouthNE");
-		//roads.add(rRoutePauliSouthNE);
-		
-		//Road rRoutePauliSouthSW = new Road(this, 3, "rRoutePauliSouthSW");
-		//roads.add(rRoutePauliSouthSW);
 		
 		// Route de Meyrin NORTH (SE) ---------------------------------------------------------------------------------------
 				
@@ -336,7 +321,7 @@ public class Network {
 		
 		
 		// RA entree A ------------------------------------------------------------------------------------------------
-		MultiLaneRoundAbout raEntreeA = new MultiLaneRoundAbout(this, 2, 16, "raEntreeA");
+		MultiLaneRoundAbout raEntreeA = new MultiLaneRoundAbout(this, 1, 16, "raEntreeA");
 		raEntreeA.setDirection(0);
 		raEntreeA.getLanes()[0].setPositionFrom(rRouteDeMeyrinNorthSE1_2, 4);
 		raEntreeA.setX(raEntreeA.getLanes()[0].getX());
@@ -392,7 +377,116 @@ public class Network {
 		rEW2.connectTo(rD984FNWS, 0);
 		this.roads.add(rEW2);
 		
+		// Route Pauli ------------------------------------------------------------------------------------------------
+		// North ------------------------------------------------------------------------------------------------------
 		
+		Road rRoutePauliNorthSW = new Road(this, 5, "rRoutePauliNorthSW");
+		rRoutePauliNorthSW.setStartPositionFrom(rEW1, 2, 15, 2, 15);
+		rRoutePauliNorthSW.addPoint(new Point(3, 45));
+		roads.add(rRoutePauliNorthSW);
+		
+		Road rRoutePauliNorthNE = new Road(this, 6, "rRoutePauliNorthNE");
+		rRoutePauliNorthNE.setStartPositionFrom(rRoutePauliNorthSW, 5, 225, 1.5, 315);
+		rRoutePauliNorthNE.addPoint(new Point(3, 195));
+		roads.add(rRoutePauliNorthNE);
+		
+		// South ------------------------------------------------------------------------------------------------------
+		
+		Road rRoutePauliSouthSW1 = new Road(this, 3, "rRoutePauliSouthSW1");
+		rRoutePauliSouthSW1.setStartPositionFrom(rWE2, 4, rWE2.getDirection()-90, 5, rWE2.getDirection()+90);
+		roads.add(rRoutePauliSouthSW1);
+		
+		Road rRoutePauliSouthSW2 = new Road(this, 3, "rRoutePauliSouthSW2");
+		rRoutePauliSouthSW2.setStartPositionFrom(rRoutePauliSouthSW1, 0, rRoutePauliSouthSW1.getDirection(), 1, rRoutePauliSouthSW1.getDirection()-90);
+		roads.add(rRoutePauliSouthSW2);
+		
+		Road rRoutePauliSouthNE = new Road(this, 3, "rRoutePauliSouthNE");
+		rRoutePauliSouthNE.setStartPositionFrom(rRoutePauliSouthSW2, 3, rRoutePauliSouthSW2.getDirection()+180, 1.5, rRoutePauliSouthSW2.getDirection()-90);
+		roads.add(rRoutePauliSouthNE);
+		
+
+		// CrossRoad middle roads S -> N:
+		
+		Road rSN = new Road(this, 8, "rSN");
+		rSN.setStartPositionFrom(rRoutePauliSouthSW1, 2, 17, 1.25, rRoutePauliSouthSW1.getDirection());
+		rRoutePauliSouthSW1.connectFromiToj(rSN, 2, 0);
+		rSN.connectFromiToj(rRoutePauliNorthSW, rSN.getLength()-1, 0);
+		roads.add(rSN);
+
+		// CrossRoad middle roads N -> S:
+		
+		Road rNS = new Road(this, 8, "rNS");
+		rNS.setStartPositionFrom(rRoutePauliNorthNE, rRoutePauliNorthNE.getRoadCells().size()-1, 202, 1, 192);
+		rNS.connectFromiToj(rRoutePauliSouthNE, rNS.getLength()-1, 0);
+		rRoutePauliNorthNE.connectFromiToj(rNS, rRoutePauliNorthNE.getLength()-1, 0);
+		roads.add(rNS);
+
+		// CrossRoad middle roads N -> E:
+		
+		Road rNE = new Road(this, 1, "rNE");
+		rNE.setStartPositionFrom(rNS, 2, rEW1.getDirection(), 0.75, rEW1.getDirection());
+		
+		rNS.connectFromiToj(rNE, 2, 0);
+		rNE.connectFromiToj(rD984FNWS2, 0, 0);
+		roads.add(rNE);
+		
+		// CrossRoad middle roads N -> W:
+		
+		Road rNW = new Road(this, 3, "rNW");
+		rNW.setStartPositionFrom(rNS, 5, rWE1.getDirection(), 0.7, rWE1.getDirection());
+		
+		rNS.connectFromiToj(rNW, 4, 0);
+		rNW.connectFromiToj(rRouteDeMeyrinNorthSE1, 2, 0);
+		roads.add(rNW);
+		
+		// CrossRoad middle roads S -> W:
+		
+		Road rSW = new Road(this, 5, "rSW");
+		rSW.setStartPositionFrom(rRoutePauliSouthSW2, rRoutePauliSouthSW2.getLength()-1, 355, 1, rRoutePauliSouthSW2.getDirection());
+		rRoutePauliSouthSW2.connectFromiToj(rSW, rRoutePauliSouthSW2.getLength()-1, 0);
+		rSW.connectFromiToj(rEW2, rSW.getLength()-1, 5);
+		roads.add(rSW);
+		
+		// CrossRoad middle roads S -> E:
+		
+		Road rSE = new Road(this, 1, "rSE");
+		rSE.setStartPositionFrom(rSN, 1, 100, 0.5, rSN.getDirection()+90);
+		rSN.connectFromiToj(rSE, 0, 0);
+		rSE.connectFromiToj(rRouteDeMeyrinNorthSE2, 0, 0);
+		roads.add(rSE); 
+		
+		
+		// CrossRoad middle roads E -> S:
+		
+		Road rES = new Road(this, 1, "rES");
+		rES.setStartPositionFrom(rD984FSES3, rD984FSES3.getLength()-1, rD984FSES3.getDirection(), 1, rD984FSES3.getDirection());
+		rD984FSES3.connectFromiToj(rES, rD984FSES3.getLength()-1, 0);
+		rES.connectFromiToj(rNS, 0, rNS.getLength()-1);
+		roads.add(rES);
+		
+		// CrossRoad middle roads E -> N:
+		
+		Road rEN = new Road(this, 4, "rEN");
+		rEN.setStartPositionFrom(rWE1, 2, rWE1.getDirection()-90, 1, rWE1.getDirection()-90);
+		rWE1.connectFromiToj(rEN, 1, 0);
+		rEN.connectFromiToj(rRoutePauliNorthSW, rEN.getLength()-1, 0);
+		roads.add(rEN);
+		
+		// CrossRoad middle roads W -> S:
+		
+		Road rWS = new Road(this, 4, "rWS");
+		rWS.setStartPositionFrom(rRouteDeMeyrinNorthNW1, rRouteDeMeyrinNorthNW1.getLength()-1, rRouteDeMeyrinNorthNW1.getDirection()-30, 1, rRouteDeMeyrinNorthNW1.getDirection());
+		rRouteDeMeyrinNorthNW1.connectFromiToj(rWS, rRouteDeMeyrinNorthNW1.getLength()-1, 0);
+		rWS.connectFromiToj(rNS, rWS.getLength()-1, 5);
+		roads.add(rWS);
+		
+		// CrossRoad middle roads W -> N:
+		
+		Road rWN = new Road(this, 1, "rWN");
+		rWN.setStartPositionFrom(rEW1, 1, rEW1.getDirection()+90, 0.75, rEW1.getDirection()+90);
+		rEW1.connectFromiToj(rWN, 0, 0);
+		rWN.connectFromiToj(rRoutePauliNorthSW, 0, 0);
+		roads.add(rWN);
 		
 		// Entree A ---------------------------------------------------------------------------------------------------
 		
@@ -423,6 +517,7 @@ public class Network {
 		roads.add(rRouteDeMeyrinSouthSE1);
 		raEntreeA.connectTo(rRouteDeMeyrinSouthSE1, 10);
 		
+		/*
 		Road rRouteDeMeyrinSouthSE2 = new Road(this, 10, "rRouteDeMeyrinSouthSE2");
 		rRouteDeMeyrinSouthSE2.setStartPositionFrom(raEntreeA.getLanes()[0], 9);
 		rRouteDeMeyrinSouthSE2.setStartDirection(100);
@@ -431,7 +526,7 @@ public class Network {
 		raEntreeA.connectTo(rRouteDeMeyrinSouthSE2, 9);
 		
 		rRouteDeMeyrinSouthSE2.connectFromiToj(rRouteDeMeyrinSouthSE1, 9, 10);
-		
+		*/
 		
 		Road rRouteDeMeyrinSouthNW1 = new Road(this, 20, "rRouteDeMeyrinSouthNW1");
 		rRouteDeMeyrinSouthNW1.setDirection(293);
@@ -439,6 +534,7 @@ public class Network {
 		roads.add(rRouteDeMeyrinSouthNW1);
 		rRouteDeMeyrinSouthNW1.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-4);
 		
+		/*
 		Road rRouteDeMeyrinSouthNW2 = new Road(this, 7, "rRouteDeMeyrinSouthNW2");
 		rRouteDeMeyrinSouthNW2.setDirection(293);
 		rRouteDeMeyrinSouthNW2.setEndPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-3,293);
@@ -446,7 +542,7 @@ public class Network {
 		rRouteDeMeyrinSouthNW2.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-3);
 		
 		rRouteDeMeyrinSouthNW1.connectFromiToj(rRouteDeMeyrinSouthNW2, 13, 0);
-		
+		*/
 		
 		
 		// Chemin de Maisonnex ----------------------------------------------------------------------------------------
