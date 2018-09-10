@@ -21,8 +21,9 @@ public class SimSettingsState extends State {
 	private UIManager uiManagerE;
 	private UIManager uiManagerA;
 	private UIManager uiManagerB;
+	private UIManager uiManagerGeneral;
 	private int activePage = 1;
-	private int nPages = 4;
+	private int nPages = 5;
 	
 	private int xStart = 320;
 	private int yStart = 150;
@@ -36,6 +37,8 @@ public class SimSettingsState extends State {
 	private boolean isLeftPressed = false;
 	
 	private UISlider timePerVhcEntrance;
+	
+	private UISlider sizeOfNetwork;
 	
 	private UISlider fromFrToGe,fromFrToGeDuringRH;
 	private UISliderDouble fromFrToGeRepartitionRH;
@@ -72,6 +75,7 @@ public class SimSettingsState extends State {
 		this.uiManagerE = new UIManager(simulation);
 		this.uiManagerA = new UIManager(simulation);
 		this.uiManagerB = new UIManager(simulation);
+		this.uiManagerGeneral = new UIManager(simulation);
 
 		// ##################################################################################################
 		// PAGE 1 ###########################################################################################
@@ -145,14 +149,6 @@ public class SimSettingsState extends State {
 		// ##################################################################################################
 		// PAGE 2 ###########################################################################################
 		// ##################################################################################################
-		
-		timePerVhcEntrance = new UISlider(simulation, xStart, yStart+0*(sliderHeight+buttonYMargin), sliderWidth, "Control duration of 1 vehicle at entrances", 30, 8, false, new ClickListener(){
-			@Override
-			public void onClick() {
-				
-			}
-		});
-		this.uiManagerE.addObject(timePerVhcEntrance);
 		
 		// To entrance E ====================================================================================
 		
@@ -263,7 +259,7 @@ public class SimSettingsState extends State {
 		this.uiManagerA.addObject(fromEntranceARepartitionRH2);
 		
 		// ##################################################################################################
-		// PAGE 3 ###########################################################################################
+		// PAGE 4 ###########################################################################################
 		// ##################################################################################################
 		
 		// To entrance B ====================================================================================
@@ -319,6 +315,18 @@ public class SimSettingsState extends State {
 		this.uiManagerB.addObject(fromEntranceBRepartitionRH2);
 		
 		// ##################################################################################################
+		// PAGE 5 ###########################################################################################
+		// ##################################################################################################
+		
+		timePerVhcEntrance = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Control duration of 1 vehicle at entrances", 30, 8, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerGeneral.addObject(timePerVhcEntrance);
+		
+		// ##################################################################################################
 		// BUTTONS ##########################################################################################
 		// ##################################################################################################
 		
@@ -332,6 +340,7 @@ public class SimSettingsState extends State {
 		this.uiManagerE.addObject(previous);
 		this.uiManagerA.addObject(previous);
 		this.uiManagerB.addObject(previous);
+		this.uiManagerGeneral.addObject(previous);
 		next = new UIImageButton(625, 593, 50, buttonHeight, Assets.nextIdle, Assets.nextActive, new ClickListener(){
 			@Override
 			public void onClick() {
@@ -342,6 +351,7 @@ public class SimSettingsState extends State {
 		this.uiManagerE.addObject(next);
 		this.uiManagerA.addObject(next);
 		this.uiManagerB.addObject(next);
+		this.uiManagerGeneral.addObject(next);
 		
 		run = new UITextButton((simulation.getWidth()-0*buttonWidth)/2 + buttonXMargin/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
@@ -359,6 +369,7 @@ public class SimSettingsState extends State {
 		this.uiManagerE.addObject(run);
 		this.uiManagerA.addObject(run);
 		this.uiManagerB.addObject(run);
+		this.uiManagerGeneral.addObject(run);
 		back = new UITextButton((simulation.getWidth()-2*buttonWidth)/2 - buttonXMargin/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Back", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -372,6 +383,7 @@ public class SimSettingsState extends State {
 		this.uiManagerE.addObject(back);
 		this.uiManagerA.addObject(back);
 		this.uiManagerB.addObject(back);
+		this.uiManagerGeneral.addObject(back);
 	}
 	
 	public void tick(int n) {
@@ -384,6 +396,8 @@ public class SimSettingsState extends State {
 			this.uiManagerA.tick();
 		} else if (activePage == 4) {
 			this.uiManagerB.tick();
+		} else if (activePage == 5) {
+			this.uiManagerGeneral.tick();
 		}
 		
 		if (simulation.getMouseManager().isLeftPressed()) {
@@ -416,6 +430,8 @@ public class SimSettingsState extends State {
 			enableUIManager(uiManagerA);
 		} else if (activePage == 4) {
 			enableUIManager(uiManagerB);
+		} else if (activePage == 5) {
+			enableUIManager(uiManagerGeneral);
 		}
 	}
 	public void previousPage() {
@@ -434,6 +450,8 @@ public class SimSettingsState extends State {
 			enableUIManager(uiManagerA);
 		} else if (activePage == 4) {
 			enableUIManager(uiManagerB);
+		} else if (activePage == 5) {
+			enableUIManager(uiManagerGeneral);
 		}
 	}
 	public void renderPageIndication(Graphics g) {

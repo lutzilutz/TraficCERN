@@ -86,6 +86,45 @@ public class Network {
 		descriptions[1] = "[Work in progress] Actual network arount the CERN, multi lanes (random, no output file)";
 		descriptions[2] = "Actual network around the CERN";
 	}
+	public Network(Simulation sim, int n, int size) {
+		this.setCellWidth((int) (Math.pow(2, 1+size)));
+		this.setCellHeight((int) (Math.pow(2, 1+size)));
+		this.sim = sim;
+		this.n = n;
+		Road.resetID();
+		xOffset = 0;
+		yOffset = 0;
+		xDefaultOffset = 0;
+		yDefaultOffset = 0;
+	
+		if (n >= 0) {
+			Utils.log("creating Network #" + n + " ");
+			Utils.tick();
+		}
+		switch (n) {
+		case 0:
+			Utils.log("(single-lane) ... ");
+			createRealNetwork();
+			break;
+		case 1:
+			Utils.log("(multi-lane) ... ");
+			createTestNetwork1();
+			break;
+		case 2:
+			createRealNetwork();
+			break;
+		}
+		
+		titles = new String[3];
+		titles[0] = "CERN network";
+		titles[1] = "CERN network multi";
+		titles[2] = "CERN network";
+
+		descriptions = new String[3];
+		descriptions[0] = "Actual network around the CERN, single lanes";
+		descriptions[1] = "[Work in progress] Actual network arount the CERN, multi lanes (random, no output file)";
+		descriptions[2] = "Actual network around the CERN";
+	}
 	
 	public void createTestNetwork1() {
 		
@@ -1280,6 +1319,10 @@ public class Network {
 		}
 		Utils.log("Error - while trying to find " + roadName + " in network");
 		return null;
+	}
+	public void setNetworkSize() {
+		this.setCellWidth((int) (Math.pow(2, 1+sim.getMenuState().getSizeOfNetwork().getCurrentValue())));
+		this.setCellHeight((int) (Math.pow(2, 1+sim.getMenuState().getSizeOfNetwork().getCurrentValue())));
 	}
 	// Getters & setters ====================================================================================
 	public boolean isRandomGeneration() {

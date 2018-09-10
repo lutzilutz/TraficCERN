@@ -8,6 +8,7 @@ import main.Simulation;
 import network.Network;
 import ui.ClickListener;
 import ui.UIManager;
+import ui.UISlider;
 import ui.UITextButton;
 
 public class MenuState extends State {
@@ -20,8 +21,11 @@ public class MenuState extends State {
 	private int buttonWidth = 140;
 	private int buttonHeight = 30;
 	private int descriptionMargin = 20;
+	private int sliderHeight = 30;
+	private int sliderWidth = 500;
 	
 	private UITextButton network1, network2, network3;
+	private UISlider sizeOfNetwork;
 	
 	public MenuState(Simulation simulation) {
 		super(simulation);
@@ -36,7 +40,7 @@ public class MenuState extends State {
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
 				simulation.getSimSettingsState().enableUIManager();
-				simulation.getSimState().setNetwork(new Network(simulation, 0));
+				simulation.getSimState().setNetwork(new Network(simulation, 0, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimSettingsState());
 			}
@@ -50,7 +54,7 @@ public class MenuState extends State {
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
 				simulation.getSimSettingsState().enableUIManager();
-				simulation.getSimState().setNetwork(new Network(simulation, 1));
+				simulation.getSimState().setNetwork(new Network(simulation, 1, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 				simulation.getSimState().init();
 				State.setState(simulation.getSimSettingsState());
 			}
@@ -64,7 +68,7 @@ public class MenuState extends State {
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
 				simulation.getSimSettingsState().enableUIManager();
-				simulation.getSimState().setNetwork(new Network(simulation, 2));
+				simulation.getSimState().setNetwork(new Network(simulation, 2, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 				simulation.getSimState().init();
 				DataManager.loadData(simulation);
 				State.setState(simulation.getSimSettingsState());
@@ -72,7 +76,15 @@ public class MenuState extends State {
 		});
 		//this.uiManager.addObject(network3);
 		
-		this.uiManager.addObject(new UITextButton(xStart, yStart+3*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
+		sizeOfNetwork = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, 2, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(sizeOfNetwork);
+		
+		this.uiManager.addObject(new UITextButton(xStart, yStart+6*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
 				System.exit(0);
@@ -86,7 +98,9 @@ public class MenuState extends State {
 	public void tick() {
 		
 	}
-	
+	public void applyNetworkSize() {
+		simulation.getSimState().getNetwork().setNetworkSize();
+	}
 	public void render(Graphics g) {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
@@ -117,6 +131,9 @@ public class MenuState extends State {
 	}
 	
 	// Getters & setters ====================================================================================
+	public UISlider getSizeOfNetwork() {
+		return this.sizeOfNetwork;
+	}
 	public UIManager getUIManager() {
 		return this.uiManager;
 	}

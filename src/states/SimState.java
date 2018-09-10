@@ -405,7 +405,7 @@ public class SimState extends State {
 		simSpeed = defaultSimSpeed;
 		simulation.getSimState().setNetwork(null);
 		System.out.println("Current network : " + currentNetwork);
-		simulation.getSimState().setNetwork(new Network(simulation, currentNetwork));
+		simulation.getSimState().setNetwork(new Network(simulation, currentNetwork, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 		NetworkComputing.computeCellsPosition(network);
 		restarting = false;
 	}
@@ -458,7 +458,7 @@ public class SimState extends State {
 	public void setCurrentNetwork(int currentNetwork) {
 		network = null;
 		this.currentNetwork = currentNetwork;
-		network = new Network(simulation, currentNetwork);
+		network = new Network(simulation, currentNetwork, simulation.getMenuState().getSizeOfNetwork().getCurrentValue());
 		init();
 		restartNetwork();
 	}
