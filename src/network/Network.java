@@ -424,46 +424,46 @@ public class Network {
 		// Route Pauli ------------------------------------------------------------------------------------------------
 		// North ------------------------------------------------------------------------------------------------------
 		
-		Road rRoutePauliNorthSW = new Road(this, 5, "rRoutePauliNorthSW");
-		rRoutePauliNorthSW.setStartPositionFrom(rEW1, 2, 15, 2, 15);
-		rRoutePauliNorthSW.addPoint(new Point(3, 45));
-		roads.add(rRoutePauliNorthSW);
-		
-		Road rRoutePauliNorthNE = new Road(this, 6, "rRoutePauliNorthNE");
-		rRoutePauliNorthNE.setStartPositionFrom(rRoutePauliNorthSW, 5, 225, 1.5, 315);
-		rRoutePauliNorthNE.addPoint(new Point(3, 195));
+		Road rRoutePauliNorthNE = new Road(this, 5, "rRoutePauliNorthNE");
+		rRoutePauliNorthNE.setStartPositionFrom(rEW1, 2, 15, 2, 15);
+		rRoutePauliNorthNE.addPoint(new Point(3, 45));
 		roads.add(rRoutePauliNorthNE);
+		
+		Road rRoutePauliNorthSW = new Road(this, 6, "rRoutePauliNorthSW");
+		rRoutePauliNorthSW.setStartPositionFrom(rRoutePauliNorthNE, 5, 225, 1.5, 315);
+		rRoutePauliNorthSW.addPoint(new Point(3, 195));
+		roads.add(rRoutePauliNorthSW);
 		
 		// South ------------------------------------------------------------------------------------------------------
 		
-		Road rRoutePauliSouthSW1 = new Road(this, 3, "rRoutePauliSouthSW1");
-		rRoutePauliSouthSW1.setStartPositionFrom(rWE2, 4, rWE2.getDirection()-90, 5, rWE2.getDirection()+90);
-		roads.add(rRoutePauliSouthSW1);
+		Road rRoutePauliSouthNERight = new Road(this, 3, "rRoutePauliSouthNERight");
+		rRoutePauliSouthNERight.setStartPositionFrom(rWE2, 4, rWE2.getDirection()-90, 5, rWE2.getDirection()+90);
+		roads.add(rRoutePauliSouthNERight);
 		
-		Road rRoutePauliSouthSW2 = new Road(this, 3, "rRoutePauliSouthSW2");
-		rRoutePauliSouthSW2.setStartPositionFrom(rRoutePauliSouthSW1, 0, rRoutePauliSouthSW1.getDirection(), 1, rRoutePauliSouthSW1.getDirection()-90);
-		roads.add(rRoutePauliSouthSW2);
+		Road rRoutePauliSouthNELeft = new Road(this, 3, "rRoutePauliSouthNELeft");
+		rRoutePauliSouthNELeft.setStartPositionFrom(rRoutePauliSouthNERight, 0, rRoutePauliSouthNERight.getDirection(), 1, rRoutePauliSouthNERight.getDirection()-90);
+		roads.add(rRoutePauliSouthNELeft);
 		
-		Road rRoutePauliSouthNE = new Road(this, 3, "rRoutePauliSouthNE");
-		rRoutePauliSouthNE.setStartPositionFrom(rRoutePauliSouthSW2, 3, rRoutePauliSouthSW2.getDirection()+180, 1.5, rRoutePauliSouthSW2.getDirection()-90);
-		roads.add(rRoutePauliSouthNE);
+		Road rRoutePauliSouthSW = new Road(this, 3, "rRoutePauliSouthSW");
+		rRoutePauliSouthSW.setStartPositionFrom(rRoutePauliSouthNELeft, 3, rRoutePauliSouthNELeft.getDirection()+180, 1.5, rRoutePauliSouthNELeft.getDirection()-90);
+		roads.add(rRoutePauliSouthSW);
 		
 
 		// CrossRoad middle roads S -> N:
 		
 		Road rSN = new Road(this, 8, "rSN");
-		rSN.setStartPositionFrom(rRoutePauliSouthSW1, 2, 17, 1.25, rRoutePauliSouthSW1.getDirection());
-		rRoutePauliSouthSW1.connectFromiToj(rSN, 2, 0);
-		rSN.connectFromiToj(rRoutePauliNorthSW, rSN.getLength()-1, 0);
+		rSN.setStartPositionFrom(rRoutePauliSouthNERight, 2, 17, 1.25, rRoutePauliSouthNERight.getDirection());
+		rRoutePauliSouthNERight.connectFromiToj(rSN, 2, 0);
+		rSN.connectFromiToj(rRoutePauliNorthNE, rSN.getLength()-1, 0);
 		rSN.setMaxSpeed(1);
 		roads.add(rSN);
 
 		// CrossRoad middle roads N -> S:
 		
 		Road rNS = new Road(this, 8, "rNS");
-		rNS.setStartPositionFrom(rRoutePauliNorthNE, rRoutePauliNorthNE.getRoadCells().size()-1, 202, 1, 192);
-		rNS.connectFromiToj(rRoutePauliSouthNE, rNS.getLength()-1, 0);
-		rRoutePauliNorthNE.connectFromiToj(rNS, rRoutePauliNorthNE.getLength()-1, 0);
+		rNS.setStartPositionFrom(rRoutePauliNorthSW, rRoutePauliNorthSW.getRoadCells().size()-1, 202, 1, 192);
+		rNS.connectFromiToj(rRoutePauliSouthSW, rNS.getLength()-1, 0);
+		rRoutePauliNorthSW.connectFromiToj(rNS, rRoutePauliNorthSW.getLength()-1, 0);
 		rNS.setMaxSpeed(1);
 		roads.add(rNS);
 
@@ -490,8 +490,8 @@ public class Network {
 		// CrossRoad middle roads S -> W:
 		
 		Road rSW = new Road(this, 5, "rSW");
-		rSW.setStartPositionFrom(rRoutePauliSouthSW2, rRoutePauliSouthSW2.getLength()-1, 355, 1, rRoutePauliSouthSW2.getDirection());
-		rRoutePauliSouthSW2.connectFromiToj(rSW, rRoutePauliSouthSW2.getLength()-1, 0);
+		rSW.setStartPositionFrom(rRoutePauliSouthNELeft, rRoutePauliSouthNELeft.getLength()-1, 355, 1, rRoutePauliSouthNELeft.getDirection());
+		rRoutePauliSouthNELeft.connectFromiToj(rSW, rRoutePauliSouthNELeft.getLength()-1, 0);
 		rSW.connectFromiToj(rEW2, rSW.getLength()-1, 5);
 		rSW.setMaxSpeed(1);
 		roads.add(rSW);
@@ -520,7 +520,7 @@ public class Network {
 		Road rEN = new Road(this, 4, "rEN");
 		rEN.setStartPositionFrom(rWE1, 2, rWE1.getDirection()-90, 1, rWE1.getDirection()-90);
 		rWE1.connectFromiToj(rEN, 1, 0);
-		rEN.connectFromiToj(rRoutePauliNorthSW, rEN.getLength()-1, 0);
+		rEN.connectFromiToj(rRoutePauliNorthNE, rEN.getLength()-1, 0);
 		rEN.setMaxSpeed(1);
 		roads.add(rEN);
 		
@@ -538,30 +538,30 @@ public class Network {
 		Road rWN = new Road(this, 1, "rWN");
 		rWN.setStartPositionFrom(rEW1, 1, rEW1.getDirection()+90, 0.75, rEW1.getDirection()+90);
 		rEW1.connectFromiToj(rWN, 0, 0);
-		rWN.connectFromiToj(rRoutePauliNorthSW, 0, 0);
+		rWN.connectFromiToj(rRoutePauliNorthNE, 0, 0);
 		rWN.setMaxSpeed(1);
 		roads.add(rWN);
 		
 		// Entree A ---------------------------------------------------------------------------------------------------
 		
-		Road rEntreeAIn = new Road(this, 3, "rEntreeAIn");
-		rEntreeAIn.setStartPositionFrom(raEntreeA.getLanes()[0], 6);
-		rEntreeAIn.setDirection(200);
-		raEntreeA.connectTo(rEntreeAIn, 6);
-		roads.add(rEntreeAIn);
+		Road rRouteBellSW = new Road(this, 3, "rRouteBellSW");
+		rRouteBellSW.setStartPositionFrom(raEntreeA.getLanes()[0], 6);
+		rRouteBellSW.setDirection(200);
+		raEntreeA.connectTo(rRouteBellSW, 6);
+		roads.add(rRouteBellSW);
 		
-		Road rEntreeAOut1 = new Road(this, 3, "rEntreeAOut1");
-		rEntreeAOut1.setEndPositionFrom(raEntreeA.getLanes()[0], 7);
-		rEntreeAOut1.setX(rEntreeAOut1.getX()+this.getCellHeight());
-		rEntreeAOut1.setDirection(0);
-		rEntreeAOut1.connectTo(raEntreeA, 7);
-		roads.add(rEntreeAOut1);
+		Road rRouteBellNE = new Road(this, 3, "rRouteBellNE");
+		rRouteBellNE.setEndPositionFrom(raEntreeA.getLanes()[0], 7);
+		rRouteBellNE.setX(rRouteBellNE.getX()+this.getCellHeight());
+		rRouteBellNE.setDirection(0);
+		rRouteBellNE.connectTo(raEntreeA, 7);
+		roads.add(rRouteBellNE);
 		
-		Road rEntreeAOut2 = new Road(this, 3, "rEntreeAOut2");
-		rEntreeAOut2.setEndPositionFrom(raEntreeA.getLanes()[0], 8);
-		rEntreeAOut2.setDirection(0);
-		rEntreeAOut2.connectTo(raEntreeA, 8);
-		roads.add(rEntreeAOut2);
+		Road rRouteBellNERight = new Road(this, 3, "rRouteBellNERight");
+		rRouteBellNERight.setEndPositionFrom(raEntreeA.getLanes()[0], 8);
+		rRouteBellNERight.setDirection(0);
+		rRouteBellNERight.connectTo(raEntreeA, 8);
+		roads.add(rRouteBellNERight);
 		
 		// Route de Meyrin SOUTH---------------------------------------------------------------------------------------
 		Road rRouteDeMeyrinSouthSE = new Road(this, 20, "rRouteDeMeyrinSouthSE");
@@ -720,9 +720,14 @@ public class Network {
 		rRueGermaineTillionSW.setGenerateVehicules(100);
 		rD884NE.setGenerateVehicules(50);
 		rSortieCERNNW.setGenerateVehicules(50);
+		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
 		//rD984FNWS.setGenerateVehicules(true);
 		rC5SW.setGenerateVehicules(50);
 		rTunnelNW.setGenerateVehicules(40);
+		rRouteBellNE.setGenerateVehicules(50);
+		//rRoutePauliSouthSW.setGenerateVehicules(50);
+		rRoutePauliSouthNELeft.setGenerateVehicules(50);
+		rRoutePauliSouthNERight.setGenerateVehicules(50);
 		//rD984FNWS2.setGenerateVehicules(50);
 
 		/*
@@ -740,7 +745,7 @@ public class Network {
 		
 		this.generateAllNetworkRides(50);
 		//this.cleanAllNetworkRides();
-		printNames();
+		//printNames();
 		
 		rD984FSE.setCounter(0.5);
 		rD984FNW.setCounter(0.49);
@@ -1225,7 +1230,7 @@ public class Network {
 					//System.out.println(anr.getNetworkRides().get(0).getRoadName());
 					//System.out.print("   ");
 					//anr.getNetworkRides().get(0).print();
-					//System.out.println();
+					Utils.log("Only one probability int selectARideWithProbability for " + roadName + "\n");
 					return anr.getNetworkRides().get(0).clone();
 				} else {
 					for (int i=0 ; i<probas.size() ; i++) {

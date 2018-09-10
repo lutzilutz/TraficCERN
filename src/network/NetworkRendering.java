@@ -351,7 +351,6 @@ public class NetworkRendering {
 				if (r.getRoadCells().get(i).getVehicle() != null) {
 					if (!r.getRoadCells().get(i).isUnderground()) {
 						gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
-						//System.out.print("v");
 					}
 				}
 			}

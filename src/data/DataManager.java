@@ -3,6 +3,7 @@ package data;
 import elements.Ride;
 import elements.Road;
 import main.Simulation;
+import network.AllNetworkRides;
 import network.Network;
 import states.SimSettingsState;
 import utils.Utils;
@@ -111,8 +112,12 @@ public class DataManager {
 		
 	}
 	public static boolean lastRoadIs(Ride r, String roadName) {
-		if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
-			return true;
+		if (r.getNextConnections().size()>0) {
+			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
@@ -408,7 +413,7 @@ public class DataManager {
 		
 		// From entrance B ==================================================================================
 		
-		for (Ride r: n.getAllRides("rRoutePauliSouthNE").getNetworkRides()) {
+		/*for (Ride r: n.getAllRides("rRoutePauliSouthNE").getNetworkRides()) {
 			
 			resetValues();
 			
@@ -424,11 +429,22 @@ public class DataManager {
 			repartitionRH19 = (100 - settings.fromEntranceBRepartitionRH2().getCurrentValue2()) / 100.0;
 			repartitionRHEvening = 1;
 			applyFlowFromVariables(r);
-		}
+		}*/
 		
 		for (Road road: n.getRoads()) {
 			if (road.getName().equals("rSortieCERNSE") || road.getName().equals("rD884CERN") || road.getName().equals("rRoutePauliSouthSW") || road.getName().equals("rRouteBellSW")) {
 				road.setMaxOutflow(settings.timePerVhcEntrance().getCurrentValue());
+			}
+		}
+		
+		for (AllNetworkRides anr: n.getAllNetworkRides()) {
+			
+			for (Ride ride: anr.getNetworkRides()) {
+				if (lastRoadIs(ride, "rRoutePauliSouthSW")) {
+					System.out.print(ride.getRoadName() + " ");
+					ride.print();
+					System.out.println();
+				}
 			}
 		}
 	}
@@ -474,15 +490,15 @@ public class DataManager {
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
 		}
 		
-		/*for (Road road2: n.getRoads()) {
-			if (road2.getName().equals("rSortieCERNNW")) {
-				System.out.println(road2.getName() + " : ");
-				for (int i=0; i<road2.getFlow().size() ; i++) {
-					System.out.print(road2.getFlow().get(i) + " ");
-				}
-				System.out.println();
+		for (Road road2: n.getRoads()) {
+			System.out.println(road2.getName() + " : ");
+			for (int i=0; i<road2.getFlow().size() ; i++) {
+				System.out.print(road2.getFlow().get(i) + " ");
 			}
-		}*/
+			System.out.println();
+			/*if (road2.getName().equals("rRoutePauliSouthSW")) {	
+			}*/
+		}
 	}
 	public static void resetValues() {
 		value = 0;
