@@ -10,7 +10,7 @@
 bin/
 
 # log and data file
-data_test.txt
+data_counters.txt
 log.txt
 data/*.txt
 data/*/*.txt
