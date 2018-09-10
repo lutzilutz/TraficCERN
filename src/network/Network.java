@@ -9,9 +9,11 @@ import java.util.HashSet;
 import elements.Connection;
 import elements.CrossRoad;
 import elements.MultiLaneRoundAbout;
+import elements.Phase;
 import elements.Ride;
 import elements.Road;
 import elements.RoundAbout;
+import elements.TrafficLightsSystem;
 import elements.Vehicle;
 import main.Simulation;
 import utils.Utils;
@@ -27,6 +29,10 @@ public class Network {
 	private ArrayList<MultiLaneRoundAbout> multiLaneRoundAbouts = new ArrayList<MultiLaneRoundAbout>();
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
+	private ArrayList<TrafficLightsSystem> trafficLightsSystems = new ArrayList<TrafficLightsSystem>();
+	public ArrayList<TrafficLightsSystem> getTrafficLightsSystems() {
+		return trafficLightsSystems;
+	}
 	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	private int numberOfVehicles = 0;
@@ -714,6 +720,60 @@ public class Network {
 		roads.add(rRouteBellNE);
 		rRouteBellNE.connectTo(raEntreeA, 8);
 		*/
+		
+		// CrossRoadsPhases:
+		
+		// Phase 1-----------------------------------------------------------------------------------------
+		Phase P1 = new Phase(this, 20, 30);
+		
+		P1.addConcernedRoad(rRouteDeMeyrinNorthNW1);
+		P1.addConcernedRoad(rRouteDeMeyrinNorthNW2);
+		P1.addConcernedRoad(rRouteDeMeyrinNorthNW3);
+		
+		P1.addRoadToCheck(rRouteDeMeyrinNorthNW3);
+		// Phase 2-----------------------------------------------------------------------------------------
+		Phase P2 = new Phase(this, 20, 30);
+		
+		P2.addConcernedRoad(rRouteDeMeyrinNorthNW2);
+		P2.addConcernedRoad(rRouteDeMeyrinNorthNW3);
+		P2.addConcernedRoad(rD984FSES);
+		P2.addConcernedRoad(rD984FSES2);
+		P2.addConcernedRoad(rD984FSES3);
+		
+		P2.addRoadToCheck(rRouteDeMeyrinNorthNW2);
+		P2.addRoadToCheck(rRouteDeMeyrinNorthNW3);
+		P2.addRoadToCheck(rD984FSES);
+		P2.addRoadToCheck(rD984FSES2);
+		
+		// Phase 3-----------------------------------------------------------------------------------------
+		Phase P3 = new Phase(this, 10, 15);
+		
+		P3.addConcernedRoad(rD984FSES3);
+		P3.addConcernedRoad(rRoutePauliSouthNELeft);
+		P3.addConcernedRoad(rRoutePauliSouthNERight);
+		
+		P3.addRoadToCheck(rD984FSES3);
+		P3.addRoadToCheck(rRoutePauliSouthNELeft);
+		P3.addRoadToCheck(rRoutePauliSouthNERight);
+		
+		// Phase 4-----------------------------------------------------------------------------------------
+		Phase P4 = new Phase(this, 10, 15);
+		
+		P4.addConcernedRoad(rRoutePauliNorthNE);
+		
+		P4.addRoadToCheck(rRoutePauliNorthNE);
+		
+		// CrossRoads Entree B TLS-------------------------------------------------------------------------
+		TrafficLightsSystem crEntreeBTLS = new TrafficLightsSystem();
+		crEntreeBTLS.addPhase(P1);
+		crEntreeBTLS.addPhase(P2);
+		crEntreeBTLS.addPhase(P3);
+		crEntreeBTLS.addPhase(P4);
+		
+		this.trafficLightsSystems.add(crEntreeBTLS);
+		crEntreeBTLS.setTrafficLightsRed();
+		rRouteDeMeyrinNorthNW1.setTrafficLightRed(true);
+		crEntreeBTLS.initializePhases();
 		
 		// Network settings =================================================================================
 		rRueDeGeneveSE.setGenerateVehicules(1000);

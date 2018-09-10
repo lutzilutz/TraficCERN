@@ -7,6 +7,7 @@ import elements.CrossRoad;
 import elements.Ride;
 import elements.Road;
 import elements.RoundAbout;
+import elements.TrafficLightsSystem;
 import elements.Vehicle;
 import utils.Utils;
 
@@ -200,6 +201,10 @@ public class NetworkComputing {
 	// Compute future state of the Cells of the Road
 	public static void computeEvolution(Network n) {
 		
+		for (TrafficLightsSystem tls: n.getTrafficLightsSystems()) {
+			tls.nextStep();
+		}
+		
 		// pre-process
 		for (Road r: n.getRoads()) {
 			
@@ -237,6 +242,8 @@ public class NetworkComputing {
 			r.outflowTick();
 		}
 		
+		
+		
 		for (CrossRoad cr: n.getCrossRoads()) {
 			if (!cr.getRoadsIN()[(cr.getStateOfTrafficLight()+1)%4].isTrafficLightRed()) {
 				cr.setTrafficLightState(cr.getStateOfTrafficLight()%4);
@@ -257,6 +264,7 @@ public class NetworkComputing {
 				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
 					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
 					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && Math.random() < 0) {// < 0.5) {
+						
 						v.goToOutCell();
 						v.setSpeed(1);
 						
