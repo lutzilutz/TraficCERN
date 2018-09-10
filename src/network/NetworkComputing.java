@@ -372,6 +372,8 @@ public class NetworkComputing {
 		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + " ");
 		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size()) + " ");
 		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rC5SW").getLeakyBucket().size()) + " ");
-		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
+		if (n.selectARoad("rRouteDeMeyrinSouthNW") != null) {
+			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
+		}
 	}
 }
