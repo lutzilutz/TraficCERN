@@ -225,14 +225,13 @@ public class NetworkComputing {
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
-			} /*else if (n.isRandomGeneration()) {
+			} else if (n.isRandomGeneration() && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
 				tmp.setRide(n.selectARide(r.getName()));
-
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
-			} */
+			} 
 			
 			// tick for outflow
 			r.outflowTick();

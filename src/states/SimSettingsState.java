@@ -509,6 +509,9 @@ public class SimSettingsState extends State {
 		} else if (activePage == 4) {
 			Text.drawString(g, "entrance B", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManagerB.render(g);
+		} else if (activePage == 5) {
+			Text.drawString(g, "general settings", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			this.uiManagerGeneral.render(g);
 		}
 		
 		renderPageIndication(g);

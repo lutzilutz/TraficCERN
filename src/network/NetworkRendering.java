@@ -74,8 +74,8 @@ public class NetworkRendering {
 		}
 		Text.drawString(g, "CERN", Assets.zoneCERNtextCol, 115*n.getCellWidth(), 80*n.getCellWidth(), true, Assets.hugeFont);
 		Text.drawString(g, "Entrance E", Assets.zoneCERNtextCol, 12*n.getCellWidth(), 27*n.getCellWidth(), true, Assets.largeFont);
-		Text.drawString(g, "Entrance B", Assets.zoneCERNtextCol, 190*n.getCellWidth(), 100*n.getCellWidth(), true, Assets.largeFont);
-		Text.drawString(g, "Entrance A", Assets.zoneCERNtextCol, 210*n.getCellWidth(), 118*n.getCellWidth(), true, Assets.largeFont);
+		Text.drawString(g, "Entrance B", Assets.zoneCERNtextCol, 187*n.getCellWidth(), 103*n.getCellWidth(), true, Assets.largeFont);
+		Text.drawString(g, "Entrance A", Assets.zoneCERNtextCol, 210*n.getCellWidth(), 119*n.getCellWidth(), true, Assets.largeFont);
 		Text.drawString(g, "Inter-site", Assets.zoneCERNtextCol, 126*n.getCellWidth(), 71*n.getCellWidth(), true, Assets.largeFont);
 		
 		// CrossRoads =================================================================================================
@@ -436,7 +436,13 @@ public class NetworkRendering {
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.pink);
 		for (Road r: n.getRoads()) {
-			if (r.getFlow().get(8)>0) {
+			boolean renderBucket = false;
+			for (Integer i: r.getFlow()) {
+				if (i>0) {
+					renderBucket = true;
+				}
+			}
+			if (renderBucket) {
 				Text.drawString(gg, Integer.toString(r.getLeakyBucket().size()), Color.pink, (int) (r.getX()-6*n.getCellWidth()*Math.sin(2*Math.PI*r.getDirection()/360.0)), (int) (r.getY()+2*n.getCellWidth()*Math.cos(2*Math.PI*r.getDirection()/360.0)), true, Assets.normalBoldFont);
 			}
 		}
