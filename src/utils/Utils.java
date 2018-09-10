@@ -16,7 +16,9 @@ public class Utils {
 	public static PrintStream log;
 	public static PrintStream dataCounters;
 	public static PrintStream dataChecking;
-	public static String dataStr = "";
+	public static PrintStream dataLeakyBuckets;
+	public static String dataStrCounters = "";
+	public static String dataStrLeakyBuckets = "";
 	public static String dataDir = "data";
 	private static Date date = new Date();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -47,7 +49,16 @@ public class Utils {
 		
 		initDataCounters();
 		initCheckingValues();
+		initDataLeakyBuckets();
 		
+	}
+	public static void initDataLeakyBuckets() {
+		try {
+			dataLeakyBuckets = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets.txt", false));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		dataLeakyBuckets.print("Time Thoiry St-Genis Ferney Tun Geneva\n");
 	}
 	public static void initDataCounters() {
 		try {
@@ -99,12 +110,23 @@ public class Utils {
 		log.print(text);
 		System.out.print(text);
 	}
-	public static void writeData(String text) {
-		dataStr = dataStr + text;
-	}
 	public static void saveData() {
-		dataCounters.print(dataStr);
-		dataStr = "";
+		saveDataCounters();
+		saveDataLeakyBuckets();
+	}
+	public static void writeDataCounters(String text) {
+		dataStrCounters = dataStrCounters + text;
+	}
+	public static void saveDataCounters() {
+		dataCounters.print(dataStrCounters);
+		dataStrCounters = "";
+	}
+	public static void writeDataLeakyBuckets(String text) {
+		dataStrLeakyBuckets = dataStrLeakyBuckets + text;
+	}
+	public static void saveDataLeakyBuckets() {
+		dataLeakyBuckets.print(dataStrLeakyBuckets);
+		dataStrLeakyBuckets = "";
 	}
 	public static int parseInt(String number) {
 		try {

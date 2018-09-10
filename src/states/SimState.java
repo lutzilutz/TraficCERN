@@ -445,7 +445,7 @@ public class SimState extends State {
 		return hr;
 	}
 	public void updateRH() {
-		if (getHours() >= 7 && getHours() < 10) {
+		if ((getHours() >= 7 && getHours() < 10) || (getHours() >= 17 && getHours() < 20)) {
 			rushHours = true;
 		} else {
 			rushHours = false;

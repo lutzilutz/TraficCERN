@@ -360,11 +360,18 @@ public class NetworkComputing {
 	public static void writeData(Network n) {
 		
 		if (!n.isRandomGeneration()) {
-			Utils.writeData(n.getSimulation().getSimState().getTime() + " ");
-			Utils.writeData(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
-			Utils.writeData(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
-			Utils.writeData(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
-			Utils.writeData(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
+			Utils.writeDataCounters(n.getSimulation().getSimState().getTime() + " ");
+			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
+			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
+			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
+			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
 		}
+		
+		Utils.writeDataLeakyBuckets(n.getSimulation().getSimState().getTime() + " ");
+		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rD884NE").getLeakyBucket().size()) + " ");
+		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + " ");
+		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size()) + " ");
+		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rC5SW").getLeakyBucket().size()) + " ");
+		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
 	}
 }
