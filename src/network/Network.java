@@ -5,6 +5,7 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import elements.Connection;
 import elements.CrossRoad;
@@ -802,7 +803,9 @@ public class Network {
 		Utils.logTime();
 		
 		this.generateAllNetworkRides(50);
-		this.cleanAllNetworkRides(1);
+		//this.cleanAllNetworkRides(1);
+		cleanRides(3);
+		
 		printNames();
 		
 		rD984FSE.setCounter(0.5, "counter 1A");
@@ -1321,6 +1324,38 @@ public class Network {
 		}
 		return r;
 	}
+	public void cleanRides(int maxLengthDiff) {
+		for (AllNetworkRides anr: getAllNetworkRides()) {	
+			for (Road finalRoad: getRoads()) {
+				int shortestRide = 1000;
+				for (Ride ride: anr.getNetworkRides()) {
+					if (ride.getNextConnections().size() < shortestRide && isLastRoad(ride, finalRoad.getName())) {
+						shortestRide = ride.getNextConnections().size();
+					}
+				}
+				Iterator<Ride> iter = anr.getNetworkRides().iterator();
+				while (iter.hasNext()) {
+					Ride ride = iter.next();
+					if (ride.getNextConnections().size()-shortestRide >= maxLengthDiff && isLastRoad(ride, finalRoad.getName())) {
+						iter.remove();
+					}
+				}
+			}
+		}
+	}
+	// Tells if roadName is the last road of the ride r
+	public static boolean isLastRoad(Ride r, String roadName) {
+		if (r.getNextConnections().size()>0) {
+			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
 	public void cleanAllNetworkRides(int x) {
 		if (!this.getAllNetworkRides().isEmpty()) {
 			for (AllNetworkRides ANR: this.getAllNetworkRides()) {

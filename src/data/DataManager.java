@@ -472,21 +472,16 @@ public class DataManager {
 			}
 		}
 		
-		/*for (AllNetworkRides anr: n.getAllNetworkRides()) {
-			DecimalFormat df = new DecimalFormat("#####0.0");
+		for (AllNetworkRides anr: n.getAllNetworkRides()) {
 			
 			for (Ride ride: anr.getNetworkRides()) {
-				if (ride.getRoadName().equals("rRoutePauliSouthNERight")) {
-					System.out.print(ride.getRoadName() + " -> " + ride.getNextConnections().get(ride.getNextConnections().size()-1).getName());
+				//if ((ride.getRoadName().equals("rRueDeGeneveSE") || ride.getRoadName().equals("rD884NE") || ride.getRoadName().equals("rRueGermaineTillionSW") || ride.getRoadName().equals("rC5SW")) && lastRoadIs(ride,"rRoutePauliSouthSW")) {
+				if ((ride.getRoadName().equals("rD884NE")) && lastRoadIs(ride,"rRoutePauliSouthSW")) {
 					ride.print();
-					System.out.println();
-					for (Float f: ride.getFlow()) {
-						System.out.print(df.format(f) + " ");
-					}
 					System.out.println();
 				}
 			}
-		}*/
+		}
 	}
 	public static void applyRidesToRoads(Simulation simulation) {
 		
@@ -530,15 +525,13 @@ public class DataManager {
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
 		}
 		
-		for (Road road2: n.getRoads()) {
+		/*for (Road road2: n.getRoads()) {
 			System.out.println(road2.getName() + " : ");
 			for (int i=0; i<road2.getFlow().size() ; i++) {
 				System.out.print(road2.getFlow().get(i) + " ");
 			}
 			System.out.println();
-			/*if (road2.getName().equals("rRoutePauliSouthSW")) {	
-			}*/
-		}
+		}*/
 	}
 	public static int numberOfSameRides(Simulation sim, String start, String end) {
 		Network n = sim.getSimState().getNetwork();
