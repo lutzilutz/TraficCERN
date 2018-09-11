@@ -6,7 +6,7 @@ public class TrafficLightsSystem {
 	private ArrayList<Phase> allPhases = new ArrayList<Phase>();
 	public boolean interPhase = false;
 	private int t=0;
-	public int interPhaseDuration = 3;
+	public int interPhaseDuration = 5;
 	private int currentPhaseIndex=0;
 	
 	public void incrementIndex() {
