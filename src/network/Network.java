@@ -803,7 +803,7 @@ public class Network {
 		
 		this.generateAllNetworkRides(50);
 		//this.cleanAllNetworkRides();
-		//printNames();
+		printNames();
 		
 		rD984FSE.setCounter(0.5, "counter 1A");
 		rD984FNW.setCounter(0.49, "counter 1B");
