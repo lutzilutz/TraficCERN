@@ -8,18 +8,19 @@ public class Ride implements Cloneable {
 	
 	private String roadName;
 	private ArrayList<Connection> nextConnections = new ArrayList<Connection>();
-	private ArrayList<Integer> flow = new ArrayList<Integer>();
+	private ArrayList<Float> flow = new ArrayList<Float>();
+	private int numberOfSameRide = 1;
 	
 	public Ride(String name) {
 		this.roadName = name ;
 		for (int i=0; i<24 ; i++) {
-			flow.add(0);
+			flow.add(0f);
 		}
 	}
 	public Ride() {
 		this.roadName = "" ;
 		for (int i=0; i<24 ; i++) {
-			flow.add(0);
+			flow.add(0f);
 		}
 	}
 	
@@ -46,13 +47,13 @@ public class Ride implements Cloneable {
 			Utils.log(e);
 		}
 		ride.nextConnections = new ArrayList<Connection>(this.getNextConnections());
-		ride.flow = new ArrayList<Integer>(this.flow);
+		ride.flow = new ArrayList<Float>(this.flow);
 		return ride;
 		
 	}
 	
 	// Getters & setters ====================================================================================
-	public void setFlow(int value) {
+	public void setFlow(float value) {
 		for (int i = 0 ; i<24 ; i++) {
 			flow.set(i, value);
 		}
@@ -62,13 +63,19 @@ public class Ride implements Cloneable {
 		}
 		System.out.println();*/
 	}
-	public void setFlow(int hourStart, int hourEnd, int value) {
+	public void setFlow(int hourStart, int hourEnd, float value) {
 		for (int i = hourStart ; i<hourEnd ; i++) {
 			flow.set(i, value);
 		}
 	}
-	public ArrayList<Integer> getFlow() {
+	public ArrayList<Float> getFlow() {
 		return flow;
+	}
+	public void setNumberOfSameRide(int numberOfSameRide) {
+		this.numberOfSameRide = numberOfSameRide;
+	}
+	public int getNumberOfSameRide() {
+		return this.numberOfSameRide;
 	}
 	public String getRoadName() {
 		return roadName;

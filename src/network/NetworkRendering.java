@@ -436,7 +436,7 @@ public class NetworkRendering {
 		gg.setColor(Color.pink);
 		for (Road r: n.getRoads()) {
 			boolean renderBucket = false;
-			for (Integer i: r.getFlow()) {
+			for (Float i: r.getFlow()) {
 				if (i>0) {
 					renderBucket = true;
 				}

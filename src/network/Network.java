@@ -133,7 +133,7 @@ public class Network {
 	}
 	
 	public void createTestNetwork1() {
-		//randomGeneration = false;
+		randomGeneration = false;
 		
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
@@ -1263,8 +1263,8 @@ public class Network {
 	}
 	public Ride selectARideWithProbability(String roadName) {
 		Ride voidRide = new Ride();
-		ArrayList<Integer> probas = new ArrayList<Integer>();
-		int totalProba = 0;
+		ArrayList<Float> probas = new ArrayList<Float>();
+		float totalProba = 0;
 		for (AllNetworkRides anr: allNetworkRides) {
 			if (anr.getRoadName().equals(roadName)) {
 				
@@ -1276,7 +1276,7 @@ public class Network {
 						totalProba += ride.getFlow().get(sim.getSimState().getHours());
 						probas.add(totalProba);
 					} else {
-						probas.add(0);
+						probas.add(0f);
 					}
 					
 				}
@@ -1360,7 +1360,7 @@ public class Network {
 		Utils.tick();
 		for (Road r: this.roads) {
 			boolean generateAtLeastOne = false;
-			for (Integer i: r.getFlow()) {
+			for (Float i: r.getFlow()) {
 				if (i>0) {
 					generateAtLeastOne = true;
 				}

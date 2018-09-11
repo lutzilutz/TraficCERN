@@ -19,7 +19,7 @@ public class Road {
 	private int length;
 	private int maxSpeed;
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
-	private ArrayList<Integer> flow = new ArrayList<Integer>();
+	private ArrayList<Float> flow = new ArrayList<Float>();
 	private boolean isTrafficLightRed = false;
 	private EnumSet<Direction> directions;
 	private ArrayList<Point> reorientations = new ArrayList<Point>();
@@ -57,7 +57,7 @@ public class Road {
 			roadCells.add(tmp);
 		}
 		for (int i=0; i<24 ; i++) {
-			flow.add(0);
+			flow.add(0f);
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class Road {
 			roadCells.add(tmp);
 		}
 		for (int i=0; i<24 ; i++) {
-			flow.add(0);
+			flow.add(0f);
 		}
 	}
 	public void outflowTick() {
@@ -457,15 +457,15 @@ public class Road {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public ArrayList<Integer> getFlow() {
+	public ArrayList<Float> getFlow() {
 		return flow;
 	}
-	public void setGenerateVehicules(int hourStart, int hourEnd, int value) {
+	public void setGenerateVehicules(int hourStart, int hourEnd, float value) {
 		for (int i=hourStart ; i<hourEnd ; i++) {
 			flow.set(i, value);
 		}
 	}
-	public void setGenerateVehicules(int value) {
+	public void setGenerateVehicules(float value) {
 		for (int i=0 ; i<flow.size() ; i++) {
 			flow.set(i, value);
 		}
