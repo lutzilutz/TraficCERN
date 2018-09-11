@@ -77,19 +77,20 @@ public class Network {
 			createRealNetworkMulti();
 			break;
 		case 2:
-			createRealNetworkSingle();
+			Utils.log("(scenario RA entrance B) ... ");
+			createScenarioRAEntranceB();
 			break;
 		}
 		
 		titles = new String[3];
 		titles[0] = "CERN network";
 		titles[1] = "CERN network multi";
-		titles[2] = "CERN network";
+		titles[2] = "Scenario 1";
 
 		descriptions = new String[3];
 		descriptions[0] = "Actual network around the CERN, single lanes";
-		descriptions[1] = "[Work in progress] Actual network arount the CERN, multi lanes (random, no output file)";
-		descriptions[2] = "Actual network around the CERN";
+		descriptions[1] = "Actual network arount the CERN, multi lanes";
+		descriptions[2] = "Entrance B crossroad replaced by round-about";
 	}
 	public Network(Simulation sim, int n, int size) {
 		this.setCellWidth((int) (Math.pow(2, 1+size)));
@@ -116,19 +117,24 @@ public class Network {
 			createRealNetworkMulti();
 			break;
 		case 2:
-			createRealNetworkSingle();
+			Utils.log("(scenario RA entrance B) ... ");
+			createScenarioRAEntranceB();
 			break;
 		}
 		
 		titles = new String[3];
 		titles[0] = "CERN network";
 		titles[1] = "CERN network multi";
-		titles[2] = "CERN network";
+		titles[2] = "Scenario 1";
 
 		descriptions = new String[3];
 		descriptions[0] = "Actual network around the CERN, single lanes";
-		descriptions[1] = "[Work in progress] Actual network arount the CERN, multi lanes (random, no output file)";
-		descriptions[2] = "Actual network around the CERN";
+		descriptions[1] = "Actual network arount the CERN, multi lanes";
+		descriptions[2] = "Entrance B crossroad replaced by round-about";
+	}
+	
+	public void createScenarioRAEntranceB() {
+		
 	}
 	
 	public void createRealNetworkMulti() {

@@ -70,13 +70,12 @@ public class MenuState extends State {
 				simulation.getSimSettingsState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 2, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 				simulation.getSimState().init();
-				DataManager.loadData(simulation);
 				State.setState(simulation.getSimSettingsState());
 			}
 		});
-		//this.uiManager.addObject(network3);
+		this.uiManager.addObject(network3);
 		
-		sizeOfNetwork = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, 2, false, new ClickListener(){
+		sizeOfNetwork = new UISlider(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, 2, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -84,7 +83,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(sizeOfNetwork);
 		
-		this.uiManager.addObject(new UITextButton(xStart, yStart+6*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
+		this.uiManager.addObject(new UITextButton(xStart, yStart+7*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
 				System.exit(0);
@@ -122,9 +121,9 @@ public class MenuState extends State {
 		}
 		
 		if (network3.isHovering()) {
-			//Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		} else {
-			//Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		}
 		
 		this.uiManager.render(g);
