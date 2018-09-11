@@ -43,6 +43,7 @@ public class Network {
 	private boolean drawRoadID = false; // true for rendering roads ID
 	private boolean drawNames = false; // true for rendering names of road
 	private boolean drawCenters = false; // true for rendering centers (x,y position)
+	private boolean drawVehicleColor = false;
 	private ArrayList<Polygon> zones = new ArrayList<Polygon>();
 	
 	private double xOffset=0, yOffset=0; // offset of the network on screen
@@ -71,14 +72,14 @@ public class Network {
 		switch (n) {
 		case 0:
 			Utils.log("(single-lane) ... ");
-			createRealNetwork();
+			createRealNetworkSingle();
 			break;
 		case 1:
 			Utils.log("(multi-lane) ... ");
-			createTestNetwork1();
+			createRealNetworkMulti();
 			break;
 		case 2:
-			createRealNetwork();
+			createRealNetworkSingle();
 			break;
 		}
 		
@@ -110,14 +111,14 @@ public class Network {
 		switch (n) {
 		case 0:
 			Utils.log("(single-lane) ... ");
-			createRealNetwork();
+			createRealNetworkSingle();
 			break;
 		case 1:
 			Utils.log("(multi-lane) ... ");
-			createTestNetwork1();
+			createRealNetworkMulti();
 			break;
 		case 2:
-			createRealNetwork();
+			createRealNetworkSingle();
 			break;
 		}
 		
@@ -132,7 +133,7 @@ public class Network {
 		descriptions[2] = "Actual network around the CERN";
 	}
 	
-	public void createTestNetwork1() {
+	public void createRealNetworkMulti() {
 		randomGeneration = false;
 		
 		Polygon tmp = new Polygon();
@@ -767,8 +768,8 @@ public class Network {
 		TrafficLightsSystem crEntreeBTLS = new TrafficLightsSystem();
 		crEntreeBTLS.addPhase(P1);
 		crEntreeBTLS.addPhase(P2);
-		crEntreeBTLS.addPhase(P3);
-		crEntreeBTLS.addPhase(P4);
+		//crEntreeBTLS.addPhase(P3);
+		//crEntreeBTLS.addPhase(P4);
 		
 		this.trafficLightsSystems.add(crEntreeBTLS);
 		crEntreeBTLS.setTrafficLightsRed();
@@ -814,7 +815,7 @@ public class Network {
 		rD984FNWS.setCounter(0.702);
 		
 	}
-	public void createRealNetwork() {
+	public void createRealNetworkSingle() {
 		
 		randomGeneration = false;
 		
@@ -1489,6 +1490,9 @@ public class Network {
 	}
 	public ArrayList<RoundAbout> getRoundAbouts() {
 		return this.roundAbouts;
+	}
+	public boolean getDrawVehicleColor() {
+		return this.drawVehicleColor;
 	}
 	public boolean getDrawWire() {
 		return this.drawWire;

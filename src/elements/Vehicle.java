@@ -1,5 +1,7 @@
 package elements;
 
+import java.awt.Color;
+
 import network.Network;
 
 public class Vehicle {
@@ -14,6 +16,8 @@ public class Vehicle {
 	private boolean hasToLeave = false;
 	private Ride ride;
 	private boolean inBucket = true;
+	private Color color = new Color(100,0,0);
+	private boolean isTransiting = false;
 	
 	public Vehicle(Network n) {
 		this.n = n;
@@ -176,6 +180,18 @@ public class Vehicle {
 	}
 	
 	// Getters & setters ====================================================================================
+	public boolean isTransiting() {
+		return isTransiting;
+	}
+	public void setIsTransiting(boolean isTransiting) {
+		this.isTransiting = isTransiting;
+	}
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
 	public boolean inBucket() {
 		return inBucket;
 	}

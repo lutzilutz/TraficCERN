@@ -1,5 +1,6 @@
 package network;
 
+import java.awt.Color;
 import java.util.Iterator;
 
 import data.DataManager;
@@ -227,6 +228,7 @@ public class NetworkComputing {
 				} else {
 					tmp.setRide(n.selectARide(r.getName()));
 				}
+				chooseAspect(tmp);
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
@@ -362,6 +364,12 @@ public class NetworkComputing {
 				v.setInBucket(false);
 				r.removeVehicleFromBucket(r.getLeakyBucket().get(0));
 			}
+			if (r.getName().equals("rRoutePauliSouthSW")) {
+				if (r.getRoadCells().get(0).getVehicle() != null) {
+					r.getRoadCells().get(0).getVehicle().getRide().print();
+					System.out.println();
+				}
+			}
 		}
 		
 		if (n.getSimulation().getSimState().getStep()%60 == 0) {
@@ -369,6 +377,23 @@ public class NetworkComputing {
 		}
 		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) {
 			Utils.saveData();
+		}
+	}
+	public static void chooseAspect(Vehicle v) {
+		if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+			v.setColor(Color.red);
+		} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
+			v.setColor(Color.green);
+		} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteBellSW")) {
+			v.setColor(Color.blue);
+		} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
+			v.setColor(Color.black);
+			v.setIsTransiting(true);
+		} else if (v.getRide().getRoadName().equals("rRouteDeMeyrinSouthNW")) {
+			v.setColor(Color.black);
+			v.setIsTransiting(true);
+		} else {
+			v.setColor(Color.darkGray);
 		}
 	}
 	public static void writeData(Network n) {
