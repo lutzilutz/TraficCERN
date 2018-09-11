@@ -802,7 +802,7 @@ public class Network {
 		Utils.logTime();
 		
 		this.generateAllNetworkRides(50);
-		//this.cleanAllNetworkRides();
+		this.cleanAllNetworkRides(1);
 		printNames();
 		
 		rD984FSE.setCounter(0.5, "counter 1A");
@@ -1321,7 +1321,7 @@ public class Network {
 		}
 		return r;
 	}
-	public void cleanAllNetworkRides() {
+	public void cleanAllNetworkRides(int x) {
 		if (!this.getAllNetworkRides().isEmpty()) {
 			for (AllNetworkRides ANR: this.getAllNetworkRides()) {
 				ArrayList<Integer> elmtsToChange = new ArrayList<Integer>();
@@ -1330,7 +1330,7 @@ public class Network {
 						ArrayList<Connection> riConnections = ANR.getNetworkRides().get(i).getNextConnections();
 						ArrayList<Connection> rjConnections = ANR.getNetworkRides().get(j).getNextConnections();
 						if (riConnections.get(riConnections.size()-1).getName().equals(rjConnections.get(rjConnections.size()-1).getName())) {
-							if (rjConnections.size() > riConnections.size()) {
+							if (rjConnections.size() > riConnections.size()+x) {
 								elmtsToChange.add(j);
 							} else if (rjConnections.size() < riConnections.size()){
 								elmtsToChange.add(j);
