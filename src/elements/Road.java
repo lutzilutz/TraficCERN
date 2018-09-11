@@ -328,7 +328,7 @@ public class Road {
 							for (Connection ent: this.getEnters()) {
 								
 								if(ride.getNextConnections().size() > 1 && ent.getName().equals(ride.getNextConnections().get(ride.getNextConnections().size()-2).getName())) {
-									if (ent.getPosition() >= e.getPosition()) {
+									if (ent.getPosition() > e.getPosition()) {
 										canAdd = false;
 									}
 								} else if (ride.getNextConnections().size() == 1) {
