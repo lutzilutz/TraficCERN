@@ -1,5 +1,8 @@
 package data;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import elements.Ride;
 import elements.Road;
 import main.Simulation;
@@ -429,23 +432,39 @@ public class DataManager {
 		
 		// From entrance B ==================================================================================
 		
-		/*for (Ride r: n.getAllRides("rRoutePauliSouthNE").getNetworkRides()) {
-			
-			resetValues();
-			
-			if (lastRoadIs(r, "rD884SW") || lastRoadIs(r, "rRueDeGeneveNW") || lastRoadIs(r, "rRueGermaineTillionNE") || lastRoadIs(r, "rC5NE")) {
-				value = (int) settings.fromEntranceB().getCurrentValue();
-				repartition2 = (100-settings.fromEntranceBRepartition().getCurrentValue()) / (100.0*4);
-			} else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				value = (int) settings.fromEntranceB().getCurrentValue();
-				repartition2 = (settings.fromEntranceBRepartition().getCurrentValue()) / (100.0);
+		ArrayList<AllNetworkRides> anrEntreeB = new ArrayList<AllNetworkRides>();
+		
+		// if one road out of entrance B
+		if (n.getAllRides("rRoutePauliSouthNE") != null) {
+			anrEntreeB.add(n.getAllRides("rRoutePauliSouthNE"));
+		} else {
+			if (n.getAllRides("rRoutePauliSouthNELeft") != null) {
+				anrEntreeB.add(n.getAllRides("rRoutePauliSouthNELeft"));
 			}
-			repartitionRH17 = settings.fromEntranceBRepartitionRH2().getCurrentValue1() / 100.0;
-			repartitionRH18 = (settings.fromEntranceBRepartitionRH2().getCurrentValue2() - settings.fromEntranceBRepartitionRH2().getCurrentValue1()) / 100.0;
-			repartitionRH19 = (100 - settings.fromEntranceBRepartitionRH2().getCurrentValue2()) / 100.0;
-			repartitionRHEvening = 1;
-			applyFlowFromVariables(r);
-		}*/
+			if (n.getAllRides("rRoutePauliSouthNERight") != null) {
+				anrEntreeB.add(n.getAllRides("rRoutePauliSouthNERight"));
+			}
+			
+		}
+		for (AllNetworkRides anr: anrEntreeB) {
+			for (Ride r: anr.getNetworkRides()) {
+				
+				resetValues();
+				
+				if (lastRoadIs(r, "rD884SW") || lastRoadIs(r, "rRueDeGeneveNW") || lastRoadIs(r, "rRueGermaineTillionNE") || lastRoadIs(r, "rC5NE")) {
+					value = settings.fromEntranceB().getCurrentValue();
+					repartition2 = (100-settings.fromEntranceBRepartition().getCurrentValue()) / (100.0*4);
+				} else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
+					value = settings.fromEntranceB().getCurrentValue();
+					repartition2 = (settings.fromEntranceBRepartition().getCurrentValue()) / (100.0);
+				}
+				repartitionRH17 = settings.fromEntranceBRepartitionRH2().getCurrentValue1() / 100.0;
+				repartitionRH18 = (settings.fromEntranceBRepartitionRH2().getCurrentValue2() - settings.fromEntranceBRepartitionRH2().getCurrentValue1()) / 100.0;
+				repartitionRH19 = (100 - settings.fromEntranceBRepartitionRH2().getCurrentValue2()) / 100.0;
+				repartitionRHEvening = 1;
+				applyFlowFromVariables(simulation, r);
+			}
+		}
 		
 		for (Road road: n.getRoads()) {
 			if (road.getName().equals("rSortieCERNSE") || road.getName().equals("rD884CERN") || road.getName().equals("rRoutePauliSouthSW") || road.getName().equals("rRouteBellSW")) {
@@ -453,16 +472,21 @@ public class DataManager {
 			}
 		}
 		
-		for (AllNetworkRides anr: n.getAllNetworkRides()) {
+		/*for (AllNetworkRides anr: n.getAllNetworkRides()) {
+			DecimalFormat df = new DecimalFormat("#####0.0");
 			
 			for (Ride ride: anr.getNetworkRides()) {
-				if (lastRoadIs(ride, "rRoutePauliSouthSW")) {
-					System.out.print(ride.getRoadName() + " ");
+				if (ride.getRoadName().equals("rRoutePauliSouthNERight")) {
+					System.out.print(ride.getRoadName() + " -> " + ride.getNextConnections().get(ride.getNextConnections().size()-1).getName());
 					ride.print();
+					System.out.println();
+					for (Float f: ride.getFlow()) {
+						System.out.print(df.format(f) + " ");
+					}
 					System.out.println();
 				}
 			}
-		}
+		}*/
 	}
 	public static void applyRidesToRoads(Simulation simulation) {
 		

@@ -50,7 +50,7 @@ public class SimState extends State {
 	
 	private UITextButton stepByStep, exitY, exitN;
 	private UIImageButton playPause;
-	private UITextSwitch colorOn, wireOn, idOn, namesOn, centersOn;
+	private UITextSwitch colorOn, wireOn, idOn, ridesOn, namesOn, centersOn;
 	
 	private BufferedImage[] networkDisplays;
 	private BufferedImage currentDisplay;
@@ -209,14 +209,21 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
+		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", network.getDrawCenters(), new ClickListener(){
+			@Override
+			public void onClick() {
+				ridesOn.switchIt();
+				network.switchDrawRides();
+			}
+		});
+		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				namesOn.switchIt();
 				network.switchDrawNames();
 			}
 		});
-		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
+		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				centersOn.switchIt();
@@ -226,6 +233,7 @@ public class SimState extends State {
 		this.uiManager.addObject(colorOn);
 		this.uiManager.addObject(wireOn);
 		this.uiManager.addObject(idOn);
+		this.uiManager.addObject(ridesOn);
 		this.uiManager.addObject(namesOn);
 		this.uiManager.addObject(centersOn);
 	}
@@ -382,8 +390,9 @@ public class SimState extends State {
 			gg.translate(network.getxOffset(), network.getyOffset());
 			gg.rotate(network.getRotation(), simulation.getWidth()/2-network.getxOffset(), simulation.getHeight()/2-network.getyOffset());
 			gg.drawImage(currentDisplay, 0, 0, null);
-			g.drawImage(hud, 0, 0, null);
 			NetworkRendering.render(network, gg);
+			NetworkRendering.renderHeaderBG(network, g);
+			g.drawImage(hud, 0, 0, null);
 			NetworkRendering.renderInformations(network, g);
 			gg.dispose();
 			uiManager.render(g);

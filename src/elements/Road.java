@@ -111,8 +111,8 @@ public class Road {
 		
 		roadCells.get(roadCells.size()-1).setBlocked(isBlocked);
 	}
-	public void setCounter(double location) {
-		vehicleCounter = new VehicleCounter(n, this, location);
+	public void setCounter(double location, String name) {
+		vehicleCounter = new VehicleCounter(n, this, location, name);
 	}
 	public void setUnderground(int i, int j, boolean isUnderground) {
 		for (int k=i ; k<=j ; k++) {

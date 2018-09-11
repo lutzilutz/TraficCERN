@@ -296,6 +296,7 @@ public class NetworkRendering {
 	}
 	public static void renderButtonsHeader(Network n, BufferedImage hud) {
 		Graphics2D g = hud.createGraphics();
+		
 		g.setColor(Assets.idleCol);
 		
 		// "Controls"
@@ -314,10 +315,10 @@ public class NetworkRendering {
 		
 		// "Visuals"
 		g.fillRect(Assets.buttonXStart, n.getSimulation().getHeight()-Assets.buttonH-20-15, 2, 12);
-		g.fillRect(Assets.buttonXStart, n.getSimulation().getHeight()-Assets.buttonH-20-15, 100, 2);
-		Text.drawString(g, "visuals", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*1.5)+Assets.buttonSpacing, n.getSimulation().getHeight()-Assets.buttonH-20-17, true, Assets.normalFont);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-100, n.getSimulation().getHeight()-Assets.buttonH-20-15, 100, 2);
-		g.fillRect(Assets.buttonXStart+Assets.buttonW*3+Assets.buttonSpacing*2-1, n.getSimulation().getHeight()-Assets.buttonH-20-15, 2, 12);
+		g.fillRect(Assets.buttonXStart, n.getSimulation().getHeight()-Assets.buttonH-20-15, 250, 2);
+		Text.drawString(g, "visuals", Assets.idleCol, Assets.buttonXStart+(int) (Assets.buttonW*3 + Assets.buttonSpacing*2.5), n.getSimulation().getHeight()-Assets.buttonH-20-17, true, Assets.normalFont);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*6+Assets.buttonSpacing*5-250, n.getSimulation().getHeight()-Assets.buttonH-20-15, 250, 2);
+		g.fillRect(Assets.buttonXStart+Assets.buttonW*6+Assets.buttonSpacing*5-1, n.getSimulation().getHeight()-Assets.buttonH-20-15, 2, 12);
 	}
 	
 	// Every-frame operations #######################################################################################################################
@@ -445,19 +446,46 @@ public class NetworkRendering {
 		g.drawString("Time :    " + n.getSimulation().getSimState().getTime(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-50);
 		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getSimState().getStepSize())/10.0) + " km/h", n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-30);
 		g.drawString("Rush hours : " + n.getSimulation().getSimState().isRushHours(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-10);
+		
+		if (n.getDrawVehicleColor()) {
+			int x = 660;
+			int y = n.getSimulation().getHeight()-100;
+			int yTextOffset = 10;
+			int xMargin = 20;
+			int yMargin = 20;
+			int radius = 10;
+			
+			g.setColor(Color.red);
+			g.fillOval(x, y, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("In entrance E", x+xMargin, y + yTextOffset);
+			
+			g.setColor(Color.green);
+			g.fillOval(x, y+yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("In entrance B", x+xMargin, y + yMargin + yTextOffset);
+			
+			g.setColor(Color.blue);
+			g.fillOval(x, y+2*yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("In entrance A", x+xMargin, y + 2*yMargin + yTextOffset);
+			
+			g.setColor(Color.black);
+			g.fillRect(x, y+3*yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("Transit", x+xMargin, y + 3*yMargin + yTextOffset);
+			
+			g.setColor(Color.gray);
+			g.fillOval(x, y+4*yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("Other", x+xMargin, y + 4*yMargin + yTextOffset);
+			
+		}
 	}
 	public static void renderCounters(Network n, Graphics g) {
-		Graphics2D gg = (Graphics2D) g.create();
-		gg.translate(-bounds.x, -bounds.y);
-		gg.setColor(Color.yellow);
-		DecimalFormat df = new DecimalFormat("##0.00");
 		for (Road r: n.getRoads()) {
 			if (r.getVehicleCounter() != null) {
-				gg.drawLine((int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 2*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)),
-						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 2*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)),
-						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 0*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)),
-						(int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 0*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)));
-				Text.drawString(gg, df.format(r.getVehicleCounter().getFlow()) + " / min", Color.yellow, (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getX() + 2*n.getCellWidth()*3*Math.cos(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)), (int) (r.getRoadCells().get((int) (r.getVehicleCounter().getLocation()*r.getLength())).getY() - 2*n.getCellWidth()*3*Math.sin(-2*Math.PI*r.getReorientations().get(1).getY()/360.0)), true, Assets.normalBoldFont);
+				r.getVehicleCounter().render(g);
 			}
 		}
 	}
@@ -475,6 +503,29 @@ public class NetworkRendering {
 			if (renderBucket) {
 				Text.drawString(gg, Integer.toString(r.getLeakyBucket().size()), Color.pink, (int) (r.getX()-6*n.getCellWidth()*Math.sin(2*Math.PI*r.getDirection()/360.0)), (int) (r.getY()+2*n.getCellWidth()*Math.cos(2*Math.PI*r.getDirection()/360.0)), true, Assets.normalBoldFont);
 			}
+		}
+	}
+	public static void renderHeaderBG(Network n, Graphics g) {
+		// Left upper corner
+		g.setColor(Assets.bgAlphaCol);
+		g.fillRoundRect(-10, -10, Assets.buttonXStart+Assets.buttonW*8+Assets.buttonSpacing*7+6+10, Assets.buttonYStart+Assets.buttonH+5+10, 10, 10);
+		
+		// Rigth upper corner
+		g.setColor(Assets.bgAlphaCol);
+		g.fillRoundRect(n.getSimulation().getWidth()-Assets.buttonW-Assets.buttonXStart-5, -10, Assets.buttonW+Assets.buttonXStart+15, Assets.buttonYStart+Assets.buttonH+5+10, 10, 10);
+		
+		// Left bottom corner
+		g.setColor(Assets.bgAlphaCol);
+		g.fillRoundRect(-10, n.getSimulation().getHeight()-Assets.buttonH-20-17-6, Assets.buttonXStart+Assets.buttonW*6+Assets.buttonSpacing*5+6+10, Assets.buttonH+20+17+6+10, 10, 10);
+		
+		// Right bottom corner
+		g.setColor(Assets.bgAlphaCol);
+		g.fillRoundRect(n.getSimulation().getWidth()-175, n.getSimulation().getHeight()-105, 185, 115, 10, 10);
+		
+		// Middle bottom corner
+		if (n.getDrawVehicleColor()) {
+			g.setColor(Assets.bgAlphaCol);
+			g.fillRoundRect(650, n.getSimulation().getHeight()-105, 130, 115, 10, 10);
 		}
 	}
 }

@@ -14,6 +14,7 @@ public class Assets {
 	
 	// Colors
 	public static Color bgCol = new Color(50,50,50);
+	public static Color bgAlphaCol = new Color(50, 50, 50, 180);
 	public static Color textCol = new Color(250,250,250);
 	public static Color idleCol = new Color(170,170,170);
 	public static Color zoneCERNCol = new Color(0,100,0);

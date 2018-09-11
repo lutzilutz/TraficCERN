@@ -30,9 +30,6 @@ public class Network {
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
 	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
 	private ArrayList<TrafficLightsSystem> trafficLightsSystems = new ArrayList<TrafficLightsSystem>();
-	public ArrayList<TrafficLightsSystem> getTrafficLightsSystems() {
-		return trafficLightsSystems;
-	}
 	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	private int numberOfVehicles = 0;
@@ -808,11 +805,11 @@ public class Network {
 		//this.cleanAllNetworkRides();
 		//printNames();
 		
-		rD984FSE.setCounter(0.5);
-		rD984FNW.setCounter(0.49);
+		rD984FSE.setCounter(0.5, "counter 1A");
+		rD984FNW.setCounter(0.49, "counter 1B");
 		
-		rD984FSES.setCounter(0.3);
-		rD984FNWS.setCounter(0.702);
+		rD984FSES.setCounter(0.3, "counter 2A");
+		rD984FNWS.setCounter(0.702, "coutner 2B");
 		
 	}
 	public void createRealNetworkSingle() {
@@ -1166,11 +1163,11 @@ public class Network {
 		this.generateAllNetworkRides(10);
 		//this.cleanAllNetworkRides();
 		
-		rD984FSE.setCounter(0.5);
-		rD984FNW.setCounter(0.49);
+		rD984FSE.setCounter(0.5, "counter 1A");
+		rD984FNW.setCounter(0.49, "counter 1B");
 		
-		rD984FSES.setCounter(0.3);
-		rD984FNWS.setCounter(0.702);
+		rD984FSES.setCounter(0.3, "counter 2A");
+		rD984FNWS.setCounter(0.702, "coutner 2B");
 		
 		//printNames();
 		
@@ -1407,6 +1404,9 @@ public class Network {
 		this.setCellHeight((int) (Math.pow(2, 1+sim.getMenuState().getSizeOfNetwork().getCurrentValue())));
 	}
 	// Getters & setters ====================================================================================
+	public ArrayList<TrafficLightsSystem> getTrafficLightsSystems() {
+		return trafficLightsSystems;
+	}
 	public boolean isRandomGeneration() {
 		return randomGeneration;
 	}
@@ -1475,6 +1475,9 @@ public class Network {
 	}
 	public void switchDrawNames() {
 		drawNames = !drawNames;
+	}
+	public void switchDrawRides() {
+		drawVehicleColor = !drawVehicleColor;
 	}
 	public Simulation getSimulation() {
 		return this.sim;

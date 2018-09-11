@@ -82,14 +82,14 @@ public class SimSettingsState extends State {
 		// ##################################################################################################
 		
 		// From France to Geneva
-		fromFrToGe = new UISlider(simulation, xStart, yStart, sliderWidth, "Flow from France to Geneva (vhc/day)", 25000, DataManager.nFrGe, false, new ClickListener(){
+		fromFrToGe = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Flow from France to Geneva (vhc/day)", 25000, DataManager.nFrGe, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManagerTransit.addObject(fromFrToGe);
-		fromFrToGeRepartition = new UISliderTriple(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nFrGe_fromSW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW+DataManager.nFrGe_fromTun, true, new ClickListener(){
+		fromFrToGeRepartition = new UISliderTriple(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nFrGe_fromSW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW+DataManager.nFrGe_fromTun, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -97,7 +97,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerTransit.addObject(fromFrToGeRepartition);
 		
-		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (morning)", 100, 70, true, new ClickListener(){
+		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (morning)", 100, 70, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -105,7 +105,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerTransit.addObject(fromFrToGeDuringRH);
 		
-		fromFrToGeRepartitionRH = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nFrGe_7, DataManager.nFrGe_7+DataManager.nFrGe_8, true, new ClickListener(){
+		fromFrToGeRepartitionRH = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nFrGe_7, DataManager.nFrGe_7+DataManager.nFrGe_8, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -115,14 +115,14 @@ public class SimSettingsState extends State {
 		
 		// From Geneva to France ============================================================================
 		
-		fromGeToFr = new UISlider(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Flow from Geneva to France (vhc/day)", 25000, DataManager.nGeFr, false, new ClickListener(){
+		fromGeToFr = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Flow from Geneva to France (vhc/day)", 25000, DataManager.nGeFr, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManagerTransit.addObject(fromGeToFr);
-		fromGeToFrRepartition = new UISliderTriple(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nGeFr_toSW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW+DataManager.nGeFr_toTun, true, new ClickListener(){
+		fromGeToFrRepartition = new UISliderTriple(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nGeFr_toSW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW, DataManager.nGeFr_toSW+DataManager.nGeFr_toNW+DataManager.nGeFr_toTun, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -130,7 +130,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerTransit.addObject(fromGeToFrRepartition);
 		
-		fromGeToFrDuringRH2 = new UISlider(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (evening)", 100, 70, true, new ClickListener(){
+		fromGeToFrDuringRH2 = new UISlider(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (evening)", 100, 70, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -138,7 +138,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerTransit.addObject(fromGeToFrDuringRH2);
 		
-		fromGeToFrRepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nGeFr_17, DataManager.nGeFr_17+DataManager.nGeFr_18, true, new ClickListener(){
+		fromGeToFrRepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+9*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nGeFr_17, DataManager.nGeFr_17+DataManager.nGeFr_18, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -152,7 +152,7 @@ public class SimSettingsState extends State {
 		
 		// To entrance E ====================================================================================
 		
-		toEntranceE = new UISlider(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Flow to Entrance E during rush-hours", 4000, DataManager.nToE, false, new ClickListener(){
+		toEntranceE = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Flow to Entrance E during rush-hours", 4000, DataManager.nToE, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -160,7 +160,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerE.addObject(toEntranceE);
 		
-		toEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Thoiry, St-Genis and Ferney", 100, DataManager.nToE_fromSW, DataManager.nToE_fromSW+DataManager.nToE_fromNW, true, new ClickListener(){
+		toEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Thoiry, St-Genis and Ferney", 100, DataManager.nToE_fromSW, DataManager.nToE_fromSW+DataManager.nToE_fromNW, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -168,7 +168,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerE.addObject(toEntranceERepartition);
 		
-		toEntranceERepartitionRH = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToE_7, DataManager.nToE_7+DataManager.nToE_8, true, new ClickListener(){
+		toEntranceERepartitionRH = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 7am, 8am, 9am", 100, DataManager.nToE_7, DataManager.nToE_7+DataManager.nToE_8, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -178,7 +178,7 @@ public class SimSettingsState extends State {
 		
 		// From entrance E ====================================================================================
 		
-		fromEntranceE = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Flow from Entrance E during rush-hours", 4000, DataManager.nFromE, false, new ClickListener(){
+		fromEntranceE = new UISlider(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Flow from Entrance E during rush-hours", 4000, DataManager.nFromE, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -186,7 +186,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerE.addObject(fromEntranceE);
 		
-		fromEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis and Ferney", 100, DataManager.nFromE_toSW, DataManager.nFromE_toSW+DataManager.nFromE_toNW, true, new ClickListener(){
+		fromEntranceERepartition = new UISliderDouble(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Going to Thoiry, St-Genis and Ferney", 100, DataManager.nFromE_toSW, DataManager.nFromE_toSW+DataManager.nFromE_toNW, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -194,7 +194,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerE.addObject(fromEntranceERepartition);
 		
-		fromEntranceERepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nFromE_17, DataManager.nFromE_17+DataManager.nFromE_18, true, new ClickListener(){
+		fromEntranceERepartitionRH2 = new UISliderDouble(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Distribution between 5pm, 6pm, 7pm", 100, DataManager.nFromE_17, DataManager.nFromE_17+DataManager.nFromE_18, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				

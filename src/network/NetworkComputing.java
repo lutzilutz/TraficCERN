@@ -193,7 +193,7 @@ public class NetworkComputing {
 			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
 				DataManager.nFromAEmpiric++;
 			}
-		} else if (startRoad.equals("rRoutePauliSouthNE")) {
+		} else if (startRoad.equals("rRoutePauliSouthNE") || startRoad.equals("rRoutePauliSouthNELeft") || startRoad.equals("rRoutePauliSouthNERight")) {
 			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
 				DataManager.nFromBEmpiric++;
 			}
@@ -224,6 +224,13 @@ public class NetworkComputing {
 				//System.out.println("vhc gen");
 				if (!n.isRandomGeneration()) {
 					tmp.setRide(n.selectARideWithProbability(r.getName()));
+					
+					if (r.getName().equals("rRoutePauliSouthNELeft")) {// || r.getName().equals("rRoutePauliSouthNERight")) {
+						System.out.print(r.getName() + " - ");
+						tmp.getRide().print();
+						System.out.println();
+					}
+					
 					saveRideIntoData(tmp.getRide());
 				} else {
 					tmp.setRide(n.selectARide(r.getName()));
@@ -364,12 +371,15 @@ public class NetworkComputing {
 				v.setInBucket(false);
 				r.removeVehicleFromBucket(r.getLeakyBucket().get(0));
 			}
-			if (r.getName().equals("rRoutePauliSouthSW")) {
+			
+			// Prints ride of vehicles coming in entrance B (should all be empty)
+			
+			/*if (r.getName().equals("rRoutePauliSouthSW")) {
 				if (r.getRoadCells().get(0).getVehicle() != null) {
 					r.getRoadCells().get(0).getVehicle().getRide().print();
 					System.out.println();
 				}
-			}
+			}*/
 		}
 		
 		if (n.getSimulation().getSimState().getStep()%60 == 0) {
