@@ -18,6 +18,7 @@ public class Vehicle {
 	private boolean inBucket = true;
 	private Color color = new Color(100,0,0);
 	private boolean isTransiting = false;
+	private String currentRoadName;
 	
 	public Vehicle(Network n) {
 		this.n = n;
@@ -84,6 +85,7 @@ public class Vehicle {
 	}
 	public void goToOutCell( ) {
 		nextPlace = cell.getOutCell();
+		currentRoadName = ride.getNextConnections().get(0).getName();
 	}
 	public void accelerate() {
 		++speed;
@@ -180,6 +182,12 @@ public class Vehicle {
 	}
 	
 	// Getters & setters ====================================================================================
+	public String getCurrentRoadName() {
+		return this.currentRoadName;
+	}
+	public void setCurrentRoadName(String currentRoadName) {
+		this.currentRoadName = currentRoadName;
+	}
 	public boolean isTransiting() {
 		return isTransiting;
 	}

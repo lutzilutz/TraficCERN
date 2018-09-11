@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import data.DataManager;
+import elements.Cell;
 import elements.CrossRoad;
 import elements.Ride;
 import elements.Road;
@@ -204,6 +205,16 @@ public class NetworkComputing {
 		
 		for (TrafficLightsSystem tls: n.getTrafficLightsSystems()) {
 			tls.nextStep();
+		}
+		
+		for (Road r: n.getRoads()) {
+			for (Cell c: r.getRoadCells()) {
+				if (c.getVehicle() != null) {
+					if (!c.getVehicle().getCurrentRoadName().equals(r.getName())) {
+						c.getVehicle().setColor(Color.magenta);
+					}
+				}
+			}
 		}
 		
 		// pre-process

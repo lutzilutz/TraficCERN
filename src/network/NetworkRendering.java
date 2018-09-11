@@ -452,7 +452,7 @@ public class NetworkRendering {
 			int y = n.getSimulation().getHeight()-100;
 			int yTextOffset = 10;
 			int xMargin = 20;
-			int yMargin = 20;
+			int yMargin = 17;
 			int radius = 10;
 			
 			g.setColor(Color.red);
@@ -479,6 +479,11 @@ public class NetworkRendering {
 			g.fillOval(x, y+4*yMargin, radius, radius);
 			g.setColor(Color.white);
 			g.drawString("Other", x+xMargin, y + 4*yMargin + yTextOffset);
+			
+			g.setColor(Color.magenta);
+			g.fillOval(x, y+5*yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("Wrong road", x+xMargin, y + 5*yMargin + yTextOffset);
 			
 		}
 	}

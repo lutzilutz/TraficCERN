@@ -437,6 +437,7 @@ public class Road {
 	}
 	public void addNewVehicle(Vehicle v) {
 		leakyBucket.add(v);
+		v.setCurrentRoadName(name);
 	}
 	public void removeVehicleFromBucket(Vehicle v) {
 		leakyBucket.remove(v);
