@@ -803,10 +803,9 @@ public class Network {
 		Utils.logTime();
 		
 		this.generateAllNetworkRides(50);
-		//this.cleanAllNetworkRides(1);
-		cleanRides(3);
+		this.cleanAllNetworkRides(2);
 		
-		printNames();
+		//printNames();
 		
 		rD984FSE.setCounter(0.5, "counter 1A");
 		rD984FNW.setCounter(0.49, "counter 1B");
@@ -1324,38 +1323,6 @@ public class Network {
 		}
 		return r;
 	}
-	public void cleanRides(int maxLengthDiff) {
-		for (AllNetworkRides anr: getAllNetworkRides()) {	
-			for (Road finalRoad: getRoads()) {
-				int shortestRide = 1000;
-				for (Ride ride: anr.getNetworkRides()) {
-					if (ride.getNextConnections().size() < shortestRide && isLastRoad(ride, finalRoad.getName())) {
-						shortestRide = ride.getNextConnections().size();
-					}
-				}
-				Iterator<Ride> iter = anr.getNetworkRides().iterator();
-				while (iter.hasNext()) {
-					Ride ride = iter.next();
-					if (ride.getNextConnections().size()-shortestRide >= maxLengthDiff && isLastRoad(ride, finalRoad.getName())) {
-						iter.remove();
-					}
-				}
-			}
-		}
-	}
-	// Tells if roadName is the last road of the ride r
-	public static boolean isLastRoad(Ride r, String roadName) {
-		if (r.getNextConnections().size()>0) {
-			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-	
 	public void cleanAllNetworkRides(int x) {
 		if (!this.getAllNetworkRides().isEmpty()) {
 			for (AllNetworkRides ANR: this.getAllNetworkRides()) {
@@ -1367,8 +1334,8 @@ public class Network {
 						if (riConnections.get(riConnections.size()-1).getName().equals(rjConnections.get(rjConnections.size()-1).getName())) {
 							if (rjConnections.size() > riConnections.size()+x) {
 								elmtsToChange.add(j);
-							} else if (rjConnections.size() < riConnections.size()){
-								elmtsToChange.add(j);
+							} else if (rjConnections.size()+x < riConnections.size()){
+								elmtsToChange.add(i);
 							}
 						}
 					}
@@ -1386,7 +1353,6 @@ public class Network {
 			}
 		}
 	}
-	
 	
 	public void generateAllNetworkRides(int n) {
 		Utils.log("generating Rides ... ");
