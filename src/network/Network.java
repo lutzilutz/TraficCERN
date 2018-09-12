@@ -1717,8 +1717,10 @@ public class Network {
 		}
 		return r;
 	}
-	public Ride selectARideWithProbability(String roadName) {
+	public ArrayList<Ride> selectRidesWithProbability(String roadName) {
+		ArrayList<Ride> allRides = new ArrayList<Ride>();
 		Ride voidRide = new Ride();
+		Ride chosenRide = new Ride();
 		ArrayList<Float> probas = new ArrayList<Float>();
 		float totalProba = 0;
 		for (AllNetworkRides anr: allNetworkRides) {
@@ -1736,34 +1738,51 @@ public class Network {
 					}
 					
 				}
-				
 				double random = Math.random();
 				
 				if (probas.size() == 0) {
 					Utils.log("No probability in selectARideWithProbability() for " + roadName + "\n");
-					return voidRide;
+					chosenRide = new Ride();
+					//return voidRide;
 				} else if (probas.size() == 1) {
-					//System.out.println(anr.getNetworkRides().get(0).getRoadName());
-					//System.out.print("   ");
-					//anr.getNetworkRides().get(0).print();
 					Utils.log("Only one probability int selectARideWithProbability for " + roadName + "\n");
-					return anr.getNetworkRides().get(0).clone();
+					//return anr.getNetworkRides().get(0).clone();
+					chosenRide = anr.getNetworkRides().get(0).clone();
 				} else {
 					for (int i=0 ; i<probas.size() ; i++) {
 						if (random < probas.get(i) / (float) totalProba) {
-							//System.out.println(anr.getNetworkRides().get(0).getRoadName());
-							//System.out.print("   ");
-							//anr.getNetworkRides().get(i).print();
-							//System.out.println();
-							return anr.getNetworkRides().get(i).clone();
+							chosenRide = anr.getNetworkRides().get(i).clone();
+							allRides.add(anr.getNetworkRides().get(i).clone());
+							//return anr.getNetworkRides().get(i).clone();
 						}
 					}
-					Utils.log("No adapted probability found ?!?\n");
+					if (chosenRide.getNextConnections().isEmpty()) {
+						Utils.log("No adapted probability found for " + roadName + " :\n");
+					}
+					//Utils.log()
 				}
 			}
 		}
-		Utils.log("Road not found " + roadName + "\n");
-		return voidRide;
+		//Utils.log("Road not found " + roadName + "\n");
+		
+		if (chosenRide == null) {
+			chosenRide = new Ride();
+		}
+		
+		for (AllNetworkRides anr: allNetworkRides) {
+			
+			if (anr.getRoadName().equals(roadName)) {
+				
+				for (Ride ride: anr.getNetworkRides()) {
+					
+					if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals(chosenRide.getNextConnections().get(chosenRide.getNextConnections().size()-1).getName())) {
+						allRides.add(ride.clone());
+					}
+				}
+			}
+		}
+		
+		return allRides;
 	}
 	public Ride selectARide(String startName, String endName) {
 		Ride r = new Ride();

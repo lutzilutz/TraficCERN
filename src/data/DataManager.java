@@ -525,13 +525,22 @@ public class DataManager {
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
 		}
 		
-		/*for (Road road2: n.getRoads()) {
-			System.out.println(road2.getName() + " : ");
-			for (int i=0; i<road2.getFlow().size() ; i++) {
-				System.out.print(road2.getFlow().get(i) + " ");
+		for (AllNetworkRides anr: n.getAllNetworkRides()) {
+			for (Ride ride: anr.getNetworkRides()) {
+				System.out.print(ride.getRoadName() + " to " + ride.getNextConnections().get(ride.getNextConnections().size()-1).getName() + " : ");
+				for (Float flow: ride.getFlow()) {
+					System.out.print(flow + " ");
+				}
+				System.out.println();
+			}
+		}
+		for (Road road: n.getRoads()) {
+			System.out.println(road.getName() + " : ");
+			for (int i=0; i<road.getFlow().size() ; i++) {
+				System.out.print(road.getFlow().get(i) + " ");
 			}
 			System.out.println();
-		}*/
+		}
 	}
 	public static int numberOfSameRides(Simulation sim, String start, String end) {
 		Network n = sim.getSimState().getNetwork();

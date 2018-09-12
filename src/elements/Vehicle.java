@@ -1,6 +1,7 @@
 package elements;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import network.Network;
 
@@ -14,7 +15,8 @@ public class Vehicle {
 	private Cell nextPlace;
 	private int speed = 1;
 	private boolean hasToLeave = false;
-	private Ride ride;
+	private ArrayList<Ride> ride = new ArrayList<Ride>();
+	private int idCurrentRide = 0;
 	private boolean inBucket = true;
 	private Color color = new Color(100,0,0);
 	private boolean isTransiting = false;
@@ -85,7 +87,7 @@ public class Vehicle {
 	}
 	public void goToOutCell( ) {
 		nextPlace = cell.getOutCell();
-		currentRoadName = ride.getNextConnections().get(0).getName();
+		currentRoadName = ride.get(idCurrentRide).getNextConnections().get(0).getName();
 	}
 	public void accelerate() {
 		++speed;
@@ -94,8 +96,8 @@ public class Vehicle {
 		--speed;
 	}
 	public void removeCurrentConnection() {
-		if (!this.getRide().getNextConnections().isEmpty()) {
-			this.getRide().getNextConnections().remove(0);
+		if (!this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
+			this.getRide().get(idCurrentRide).getNextConnections().remove(0);
 		}
 	}
 	public void goToXthNextCell(int x) {
@@ -116,13 +118,13 @@ public class Vehicle {
 	}
 	public int distanceFromNextConnection() {
 		int i = -1;
-		if (this.getCell() != null && !this.getRide().getNextConnections().isEmpty()) {
+		if (this.getCell() != null && !this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
 			if (this.getCell() != null && this.getCell().isInRoundAbout()) {
 				int l = this.getCell().getRoadLength();
-				i = (((this.getRide().getNextConnections().get(0).getPosition() - this.getCell().getPosition()) % l )+ l) % l;
+				i = (((this.getRide().get(idCurrentRide).getNextConnections().get(0).getPosition() - this.getCell().getPosition()) % l )+ l) % l;
 			} else {
-				if (this.getRide().getNextConnections().size() > 0) {
-					i = this.getRide().getNextConnections().get(0).getPosition() - this.getCell().getPosition();
+				if (this.getRide().get(idCurrentRide).getNextConnections().size() > 0) {
+					i = this.getRide().get(idCurrentRide).getNextConnections().get(0).getPosition() - this.getCell().getPosition();
 				}
 			}
 		}
@@ -170,8 +172,8 @@ public class Vehicle {
 			}
 		}
 		if (this.getCell() != null) {
-			if (this.getRide() != null && !this.getRide().getNextConnections().isEmpty()) {
-				if (this.getCell().getPosition() == this.getRide().getNextConnections().get(0).getPosition()) {
+			if (this.getRide().get(idCurrentRide) != null && !this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
+				if (this.getCell().getPosition() == this.getRide().get(idCurrentRide).getNextConnections().get(0).getPosition()) {
 					if (this.getCell().getOutCell() != null && this.getCell().getOutCell().getVehicle() != null) {
 						this.setSpeed(0);
 					}
@@ -233,10 +235,24 @@ public class Vehicle {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	public Ride getRide() {
+	public int getIdCurrentRide() {
+		return this.idCurrentRide;
+	}
+	public void setIdCurrentRide(int idCurrentRide) {
+		this.idCurrentRide = idCurrentRide;
+	}
+	public ArrayList<Ride> getRide() {
 		return ride;
 	}
-	public void setRide(Ride ride) {
-		this.ride = ride;
+	public void addRide(ArrayList<Ride> ride) {
+		for (Ride tmp: ride) {
+			this.ride.add(tmp);
+		}
+	}
+	public void addRide(Ride ride) {
+		this.ride.add(ride);
+	}
+	public void setRideXXX(Ride ride) {
+		//this.ride = ride;
 	}
 }

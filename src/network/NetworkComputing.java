@@ -234,17 +234,23 @@ public class NetworkComputing {
 				Vehicle tmp = new Vehicle(n);
 				//System.out.println("vhc gen");
 				if (!n.isRandomGeneration()) {
-					tmp.setRide(n.selectARideWithProbability(r.getName()));
-					
-					if (r.getName().equals("rRoutePauliSouthNELeft")) {// || r.getName().equals("rRoutePauliSouthNERight")) {
-						System.out.print(r.getName() + " - ");
-						tmp.getRide().print();
+					tmp.addRide(n.selectRidesWithProbability(r.getName()));
+					/*System.out.println("--------------------------------------------------------------------------");
+					for (Ride ride: tmp.getRide()) {
+						ride.print();
 						System.out.println();
-					}
+					}*/
+					/*if (r.getName().equals("rD884NE")) {// || r.getName().equals("rRoutePauliSouthNERight")) {
+						System.out.print(r.getName() + " - ");
+						for (Ride ride: tmp.getRide()) {
+							ride.print();
+							System.out.println();
+						}
+					}*/
 					
-					saveRideIntoData(tmp.getRide());
+					saveRideIntoData(tmp.getRide().get(tmp.getIdCurrentRide()));
 				} else {
-					tmp.setRide(n.selectARide(r.getName()));
+					tmp.addRide(n.selectARide(r.getName()));
 				}
 				chooseAspect(tmp);
 				r.addNewVehicle(tmp);
@@ -252,7 +258,7 @@ public class NetworkComputing {
 				n.increaseNumberOfVehicles(1);
 			} else if (n.isRandomGeneration() && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
-				tmp.setRide(n.selectARide(r.getName()));
+				tmp.addRide(n.selectARide(r.getName()));
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
@@ -283,13 +289,13 @@ public class NetworkComputing {
 				//NEXT and OUT cells
 				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
 					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
-					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().getNextConnections().isEmpty()) && Math.random() < 0) {// < 0.5) {
+					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) && Math.random() < 0) {// < 0.5) {
 						
 						v.goToOutCell();
 						v.setSpeed(1);
 						
 					// OUT cell EMPTY + Vehicle has RIDE + Vehicle on the NEXT Connection:
-					} else if (v.getRide() != null && !v.getRide().getNextConnections().isEmpty() && v.getCell().getPosition() == v.getRide().getNextConnections().get(0).getPosition()) {
+					} else if (v.getRide().get(v.getIdCurrentRide()) != null && !v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty() && v.getCell().getPosition() == v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(0).getPosition()) {
 						if (v.getCell().getOutCell().getVehicle() == null) {
 							v.goToOutCell();
 							v.removeCurrentConnection();
@@ -401,17 +407,18 @@ public class NetworkComputing {
 		}
 	}
 	public static void chooseAspect(Vehicle v) {
-		if (!v.getRide().getNextConnections().isEmpty()) {
-			if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+		if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
+			if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rSortieCERNSE")
+					|| v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rD884CERN")) {
 				v.setColor(Color.red);
-			} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
 				v.setColor(Color.green);
-			} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteBellSW")) {
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRouteBellSW")) {
 				v.setColor(Color.blue);
-			} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
 				v.setColor(Color.black);
 				v.setIsTransiting(true);
-			} else if (v.getRide().getRoadName().equals("rRouteDeMeyrinSouthNW")) {
+			} else if (v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRouteDeMeyrinSouthNW")) {
 				v.setColor(Color.black);
 				v.setIsTransiting(true);
 			} else {
