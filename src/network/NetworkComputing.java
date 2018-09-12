@@ -401,20 +401,22 @@ public class NetworkComputing {
 		}
 	}
 	public static void chooseAspect(Vehicle v) {
-		if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
-			v.setColor(Color.red);
-		} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
-			v.setColor(Color.green);
-		} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteBellSW")) {
-			v.setColor(Color.blue);
-		} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
-			v.setColor(Color.black);
-			v.setIsTransiting(true);
-		} else if (v.getRide().getRoadName().equals("rRouteDeMeyrinSouthNW")) {
-			v.setColor(Color.black);
-			v.setIsTransiting(true);
-		} else {
-			v.setColor(Color.darkGray);
+		if (!v.getRide().getNextConnections().isEmpty()) {
+			if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+				v.setColor(Color.red);
+			} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
+				v.setColor(Color.green);
+			} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteBellSW")) {
+				v.setColor(Color.blue);
+			} else if (v.getRide().getNextConnections().get(v.getRide().getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
+				v.setColor(Color.black);
+				v.setIsTransiting(true);
+			} else if (v.getRide().getRoadName().equals("rRouteDeMeyrinSouthNW")) {
+				v.setColor(Color.black);
+				v.setIsTransiting(true);
+			} else {
+				v.setColor(Color.darkGray);
+			}
 		}
 	}
 	public static void writeData(Network n) {
@@ -425,15 +427,16 @@ public class NetworkComputing {
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
+			Utils.writeDataLeakyBuckets(n.getSimulation().getSimState().getTime() + " ");
+			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rD884NE").getLeakyBucket().size()) + " ");
+			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + " ");
+			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size()) + " ");
+			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rC5SW").getLeakyBucket().size()) + " ");
+			if (n.selectARoad("rRouteDeMeyrinSouthNW") != null) {
+				Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
+			}
 		}
 		
-		Utils.writeDataLeakyBuckets(n.getSimulation().getSimState().getTime() + " ");
-		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rD884NE").getLeakyBucket().size()) + " ");
-		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + " ");
-		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size()) + " ");
-		Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rC5SW").getLeakyBucket().size()) + " ");
-		if (n.selectARoad("rRouteDeMeyrinSouthNW") != null) {
-			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
-		}
+		
 	}
 }
