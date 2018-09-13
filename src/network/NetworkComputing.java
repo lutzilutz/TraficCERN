@@ -289,14 +289,14 @@ public class NetworkComputing {
 				//NEXT and OUT cells
 				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
 					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
-					if (v.getCell().getOutCell().getVehicle() == null && (v.getRide() == null || v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) && Math.random() < 0) {// < 0.5) {
+					if (v.getCell().getOutCell().getVehicle() == null && !v.getCell().getOutCell().isAnOverlapedCellOccupied() && (v.getRide() == null || v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) && Math.random() < 0) {// < 0.5) {
 						
 						v.goToOutCell();
 						v.setSpeed(1);
 						
 					// OUT cell EMPTY + Vehicle has RIDE + Vehicle on the NEXT Connection:
 					} else if (v.getRide().get(v.getIdCurrentRide()) != null && !v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty() && v.getCell().getPosition() == v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(0).getPosition()) {
-						if (v.getCell().getOutCell().getVehicle() == null) {
+						if (v.getCell().getOutCell().getVehicle() == null && !v.getCell().getOutCell().isAnOverlapedCellOccupied()) {
 							v.goToOutCell();
 							v.removeCurrentConnection();
 							v.setSpeed(1);
@@ -306,7 +306,7 @@ public class NetworkComputing {
 						}
 					
 					// Else if NEXT cell EMPTY
-					} else if (v.getCell().getNextCell().getVehicle() == null && v.getSpeed() > 0){
+					} else if (v.getCell().getNextCell().getVehicle() == null && !v.getCell().getNextCell().isAnOverlapedCellOccupied() && v.getSpeed() > 0){
 						v.goToXthNextCell(v.getSpeed());
 						
 					} else {
@@ -338,7 +338,7 @@ public class NetworkComputing {
 					}
 					
 					// Check PREVIOUS cells
-					if (v.getCell().getOutCell().getVehicle() == null && (v.getCell().getOutCell().getPreviousCell() == null || v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell()))) {
+					if (v.getCell().getOutCell().getVehicle() == null && !(v.getCell().getOutCell().isAnOverlapedCellOccupied()) && (v.getCell().getOutCell().getPreviousCell() == null || v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell()))) {
 						v.goToOutCell();
 						v.removeCurrentConnection();
 					} else {

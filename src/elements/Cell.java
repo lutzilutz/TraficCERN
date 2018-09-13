@@ -1,5 +1,7 @@
 package elements;
 
+import java.util.ArrayList;
+
 public class Cell {
 	
 	// Simulation
@@ -7,6 +9,7 @@ public class Cell {
 	private Cell previousCell;
 	private Cell nextCell;
 	private Cell outCell;
+	private ArrayList<Cell> overlapedCells = new ArrayList<Cell>();
 	private Vehicle vehicle;
 	private String roadName;
 	private int roadLength;
@@ -47,6 +50,15 @@ public class Cell {
 		return this.getNextCell().checkNextCells(nCells-1, i) ;
 	}
 	
+	public boolean isAnOverlapedCellOccupied() {
+		for (Cell c: this.overlapedCells) {
+			if (c.getVehicle() != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	// Getters & setters ------------------------------------------------------------------------------------
 	public boolean isBlocked() {
 		return isBlocked;
@@ -131,5 +143,8 @@ public class Cell {
 	}
 	public void setMaxSpeed(int maxSpeed) {
 		this.maxSpeed = maxSpeed;
-	}	
+	}
+	public ArrayList<Cell> getOverlapedCells() {
+		return overlapedCells;
+	}
 }

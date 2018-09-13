@@ -104,7 +104,7 @@ public class Vehicle {
 		Cell ci = this.getCell();
 		for (int iter=0; iter < x; ++iter) {
 			if (ci.getNextCell() != null) {
-				if (ci.getNextCell().getVehicle() != null) {
+				if (ci.getNextCell().getVehicle() != null || ci.getNextCell().isAnOverlapedCellOccupied()) {
 					this.setSpeed(iter);
 					break;
 				}

@@ -1230,6 +1230,20 @@ public class Network {
 		rRouteDeMeyrinNorthNW1.setTrafficLightRed(true);
 		crEntreeBTLS.initializePhases();
 		
+		// Overlaped Cells:
+		
+		// rWS and rWE1:
+		rWS.getRoadCells().get(3).getOverlapedCells().add(rWE1.getRoadCells().get(2));
+		rWE1.getRoadCells().get(2).getOverlapedCells().add(rWS.getRoadCells().get(3));
+		
+		// rNS and rWE1:
+		rNS.getRoadCells().get(5).getOverlapedCells().add(rWE1.getRoadCells().get(1));
+		rWE1.getRoadCells().get(1).getOverlapedCells().add(rNS.getRoadCells().get(5));
+		
+		// rNS and rWE2:
+		rNS.getRoadCells().get(6).getOverlapedCells().add(rWE2.getRoadCells().get(1));
+		rWE2.getRoadCells().get(1).getOverlapedCells().add(rNS.getRoadCells().get(6));
+		
 		// Network settings =================================================================================
 		rRueDeGeneveSE.setGenerateVehicules(1000);
 		rRueGermaineTillionSW.setGenerateVehicules(100);
