@@ -1,6 +1,7 @@
 package network;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import data.DataManager;
@@ -288,6 +289,26 @@ public class NetworkComputing {
 				
 				//NEXT and OUT cells
 				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
+					
+					// Lane choice based on number of vehicles
+					
+					/*if (hasMultipleLaneChoice(v) && n.selectARoad(v.getCurrentRoadName()) != null) {
+						System.out.println("Multiple choices at #" + v.getCell().getPosition() + " of " + v.getCurrentRoadName());
+						//for (Ride ride: v.getRide()) {
+							//ride.print();
+							//System.out.println();
+						//}
+						ArrayList<Integer> index = new ArrayList<Integer>();
+						for (Ride ride: v.getRide()) {
+							if (!index.contains(ride.getNextConnections().get(0).getPosition())) {
+								index.add(ride.getNextConnections().get(0).getPosition());
+							}
+						}
+						ArrayList<Integer> numberOfVhcOnRoad = new ArrayList<Integer>();
+						
+						chooseBestLane(n, v);
+					}*/
+					
 					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
 					if (v.getCell().getOutCell().getVehicle() == null && !v.getCell().getOutCell().isAnOverlapedCellOccupied() && (v.getRide() == null || v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) && Math.random() < 0) {// < 0.5) {
 						
@@ -405,6 +426,47 @@ public class NetworkComputing {
 		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) {
 			Utils.saveData();
 		}
+	}
+	public static boolean hasMultipleLaneChoice(Vehicle v) {
+		int tmp = -1;
+		if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
+			v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(0).getPosition();
+		}
+		for (Ride ride: v.getRide()) {
+			if (!ride.getNextConnections().isEmpty()) {
+				if (ride.getNextConnections().get(0).getPosition() != tmp) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public static void chooseBestLane(Network n, Vehicle v) {
+		ArrayList<Integer> numberOfVhcPerRoad = new ArrayList<Integer>();
+		int min = 1000;
+		for (Ride ride: v.getRide()) {
+			
+			if (v.getCell().getPosition() == ride.getNextConnections().get(0).getPosition()) {
+				numberOfVhcPerRoad.add(v.numberOfVhcAhead(n.selectARoad(ride.getNextConnections().get(0).getName())));
+				
+			} else if (v.getCell().getPosition() < ride.getNextConnections().get(0).getPosition()) {
+				numberOfVhcPerRoad.add(v.numberOfVhcAhead(n.selectARoad(v.getCurrentRoadName())));
+			} else {
+				System.out.println("Probleme in chooseBestLane");
+			}
+			
+			if (numberOfVhcPerRoad.get(numberOfVhcPerRoad.size()-1) < min) {
+				min = numberOfVhcPerRoad.get(numberOfVhcPerRoad.size()-1);
+			}
+		}
+		
+		for (int i=0 ; i<numberOfVhcPerRoad.size() ; i++) {
+			if (numberOfVhcPerRoad.get(i) == min) {
+				
+				v.setIdCurrentRide(i);
+			}
+		}
+		
 	}
 	public static void chooseAspect(Vehicle v) {
 		if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {

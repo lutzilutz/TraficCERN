@@ -28,7 +28,7 @@ public class SimState extends State {
 	private int step = 1; // step counter
 	private double stepSize = 1; // duration of one step in seconds-
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
-	private int startHour = 0;
+	private int startHour = 7;
 	private boolean paused = false;
 	private boolean askExit = false;
 	private long lastTick;

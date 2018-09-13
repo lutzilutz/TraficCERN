@@ -1886,7 +1886,7 @@ public class Network {
 				return r;
 			}
 		}
-		Utils.log("Error - while trying to find " + roadName + " in network");
+		Utils.log("Error - while trying to find " + roadName + " in network\n");
 		return null;
 	}
 	public void setNetworkSize() {

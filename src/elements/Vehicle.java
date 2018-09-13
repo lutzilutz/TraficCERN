@@ -87,7 +87,19 @@ public class Vehicle {
 	}
 	public void goToOutCell( ) {
 		nextPlace = cell.getOutCell();
-		currentRoadName = ride.get(idCurrentRide).getNextConnections().get(0).getName();
+		if (!ride.isEmpty()) {
+			if (!ride.get(idCurrentRide).getNextConnections().isEmpty()) {
+				currentRoadName = ride.get(idCurrentRide).getNextConnections().get(0).getName();
+			} else {
+				System.out.println("------- " + currentRoadName + " ------------");
+				for (Ride r: ride) {
+					r.print();
+					System.out.println();
+				}
+				System.out.println("-----------------------");
+				
+			}
+		}
 	}
 	public void accelerate() {
 		++speed;
@@ -96,6 +108,20 @@ public class Vehicle {
 		--speed;
 	}
 	public void removeCurrentConnection() {
+		for (int i=0 ; i<ride.size() ; i++) {
+			if (i != idCurrentRide) {
+				if (ride.get(i).getNextConnections().get(0).getPosition() == ride.get(idCurrentRide).getNextConnections().get(0).getPosition()
+						&& ride.get(i).getNextConnections().get(0).getName().equals(ride.get(idCurrentRide).getNextConnections().get(0).getName())) {
+					this.getRide().get(i).getNextConnections().remove(0);
+				} else {
+					/*System.out.println("Different rides :");
+					ride.get(i).print();
+					System.out.println();
+					ride.get(idCurrentRide).print();
+					System.out.println();*/
+				}
+			}
+		}
 		if (!this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
 			this.getRide().get(idCurrentRide).getNextConnections().remove(0);
 		}
@@ -149,6 +175,34 @@ public class Vehicle {
 			}
 		}
 		return i;
+	}
+	public int numberOfVhcAhead(Road r) {
+		int i = -1;
+		int n = 0;
+		Cell tmp;
+		if (this.currentRoadName.equals(r.getName())) {
+			tmp = this.getCell();
+		} else {
+			tmp = r.getRoadCells().get(0);
+		}
+		/*
+		if (tmp != null && tmp.isInRoundAbout()) {
+			for (int j=1; j<tmp.getRoadLength(); ++j) {
+				if (tmp.getNextCell().getVehicle() != null) {
+					return j;
+				}
+				tmp = tmp.getNextCell();
+			}
+		} else*/
+		if (tmp != null) {
+			for (int j=1; j<tmp.getRoadLength()-this.getCell().getPosition();++j) {
+				if (tmp.getNextCell().getVehicle() != null) {
+					n++;
+				}
+				tmp = tmp.getNextCell();
+			}
+		}
+		return n;
 	}
 	public void nextSpeed() {
 		int dc = this.distanceFromNextConnection();

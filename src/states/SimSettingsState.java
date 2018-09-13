@@ -425,11 +425,11 @@ public class SimSettingsState extends State {
 		if (activePage == 1) {
 			enableUIManager(uiManagerTransit);
 		} else if (activePage == 2) {
-			enableUIManager(uiManagerE);
-		} else if (activePage == 3) {
 			enableUIManager(uiManagerA);
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			enableUIManager(uiManagerB);
+		} else if (activePage == 4) {
+			enableUIManager(uiManagerE);
 		} else if (activePage == 5) {
 			enableUIManager(uiManagerGeneral);
 		}
@@ -445,11 +445,11 @@ public class SimSettingsState extends State {
 		if (activePage == 1) {
 			enableUIManager(uiManagerTransit);
 		} else if (activePage == 2) {
-			enableUIManager(uiManagerE);
-		} else if (activePage == 3) {
 			enableUIManager(uiManagerA);
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			enableUIManager(uiManagerB);
+		} else if (activePage == 4) {
+			enableUIManager(uiManagerE);
 		} else if (activePage == 5) {
 			enableUIManager(uiManagerGeneral);
 		}
