@@ -239,9 +239,9 @@ public class Network {
 		raPorteDeFrance.connectTo(rD884SW, raPorteDeFrance.getLanes()[0].getLength()-32);
 		
 		// N-E (in)
-		Road rD884NE = new Road(this, 15, "rD884NE");
+		Road rD884NE = new Road(this, 15+45, "rD884NE");
 		rD884NE.setDirection(38);
-		rD884NE.addPoint(new Point(13,58));
+		rD884NE.addPoint(new Point(13+45,58));
 		rD884NE.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-26,38);
 		roads.add(rD884NE);
 		rD884NE.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-26);
@@ -257,6 +257,8 @@ public class Network {
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLanes()[0].getLength()-23);
 		rSortieCERNSE.setMaxOutflow(8);
 		
+		
+		
 		// N-W (in)
 		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
 		rSortieCERNNW.setDirection(330);
@@ -267,17 +269,17 @@ public class Network {
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-20);
 		
 		// D884CERN
-		Road rD884CERN = new Road(this, 26, "rD884CERN");
+		Road rD884CERN = new Road(this, 26+20, "rD884CERN");
 		rD884CERN.setDirection(38);
-		rD884CERN.addPoint(new Point(8,90));
-		rD884CERN.addPoint(new Point(14,170));
-		rD884CERN.addPoint(new Point(20,150));
-		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 2*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
-		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 2*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
+		rD884CERN.addPoint(new Point(8+20,90));
+		rD884CERN.addPoint(new Point(14+20,170));
+		rD884CERN.addPoint(new Point(20+20,150));
+		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 27*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
+		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 27*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
 		roads.add(rD884CERN);
-		rD884NE.getRoadCells().get(2).setOutCell(rD884CERN.getRoadCells().get(0));
-		rD884NE.addExit("rD884CERN", 2);
-		rD884CERN.getRoadCells().get(0).setPreviousCell(rD884NE.getRoadCells().get(2));
+		rD884NE.getRoadCells().get(27).setOutCell(rD884CERN.getRoadCells().get(0));
+		rD884NE.addExit("rD884CERN", 27);
+		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
 		rD884CERN.addEnter("rD884NE", 0);
 		rD884CERN.setMaxOutflow(40);
 		
@@ -303,7 +305,7 @@ public class Network {
 		rD984FSES.connectFromiTo(rD984FSES2, 44);
 		roads.add(rD984FSES2);
 		
-		Road rD984FSES3 = new Road(this, 47, "rD984FSES3");
+		Road rD984FSES3 = new Road(this, 46, "rD984FSES3");
 		rD984FSES3.setStartPositionFrom(rD984FSES2, 1, 113, 1, (113+90));
 		rD984FSES2.connectFromiTo(rD984FSES3, 0);
 		roads.add(rD984FSES3);
@@ -311,16 +313,18 @@ public class Network {
 		MultiLaneRoundAbout raEntreeB = new MultiLaneRoundAbout(this, 2, 16);
 		raEntreeB.getLanes()[0].setStartPositionFrom(rD984FSES, rD984FSES.getLength()-1, 0, 4, rD984FSES.getDirection());
 		raEntreeB.setDirection(0);
-		raEntreeB.setX(raEntreeB.getLanes()[0].getX()+this.getCellWidth());
+		raEntreeB.setX(raEntreeB.getLanes()[0].getX()+3/4*this.getCellWidth());
 		raEntreeB.setY(raEntreeB.getLanes()[0].getY()-this.getCellHeight());
 		this.multiLaneRoundAbouts.add(raEntreeB);
 		for (RoundAbout ra: raEntreeB.getLanes()) {
 			this.roundAbouts.add(ra);
 		}
 		
-		rD984FSES.connectTo(raEntreeB, 5);
+		rD984FSES.connectTo(raEntreeB, 3);
+		rD984FSES2.connectTo(raEntreeB, 4);
+		rD984FSES3.connectTo(raEntreeB, 5);
 
-		/*
+		
 		// N-W (in)
 		Road rD984FNWS = new Road(this, 91, "rD984FNWS");
 		rD984FNWS.setDirection(293);
@@ -328,12 +332,15 @@ public class Network {
 		rD984FNWS.setEndPositionFrom(raLHC, raLHC.getLength()-5,293);
 		roads.add(rD984FNWS);
 		rD984FNWS.connectTo(raLHC, raLHC.getLength()-5);
+		raEntreeB.connectTo(rD984FNWS, 2);
 		
-		Road rD984FNWS2 = new Road(this, 46, "rD984FNWS2");
+		Road rD984FNWS2 = new Road(this, 47, "rD984FNWS2");
 		rD984FNWS2.setDirection(293);
 		rD984FNWS2.setStartPositionFrom(rD984FNWS, 0, 293, 1, 293-270); // 293+90 == 293-270
+		rD984FNWS2.setX(rD984FNWS2.getX()+this.cellWidth);
+		rD984FNWS2.setY(rD984FNWS2.getY()+0.5*this.cellWidth);
+		raEntreeB.connectTo(rD984FNWS2, 1);
 		roads.add(rD984FNWS2);
-		rD984FNWS2.connectTo(rD984FNWS, 46);
 		
 		
 		// CrossRoad middle roads W -> E:
@@ -398,13 +405,13 @@ public class Network {
 		rRouteDeMeyrinNorthNW2.setStartPositionFrom(rRouteDeMeyrinNorthNW1, 38, 293, 1, 293-270);
 		rRouteDeMeyrinNorthNW2.setDirection(293);
 		rRouteDeMeyrinNorthNW1.connectFromiToj(rRouteDeMeyrinNorthNW2, 38, 0);
-		roads.add(rRouteDeMeyrinNorthNW2); 
+		//roads.add(rRouteDeMeyrinNorthNW2); 
 		
 		Road rRouteDeMeyrinNorthNW3 = new Road(this, 7, "rRouteDeMeyrinNorthNW3");
 		rRouteDeMeyrinNorthNW3.setStartPositionFrom(rRouteDeMeyrinNorthNW2, 1, 293, 1, 293-270);
 		rRouteDeMeyrinNorthNW3.setDirection(293);
 		rRouteDeMeyrinNorthNW2.connectFromiToj(rRouteDeMeyrinNorthNW3, 0, 0);
-		roads.add(rRouteDeMeyrinNorthNW3); 
+		//roads.add(rRouteDeMeyrinNorthNW3); 
 		
 		Road rRouteDeMeyrinNorthNW1_2 = new Road(this, 11, "rRouteDeMeyrinNorthNW1_2");
 		rRouteDeMeyrinNorthNW1_2.setStartPositionFrom(raEntreeA.getLanes()[0], 2);
@@ -412,6 +419,7 @@ public class Network {
 		rRouteDeMeyrinNorthNW1_2.connectFromiToj(rRouteDeMeyrinNorthNW1, rRouteDeMeyrinNorthNW1_2.getRoadCells().size()-1, 11);
 		raEntreeA.connectTo(rRouteDeMeyrinNorthNW1_2, 2);
 		roads.add(rRouteDeMeyrinNorthNW1_2); 
+		
 		
 		// CrossRoad middle roads E -> W:
 
@@ -430,7 +438,11 @@ public class Network {
 		// North ------------------------------------------------------------------------------------------------------
 		
 		Road rRoutePauliNorthNE = new Road(this, 5, "rRoutePauliNorthNE");
-		rRoutePauliNorthNE.setStartPositionFrom(rEW1, 2, 15, 2, 15);
+		rRoutePauliNorthNE.setDirection(15);
+		rRoutePauliNorthNE.setStartPositionFrom(raEntreeB.getLanes()[0], 15);
+		rRoutePauliNorthNE.setX(rRoutePauliNorthNE.getX()+1.5*this.getCellWidth());
+		rRoutePauliNorthNE.setY(rRoutePauliNorthNE.getY()+0.5*this.getCellWidth());
+		//rRoutePauliNorthNE.setStartPositionFrom(rEW1, 2, 15, 2, 15);
 		rRoutePauliNorthNE.addPoint(new Point(3, 45));
 		roads.add(rRoutePauliNorthNE);
 		
@@ -552,7 +564,7 @@ public class Network {
 		rTunnelNW.setUnderground(17, 20, true);
 		
 		
-		
+		/*
 		// Network settings =================================================================================
 		rRueDeGeneveSE.setGenerateVehicules(1000);
 		rRueGermaineTillionSW.setGenerateVehicules(100);
@@ -568,6 +580,7 @@ public class Network {
 		rRoutePauliSouthNERight.setGenerateVehicules(50);
 		//rD984FNWS2.setGenerateVehicules(50);
 
+		*/
 		raLHC.setMaxSpeed(1);
 		
 		Utils.log("done");
@@ -583,7 +596,7 @@ public class Network {
 		
 		rD984FSES.setCounter(0.3, "counter 2A");
 		rD984FNWS.setCounter(0.702, "coutner 2B");
-		*/
+		
 
 	}
 	
@@ -693,9 +706,9 @@ public class Network {
 		raPorteDeFrance.connectTo(rD884SW, raPorteDeFrance.getLanes()[0].getLength()-32);
 		
 		// N-E (in)
-		Road rD884NE = new Road(this, 15, "rD884NE");
+		Road rD884NE = new Road(this, 15+45, "rD884NE");
 		rD884NE.setDirection(38);
-		rD884NE.addPoint(new Point(13,58));
+		rD884NE.addPoint(new Point(13+45,58));
 		rD884NE.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-26,38);
 		roads.add(rD884NE);
 		rD884NE.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-26);
@@ -721,17 +734,17 @@ public class Network {
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-20);
 		
 		// D884CERN
-		Road rD884CERN = new Road(this, 26, "rD884CERN");
+		Road rD884CERN = new Road(this, 26+20, "rD884CERN");
 		rD884CERN.setDirection(38);
-		rD884CERN.addPoint(new Point(8,90));
-		rD884CERN.addPoint(new Point(14,170));
-		rD884CERN.addPoint(new Point(20,150));
-		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 2*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
-		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 2*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
+		rD884CERN.addPoint(new Point(8+20,90));
+		rD884CERN.addPoint(new Point(14+20,170));
+		rD884CERN.addPoint(new Point(20+20,150));
+		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 27*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
+		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 27*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
 		roads.add(rD884CERN);
-		rD884NE.getRoadCells().get(2).setOutCell(rD884CERN.getRoadCells().get(0));
-		rD884NE.addExit("rD884CERN", 2);
-		rD884CERN.getRoadCells().get(0).setPreviousCell(rD884NE.getRoadCells().get(2));
+		rD884NE.getRoadCells().get(27).setOutCell(rD884CERN.getRoadCells().get(0));
+		rD884NE.addExit("rD884CERN", 27);
+		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
 		rD884CERN.addEnter("rD884NE", 0);
 		rD884CERN.setMaxOutflow(40);
 		
@@ -754,12 +767,18 @@ public class Network {
 		
 		Road rD984FSES2 = new Road(this, 47, "rD984FSES2");
 		rD984FSES2.setStartPositionFrom(rD984FSES, 45, 113, 1, (113+90));
-		rD984FSES.connectFromiTo(rD984FSES2, 44);
+		
+		for (int i = 0; i<1; ++i) {
+			rD984FSES.connectFromiToj(rD984FSES2, 44+i, i);
+		}
 		roads.add(rD984FSES2);
 		
 		Road rD984FSES3 = new Road(this, 46, "rD984FSES3");
 		rD984FSES3.setStartPositionFrom(rD984FSES2, 1, 113, 1, (113+90));
-		rD984FSES2.connectFromiTo(rD984FSES3, 0);
+		for (int i=0; i<1; ++i) {
+			rD984FSES2.connectFromiToj(rD984FSES3, i, i);
+		}
+		
 		roads.add(rD984FSES3);
 
 		
@@ -813,13 +832,22 @@ public class Network {
 		roads.add(rRouteDeMeyrinNorthSE2);
 		
 		rRouteDeMeyrinNorthSE1.connectFromiToj(rRouteDeMeyrinNorthSE2, 6, 7);
+		/*rRouteDeMeyrinNorthSE1.connectFromiToj(rRouteDeMeyrinNorthSE2, 5, 6);
+		rRouteDeMeyrinNorthSE1.connectFromiToj(rRouteDeMeyrinNorthSE2, 4, 5);
+		rRouteDeMeyrinNorthSE1.connectFromiToj(rRouteDeMeyrinNorthSE2, 3, 4);
+		rRouteDeMeyrinNorthSE1.connectFromiToj(rRouteDeMeyrinNorthSE2, 2, 3);
+		rRouteDeMeyrinNorthSE1.connectFromiToj(rRouteDeMeyrinNorthSE2, 1, 2);
+		rRouteDeMeyrinNorthSE1.connectFromiToj(rRouteDeMeyrinNorthSE2, 0, 1);*/
+		
 		rRouteDeMeyrinNorthSE2.addPoint(new Point(16, rRouteDeMeyrinNorthSE2.getDirection()+20));
 		rRouteDeMeyrinNorthSE2.addPoint(new Point(19, rRouteDeMeyrinNorthSE2.getDirection()));
 		
 		Road rRouteDeMeyrinNorthSE1_2 = new Road(this, 13, "rRouteDeMeyrinNorthSE1_2");
 		rRouteDeMeyrinNorthSE1_2.setStartPositionFrom(rRouteDeMeyrinNorthSE2, 33, rRouteDeMeyrinNorthSE2.getDirection(), 1, rRouteDeMeyrinNorthSE2.getDirection()-90);
 		rRouteDeMeyrinNorthSE1_2.setDirection(rD984FSES2.getDirection());
-		rRouteDeMeyrinNorthSE2.connectFromiTo(rRouteDeMeyrinNorthSE1_2, 32);
+		for (int i=0; i<1;++i) {
+			rRouteDeMeyrinNorthSE2.connectFromiToj(rRouteDeMeyrinNorthSE1_2, 32+i, i);
+		}
 		roads.add(rRouteDeMeyrinNorthSE1_2);
 		
 		
@@ -1101,7 +1129,7 @@ public class Network {
 		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
 		rC5NE.addExit("rTunnelSE", 7);
 		rTunnelSE.addEnter("rC5NE", 0);
-		rTunnelSE.getRoadCells().get(0).setPreviousCell(rC5NE.getRoadCells().get(7));
+		rTunnelSE.getRoadCells().get(0).setInCell(rC5NE.getRoadCells().get(7));
 		rTunnelSE.setUnderground(14, 16, true);
 		
 		// N-W
@@ -1113,6 +1141,7 @@ public class Network {
 		rTunnelNW.setY(rTunnelSE.getY()+29*cellWidth);
 		roads.add(0,rTunnelNW);
 		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setOutCell(rC5NE.getRoadCells().get(13));
+		rC5NE.getRoadCells().get(13).setInCell(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1));
 		rTunnelNW.addExit(rC5NE.getName(), rTunnelNW.getLength()-1);
 		rC5NE.addEnter("rTunnelNW", 13);
 		rTunnelNW.setUnderground(17, 20, true);
@@ -1179,7 +1208,7 @@ public class Network {
 		// CrossRoadsPhases:
 		
 		// Phase 1-----------------------------------------------------------------------------------------
-		Phase P1 = new Phase(this, 20, 30);
+		Phase P1 = new Phase(this, 10, 15);
 		
 		P1.addConcernedRoad(rRouteDeMeyrinNorthNW1);
 		P1.addConcernedRoad(rRouteDeMeyrinNorthNW2);
@@ -1187,7 +1216,7 @@ public class Network {
 		
 		P1.addRoadToCheck(rRouteDeMeyrinNorthNW3);
 		// Phase 2-----------------------------------------------------------------------------------------
-		Phase P2 = new Phase(this, 20, 30);
+		Phase P2 = new Phase(this, 30, 35);
 		
 		P2.addConcernedRoad(rRouteDeMeyrinNorthNW2);
 		P2.addConcernedRoad(rRouteDeMeyrinNorthNW3);
@@ -1425,7 +1454,7 @@ public class Network {
 		roads.add(rD884CERN);
 		rD884NE.getRoadCells().get(2).setOutCell(rD884CERN.getRoadCells().get(0));
 		rD884NE.addExit("rD884CERN", 2);
-		rD884CERN.getRoadCells().get(0).setPreviousCell(rD884NE.getRoadCells().get(2));
+		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(2));
 		rD884CERN.addEnter("rD884NE", 0);
 		rD884CERN.setMaxOutflow(8);
 		
@@ -1492,7 +1521,7 @@ public class Network {
 		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
 		rC5NE.addExit("rTunnelSE", 7);
 		rTunnelSE.addEnter("rC5NE", 0);
-		rTunnelSE.getRoadCells().get(0).setPreviousCell(rC5NE.getRoadCells().get(7));
+		rTunnelSE.getRoadCells().get(0).setInCell(rC5NE.getRoadCells().get(7));
 		rTunnelSE.setUnderground(14, 16, true);
 		
 		// N-W
@@ -1504,6 +1533,7 @@ public class Network {
 		rTunnelNW.setY(rTunnelSE.getY()+29*cellWidth);
 		roads.add(0,rTunnelNW);
 		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setOutCell(rC5NE.getRoadCells().get(13));
+		rC5NE.getRoadCells().get(13).setInCell(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1));
 		rTunnelNW.addExit(rC5NE.getName(), rTunnelNW.getLength()-1);
 		rC5NE.addEnter("rTunnelNW", 13);
 		rTunnelNW.setUnderground(17, 20, true);

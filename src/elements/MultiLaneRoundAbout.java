@@ -114,12 +114,15 @@ public class MultiLaneRoundAbout {
 			if (indexOfEnter != -1) {
 				for (Connection e: this.getExits()) {
 					if (e.getPosition()>indexOfEnter) {
+
 						ArrayList<Connection> connectionsIN = new ArrayList<Connection>();
 						ArrayList<Connection> connectionsOUT = new ArrayList<Connection>();
-						for (int i=0; i<laneInt-1; ++i) {
-							connectionsIN.add(new Connection("GO IN", indexOfEnter/*+i*/));
-							connectionsOUT.add(0, new Connection("GO OUT", e.getPosition()/*-(i+1)*/));
-						}
+						//if (laneInt/*/2*/ > 0) {
+							for (int i=0; i<laneInt-1/*/2*/; ++i) {
+								connectionsIN.add(new Connection("GO IN", indexOfEnter/*+i*/));
+								connectionsOUT.add(0, new Connection("GO OUT", e.getPosition()/*-(i+1)*/));
+							}
+						//}
 						ride.getNextConnections().addAll(connectionsIN);
 						ride.getNextConnections().addAll(connectionsOUT);
 
@@ -147,8 +150,8 @@ public class MultiLaneRoundAbout {
 						this.removeLastGoInGoOutConnections(ride);
 
 						++ laneInt;
-						if (laneInt > numOfLanes) {
-							laneInt = numOfLanes;
+						if (laneInt > /*2**/numOfLanes) {
+							laneInt = /*2**/numOfLanes;
 						}
 					}
 				}
@@ -156,10 +159,12 @@ public class MultiLaneRoundAbout {
 					if (e.getPosition()<indexOfEnter) {
 						ArrayList<Connection> connectionsIN = new ArrayList<Connection>();
 						ArrayList<Connection> connectionsOUT = new ArrayList<Connection>();
-						for (int i=0; i<laneInt-1; ++i) {
-							connectionsIN.add(new Connection("GO IN", indexOfEnter/*+i*/));
-							connectionsOUT.add(0, new Connection("GO OUT", e.getPosition()/*-(i+1)*/));
-						}
+						//if (laneInt/*/2*/ > 0) {
+							for (int i=0; i<laneInt-1/*/2*/; ++i) {
+								connectionsIN.add(new Connection("GO IN", indexOfEnter/*+i*/));
+								connectionsOUT.add(0, new Connection("GO OUT", e.getPosition()/*-(i+1)*/));
+							}
+						//}
 						ride.getNextConnections().addAll(connectionsIN);
 						ride.getNextConnections().addAll(connectionsOUT);
 
@@ -187,8 +192,8 @@ public class MultiLaneRoundAbout {
 						this.removeLastGoInGoOutConnections(ride);
 
 						++ laneInt;
-						if (laneInt > numOfLanes) {
-							laneInt = numOfLanes;
+						if (laneInt > /*2**/numOfLanes) {
+							laneInt = /*2**/numOfLanes;
 						}
 					}
 				}

@@ -153,7 +153,7 @@ public class CrossRoad {
 	public void connectTo(Road r, int i) {
 		i = ((i % 4) + 4) % 4;
 		this.middleCells[i].setOutCell(r.getRoadCells().get(0));
-		r.getRoadCells().get(0).setPreviousCell(this.middleCells[i]);
+		r.getRoadCells().get(0).setInCell(this.middleCells[i]);
 		addRoadOut(r, i);
 		this.addExit(r.getName(), i);
 		r.addEnter(this.getName(), 0);

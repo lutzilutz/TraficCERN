@@ -269,12 +269,14 @@ public class Road {
 	
 	public void connectTo(RoundAbout ra, int i) {
 		this.getRoadCells().get(this.getLength()-1).setOutCell(ra.getRoadCells().get(i));
+		ra.getRoadCells().get(i).setInCell(this.getRoadCells().get(this.getLength()-1));
 		this.addExit(ra.getName(), this.getLength()-1);
 		ra.addEnter(this.getName(), i);
 	}
 	public void connectTo(CrossRoad CR, int i) {
 		i = i % 4;
 		this.getRoadCells().get(this.getLength()-1).setOutCell(CR.getMiddleCells()[i]);
+		CR.getMiddleCells()[i].setInCell(this.getRoadCells().get(this.getLength()-1));
 		this.addExit(CR.getName(), this.getLength()-1);
 		CR.addEnter(this.getName(), i);
 	}
@@ -285,6 +287,7 @@ public class Road {
 		//int i2 = i+1;
 		
 		this.getRoadCells().get(this.getLength()-1).setOutCell(MLRA.getLanes()[0].getRoadCells().get(i));
+		MLRA.getLanes()[0].getRoadCells().get(i).setInCell(this.getRoadCells().get(this.getLength()-1));
 		this.addExit(MLRA.getName(), this.getLength()-1);
 		MLRA.addEnter(this.getName(), i);
 		

@@ -63,17 +63,24 @@ public class Vehicle {
 			return false;
 		}
 		for (int j=1; j < nCells+1; ++j) {
-			tmp.getPreviousCell();
-			if (tmp.getVehicle() != null) {
-				if (tmp.getVehicle().getSpeed() == 0) {
-					return true;
-				} else if (tmp.getVehicle().getSpeed() >= j-1) {
-					return false;
+			if (tmp.getPreviousCell() != null) {
+				tmp.getPreviousCell();
+				if (tmp.getVehicle() != null) {
+					if (tmp.getVehicle().getSpeed() > 0 && tmp.getVehicle().getSpeed() >= j-1) {
+						return false;
+					}
 				}
+				tmp = tmp.getPreviousCell();
 			}
-			tmp = tmp.getPreviousCell();
 		}
 		return true;
+	}
+	
+	public boolean checkInCell(Cell c) {
+		if (c.getInCell() == null || c.getInCell().getVehicle() == null || !(c.getInCell().getVehicle().getRide().get(getIdCurrentRide()).getNextConnections().get(0).getPosition()==c.getPosition())) {
+			return true;
+		}
+		return false;
 	}
 	public void leaveNetwork() {
 		hasToLeave = true;
@@ -110,15 +117,17 @@ public class Vehicle {
 	public void removeCurrentConnection() {
 		for (int i=0 ; i<ride.size() ; i++) {
 			if (i != idCurrentRide) {
-				if (ride.get(i).getNextConnections().get(0).getPosition() == ride.get(idCurrentRide).getNextConnections().get(0).getPosition()
-						&& ride.get(i).getNextConnections().get(0).getName().equals(ride.get(idCurrentRide).getNextConnections().get(0).getName())) {
-					this.getRide().get(i).getNextConnections().remove(0);
-				} else {
-					/*System.out.println("Different rides :");
-					ride.get(i).print();
-					System.out.println();
-					ride.get(idCurrentRide).print();
-					System.out.println();*/
+				if (!ride.get(i).getNextConnections().isEmpty() && !ride.get(idCurrentRide).getNextConnections().isEmpty()) {
+					if (ride.get(i).getNextConnections().get(0).getPosition() == ride.get(idCurrentRide).getNextConnections().get(0).getPosition()
+							&& ride.get(i).getNextConnections().get(0).getName().equals(ride.get(idCurrentRide).getNextConnections().get(0).getName())) {
+						this.getRide().get(i).getNextConnections().remove(0);
+					} else {
+						/*System.out.println("Different rides :");
+						ride.get(i).print();
+						System.out.println();
+						ride.get(idCurrentRide).print();
+						System.out.println();*/
+					}
 				}
 			}
 		}
@@ -130,7 +139,7 @@ public class Vehicle {
 		Cell ci = this.getCell();
 		for (int iter=0; iter < x; ++iter) {
 			if (ci.getNextCell() != null) {
-				if (ci.getNextCell().getVehicle() != null || ci.getNextCell().isAnOverlapedCellOccupied()) {
+				if (ci.getNextCell().getVehicle() != null || ci.getNextCell().isAnOverlapedCellOccupied() || (ci.isInRoundAbout() && !this.checkInCell(ci.getNextCell()))) {
 					this.setSpeed(iter);
 					break;
 				}
@@ -214,10 +223,10 @@ public class Vehicle {
 			this.speed = Math.min(this.speed+1, this.getCell().getMaxSpeed());
 		}
 		
-		if (dv > 0) {
+		if (dv >= 0) {
 			this.speed = Math.min(this.speed, dv);
 		}
-		if (dc > 0) {
+		if (dc >= 0) {
 			this.speed = Math.min(this.speed, dc);
 		}
 		if (this.speed > 1) {
