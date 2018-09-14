@@ -61,7 +61,7 @@ public class SimState extends State {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
 		this.keyManager = new KeyManager();
-		network = new Network(simulation, currentNetwork);
+		network = new Network(simulation, currentNetwork, 2);
 		
 		// Buttons ==============================================================================================
 		

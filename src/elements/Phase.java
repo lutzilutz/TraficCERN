@@ -90,7 +90,7 @@ public class Phase {
 	public void clearConcernedRoad() {
 		this.concernedRoads.clear();
 	}
-	
+	// Getters & setters ------------------------------------------------------------------------------------
 	public void setMin(int tMin) {
 		this.tMin = tMin;
 	}

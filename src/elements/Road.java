@@ -36,38 +36,19 @@ public class Road {
 	
 	public Road(Network n, int length) {
 		this.n = n;
-		this.maxSpeed = n.getMaxSpeed();
-		id = idCounter;
-		idCounter++;
 		this.length = length;
-		for (int i=0; i<length; i++) {
-			
-			Cell tmp = new Cell();
-			
-			if (i>0) {
-				tmp.setPreviousCell(roadCells.get(i-1));
-				roadCells.get(i-1).setNextCell(tmp);
-			}
-			
-			tmp.setPosition(i);
-			tmp.setRoadLength(length);
-			tmp.setMaxSpeed(this.maxSpeed);
-			tmp.setInRoundAbout(false);
-			
-			roadCells.add(tmp);
-		}
-		for (int i=0; i<24 ; i++) {
-			flow.add(0f);
-		}
+		initFields();
 	}
-	
 	public Road(Network n, int length, String name) {
 		this.n = n;
+		this.length = length;
+		this.name = name;
+		initFields();
+	}
+	public void initFields() {
 		this.maxSpeed = n.getMaxSpeed();
 		id = idCounter;
 		idCounter++;
-		this.length = length;
-		this.name = name;
 		for (int i=0; i<length; i++) {
 			
 			Cell tmp = new Cell(name);
@@ -121,9 +102,6 @@ public class Road {
 	}
 	public static void resetID() {
 		idCounter = 1;
-	}
-	public ArrayList<Point> getReorientations() {
-		return this.reorientations;
 	}
 	public void addPoint(Point point) {
 		reorientations.add(point);
@@ -448,6 +426,9 @@ public class Road {
 	}
 	
 	// Getters & setters ====================================================================================
+	public ArrayList<Point> getReorientations() {
+		return this.reorientations;
+	}
 	public ArrayList<Vehicle> getLeakyBucket() {
 		return leakyBucket;
 	}
