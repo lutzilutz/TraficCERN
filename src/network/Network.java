@@ -134,7 +134,7 @@ public class Network {
 	}
 	
 	public void createScenarioRAEntranceB() {
-		//this.randomGeneration = true;
+		this.randomGeneration = false;
 		
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
@@ -340,6 +340,7 @@ public class Network {
 		rD984FNWS2.setX(rD984FNWS2.getX()+this.cellWidth);
 		rD984FNWS2.setY(rD984FNWS2.getY()+0.5*this.cellWidth);
 		raEntreeB.connectTo(rD984FNWS2, 1);
+		rD984FNWS2.connectTo(rD984FNWS, 47);
 		roads.add(rD984FNWS2);
 		
 		
@@ -453,24 +454,24 @@ public class Network {
 		Road rRoutePauliNorthSW = new Road(this, 6, "rRoutePauliNorthSW");
 		rRoutePauliNorthSW.setStartPositionFrom(rRoutePauliNorthNE, 5, 225, 1.5, 315);
 		rRoutePauliNorthSW.addPoint(new Point(3, 195));
-		rRoutePauliNorthSW.connectTo(raEntreeB, 0);
+		//rRoutePauliNorthSW.connectTo(raEntreeB, 0);
 		roads.add(rRoutePauliNorthSW);
 		
 		// South ------------------------------------------------------------------------------------------------------
 		
 		Road rRoutePauliSouthNERight = new Road(this, 3, "rRoutePauliSouthNERight");
 		rRoutePauliSouthNERight.setStartPositionFrom(rWE2, 4, rWE2.getDirection()-90, 5, rWE2.getDirection()+90);
-		rRoutePauliSouthNERight.connectTo(raEntreeB, 7);
+		rRoutePauliSouthNERight.connectTo(raEntreeB, 8);
 		roads.add(rRoutePauliSouthNERight);
 		
 		Road rRoutePauliSouthNELeft = new Road(this, 3, "rRoutePauliSouthNELeft");
 		rRoutePauliSouthNELeft.setStartPositionFrom(rRoutePauliSouthNERight, 0, rRoutePauliSouthNERight.getDirection(), 1, rRoutePauliSouthNERight.getDirection()-90);
-		rRoutePauliSouthNELeft.connectTo(raEntreeB, 6);
+		rRoutePauliSouthNELeft.connectTo(raEntreeB, 7);
 		roads.add(rRoutePauliSouthNELeft);
 		
-		Road rRoutePauliSouthSW = new Road(this, 3, "rRoutePauliSouthSW");
+		Road rRoutePauliSouthSW = new Road(this, 15, "rRoutePauliSouthSW");
 		rRoutePauliSouthSW.setStartPositionFrom(rRoutePauliSouthNELeft, 3, rRoutePauliSouthNELeft.getDirection()+180, 1.5, rRoutePauliSouthNELeft.getDirection()-90);
-		raEntreeB.connectTo(rRoutePauliSouthSW, 5);
+		raEntreeB.connectTo(rRoutePauliSouthSW, 6);
 		roads.add(rRoutePauliSouthSW);
 		rRoutePauliSouthSW.setMaxOutflow(8);
 		

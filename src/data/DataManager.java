@@ -199,6 +199,15 @@ public class DataManager {
 		}
 		
 		// France to Geneva =================================================================================
+		
+		if (n.getAllRides("rD884NE") == null) {
+			System.out.println("No AllNetworkRides for D884NE");
+		} else {
+			if (n.getAllRides("rD884NE").getNetworkRides().isEmpty()) {
+				
+			}
+		}
+		
 		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
 			resetValues();
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
