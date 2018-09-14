@@ -63,6 +63,11 @@ public class SimSettingsState extends State {
 	private UISlider fromEntranceB, fromEntranceBRepartition;
 	private UISliderDouble fromEntranceBRepartitionRH2;
 	
+	private UISliderDouble crEntreeB_phase1;
+	private UISliderDouble crEntreeB_phase2;
+	private UISliderDouble crEntreeB_phase3;
+	private UISliderDouble crEntreeB_phase4;
+	
 	private UIImageButton previous, next;
 	private UITextButton run, back;
 	
@@ -323,6 +328,38 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerGeneral.addObject(timePerVhcEntrance);
 		
+		crEntreeB_phase1 = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 1", 60, DataManager.cycle1LTSmin, DataManager.cycle1LTSmax, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerGeneral.addObject(crEntreeB_phase1);
+		
+		crEntreeB_phase2 = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 2", 60, DataManager.cycle2LTSmin, DataManager.cycle2LTSmax, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerGeneral.addObject(crEntreeB_phase2);
+		
+		crEntreeB_phase3 = new UISliderDouble(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 3", 60, DataManager.cycle3LTSmin, DataManager.cycle3LTSmax, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerGeneral.addObject(crEntreeB_phase3);
+		
+		crEntreeB_phase4 = new UISliderDouble(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 4", 60, DataManager.cycle4LTSmin, DataManager.cycle4LTSmax, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerGeneral.addObject(crEntreeB_phase4);
+		
 		// ##################################################################################################
 		// BUTTONS ##########################################################################################
 		// ##################################################################################################
@@ -516,6 +553,18 @@ public class SimSettingsState extends State {
 	}
 	
 	// Getters & setters ====================================================================================
+	public UISliderDouble crEntreeB_phase1() {
+		return crEntreeB_phase1;
+	}
+	public UISliderDouble crEntreeB_phase2() {
+		return crEntreeB_phase2;
+	}
+	public UISliderDouble crEntreeB_phase3() {
+		return crEntreeB_phase3;
+	}
+	public UISliderDouble crEntreeB_phase4() {
+		return crEntreeB_phase4;
+	}
 	// FR to GE ---------------------------------------------------------------------------------------------
 	public UISlider fromFrToGe() {
 		return fromFrToGe;

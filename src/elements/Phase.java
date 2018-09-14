@@ -91,4 +91,10 @@ public class Phase {
 		this.concernedRoads.clear();
 	}
 	
+	public void setMin(int tMin) {
+		this.tMin = tMin;
+	}
+	public void setMax(int tMax) {
+		this.tMax = tMax;
+	}
 }

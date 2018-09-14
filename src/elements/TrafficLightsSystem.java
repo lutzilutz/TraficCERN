@@ -69,5 +69,7 @@ public class TrafficLightsSystem {
 	public void clearPhases() {
 		this.allPhases.clear();
 	}
-	
+	public ArrayList<Phase> getPhases() {
+		return this.allPhases;
+	}
 }

@@ -1259,8 +1259,8 @@ public class Network {
 		TrafficLightsSystem crEntreeBTLS = new TrafficLightsSystem();
 		crEntreeBTLS.addPhase(P1);
 		crEntreeBTLS.addPhase(P2);
-		//crEntreeBTLS.addPhase(P3);
-		//crEntreeBTLS.addPhase(P4);
+		crEntreeBTLS.addPhase(P3);
+		crEntreeBTLS.addPhase(P4);
 		
 		this.trafficLightsSystems.add(crEntreeBTLS);
 		crEntreeBTLS.setTrafficLightsRed();

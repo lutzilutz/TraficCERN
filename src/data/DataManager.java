@@ -109,6 +109,15 @@ public class DataManager {
 	public static int nToBEmpiric = 0;
 	public static int nFromBEmpiric = 0;
 	
+	public static int cycle1LTSmin = 10;
+	public static int cycle1LTSmax = 15;
+	public static int cycle2LTSmin = 30;
+	public static int cycle2LTSmax = 35;
+	public static int cycle3LTSmin = 10;
+	public static int cycle3LTSmax = 15;
+	public static int cycle4LTSmin = 10;
+	public static int cycle4LTSmax = 15;
+	
 	public static void loadData(Simulation simulation) {
 		
 		//applyDataToRides(simulation);
@@ -524,7 +533,7 @@ public class DataManager {
 			Utils.saveCheckingValues("\n");
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
 		}
-		
+		/*
 		for (AllNetworkRides anr: n.getAllNetworkRides()) {
 			for (Ride ride: anr.getNetworkRides()) {
 				System.out.print(ride.getRoadName() + " to " + ride.getNextConnections().get(ride.getNextConnections().size()-1).getName() + " : ");
@@ -540,6 +549,20 @@ public class DataManager {
 				System.out.print(road.getFlow().get(i) + " ");
 			}
 			System.out.println();
+		}*/
+		
+		if (n.getN() == 1) {
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
+			
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue2());
+			
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue2());
+			
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
 		}
 	}
 	public static int numberOfSameRides(Simulation sim, String start, String end) {
