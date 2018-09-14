@@ -257,8 +257,6 @@ public class Network {
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLanes()[0].getLength()-23);
 		rSortieCERNSE.setMaxOutflow(8);
 		
-		
-		
 		// N-W (in)
 		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
 		rSortieCERNNW.setDirection(330);
@@ -323,7 +321,6 @@ public class Network {
 		rD984FSES.connectTo(raEntreeB, 3);
 		rD984FSES2.connectTo(raEntreeB, 4);
 		rD984FSES3.connectTo(raEntreeB, 5);
-
 		
 		// N-W (in)
 		Road rD984FNWS = new Road(this, 91, "rD984FNWS");
@@ -343,7 +340,6 @@ public class Network {
 		rD984FNWS2.connectTo(rD984FNWS, 47);
 		roads.add(rD984FNWS2);
 		
-		
 		// CrossRoad middle roads W -> E:
 		
 		Road rWE1 = new Road(this, 5, "rWE1");
@@ -356,9 +352,7 @@ public class Network {
 		rWE2.setStartPositionFrom(rD984FSES2, rD984FSES2.getLength()-1, rD984FSES2.getDirection(), 1, rD984FSES2.getDirection());
 		rWE2.setDirection(rWE1.getDirection());
 		
-		
 		// Route de Meyrin NORTH (SE) ---------------------------------------------------------------------------------------
-				
 				
 		Road rRouteDeMeyrinNorthSE1 = new Road(this, 7, "rRouteDeMeyrinNorthSE1");
 		rRouteDeMeyrinNorthSE1.setStartPositionFrom(rWE1, rWE1.getLength()-1, rWE1.getDirection(), 1, rWE1.getDirection());
@@ -381,7 +375,6 @@ public class Network {
 		rRouteDeMeyrinNorthSE1_2.setDirection(rD984FSES2.getDirection());
 		rRouteDeMeyrinNorthSE2.connectFromiTo(rRouteDeMeyrinNorthSE1_2, 32);
 		roads.add(rRouteDeMeyrinNorthSE1_2);
-		
 		
 		// RA entree A ------------------------------------------------------------------------------------------------
 		MultiLaneRoundAbout raEntreeA = new MultiLaneRoundAbout(this, 1, 16, "raEntreeA");
@@ -469,7 +462,7 @@ public class Network {
 		rRoutePauliSouthNELeft.connectTo(raEntreeB, 7);
 		roads.add(rRoutePauliSouthNELeft);
 		
-		Road rRoutePauliSouthSW = new Road(this, 15, "rRoutePauliSouthSW");
+		Road rRoutePauliSouthSW = new Road(this, 3, "rRoutePauliSouthSW");
 		rRoutePauliSouthSW.setStartPositionFrom(rRoutePauliSouthNELeft, 3, rRoutePauliSouthNELeft.getDirection()+180, 1.5, rRoutePauliSouthNELeft.getDirection()-90);
 		raEntreeB.connectTo(rRoutePauliSouthSW, 6);
 		roads.add(rRoutePauliSouthSW);
@@ -576,7 +569,7 @@ public class Network {
 		
 		// Network settings =================================================================================
 		rRueDeGeneveSE.setGenerateVehicules(200);
-		/*rRueGermaineTillionSW.setGenerateVehicules(100);
+		rRueGermaineTillionSW.setGenerateVehicules(100);
 		rD884NE.setGenerateVehicules(50);
 		rSortieCERNNW.setGenerateVehicules(50);
 		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
@@ -589,7 +582,7 @@ public class Network {
 		rRoutePauliSouthNERight.setGenerateVehicules(50);
 		//rD984FNWS2.setGenerateVehicules(50);
 
-		*/
+		
 		raLHC.setMaxSpeed(1);
 		
 		Utils.log("done");
