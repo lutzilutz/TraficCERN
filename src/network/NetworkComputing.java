@@ -504,6 +504,22 @@ public class NetworkComputing {
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
+			
+			Utils.writeDataSegmentCounters(n.getSimulation().getSimState().getTime() + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles()) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles()) + " ");
+			if (n.selectARoad("rD984FSES2") != null && n.selectARoad("rD984FSES3") != null) {
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles() + n.selectARoad("rD984FSES2").getNumberOfVehicles() + n.selectARoad("rD984FSES3").getNumberOfVehicles()) + " ");
+			} else {
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles()) + " ");
+			}
+			
+			if (n.selectARoad("rD984FNWS2") != null) {
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles() + n.selectARoad("rD984FNWS2").getNumberOfVehicles()) + "\n");
+			} else {
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles()) + "\n");
+			}
+			
 			Utils.writeDataLeakyBuckets(n.getSimulation().getSimState().getTime() + " ");
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rD884NE").getLeakyBucket().size()) + " ");
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + " ");

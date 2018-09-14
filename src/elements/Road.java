@@ -422,7 +422,15 @@ public class Road {
 		}
 		
 	}
-	
+	public int getNumberOfVehicles() {
+		int n = 0;
+		for (Cell cell: roadCells) {
+			if (cell.getVehicle() != null) {
+				n++;
+			}
+		}
+		return n;
+	}
 	public void addRoadDirection(Direction d) {
 		this.directions.add(d);
 	}

@@ -481,7 +481,7 @@ public class DataManager {
 			}
 		}
 		
-		for (AllNetworkRides anr: n.getAllNetworkRides()) {
+		/*for (AllNetworkRides anr: n.getAllNetworkRides()) {
 			
 			for (Ride ride: anr.getNetworkRides()) {
 				//if ((ride.getRoadName().equals("rRueDeGeneveSE") || ride.getRoadName().equals("rD884NE") || ride.getRoadName().equals("rRueGermaineTillionSW") || ride.getRoadName().equals("rC5SW")) && lastRoadIs(ride,"rRoutePauliSouthSW")) {
@@ -490,7 +490,7 @@ public class DataManager {
 					System.out.println();
 				}
 			}
-		}
+		}*/
 	}
 	public static void applyRidesToRoads(Simulation simulation) {
 		

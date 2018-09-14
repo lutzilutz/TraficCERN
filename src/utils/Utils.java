@@ -19,6 +19,7 @@ public class Utils {
 	public static PrintStream dataChecking;
 	public static PrintStream dataLeakyBuckets;
 	public static String dataStrCounters = "";
+	public static String dataStrSegmentCounters = "";
 	public static String dataStrLeakyBuckets = "";
 	public static String dataDir = "data";
 	private static Date date = new Date();
@@ -49,7 +50,7 @@ public class Utils {
 		}
 		
 		initDataCounters();
-		//initDataSegmentCounters();
+		initDataSegmentCounters();
 		initCheckingValues();
 		initDataLeakyBuckets();
 		
@@ -76,7 +77,8 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		dataSegmentCounters.print("Time Counter1A-speed=0 Counter1A-speed=1 Counter1A-speed=2 Counter1B-speed=0 Counter1B-speed=1 Counter1B-speed=2 Counter2A-speed=0 Counter2A-speed=1 Counter2A-speed=2 Counter2B-speed=0 Counter2B-speed=1 Counter2B-speed=2\n");
+		//dataSegmentCounters.print("Time Counter1A-speed=0 Counter1A-speed=1 Counter1A-speed=2 Counter1B-speed=0 Counter1B-speed=1 Counter1B-speed=2 Counter2A-speed=0 Counter2A-speed=1 Counter2A-speed=2 Counter2B-speed=0 Counter2B-speed=1 Counter2B-speed=2\n");
+		dataSegmentCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");
 	}
 	public static void initCheckingValues() {
 		try {
@@ -171,6 +173,7 @@ public class Utils {
 	}
 	public static void saveData() {
 		saveDataCounters();
+		saveDataSegmentCounters();
 		saveDataLeakyBuckets();
 	}
 	public static void writeDataCounters(String text) {
@@ -179,6 +182,13 @@ public class Utils {
 	public static void saveDataCounters() {
 		dataCounters.print(dataStrCounters);
 		dataStrCounters = "";
+	}
+	public static void writeDataSegmentCounters(String text) {
+		dataStrSegmentCounters = dataStrSegmentCounters + text;
+	}
+	public static void saveDataSegmentCounters() {
+		dataSegmentCounters.print(dataStrSegmentCounters);
+		dataStrSegmentCounters = "";
 	}
 	public static void writeDataLeakyBuckets(String text) {
 		dataStrLeakyBuckets = dataStrLeakyBuckets + text;
