@@ -556,7 +556,6 @@ public class DataManager {
 			}
 		}
 		count--;
-		//System.out.println("--- " + start + " to " + end + " : " + count);
 		return count;
 	}
 	public static void resetValues() {

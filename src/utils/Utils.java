@@ -15,6 +15,7 @@ public class Utils {
 
 	public static PrintStream log;
 	public static PrintStream dataCounters;
+	public static PrintStream dataSegmentCounters;
 	public static PrintStream dataChecking;
 	public static PrintStream dataLeakyBuckets;
 	public static String dataStrCounters = "";
@@ -48,6 +49,7 @@ public class Utils {
 		}
 		
 		initDataCounters();
+		//initDataSegmentCounters();
 		initCheckingValues();
 		initDataLeakyBuckets();
 		
@@ -66,7 +68,15 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		dataCounters.print("Time Counter1 Counter2 Counter3 Counter4\n");
+		dataCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");
+	}
+	public static void initDataSegmentCounters() {
+		try {
+			dataSegmentCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_segment_counters.txt", false));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		dataSegmentCounters.print("Time Counter1A-speed=0 Counter1A-speed=1 Counter1A-speed=2 Counter1B-speed=0 Counter1B-speed=1 Counter1B-speed=2 Counter2A-speed=0 Counter2A-speed=1 Counter2A-speed=2 Counter2B-speed=0 Counter2B-speed=1 Counter2B-speed=2\n");
 	}
 	public static void initCheckingValues() {
 		try {
@@ -77,14 +87,63 @@ public class Utils {
 		dataChecking.print("Checking probabilities\n");
 	}
 	public static void saveCheckingValues() {
-		dataChecking.print("From France to Geneva (per day) :     expected " + DataManager.nFrGeChosen + ", got " + DataManager.nFrGeEmpiric + "\n");
-		dataChecking.print("From Geneva to France (per day) :     expected " + DataManager.nGeFrChosen + ", got " + DataManager.nGeFrEmpiric + "\n");
-		dataChecking.print("From France to entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + "\n");
-		dataChecking.print("From entrance E to France (per day) : expected " + DataManager.nFromEChosen + ", got " + DataManager.nFromEEmpiric + "\n");
-		dataChecking.print("To entrance A (per day) :             expected " + DataManager.nToAChosen + ", got " + DataManager.nToAEmpiric + "\n");
-		dataChecking.print("From entrance A (per day) :           expected " + DataManager.nFromAChosen + ", got " + DataManager.nFromAEmpiric + "\n");
-		dataChecking.print("To entrance B (per day) :             expected " + DataManager.nToBChosen + ", got " + DataManager.nToBEmpiric + "\n");
-		dataChecking.print("From entrance B (per day) :           expected " + DataManager.nFromBChosen + ", got " + DataManager.nFromBEmpiric + "\n");
+		float errorFrGe;
+		float errorGeFr;
+		float errorToA;
+		float errorFromA;
+		float errorToB;
+		float errorFromB;
+		float errorToE;
+		float errorFromE;
+		if (DataManager.nFrGeChosen > 0) {
+			errorFrGe = Math.round((1000*Math.abs((DataManager.nFrGeChosen-DataManager.nFrGeEmpiric)/ (float)DataManager.nFrGeChosen))) / (float) 10;
+		} else {
+			errorFrGe = 0;
+		}
+		if (DataManager.nFrGeChosen > 0) {
+			errorGeFr = Math.round((1000*Math.abs((DataManager.nGeFrChosen-DataManager.nGeFrEmpiric)/ (float)DataManager.nGeFrChosen))) / (float) 10;
+		} else {
+			errorGeFr = 0;
+		}
+		if (DataManager.nToAChosen > 0) {
+			errorToA = Math.round((1000*Math.abs((DataManager.nToAChosen-DataManager.nToAEmpiric)/ (float)DataManager.nToAChosen))) / (float) 10;
+		} else {
+			errorToA = 0;
+		}
+		if (DataManager.nFromAChosen > 0) {
+			errorFromA = Math.round((1000*Math.abs((DataManager.nFromAChosen-DataManager.nFromAEmpiric)/ (float)DataManager.nFromAChosen))) / (float) 10;
+		} else {
+			errorFromA = 0;
+		}
+		if (DataManager.nToBChosen > 0) {
+			errorToB = Math.round((1000*Math.abs((DataManager.nToBChosen-DataManager.nToBEmpiric)/ (float)DataManager.nToBChosen))) / (float) 10;
+		} else {
+			errorToB = 0;
+		}
+		if (DataManager.nFromBChosen > 0) {
+			errorFromB = Math.round((1000*Math.abs((DataManager.nFromBChosen-DataManager.nFromBEmpiric)/ (float)DataManager.nFromBChosen))) / (float) 10;
+		} else {
+			errorFromB = 0;
+		}
+		if (DataManager.nToEChosen > 0) {
+			errorToE = Math.round((1000*Math.abs((DataManager.nToEChosen-DataManager.nToEEmpiric)/ (float)DataManager.nToEChosen))) / (float) 10;
+		} else {
+			errorToE = 0;
+		}
+		if (DataManager.nFromEChosen > 0) {
+			errorFromE = Math.round((1000*Math.abs((DataManager.nFromEChosen-DataManager.nFromEEmpiric)/ (float)DataManager.nFromEChosen))) / (float) 10;
+		} else {
+			errorFromE = 0;
+		}
+		
+		dataChecking.print("From France to Geneva (per day) :     expected " + DataManager.nFrGeChosen + ", got " + DataManager.nFrGeEmpiric + " (" + errorFrGe + "%)\n");
+		dataChecking.print("From Geneva to France (per day) :     expected " + DataManager.nGeFrChosen + ", got " + DataManager.nGeFrEmpiric + " (" + errorGeFr + "%)\n");
+		dataChecking.print("To entrance A (per day) :             expected " + DataManager.nToAChosen + ", got " + DataManager.nToAEmpiric + " (" + errorToA + "%)\n");
+		dataChecking.print("From entrance A (per day) :           expected " + DataManager.nFromAChosen + ", got " + DataManager.nFromAEmpiric + " (" + errorFromA + "%)\n");
+		dataChecking.print("To entrance B (per day) :             expected " + DataManager.nToBChosen + ", got " + DataManager.nToBEmpiric + " (" + errorToB + "%)\n");
+		dataChecking.print("From entrance B (per day) :           expected " + DataManager.nFromBChosen + ", got " + DataManager.nFromBEmpiric + " (" + errorFromB + "%)\n");
+		dataChecking.print("From France to entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + " (" + errorToE + "%)\n");
+		dataChecking.print("From entrance E to France (per day) : expected " + DataManager.nFromEChosen + ", got " + DataManager.nFromEEmpiric + " (" + errorFromE + "%)\n");
 	}
 	public static void saveCheckingValues(String text) {
 		//dataChecking.print(text);	

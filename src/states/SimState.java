@@ -3,7 +3,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import elements.Road;
 import graphics.Assets;
 import graphics.Text;
 import input.KeyManager;
@@ -28,12 +27,11 @@ public class SimState extends State {
 	private int step = 1; // step counter
 	private double stepSize = 1; // duration of one step in seconds-
 	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
-	private int startHour = 7;
+	private int startHour = 0;
 	private boolean paused = false;
 	private boolean askExit = false;
 	private long lastTick;
 	private boolean restarting = false;
-	private boolean firstRun = true;
 	private boolean finished = false;
 	
 	private boolean rushHours = false;
@@ -419,7 +417,7 @@ public class SimState extends State {
 		restarting = false;
 	}
 	
-	// Return time in format "DDD hh:mm:ss"
+	// Return time in format "hh:mm:ss"
 	public String getTime() {
 		int time = (int) (step*stepSize+startHour*60*60);
 		int sec = time % 60;
@@ -443,7 +441,8 @@ public class SimState extends State {
 		
 		String dayStr = daysOfWeek[(time/(60*60*24)) % 7];
 		
-		return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
+		//return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
+		return hrStr + ":" + minStr + ":" + secStr;
 	}
 	public int getHours() {
 		int time = (int) (step*stepSize+startHour*60*60);

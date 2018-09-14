@@ -79,7 +79,6 @@ public class Simulation implements Runnable {
 		menuState = new MenuState(this);
 		mouseManager.setUIManager(menuState.getUIManager());
 		
-		Utils.initAllData();
 		Utils.log("Running ----------------------------------------------------\n");
 		State.setState(menuState);
 	}

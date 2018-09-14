@@ -2,7 +2,6 @@ package states;
 import java.awt.Graphics;
 
 import data.DataManager;
-import elements.Road;
 import graphics.Assets;
 import graphics.Text;
 import main.Simulation;
@@ -37,8 +36,6 @@ public class SimSettingsState extends State {
 	private boolean isLeftPressed = false;
 	
 	private UISlider timePerVhcEntrance;
-	
-	private UISlider sizeOfNetwork;
 	
 	private UISlider fromFrToGe,fromFrToGeDuringRH;
 	private UISliderDouble fromFrToGeRepartitionRH;
@@ -358,6 +355,7 @@ public class SimSettingsState extends State {
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
+				Utils.initAllData();
 				DataManager.applyData(simulation);
 				simulation.getSimState().enableUIManager();
 				State.setState(simulation.getSimState());
@@ -391,11 +389,11 @@ public class SimSettingsState extends State {
 		if (activePage == 1) {
 			this.uiManagerTransit.tick();
 		} else if (activePage == 2) {
-			this.uiManagerE.tick();
-		} else if (activePage == 3) {
 			this.uiManagerA.tick();
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			this.uiManagerB.tick();
+		} else if (activePage == 4) {
+			this.uiManagerE.tick();
 		} else if (activePage == 5) {
 			this.uiManagerGeneral.tick();
 		}
@@ -501,14 +499,14 @@ public class SimSettingsState extends State {
 			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManagerTransit.render(g);
 		} else if (activePage == 2) {
-			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
-			this.uiManagerE.render(g);
-		} else if (activePage == 3) {
 			Text.drawString(g, "entrance A", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManagerA.render(g);
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			Text.drawString(g, "entrance B", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManagerB.render(g);
+		} else if (activePage == 4) {
+			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			this.uiManagerE.render(g);
 		} else if (activePage == 5) {
 			Text.drawString(g, "general settings", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
 			this.uiManagerGeneral.render(g);

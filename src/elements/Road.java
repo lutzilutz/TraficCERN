@@ -326,62 +326,68 @@ public class Road {
 			for (Connection e: this.exits) {
 				boolean canAdd = true;
 				for (Road r: this.n.getRoads()) {
-					if (e.getName().equals(r.getName())) {
-						if (!ride.getNextConnections().isEmpty()) {
-							for (Connection ent: this.getEnters()) {
-								
-								if(ride.getNextConnections().size() > 1 && ent.getName().equals(ride.getNextConnections().get(ride.getNextConnections().size()-2).getName())) {
-									if (ent.getPosition() > e.getPosition()) {
-										canAdd = false;
-									}
-								} else if (ride.getNextConnections().size() == 1) {
-									if (ent.getName().equals(ride.getRoadName())) {
-										if (ent.getPosition() >= e.getPosition()) {
+					if (e.getName() != null) {
+						if (e.getName().equals(r.getName())) {
+							if (!ride.getNextConnections().isEmpty()) {
+								for (Connection ent: this.getEnters()) {
+									
+									if(ride.getNextConnections().size() > 1 && ent.getName().equals(ride.getNextConnections().get(ride.getNextConnections().size()-2).getName())) {
+										if (ent.getPosition() > e.getPosition()) {
 											canAdd = false;
+										}
+									} else if (ride.getNextConnections().size() == 1) {
+										if (ent.getName().equals(ride.getRoadName())) {
+											if (ent.getPosition() >= e.getPosition()) {
+												canAdd = false;
+											}
 										}
 									}
 								}
 							}
+							if (canAdd) {
+								ride.addNextConnection(e.clone());
+								r.generateRidesAux(n-1, ride);
+							}
+							canAdd = true;
+							
 						}
-						if (canAdd) {
-							ride.addNextConnection(e.clone());
-							r.generateRidesAux(n-1, ride);
-						}
-						canAdd = true;
-						
 					}
 				}
 				for (MultiLaneRoundAbout MLRA: this.n.getMultiLaneRoundAbouts()) {
-					if (e.getName().equals(MLRA.getName())) {
-						for(Connection c: ride.getNextConnections()) {
-							if (c.getName().equals(MLRA.getName())) {
-								if (!ride.getNextConnections().isEmpty()) {
-									ride.removeLastConnection();
-									this.removeLastGoInGoOutConnections(ride);
+					if (e.getName() != null) {
+						if (e.getName().equals(MLRA.getName())) {
+							for(Connection c: ride.getNextConnections()) {
+								if (c.getName().equals(MLRA.getName())) {
+									if (!ride.getNextConnections().isEmpty()) {
+										ride.removeLastConnection();
+										this.removeLastGoInGoOutConnections(ride);
+									}
+									return;
 								}
-								return;
 							}
+							Connection etilde = e.clone();
+							//etilde.setName(MLRA.getLanes()[0].getName());
+							ride.addNextConnection(etilde);
+							MLRA.generateRidesAux(n-1, ride);
 						}
-						Connection etilde = e.clone();
-						//etilde.setName(MLRA.getLanes()[0].getName());
-						ride.addNextConnection(etilde);
-						MLRA.generateRidesAux(n-1, ride);
 					}
 				}
 				for (RoundAbout ra: this.n.getRoundAbouts()) {
-					if (e.getName().equals(ra.getName())) {
-						for(Connection c: ride.getNextConnections()) {
-							if (c.getName().equals(ra.getName())) {
-								if (!ride.getNextConnections().isEmpty()) {
-									ride.removeLastConnection();
-									this.removeLastGoInGoOutConnections(ride);
+					if (e.getName() != null) {
+						if (e.getName().equals(ra.getName())) {
+							for(Connection c: ride.getNextConnections()) {
+								if (c.getName().equals(ra.getName())) {
+									if (!ride.getNextConnections().isEmpty()) {
+										ride.removeLastConnection();
+										this.removeLastGoInGoOutConnections(ride);
+									}
+									return;
 								}
-								return;
 							}
+							
+							ride.addNextConnection(e.clone());
+							ra.generateRidesAux(n-1, ride);
 						}
-						
-						ride.addNextConnection(e.clone());
-						ra.generateRidesAux(n-1, ride);
 					}
 				}
 				for (CrossRoad cr: this.n.getCrossRoads()) {
