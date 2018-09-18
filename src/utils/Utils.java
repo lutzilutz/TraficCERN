@@ -69,6 +69,7 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		dataCounters.print("Number of vehicles per minute passing through counters ---\n");
 		dataCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");
 	}
 	public static void initDataSegmentCounters() {
@@ -77,8 +78,8 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		//dataSegmentCounters.print("Time Counter1A-speed=0 Counter1A-speed=1 Counter1A-speed=2 Counter1B-speed=0 Counter1B-speed=1 Counter1B-speed=2 Counter2A-speed=0 Counter2A-speed=1 Counter2A-speed=2 Counter2B-speed=0 Counter2B-speed=1 Counter2B-speed=2\n");
-		dataSegmentCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");
+		dataSegmentCounters.print("Number of vehicles at a given time, syntax is [counter ID, speed] ---\n");
+		dataSegmentCounters.print("Time 1A,0 1A,1 1A,2 1B,0 1B,1 1B,2 2A,0 2A,1 2A,2 2B,0 2B,1 2B,2\n");
 	}
 	public static void initCheckingValues() {
 		try {

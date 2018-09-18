@@ -400,11 +400,13 @@ public class Road {
 		}
 		
 	}
-	public int getNumberOfVehicles() {
+	public int getNumberOfVehicles(int speed) {
 		int n = 0;
 		for (Cell cell: roadCells) {
 			if (cell.getVehicle() != null) {
-				n++;
+				if (cell.getVehicle().getSpeed() == speed) {
+					n++;
+				}
 			}
 		}
 		return n;

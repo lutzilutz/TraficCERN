@@ -470,18 +470,30 @@ public class NetworkComputing {
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
 			
 			Utils.writeDataSegmentCounters(n.getSimulation().getSimState().getTime() + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles()) + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles()) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(0)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(1)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(2)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(0)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(1)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(2)) + " ");
 			if (n.selectARoad("rD984FSES2") != null && n.selectARoad("rD984FSES3") != null) {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles() + n.selectARoad("rD984FSES2").getNumberOfVehicles() + n.selectARoad("rD984FSES3").getNumberOfVehicles()) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(0) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(1) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(2) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(2)) + " ");
 			} else {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles()) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(2)) + " ");
 			}
 			
 			if (n.selectARoad("rD984FNWS2") != null) {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles() + n.selectARoad("rD984FNWS2").getNumberOfVehicles()) + "\n");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(0) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(1) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(2) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(2)) + "\n");
 			} else {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles()) + "\n");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(2)) + "\n");
 			}
 			
 			Utils.writeDataLeakyBuckets(n.getSimulation().getSimState().getTime() + " ");
