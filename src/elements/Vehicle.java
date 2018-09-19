@@ -98,12 +98,12 @@ public class Vehicle {
 			if (!ride.get(idCurrentRide).getNextConnections().isEmpty()) {
 				currentRoadName = ride.get(idCurrentRide).getNextConnections().get(0).getName();
 			} else {
-				System.out.println("------- " + currentRoadName + " ------------");
-				for (Ride r: ride) {
+				//System.out.println("------- " + currentRoadName + " ------------");
+				/*for (Ride r: ride) {
 					r.print();
 					System.out.println();
-				}
-				System.out.println("-----------------------");
+				}*/
+				//System.out.println("-----------------------");
 				
 			}
 		}
@@ -121,12 +121,6 @@ public class Vehicle {
 					if (ride.get(i).getNextConnections().get(0).getPosition() == ride.get(idCurrentRide).getNextConnections().get(0).getPosition()
 							&& ride.get(i).getNextConnections().get(0).getName().equals(ride.get(idCurrentRide).getNextConnections().get(0).getName())) {
 						this.getRide().get(i).getNextConnections().remove(0);
-					} else {
-						/*System.out.println("Different rides :");
-						ride.get(i).print();
-						System.out.println();
-						ride.get(idCurrentRide).print();
-						System.out.println();*/
 					}
 				}
 			}
@@ -186,7 +180,6 @@ public class Vehicle {
 		return i;
 	}
 	public int numberOfVhcAhead(Road r) {
-		int i = -1;
 		int n = 0;
 		Cell tmp;
 		if (this.currentRoadName.equals(r.getName())) {
@@ -194,15 +187,7 @@ public class Vehicle {
 		} else {
 			tmp = r.getRoadCells().get(0);
 		}
-		/*
-		if (tmp != null && tmp.isInRoundAbout()) {
-			for (int j=1; j<tmp.getRoadLength(); ++j) {
-				if (tmp.getNextCell().getVehicle() != null) {
-					return j;
-				}
-				tmp = tmp.getNextCell();
-			}
-		} else*/
+		
 		if (tmp != null) {
 			for (int j=1; j<tmp.getRoadLength()-this.getCell().getPosition();++j) {
 				if (tmp.getNextCell().getVehicle() != null) {
@@ -314,8 +299,5 @@ public class Vehicle {
 	}
 	public void addRide(Ride ride) {
 		this.ride.add(ride);
-	}
-	public void setRideXXX(Ride ride) {
-		//this.ride = ride;
 	}
 }

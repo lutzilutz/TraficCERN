@@ -108,9 +108,6 @@ public class NetworkComputing {
 	public static void evolve(Network n) {
 		
 		for (Vehicle v: n.getVehicles()) {
-			if (v.getNextPlace() == null) {
-				//System.out.println("Coucou !");
-			}
 			
 			for (Road r: n.getRoads()) {
 				if (r.getVehicleCounter() != null) {
@@ -221,38 +218,17 @@ public class NetworkComputing {
 		// pre-process
 		for (Road r: n.getRoads()) {
 			
-			/*for (Road road2: n.getRoads()) {
-				if (road2.getName().equals("rSortieCERNNW")) {
-					System.out.println(road2.getName() + " : ");
-					for (int i=0; i<road2.getFlow().size() ; i++) {
-						System.out.print(road2.getFlow().get(i) + " ");
-					}
-					System.out.println();
-				}
-			}*/
 			// generation of new Vehicles
 			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
-				//System.out.println("vhc gen");
+				
 				if (!n.isRandomGeneration()) {
 					tmp.addRide(n.selectRidesWithProbability(r.getName()));
-					/*System.out.println("--------------------------------------------------------------------------");
-					for (Ride ride: tmp.getRide()) {
-						ride.print();
-						System.out.println();
-					}*/
-					/*if (r.getName().equals("rD884NE")) {// || r.getName().equals("rRoutePauliSouthNERight")) {
-						System.out.print(r.getName() + " - ");
-						for (Ride ride: tmp.getRide()) {
-							ride.print();
-							System.out.println();
-						}
-					}*/
-					
 					saveRideIntoData(tmp.getRide().get(tmp.getIdCurrentRide()));
 				} else {
 					tmp.addRide(n.selectARide(r.getName()));
 				}
+				
 				chooseAspect(tmp);
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
@@ -269,8 +245,6 @@ public class NetworkComputing {
 			r.outflowTick();
 		}
 		
-		
-		
 		for (CrossRoad cr: n.getCrossRoads()) {
 			if (!cr.getRoadsIN()[(cr.getStateOfTrafficLight()+1)%4].isTrafficLightRed()) {
 				cr.setTrafficLightState(cr.getStateOfTrafficLight()%4);
@@ -281,17 +255,16 @@ public class NetworkComputing {
 			v.nextSpeed();
 		}
 		
-		
 		// evolution of existing vehicles
 		for (Vehicle v: n.getVehicles()) {
+			
 			// Vehicle in a CELL
 			if (v.getCell() != null) {
 				
 				//NEXT and OUT cells
 				if (v.getCell().getOutCell() != null && v.getCell().getNextCell() != null) {
 					
-					// Lane choice based on number of vehicles
-					
+					// Lane choice based on number of vehicles =======================================================================
 					/*if (hasMultipleLaneChoice(v) && n.selectARoad(v.getCurrentRoadName()) != null) {
 						System.out.println("Multiple choices at #" + v.getCell().getPosition() + " of " + v.getCurrentRoadName());
 						//for (Ride ride: v.getRide()) {
@@ -305,12 +278,12 @@ public class NetworkComputing {
 							}
 						}
 						ArrayList<Integer> numberOfVhcOnRoad = new ArrayList<Integer>();
-						
 						chooseBestLane(n, v);
 					}*/
 					
 					// OUT cell EMPTY + Vehicle has NOT RIDE + RANDOM generation:
 					if (v.getCell().getOutCell().getVehicle() == null && !v.getCell().getOutCell().isAnOverlapedCellOccupied() && (v.getRide() == null || v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) && Math.random() < 0.5) {// < 0.5) {
+						
 						// Check PREVIOUS cells
 						if (v.getCell().getOutCell().getVehicle() == null && !(v.getCell().getOutCell().isAnOverlapedCellOccupied()) && (v.getCell().isInRoundAbout() || v.getCell().getOutCell().getPreviousCell() == null || v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell()))) {
 							v.goToOutCell();
@@ -320,11 +293,10 @@ public class NetworkComputing {
 							v.stayHere();
 							v.setSpeed(0);
 						}
-						//v.goToOutCell();
-						//v.setSpeed(1);
 						
 					// OUT cell EMPTY + Vehicle has RIDE + Vehicle on the NEXT Connection:
 					} else if (v.getRide().get(v.getIdCurrentRide()) != null && !v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty() && v.getCell().getPosition() == v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(0).getPosition()) {
+						
 						if (v.getCell().getOutCell().getVehicle() == null && !(v.getCell().getOutCell().isAnOverlapedCellOccupied()) && (v.getCell().isInRoundAbout() || v.getCell().getOutCell().getPreviousCell() == null || v.checkPreviousCells(n.getMaxSpeed()+1, v.getCell().getOutCell()))) {
 							v.goToOutCell();
 							v.removeCurrentConnection();
@@ -336,9 +308,11 @@ public class NetworkComputing {
 					
 					// Else if NEXT cell EMPTY
 					} else if (v.getCell().getNextCell().getVehicle() == null && !v.getCell().getNextCell().isAnOverlapedCellOccupied() && v.getSpeed() > 0){
+						
 						v.goToXthNextCell(v.getSpeed());
 						
 					} else {
+						
 						v.stayHere();
 						v.setSpeed(0);
 					}
@@ -346,6 +320,7 @@ public class NetworkComputing {
 				
 				// only NEXT cell
 				else if (v.getCell().getNextCell() != null) {
+					
 					if (v.getSpeed() > 0) {
 						v.goToXthNextCell(v.getSpeed());
 					} else {
@@ -378,12 +353,11 @@ public class NetworkComputing {
 				
 				// no NEXT or OUT cell
 				else if (v.getCell().getNextCell() == null && v.getCell().getOutCell() == null) {
+					
 					if (v.getCell().isBlocked()) {
 						v.stayHere();
 						v.setSpeed(0);
 					} else {
-						//v.getRide().print();
-						//System.out.println();
 						v.leaveNetwork();
 					}
 				}
@@ -395,7 +369,6 @@ public class NetworkComputing {
 				}	
 			}
 		}
-		
 		
 		for (CrossRoad cr: n.getCrossRoads()) {
 			cr.setCounter(cr.getCounter()+1);
@@ -417,15 +390,6 @@ public class NetworkComputing {
 				v.setInBucket(false);
 				r.removeVehicleFromBucket(r.getLeakyBucket().get(0));
 			}
-			
-			// Prints ride of vehicles coming in entrance B (should all be empty)
-			
-			/*if (r.getName().equals("rRoutePauliSouthSW")) {
-				if (r.getRoadCells().get(0).getVehicle() != null) {
-					r.getRoadCells().get(0).getVehicle().getRide().print();
-					System.out.println();
-				}
-			}*/
 		}
 		
 		if (n.getSimulation().getSimState().getStep()%60 == 0) {
@@ -506,18 +470,30 @@ public class NetworkComputing {
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
 			
 			Utils.writeDataSegmentCounters(n.getSimulation().getSimState().getTime() + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles()) + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles()) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(0)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(1)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(2)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(0)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(1)) + " ");
+			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(2)) + " ");
 			if (n.selectARoad("rD984FSES2") != null && n.selectARoad("rD984FSES3") != null) {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles() + n.selectARoad("rD984FSES2").getNumberOfVehicles() + n.selectARoad("rD984FSES3").getNumberOfVehicles()) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(0) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(1) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(2) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(2)) + " ");
 			} else {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles()) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(2)) + " ");
 			}
 			
 			if (n.selectARoad("rD984FNWS2") != null) {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles() + n.selectARoad("rD984FNWS2").getNumberOfVehicles()) + "\n");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(0) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(1) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(2) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(2)) + "\n");
 			} else {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles()) + "\n");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(0)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(1)) + " ");
+				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(2)) + "\n");
 			}
 			
 			Utils.writeDataLeakyBuckets(n.getSimulation().getSimState().getTime() + " ");
@@ -529,7 +505,5 @@ public class NetworkComputing {
 				Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
 			}
 		}
-		
-		
 	}
 }

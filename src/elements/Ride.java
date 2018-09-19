@@ -13,17 +13,17 @@ public class Ride implements Cloneable {
 	
 	public Ride(String name) {
 		this.roadName = name ;
-		for (int i=0; i<24 ; i++) {
-			flow.add(0f);
-		}
+		initFields();
 	}
 	public Ride() {
 		this.roadName = "" ;
+		initFields();
+	}
+	public void initFields() {
 		for (int i=0; i<24 ; i++) {
 			flow.add(0f);
 		}
 	}
-	
 	public void print() {
 		System.out.print("Ride: ");
 		for (Connection c: nextConnections) {
@@ -57,11 +57,6 @@ public class Ride implements Cloneable {
 		for (int i = 0 ; i<24 ; i++) {
 			flow.set(i, value);
 		}
-		/*System.out.print(roadName + " : ");
-		for (Integer i: flow) {
-			System.out.print(i + " ");
-		}
-		System.out.println();*/
 	}
 	public void setFlow(int hourStart, int hourEnd, float value) {
 		for (int i = hourStart ; i<hourEnd ; i++) {

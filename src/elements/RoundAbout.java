@@ -40,7 +40,6 @@ public class RoundAbout extends Road {
 		r.addEnter(this.getName(), 0);
 	}
 	
-	
 	public void generateRidesAux(int n, Ride ride) {
 		this.removeLastGoInGoOutConnections(ride);
 		if(n==0) {

@@ -13,9 +13,6 @@ public class TrafficLightsSystem {
 		currentPhaseIndex = (currentPhaseIndex+1)%(allPhases.size());
 	}
 	
-	public Phase getCurrentPhase() {
-		return this.allPhases.get(currentPhaseIndex);
-	}
 	
 	public void tReset() {
 		t = 0;
@@ -68,6 +65,10 @@ public class TrafficLightsSystem {
 	
 	public void clearPhases() {
 		this.allPhases.clear();
+	}
+	// Getters & setters ------------------------------------------------------------------------------------
+	public Phase getCurrentPhase() {
+		return this.allPhases.get(currentPhaseIndex);
 	}
 	public ArrayList<Phase> getPhases() {
 		return this.allPhases;

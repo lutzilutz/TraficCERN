@@ -26,45 +26,18 @@ public class CrossRoad {
 
 	public CrossRoad(Network n) {
 		this.n = n;
-		this.maxSpeed = 2;
-		this.x = 0;
-		this.y = 0;
-		this.numberOfRoadsIn = 0;
-		this.roadsIN = new Road[4];
-		this.roadsOUT = new Road[4];
-		middleCells = new Cell[4];
-		middleCells[0] = new Cell();
-		middleCells[0].setInRoundAbout(false);
-		middleCells[0].setRoadLength(4);
-		middleCells[0].setMaxSpeed(maxSpeed);
 		
-		middleCells[1] = new Cell();
-		middleCells[1].setInRoundAbout(false);
-		middleCells[1].setRoadLength(4);
-		middleCells[1].setMaxSpeed(maxSpeed);
-
-		middleCells[2] = new Cell();
-		middleCells[2].setInRoundAbout(false);
-		middleCells[2].setRoadLength(4);
-		middleCells[2].setMaxSpeed(maxSpeed);
-
-		middleCells[3] = new Cell();
-		middleCells[3].setInRoundAbout(false);
-		middleCells[3].setRoadLength(4);
-		middleCells[3].setMaxSpeed(maxSpeed);
-
-		for (int i=0; i<4; ++i) {
-			middleCells[i].setNextCell(middleCells[(i+1)%4]);
-		}
-		for (int i=0; i<4; ++i) {
-			middleCells[i].setPreviousCell(middleCells[(i+3)%4]);
-		}	
+		initFields();
 	}
 	
 	public CrossRoad(Network n, String name) {
 		this.n = n;
-		this.maxSpeed = 1;
 		this.name = name;
+		
+		initFields();
+	}
+	public void initFields() {
+		this.maxSpeed = 1;
 		this.x = 0;
 		this.y = 0;
 		this.numberOfRoadsIn = 0;
@@ -100,9 +73,8 @@ public class CrossRoad {
 		}
 		for (int i=0; i<4; ++i) {
 			middleCells[i].setPreviousCell(middleCells[(i+3)%4]);
-		}	
+		}
 	}
-	
 	public void sortEnters() {
 		Collections.sort(this.enters, new SortByPos());
 	}
@@ -203,13 +175,10 @@ public class CrossRoad {
 			if (!ride.getNextConnections().isEmpty()) {
 				ride.removeLastConnection();
 			}
-			//return;
 		} else {
 			if (!ride.getNextConnections().isEmpty()) {
 				ride.removeLastConnection();
 			}
-			//ride.removeLastConnection();
-			return;
 		}
 		
 	}
