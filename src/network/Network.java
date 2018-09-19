@@ -1224,7 +1224,7 @@ public class Network {
 		
 		P1.addRoadToCheck(rRouteDeMeyrinNorthNW3);
 		// Phase 2-----------------------------------------------------------------------------------------
-		Phase P2 = new Phase(this, 30, 35);
+		Phase P2 = new Phase(this, 30, 40);
 		
 		P2.addConcernedRoad(rRouteDeMeyrinNorthNW2);
 		P2.addConcernedRoad(rRouteDeMeyrinNorthNW3);
