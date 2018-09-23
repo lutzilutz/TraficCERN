@@ -6,7 +6,7 @@ public class TrafficLightsSystem {
 	private ArrayList<Phase> allPhases = new ArrayList<Phase>();
 	public boolean interPhase = false;
 	private int t=0;
-	public int interPhaseDuration = 5;
+	public int interPhaseDuration = 10;
 	private int currentPhaseIndex=0;
 	
 	public void incrementIndex() {
@@ -46,6 +46,14 @@ public class TrafficLightsSystem {
 		} else {
 			if (t >= this.interPhaseDuration) {
 				this.incrementIndex();
+				for (int i=0; i<this.allPhases.size()-1; ++i) {
+					if (this.allPhases.get(currentPhaseIndex).gettMin()==0 && this.allPhases.get(currentPhaseIndex).stopCondition()) {
+						this.allPhases.get(currentPhaseIndex).endPhase();
+						this.incrementIndex();
+					} else /*if (!this.allPhases.get(currentPhaseIndex).checkRoadsToCheck())*/ {
+						break;
+					}
+				}
 				this.allPhases.get(currentPhaseIndex).startPhase();
 				this.tReset();
 				return;

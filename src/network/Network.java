@@ -659,14 +659,14 @@ public class Network {
 		Road rD984FSES2 = new Road(this, 47, "rD984FSES2");
 		rD984FSES2.setStartPositionFrom(rD984FSES, 45, 113, 1, (113+90));
 		
-		for (int i = 0; i<1; ++i) {
+		for (int i = 0; i<2; ++i) {
 			rD984FSES.connectFromiToj(rD984FSES2, 44+i, i);
 		}
 		roads.add(rD984FSES2);
 		
 		Road rD984FSES3 = new Road(this, 46, "rD984FSES3");
 		rD984FSES3.setStartPositionFrom(rD984FSES2, 1, 113, 1, (113+90));
-		for (int i=0; i<1; ++i) {
+		for (int i=0; i<2; ++i) {
 			rD984FSES2.connectFromiToj(rD984FSES3, i, i);
 		}
 		
@@ -1013,7 +1013,7 @@ public class Network {
 		P1.addConcernedRoad(rRouteDeMeyrinNorthNW2);
 		P1.addConcernedRoad(rRouteDeMeyrinNorthNW3);
 		
-		P1.addRoadToCheck(rRouteDeMeyrinNorthNW3);
+		P1.addRoadToCheck(rRouteDeMeyrinNorthNW1);
 		// Phase 2-----------------------------------------------------------------------------------------
 		Phase P2 = new Phase(this, 30, 40);
 		

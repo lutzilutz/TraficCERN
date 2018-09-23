@@ -66,13 +66,19 @@ public class Phase {
 		}
 	}
 	
+	public void setAllRoadsToChecksTrafficLightsRed(boolean b) {
+		for (Road r: this.roadsToCheck) {
+			r.setTrafficLightRed(b);
+		}
+	}
+	
 	public void startPhase() {
 		this.tReset();
 		this.setAllConcernedTrafficLightsRed(false);
 	}
 	
 	public void endPhase() {
-		this.setAllConcernedTrafficLightsRed(true);
+		this.setAllRoadsToChecksTrafficLightsRed(true);
 	}
 	
 	public void addRoadToCheck (Road r) {
@@ -95,6 +101,22 @@ public class Phase {
 		this.tMin = tMin;
 	}
 	public void setMax(int tMax) {
+		this.tMax = tMax;
+	}
+
+	public int gettMin() {
+		return tMin;
+	}
+
+	public void settMin(int tMin) {
+		this.tMin = tMin;
+	}
+
+	public int gettMax() {
+		return tMax;
+	}
+
+	public void settMax(int tMax) {
 		this.tMax = tMax;
 	}
 }
