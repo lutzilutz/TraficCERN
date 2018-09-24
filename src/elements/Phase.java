@@ -39,7 +39,7 @@ public class Phase {
 		t = 0;
 	}
 	
-	public boolean checkRoadsToCheck() {
+	public boolean noVehiclesWaiting() {
 		for (Road r: this.roadsToCheck) {
 			for (int i=0; i<this.n.getMaxSpeed(); ++i) {
 				if (r.getRoadCells().get(r.getLength()-1-i) != null && r.getRoadCells().get(r.getLength()-1-i).getVehicle() != null) {
@@ -50,11 +50,11 @@ public class Phase {
 		return true;
 	}
 	
-	public boolean stopCondition() {
+	public boolean phaseShouldStop() {
 		if (t > tMax) {
 			return true;
 		} 
-		else if(this.tBetweenMinAndMax() && this.checkRoadsToCheck()) {
+		else if(this.tBetweenMinAndMax() && this.noVehiclesWaiting()) {
 			return true;
 		}
 		return false;

@@ -48,7 +48,7 @@ public class TrafficLightsSystem {
 				this.incrementIndex();
 				for (int i=0; i<this.allPhases.size()-1; ++i) {
 					this.allPhases.get(currentPhaseIndex).tReset();
-					if (this.allPhases.get(currentPhaseIndex).gettMin()==0 && this.allPhases.get(currentPhaseIndex).stopCondition()) {
+					if (this.allPhases.get(currentPhaseIndex).gettMin()==0 && this.allPhases.get(currentPhaseIndex).phaseShouldStop()) {
 						this.allPhases.get(currentPhaseIndex).endPhase();
 						this.incrementIndex();
 					} else /*if (!this.allPhases.get(currentPhaseIndex).checkRoadsToCheck())*/ {
@@ -59,7 +59,7 @@ public class TrafficLightsSystem {
 				this.tReset();
 				return;
 			}
-			if (this.allPhases.get(currentPhaseIndex).stopCondition()) {
+			if (this.allPhases.get(currentPhaseIndex).phaseShouldStop()) {
 				this.allPhases.get(currentPhaseIndex).endPhase();
 				this.interPhase = true;
 				return;
