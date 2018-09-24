@@ -47,6 +47,7 @@ public class TrafficLightsSystem {
 			if (t >= this.interPhaseDuration) {
 				this.incrementIndex();
 				for (int i=0; i<this.allPhases.size()-1; ++i) {
+					this.allPhases.get(currentPhaseIndex).tReset();
 					if (this.allPhases.get(currentPhaseIndex).gettMin()==0 && this.allPhases.get(currentPhaseIndex).stopCondition()) {
 						this.allPhases.get(currentPhaseIndex).endPhase();
 						this.incrementIndex();
