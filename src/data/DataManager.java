@@ -25,8 +25,13 @@ public class DataManager {
 	private static double repartitionRH18 = 0;
 	private static double repartitionRH19 = 0;
 	private static int numberOfSameRide = 0;
+	private static double repartitionFrToFr = 0;
+	private static boolean useFrToFr = false;
 	
 	// Theoritical default values -------------------------
+	
+	public static int franceToFrance = 50;
+	
 	public static int nFrGe = 12500;
 	public static int nFrGe_fromSW = 57;
 	public static int nFrGe_fromNW = 33;
@@ -118,6 +123,8 @@ public class DataManager {
 	public static int cycle4LTSmin = 10;
 	public static int cycle4LTSmax = 15;
 	
+	public static int randomValue = 0;
+	
 	public static void loadData(Simulation simulation) {
 		
 		//applyDataToRides(simulation);
@@ -147,12 +154,12 @@ public class DataManager {
 		nFromBChosen = simulation.getSimSettingsState().fromEntranceB().getCurrentValue();
 		
 		if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
-			Utils.log("applying data to Network ... ");
+			//Utils.log("applying data to Network ... ");
 			applyDataToRides(simulation);
 			applyRidesToRoads(simulation);
-			Utils.log("done\n");
+			//Utils.log("done\n");
 		} else {
-			Utils.log("applying random gen to Network ... done\n");
+			//Utils.log("applying random gen to Network ... done\n");
 		}
 	}
 	public static void applyFlowFromVariables(Simulation sim, Ride r) {
@@ -162,30 +169,34 @@ public class DataManager {
 		} else {
 			numberOfSameRide = 1;
 		}*/
-		
+//		int tmp = randomValue;
+//		if (!useFrToFr) {
+//			randomValue = 0;
+//		}
 		numberOfSameRide = r.getNumberOfSameRide();
 		
-		r.setFlow((float) (value*(repartition2-repartition1)*(1-repartitionRHMorning-repartitionRHEvening)/(21.0*numberOfSameRide)));
+		r.setFlow((float) ((value)*(repartition2-repartition1)*(1-repartitionRHMorning-repartitionRHEvening)/(21.0*numberOfSameRide)));
 		
 		if (repartitionRH7 > 0 && repartitionRH8 > 0 && repartitionRH9 > 0) {
-			r.setFlow(7, 8, (float) (value*(repartition2-repartition1)*repartitionRHMorning*repartitionRH7/((float) numberOfSameRide)));
-			r.setFlow(8, 9, (float) (value*(repartition2-repartition1)*repartitionRHMorning*repartitionRH8/((float) numberOfSameRide)));
-			r.setFlow(9, 10, (float) (value*(repartition2-repartition1)*repartitionRHMorning*repartitionRH9/((float) numberOfSameRide)));
+			r.setFlow(7, 8, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH7/((float) numberOfSameRide)));
+			r.setFlow(8, 9, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH8/((float) numberOfSameRide)));
+			r.setFlow(9, 10, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH9/((float) numberOfSameRide)));
 		} else {
 			if (repartitionRHMorning > 0) {
-				r.setFlow(7, 10, (float) (value*(repartition2-repartition1)*repartitionRHMorning/((float) numberOfSameRide*3.0)));
+				r.setFlow(7, 10, (float) ((value-randomValue)*(repartition2-repartition1)*repartitionRHMorning/((float) numberOfSameRide*3.0)));
 			}
 		}
 		
 		if (repartitionRH17 > 0 && repartitionRH18 > 0 && repartitionRH19 > 0) {
-			r.setFlow(17, 18, (float) (value*(repartition2-repartition1)*repartitionRHEvening*repartitionRH17/((float) numberOfSameRide)));
-			r.setFlow(18, 19, (float) (value*(repartition2-repartition1)*repartitionRHEvening*repartitionRH18/((float) numberOfSameRide)));
-			r.setFlow(19, 20, (float) (value*(repartition2-repartition1)*repartitionRHEvening*repartitionRH19/((float) numberOfSameRide)));
+			r.setFlow(17, 18, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH17/((float) numberOfSameRide)));
+			r.setFlow(18, 19, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH18/((float) numberOfSameRide)));
+			r.setFlow(19, 20, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH19/((float) numberOfSameRide)));
 		} else {
 			if (repartitionRHEvening > 0) {
-				r.setFlow(17, 20, (float) (value*(repartition2-repartition1)*repartitionRHEvening/((float) numberOfSameRide*3.0)));
+				r.setFlow(17, 20, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening/((float) numberOfSameRide*3.0)));
 			}
 		}
+		//randomValue = tmp;
 	}
 	public static void applyDataToRides(Simulation simulation) {
 		
@@ -208,16 +219,38 @@ public class DataManager {
 			}
 		}
 		
-		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
+		/*for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
 			resetValues();
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				
-				value = settings.fromFrToGe().getCurrentValue();
+				//repartitionFrToFr = settings.fromFrToFr().getCurrentValue()/100.0;
+				//System.out.print(settings.fromFrToGe().getCurrentValue() + " - ");
+				value = (int) (settings.fromFrToGe().getCurrentValue());
+				//value = (int) (settings.fromFrToGe().getCurrentValue()*(1-repartitionFrToFr));
+				//System.out.println(value);
 				repartition2 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
 				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
 				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
+				//randomValue = (int) (settings.fromFrToGe().getCurrentValue()*(repartitionFrToFr));
+			}
+			applyFlowFromVariables(simulation, r);
+		}*/
+		
+		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
+			resetValues();
+			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
+				//repartitionFrToFr = settings.fromFrToFr().getCurrentValue()/100.0;
+				//System.out.print(settings.fromFrToGe().getCurrentValue() + " - ");
+				value = (int) (settings.fromFrToGe().getCurrentValue());
+				//value = (int) (settings.fromFrToGe().getCurrentValue()*(1-repartitionFrToFr));
+				//System.out.println(value);
+				repartition2 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
+				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
+				//randomValue = (int) (settings.fromFrToGe().getCurrentValue()*(repartitionFrToFr));
 			} else if (lastRoadIs(r, "rD884CERN")) {
 				value = settings.toEntranceE().getCurrentValue();
 				repartition2 = settings.toEntranceERepartition().getCurrentValue1() / (100.0);
@@ -239,9 +272,29 @@ public class DataManager {
 				repartitionRH7 = settings.toEntranceBRepartitionRH().getCurrentValue1() / 100.0;
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
-			}
+			} else  if (lastRoadIs(r, "rRueDeGeneveNW")) {
+				//value = (int) (randomValue/1.0);
+				//repartition2 = 1;
+				//useFrToFr = true;
+			}/* else  if (lastRoadIs(r, "rRueGermaineTillionNE")) {
+				value = (int) (randomValue/2.0);
+				repartition2 = 1;
+				useFrToFr = true;
+			}*/
 			applyFlowFromVariables(simulation, r);
 		}
+
+		/*for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
+			
+			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
+				r.ratioFlow((float) (settings.fromFrToFr().getCurrentValue()/100.0));
+			} else if (lastRoadIs(r, "rRueDeGeneveNW")) {
+				r.ratioFlow((float) (1-settings.fromFrToFr().getCurrentValue()/100.0));
+			} else if (lastRoadIs(r, "rRueGermaineTillionNE")) {
+				r.ratioFlow((float) (1-settings.fromFrToFr().getCurrentValue()/100.0));
+			}
+		}
+		randomValue = 0;*/
 		
 		for (Ride r: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
 			
@@ -603,5 +656,7 @@ public class DataManager {
 		repartitionRH18 = 0;
 		repartitionRH19 = 0;
 		numberOfSameRide = 0;
+		useFrToFr = false;
+		repartitionFrToFr = 0;
 	}
 }

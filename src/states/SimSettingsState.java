@@ -2,9 +2,13 @@ package states;
 import java.awt.Graphics;
 
 import data.DataManager;
+import elements.Ride;
+import elements.Road;
 import graphics.Assets;
 import graphics.Text;
 import main.Simulation;
+import network.AllNetworkRides;
+import network.Network;
 import ui.ClickListener;
 import ui.UIImageButton;
 import ui.UIManager;
@@ -23,6 +27,7 @@ public class SimSettingsState extends State {
 	private UIManager uiManagerGeneral;
 	private int activePage = 1;
 	private int nPages = 5;
+	private long counter = 0;
 	
 	private int xStart = 320;
 	private int yStart = 150;
@@ -44,6 +49,8 @@ public class SimSettingsState extends State {
 	private UISlider fromGeToFr,fromGeToFrDuringRH2;
 	private UISliderDouble fromGeToFrRepartitionRH2;
 	private UISliderTriple fromGeToFrRepartition;
+	
+	private UISlider fromFrToFr;
 	
 	private UISlider toEntranceE;
 	private UISliderDouble toEntranceERepartition, toEntranceERepartitionRH;
@@ -147,6 +154,15 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManagerTransit.addObject(fromGeToFrRepartitionRH2);
+		
+		// From France to Geneva
+		fromFrToFr = new UISlider(simulation, xStart, yStart+11*(sliderHeight+buttonYMargin), sliderWidth, "Proportion from France to France", 100, DataManager.franceToFrance, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerTransit.addObject(fromFrToFr);
 		
 		// ##################################################################################################
 		// PAGE 2 ###########################################################################################
@@ -445,6 +461,11 @@ public class SimSettingsState extends State {
 				isLeftPressed = false;
 			}
 		}
+		
+		if (counter % 10 == 0) {
+			DataManager.applyData(simulation);
+		}
+		counter++;
 	}
 	public void tick() {
 		
@@ -524,32 +545,124 @@ public class SimSettingsState extends State {
 		}
 		
 	}
+	public void renderNumbers(Graphics g) {
+		
+		Network n = simulation.getSimState().getNetwork();
+		
+		Road r = n.getRoad("rD884NE");
+		int totalFlow = computeTotalFlow(r);
+		Text.drawString(g, "A - Thoiry : " + totalFlow, Assets.idleCol, 10, 20, false, Assets.normalFont);
+		
+		r = n.getRoad("rRueDeGeneveSE");
+		totalFlow = computeTotalFlow(r);
+		Text.drawString(g, "B - St-Genis : " + totalFlow, Assets.idleCol, 10, 40, false, Assets.normalFont);
+		
+		r = n.getRoad("rRueGermaineTillionSW");
+		totalFlow = computeTotalFlow(r);
+		Text.drawString(g, "C - Ferney : " + totalFlow, Assets.idleCol, 10, 60, false, Assets.normalFont);
+		
+		r = n.getRoad("rC5SW");
+		totalFlow = computeTotalFlow(r);
+		Text.drawString(g, "D - Europe : " + totalFlow, Assets.idleCol, 10, 80, false, Assets.normalFont);
+		
+		r = n.getRoad("rRoutePauliSouthNELeft");
+		Road r2 = n.getRoad("rRoutePauliSouthNERight");
+		totalFlow = computeTotalFlow(r);
+		int totalFlow2 = computeTotalFlow(r2);
+		totalFlow += totalFlow2;
+		r2 = n.getRoad("rRouteDeMeyrinSouthNW");
+		totalFlow2 = computeTotalFlow(r2);
+		totalFlow += totalFlow2;
+		Text.drawString(g, "E - Geneva : " + totalFlow, Assets.idleCol, 10, 100, false, Assets.normalFont);
+		
+		r = n.getRoad("rSortieCERNNW");
+		totalFlow = computeTotalFlow(r);
+		Text.drawString(g, "F - Entrance E : " + totalFlow, Assets.idleCol, 10, 120, false, Assets.normalFont);
+		
+		// ---------------------------------------------
+		
+		totalFlow = computeOutFlow(n, "rD884SW");
+		Text.drawString(g, "G - Thoiry : " + totalFlow, Assets.idleCol, 200, 20, false, Assets.normalFont);
+		
+		totalFlow = computeOutFlow(n, "rRueDeGeneveNW");
+		Text.drawString(g, "H - St-Genis : " + totalFlow, Assets.idleCol, 200, 40, false, Assets.normalFont);
+		
+		totalFlow = computeOutFlow(n, "rRueGermaineTillionNE");
+		Text.drawString(g, "I - Ferney : " + totalFlow, Assets.idleCol, 200, 60, false, Assets.normalFont);
+		
+		totalFlow = computeOutFlow(n, "rSortieCERNSE");
+		totalFlow2 = computeOutFlow(n, "rD884CERN");
+		totalFlow += totalFlow2;
+		Text.drawString(g, "J - Entrance E : " + totalFlow, Assets.idleCol, 200, 80, false, Assets.normalFont);
+		
+		totalFlow = computeOutFlow(n, "rC5NE");
+		Text.drawString(g, "K - Europe : " + totalFlow, Assets.idleCol, 200, 100, false, Assets.normalFont);
+		
+		totalFlow = computeOutFlow(n, "rRoutePauliSouthSW");
+		totalFlow2 = computeOutFlow(n, "rRouteDeMeyrinSouthSE");
+		totalFlow += totalFlow2;
+		Text.drawString(g, "L - Geneva : " + totalFlow, Assets.idleCol, 200, 120, false, Assets.normalFont);
+		
+	}
+	public int computeTotalFlow(Road r) {
+		int totalFlow = -1;
+		for (int i=0 ; i<r.getFlow().size() ; i++) {
+			totalFlow += r.getFlow().get(i);
+		}
+		if (totalFlow != -1) {
+			totalFlow++;
+		}
+		return totalFlow;
+	}
+	public int computeOutFlow(Network n, String roadName) {
+		int totalFlow = -1;
+		for (AllNetworkRides anr : n.getAllNetworkRides()) {
+			
+			for (Ride ride: anr.getNetworkRides()) {
+				
+				if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals(roadName)) {
+					for (int i=0 ; i<ride.getFlow().size() ; i++) {
+						totalFlow += ride.getFlow().get(i);
+					}
+				}
+				
+			}
+		}
+		
+		if (totalFlow != -1) {
+			totalFlow++;
+		}
+		return totalFlow;
+		
+	}
 	public void render(Graphics g) {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
 		
 		Text.drawString(g, simulation.getVersionID(), Assets.idleCol, 10, simulation.getHeight()-10, false, Assets.normalFont);
 		
-		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2, 50, true, Assets.largeFont);
+		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2+150, 50, true, Assets.largeFont);
 		
 		if (activePage == 1) {
-			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerTransit.render(g);
 		} else if (activePage == 2) {
-			Text.drawString(g, "entrance A", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			Text.drawString(g, "entrance A", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerA.render(g);
 		} else if (activePage == 3) {
-			Text.drawString(g, "entrance B", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			Text.drawString(g, "entrance B", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerB.render(g);
 		} else if (activePage == 4) {
-			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerE.render(g);
 		} else if (activePage == 5) {
-			Text.drawString(g, "general settings", Assets.idleCol, simulation.getWidth()/2, 85, true, Assets.largeFont);
+			Text.drawString(g, "general settings", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerGeneral.render(g);
 		}
 		
 		renderPageIndication(g);
+		
+		renderNumbers(g);
 	}
 	
 	// Getters & setters ====================================================================================
@@ -590,6 +703,9 @@ public class SimSettingsState extends State {
 	}
 	public UISliderDouble fromGeToFrRepartitionRH2() {
 		return fromGeToFrRepartitionRH2;
+	}
+	public UISlider fromFrToFr() {
+		return fromFrToFr;
 	}
 	// Entrance flow ----------------------------------------------------------------------------------------
 	public UISlider timePerVhcEntrance() {

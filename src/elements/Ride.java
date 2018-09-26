@@ -53,6 +53,11 @@ public class Ride implements Cloneable {
 	}
 	
 	// Getters & setters ====================================================================================
+	public void ratioFlow(float value) {
+		for (int i = 0 ; i<24 ; i++) {
+			flow.set(i, flow.get(i)*value);
+		}
+	}
 	public void setFlow(float value) {
 		for (int i = 0 ; i<24 ; i++) {
 			flow.set(i, value);
