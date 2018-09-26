@@ -57,6 +57,8 @@ public class Vehicle {
 		i += this.getCell().checkNextCells(nCells, i);
 		return i;
 	}
+	
+	
 	public boolean checkPreviousCells(int nCells, Cell cell) {
 		Cell tmp = cell;
 		if (tmp.getVehicle() != null) {
@@ -82,6 +84,35 @@ public class Vehicle {
 		}
 		return false;
 	}
+	
+	public boolean hasANextCell() {
+		return getCell().getNextCell() != null;
+	}
+	
+	public boolean hasAnOutCell() {
+		return getCell().getOutCell() != null;
+	}
+	
+	public boolean isTrafficLightRedOnTheRoad() {
+		return (n.getRoad(getCell().getRoadName()) != null && n.getRoad(getCell().getRoadName()).isTrafficLightRed());
+	}
+	
+	public boolean isOutCellOccupied() {
+		return getCell().getOutCell().getVehicle() != null || getCell().getOutCell().isAnOverlapedCellOccupied();
+	}
+	
+	public boolean isNextCellOccupied() {
+		return getCell().getNextCell().getVehicle() != null || getCell().getNextCell().isAnOverlapedCellOccupied();
+	}
+	
+	public boolean isRideEmpty() {
+		return (getRide() == null || getRide().get(getIdCurrentRide()).getNextConnections().isEmpty());
+	}
+	
+	public boolean isOnNextConnection() {
+		return (!isRideEmpty() && (getCell().getPosition() == getRide().get(getIdCurrentRide()).getNextConnections().get(0).getPosition()));
+	}
+	
 	public void leaveNetwork() {
 		hasToLeave = true;
 		nextPlace = null;
@@ -214,11 +245,11 @@ public class Vehicle {
 		if (dc >= 0) {
 			this.speed = Math.min(this.speed, dc);
 		}
-		if (this.speed > 1) {
+		/*if (this.speed > 1) {
 			if (Math.random() < 0.05) {
 				this.speed = Math.max(this.speed-1, 0);
 			}
-		}
+		}*/
 		if (this.getCell() != null) {
 			if (this.getRide().get(idCurrentRide) != null && !this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
 				if (this.getCell().getPosition() == this.getRide().get(idCurrentRide).getNextConnections().get(0).getPosition()) {
