@@ -109,7 +109,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerTransit.addObject(fromFrToGeRepartition);
 		
-		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (morning)", 100, 70, true, new ClickListener(){
+		fromFrToGeDuringRH = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (morning)", 100, 24, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -142,7 +142,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManagerTransit.addObject(fromGeToFrRepartition);
 		
-		fromGeToFrDuringRH2 = new UISlider(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (evening)", 100, 70, true, new ClickListener(){
+		fromGeToFrDuringRH2 = new UISlider(simulation, xStart, yStart+8*(sliderHeight+buttonYMargin), sliderWidth, "Quantity during rush-hours (evening)", 100, 24, true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -159,7 +159,7 @@ public class SimSettingsState extends State {
 		this.uiManagerTransit.addObject(fromGeToFrRepartitionRH2);
 		
 		// From France to Geneva
-		fromFrToFr = new UISlider(simulation, xStart, yStart+11*(sliderHeight+buttonYMargin), sliderWidth, "Flow from France to France", 25000, DataManager.franceToFrance, false, new ClickListener(){
+		fromFrToFr = new UISlider(simulation, xStart, yStart+11*(sliderHeight+buttonYMargin), sliderWidth, "Flow from France to France", 25000, DataManager.nFrFr, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				

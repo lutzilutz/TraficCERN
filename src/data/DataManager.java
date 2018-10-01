@@ -30,25 +30,25 @@ public class DataManager {
 	
 	// Theoritical default values -------------------------
 	
-	public static int franceToFrance = 10000;
-	
 	public static int nFrGe = 12500;
-	public static int nFrGe_fromSW = 57;
-	public static int nFrGe_fromNW = 33;
-	public static int nFrGe_fromNE = 5;
-	public static int nFrGe_fromTun = 5;
+	public static int nFrGe_fromSW = 88;
+	public static int nFrGe_fromNW = 1;
+	public static int nFrGe_fromNE = 2;
+	public static int nFrGe_fromTun = 9;
 	public static int nFrGe_7 = 30;
 	public static int nFrGe_8 = 40;
 	public static int nFrGe_9 = 30;
 	
 	public static int nGeFr = 12500;
-	public static int nGeFr_toSW = 54;
-	public static int nGeFr_toNW = 27;
-	public static int nGeFr_toNE = 9;
-	public static int nGeFr_toTun = 10;
+	public static int nGeFr_toSW = 88;
+	public static int nGeFr_toNW = 1;
+	public static int nGeFr_toNE = 2;
+	public static int nGeFr_toTun = 9;
 	public static int nGeFr_17 = 30;
 	public static int nGeFr_18 = 40;
 	public static int nGeFr_19 = 30;
+	
+	public static int nFrFr = 6750;
 	
 	public static int nToE = 1605;
 	public static int nToE_fromSW = 30;
@@ -247,14 +247,14 @@ public class DataManager {
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
 			} else  if (lastRoadIs(r, "rRueDeGeneveNW")) {
-				value = settings.fromFrToFr().getCurrentValue()/6;
+				value = settings.fromFrToFr().getCurrentValue()/4;
 				repartition2 = 1;
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
 				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
 				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			} else  if (lastRoadIs(r, "rRueGermaineTillionNE")) {
-				value = settings.fromFrToFr().getCurrentValue()/6;
+				value = settings.fromFrToFr().getCurrentValue()/4;
 				repartition2 = 1;
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
 				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
@@ -303,14 +303,7 @@ public class DataManager {
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
 			} else  if (lastRoadIs(r, "rD884SW")) {
-				value = settings.fromFrToFr().getCurrentValue()/6;
-				repartition2 = 1;
-				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
-				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
-				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
-				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
-			} else  if (lastRoadIs(r, "rRueGermaineTillionNE")) {
-				value = settings.fromFrToFr().getCurrentValue()/6;
+				value = settings.fromFrToFr().getCurrentValue()/4;
 				repartition2 = 1;
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
 				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
@@ -355,14 +348,7 @@ public class DataManager {
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
 			} else  if (lastRoadIs(r, "rD884SW")) {
-				value = settings.fromFrToFr().getCurrentValue()/6;
-				repartition2 = 1;
-				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
-				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
-				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
-				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
-			} else  if (lastRoadIs(r, "rRueDeGeneveNW")) {
-				value = settings.fromFrToFr().getCurrentValue()/6;
+				value = settings.fromFrToFr().getCurrentValue()/4;
 				repartition2 = 1;
 				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
 				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
