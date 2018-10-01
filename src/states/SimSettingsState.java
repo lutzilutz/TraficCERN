@@ -646,7 +646,7 @@ public class SimSettingsState extends State {
 			
 			for (Ride ride: anr.getNetworkRides()) {
 				
-				if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals(roadName)) {
+				if (ride.getNextConnections().size() > 0 && ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals(roadName)) {
 					for (int i=0 ; i<ride.getFlow().size() ; i++) {
 						totalFlow += ride.getFlow().get(i);
 					}
