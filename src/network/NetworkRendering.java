@@ -449,7 +449,7 @@ public class NetworkRendering {
 		
 		if (n.getDrawVehicleColor()) {
 			int x = 660;
-			int y = n.getSimulation().getHeight()-100;
+			int y = n.getSimulation().getHeight()-117;
 			int yTextOffset = 10;
 			int xMargin = 20;
 			int yMargin = 17;
@@ -475,15 +475,20 @@ public class NetworkRendering {
 			g.setColor(Color.white);
 			g.drawString("Transit", x+xMargin, y + 3*yMargin + yTextOffset);
 			
-			g.setColor(Color.gray);
-			g.fillOval(x, y+4*yMargin, radius, radius);
+			g.setColor(Color.orange);
+			g.fillRect(x, y+4*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("Other", x+xMargin, y + 4*yMargin + yTextOffset);
+			g.drawString("Transit FR", x+xMargin, y + 4*yMargin + yTextOffset);
 			
-			g.setColor(Color.magenta);
+			g.setColor(Color.gray);
 			g.fillOval(x, y+5*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("Wrong road", x+xMargin, y + 5*yMargin + yTextOffset);
+			g.drawString("Other", x+xMargin, y + 5*yMargin + yTextOffset);
+			
+			g.setColor(Color.magenta);
+			g.fillOval(x, y+6*yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("Wrong road", x+xMargin, y + 6*yMargin + yTextOffset);
 			
 		}
 	}
@@ -530,7 +535,7 @@ public class NetworkRendering {
 		// Middle bottom corner
 		if (n.getDrawVehicleColor()) {
 			g.setColor(Assets.bgAlphaCol);
-			g.fillRoundRect(650, n.getSimulation().getHeight()-105, 130, 115, 10, 10);
+			g.fillRoundRect(650, n.getSimulation().getHeight()-122, 130, 132, 10, 10);
 		}
 	}
 }

@@ -21,12 +21,13 @@ import utils.Utils;
 public class SimSettingsState extends State {
 	
 	private UIManager uiManagerTransit;
+	private UIManager uiManagerTransitFrance;
 	private UIManager uiManagerE;
 	private UIManager uiManagerA;
 	private UIManager uiManagerB;
 	private UIManager uiManagerGeneral;
 	private int activePage = 1;
-	private int nPages = 5;
+	private int nPages = 6;
 	private long counter = 0;
 	
 	private int xStart = 320;
@@ -81,6 +82,7 @@ public class SimSettingsState extends State {
 	public SimSettingsState(Simulation simulation) {
 		super(simulation);
 		this.uiManagerTransit = new UIManager(simulation);
+		this.uiManagerTransitFrance = new UIManager(simulation);
 		this.uiManagerE = new UIManager(simulation);
 		this.uiManagerA = new UIManager(simulation);
 		this.uiManagerB = new UIManager(simulation);
@@ -98,6 +100,7 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManagerTransit.addObject(fromFrToGe);
+		
 		fromFrToGeRepartition = new UISliderTriple(simulation, xStart, yStart+2*(sliderHeight+buttonYMargin), sliderWidth, "Coming from Thoiry, St-Genis, Ferney and Europe", 100, DataManager.nFrGe_fromSW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW, DataManager.nFrGe_fromSW+DataManager.nFrGe_fromNW+DataManager.nFrGe_fromTun, true, new ClickListener(){
 			@Override
 			public void onClick() {
@@ -156,7 +159,7 @@ public class SimSettingsState extends State {
 		this.uiManagerTransit.addObject(fromGeToFrRepartitionRH2);
 		
 		// From France to Geneva
-		fromFrToFr = new UISlider(simulation, xStart, yStart+11*(sliderHeight+buttonYMargin), sliderWidth, "Proportion from France to France", 100, DataManager.franceToFrance, true, new ClickListener(){
+		fromFrToFr = new UISlider(simulation, xStart, yStart+11*(sliderHeight+buttonYMargin), sliderWidth, "Flow from France to France", 25000, DataManager.franceToFrance, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -166,6 +169,19 @@ public class SimSettingsState extends State {
 		
 		// ##################################################################################################
 		// PAGE 2 ###########################################################################################
+		// ##################################################################################################
+		
+		// From France to Geneva
+		/*fromFrToFr = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Flow from France to Geneva (vhc/day)", 25000, DataManager.nFrGe, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManagerTransitFrance.addObject(fromFrToGe);*/
+		
+		// ##################################################################################################
+		// PAGE 3 ###########################################################################################
 		// ##################################################################################################
 		
 		// To entrance E ====================================================================================
@@ -221,7 +237,7 @@ public class SimSettingsState extends State {
 		this.uiManagerE.addObject(fromEntranceERepartitionRH2);
 		
 		// ##################################################################################################
-		// PAGE 3 ###########################################################################################
+		// PAGE 4 ###########################################################################################
 		// ##################################################################################################
 		
 		// To entrance A ====================================================================================
@@ -277,7 +293,7 @@ public class SimSettingsState extends State {
 		this.uiManagerA.addObject(fromEntranceARepartitionRH2);
 		
 		// ##################################################################################################
-		// PAGE 4 ###########################################################################################
+		// PAGE 5 ###########################################################################################
 		// ##################################################################################################
 		
 		// To entrance B ====================================================================================
@@ -333,7 +349,7 @@ public class SimSettingsState extends State {
 		this.uiManagerB.addObject(fromEntranceBRepartitionRH2);
 		
 		// ##################################################################################################
-		// PAGE 5 ###########################################################################################
+		// PAGE 6 ###########################################################################################
 		// ##################################################################################################
 		
 		timePerVhcEntrance = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Control duration of 1 vehicle at entrances", 30, 8, false, new ClickListener(){
@@ -387,6 +403,7 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManagerTransit.addObject(previous);
+		this.uiManagerTransitFrance.addObject(previous);
 		this.uiManagerE.addObject(previous);
 		this.uiManagerA.addObject(previous);
 		this.uiManagerB.addObject(previous);
@@ -398,6 +415,7 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManagerTransit.addObject(next);
+		this.uiManagerTransitFrance.addObject(next);
 		this.uiManagerE.addObject(next);
 		this.uiManagerA.addObject(next);
 		this.uiManagerB.addObject(next);
@@ -417,6 +435,7 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManagerTransit.addObject(run);
+		this.uiManagerTransitFrance.addObject(run);
 		this.uiManagerE.addObject(run);
 		this.uiManagerA.addObject(run);
 		this.uiManagerB.addObject(run);
@@ -431,6 +450,7 @@ public class SimSettingsState extends State {
 			}
 		});
 		this.uiManagerTransit.addObject(back);
+		this.uiManagerTransitFrance.addObject(back);
 		this.uiManagerE.addObject(back);
 		this.uiManagerA.addObject(back);
 		this.uiManagerB.addObject(back);
@@ -442,12 +462,14 @@ public class SimSettingsState extends State {
 		if (activePage == 1) {
 			this.uiManagerTransit.tick();
 		} else if (activePage == 2) {
-			this.uiManagerA.tick();
+			this.uiManagerTransitFrance.tick();
 		} else if (activePage == 3) {
-			this.uiManagerB.tick();
+			this.uiManagerA.tick();
 		} else if (activePage == 4) {
-			this.uiManagerE.tick();
+			this.uiManagerB.tick();
 		} else if (activePage == 5) {
+			this.uiManagerE.tick();
+		} else if (activePage == 6) {
 			this.uiManagerGeneral.tick();
 		}
 		
@@ -481,12 +503,14 @@ public class SimSettingsState extends State {
 		if (activePage == 1) {
 			enableUIManager(uiManagerTransit);
 		} else if (activePage == 2) {
-			enableUIManager(uiManagerA);
+			enableUIManager(uiManagerTransitFrance);
 		} else if (activePage == 3) {
-			enableUIManager(uiManagerB);
+			enableUIManager(uiManagerA);
 		} else if (activePage == 4) {
-			enableUIManager(uiManagerE);
+			enableUIManager(uiManagerB);
 		} else if (activePage == 5) {
+			enableUIManager(uiManagerE);
+		} else if (activePage == 6) {
 			enableUIManager(uiManagerGeneral);
 		}
 	}
@@ -501,12 +525,14 @@ public class SimSettingsState extends State {
 		if (activePage == 1) {
 			enableUIManager(uiManagerTransit);
 		} else if (activePage == 2) {
-			enableUIManager(uiManagerA);
+			enableUIManager(uiManagerTransitFrance);
 		} else if (activePage == 3) {
-			enableUIManager(uiManagerB);
+			enableUIManager(uiManagerA);
 		} else if (activePage == 4) {
-			enableUIManager(uiManagerE);
+			enableUIManager(uiManagerB);
 		} else if (activePage == 5) {
+			enableUIManager(uiManagerE);
+		} else if (activePage == 6) {
 			enableUIManager(uiManagerGeneral);
 		}
 	}
@@ -647,15 +673,18 @@ public class SimSettingsState extends State {
 			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerTransit.render(g);
 		} else if (activePage == 2) {
+			Text.drawString(g, "transit from France to France", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
+			this.uiManagerTransitFrance.render(g);
+		} else if (activePage == 3) {
 			Text.drawString(g, "entrance A", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerA.render(g);
-		} else if (activePage == 3) {
+		} else if (activePage == 4) {
 			Text.drawString(g, "entrance B", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerB.render(g);
-		} else if (activePage == 4) {
+		} else if (activePage == 5) {
 			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerE.render(g);
-		} else if (activePage == 5) {
+		} else if (activePage == 6) {
 			Text.drawString(g, "general settings", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerGeneral.render(g);
 		}

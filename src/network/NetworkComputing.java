@@ -440,6 +440,30 @@ public class NetworkComputing {
 			} else if (v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRouteDeMeyrinSouthNW")) {
 				v.setColor(Color.black);
 				v.setIsTransiting(true);
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rD884SW") &&
+					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueGermaineTillionSW")) {
+				v.setColor(Color.orange);
+				v.setIsTransiting(true);
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rD884SW") &&
+					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueDeGeneveSE")) {
+				v.setColor(Color.orange);
+				v.setIsTransiting(true);
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueDeGeneveNW") &&
+					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueGermaineTillionSW")) {
+				v.setColor(Color.orange);
+				v.setIsTransiting(true);
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueDeGeneveNW") &&
+					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rD884NE")) {
+				v.setColor(Color.orange);
+				v.setIsTransiting(true);
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueGermaineTillionNE") &&
+					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueDeGeneveSE")) {
+				v.setColor(Color.orange);
+				v.setIsTransiting(true);
+			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueGermaineTillionNE") &&
+					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rD884NE")) {
+				v.setColor(Color.orange);
+				v.setIsTransiting(true);
 			} else {
 				v.setColor(Color.darkGray);
 			}

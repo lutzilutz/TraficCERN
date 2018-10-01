@@ -30,7 +30,7 @@ public class DataManager {
 	
 	// Theoritical default values -------------------------
 	
-	public static int franceToFrance = 50;
+	public static int franceToFrance = 10000;
 	
 	public static int nFrGe = 12500;
 	public static int nFrGe_fromSW = 57;
@@ -211,32 +211,6 @@ public class DataManager {
 		
 		// France to Geneva =================================================================================
 		
-		if (n.getAllRides("rD884NE") == null) {
-			System.out.println("No AllNetworkRides for D884NE");
-		} else {
-			if (n.getAllRides("rD884NE").getNetworkRides().isEmpty()) {
-				
-			}
-		}
-		
-		/*for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
-			resetValues();
-			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				//repartitionFrToFr = settings.fromFrToFr().getCurrentValue()/100.0;
-				//System.out.print(settings.fromFrToGe().getCurrentValue() + " - ");
-				value = (int) (settings.fromFrToGe().getCurrentValue());
-				//value = (int) (settings.fromFrToGe().getCurrentValue()*(1-repartitionFrToFr));
-				//System.out.println(value);
-				repartition2 = settings.fromFrToGeRepartition().getCurrentValue1() / (100.0);
-				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
-				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
-				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
-				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
-				//randomValue = (int) (settings.fromFrToGe().getCurrentValue()*(repartitionFrToFr));
-			}
-			applyFlowFromVariables(simulation, r);
-		}*/
-		
 		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
 			resetValues();
 			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
@@ -273,9 +247,19 @@ public class DataManager {
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
 			} else  if (lastRoadIs(r, "rRueDeGeneveNW")) {
-				//value = (int) (randomValue/1.0);
-				//repartition2 = 1;
-				//useFrToFr = true;
+				value = settings.fromFrToFr().getCurrentValue()/6;
+				repartition2 = 1;
+				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
+			} else  if (lastRoadIs(r, "rRueGermaineTillionNE")) {
+				value = settings.fromFrToFr().getCurrentValue()/6;
+				repartition2 = 1;
+				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			}/* else  if (lastRoadIs(r, "rRueGermaineTillionNE")) {
 				value = (int) (randomValue/2.0);
 				repartition2 = 1;
@@ -283,18 +267,6 @@ public class DataManager {
 			}*/
 			applyFlowFromVariables(simulation, r);
 		}
-
-		/*for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
-			
-			if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				r.ratioFlow((float) (settings.fromFrToFr().getCurrentValue()/100.0));
-			} else if (lastRoadIs(r, "rRueDeGeneveNW")) {
-				r.ratioFlow((float) (1-settings.fromFrToFr().getCurrentValue()/100.0));
-			} else if (lastRoadIs(r, "rRueGermaineTillionNE")) {
-				r.ratioFlow((float) (1-settings.fromFrToFr().getCurrentValue()/100.0));
-			}
-		}
-		randomValue = 0;*/
 		
 		for (Ride r: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
 			
@@ -330,6 +302,20 @@ public class DataManager {
 				repartitionRH7 = settings.toEntranceBRepartitionRH().getCurrentValue1() / 100.0;
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
+			} else  if (lastRoadIs(r, "rD884SW")) {
+				value = settings.fromFrToFr().getCurrentValue()/6;
+				repartition2 = 1;
+				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
+			} else  if (lastRoadIs(r, "rRueGermaineTillionNE")) {
+				value = settings.fromFrToFr().getCurrentValue()/6;
+				repartition2 = 1;
+				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			}
 			applyFlowFromVariables(simulation, r);
 		}
@@ -368,6 +354,20 @@ public class DataManager {
 				repartitionRH7 = settings.toEntranceBRepartitionRH().getCurrentValue1() / 100.0;
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
+			} else  if (lastRoadIs(r, "rD884SW")) {
+				value = settings.fromFrToFr().getCurrentValue()/6;
+				repartition2 = 1;
+				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
+			} else  if (lastRoadIs(r, "rRueDeGeneveNW")) {
+				value = settings.fromFrToFr().getCurrentValue()/6;
+				repartition2 = 1;
+				repartitionRHMorning = settings.fromFrToGeDuringRH().getCurrentValue() / 100.0;
+				repartitionRH7 = settings.fromFrToGeRepartitionRH().getCurrentValue1() / 100.0;
+				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
+				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			}
 			applyFlowFromVariables(simulation, r);
 		}
