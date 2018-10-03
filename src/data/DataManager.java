@@ -114,13 +114,13 @@ public class DataManager {
 	public static int nToBEmpiric = 0;
 	public static int nFromBEmpiric = 0;
 	
-	public static int cycle1LTSmin = 10;
+	public static int cycle1LTSmin = 0;
 	public static int cycle1LTSmax = 15;
-	public static int cycle2LTSmin = 30;
+	public static int cycle2LTSmin = 0;
 	public static int cycle2LTSmax = 35;
-	public static int cycle3LTSmin = 10;
+	public static int cycle3LTSmin = 0;
 	public static int cycle3LTSmax = 15;
-	public static int cycle4LTSmin = 10;
+	public static int cycle4LTSmin = 0;
 	public static int cycle4LTSmax = 15;
 	
 	public static int randomValue = 0;

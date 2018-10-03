@@ -27,7 +27,7 @@ public class SimSettingsState extends State {
 	private UIManager uiManagerB;
 	private UIManager uiManagerGeneral;
 	private int activePage = 1;
-	private int nPages = 6;
+	private int nPages = 5;
 	private long counter = 0;
 	
 	private int xStart = 320;
@@ -461,15 +461,15 @@ public class SimSettingsState extends State {
 		
 		if (activePage == 1) {
 			this.uiManagerTransit.tick();
-		} else if (activePage == 2) {
+		} else if (activePage == -1) {
 			this.uiManagerTransitFrance.tick();
-		} else if (activePage == 3) {
+		} else if (activePage == 2) {
 			this.uiManagerA.tick();
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			this.uiManagerB.tick();
-		} else if (activePage == 5) {
+		} else if (activePage == 4) {
 			this.uiManagerE.tick();
-		} else if (activePage == 6) {
+		} else if (activePage == 5) {
 			this.uiManagerGeneral.tick();
 		}
 		
@@ -502,15 +502,15 @@ public class SimSettingsState extends State {
 		
 		if (activePage == 1) {
 			enableUIManager(uiManagerTransit);
-		} else if (activePage == 2) {
+		} else if (activePage == -1) {
 			enableUIManager(uiManagerTransitFrance);
-		} else if (activePage == 3) {
+		} else if (activePage == 2) {
 			enableUIManager(uiManagerA);
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			enableUIManager(uiManagerB);
-		} else if (activePage == 5) {
+		} else if (activePage == 4) {
 			enableUIManager(uiManagerE);
-		} else if (activePage == 6) {
+		} else if (activePage == 5) {
 			enableUIManager(uiManagerGeneral);
 		}
 	}
@@ -524,15 +524,15 @@ public class SimSettingsState extends State {
 		
 		if (activePage == 1) {
 			enableUIManager(uiManagerTransit);
-		} else if (activePage == 2) {
+		} else if (activePage == -1) {
 			enableUIManager(uiManagerTransitFrance);
-		} else if (activePage == 3) {
+		} else if (activePage == 2) {
 			enableUIManager(uiManagerA);
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			enableUIManager(uiManagerB);
-		} else if (activePage == 5) {
+		} else if (activePage == 4) {
 			enableUIManager(uiManagerE);
-		} else if (activePage == 6) {
+		} else if (activePage == 5) {
 			enableUIManager(uiManagerGeneral);
 		}
 	}
@@ -672,19 +672,19 @@ public class SimSettingsState extends State {
 		if (activePage == 1) {
 			Text.drawString(g, "transit between France and Geneva", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerTransit.render(g);
-		} else if (activePage == 2) {
+		} else if (activePage == -1) {
 			Text.drawString(g, "transit from France to France", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerTransitFrance.render(g);
-		} else if (activePage == 3) {
+		} else if (activePage == 2) {
 			Text.drawString(g, "entrance A", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerA.render(g);
-		} else if (activePage == 4) {
+		} else if (activePage == 3) {
 			Text.drawString(g, "entrance B", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerB.render(g);
-		} else if (activePage == 5) {
+		} else if (activePage == 4) {
 			Text.drawString(g, "entrance E", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerE.render(g);
-		} else if (activePage == 6) {
+		} else if (activePage == 5) {
 			Text.drawString(g, "general settings", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 			this.uiManagerGeneral.render(g);
 		}

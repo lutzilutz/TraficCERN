@@ -50,7 +50,7 @@ public class Simulation implements Runnable {
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.versionID = "v 0.9";
+		this.versionID = "v 0.9.1";
 		this.uiManager = new UIManager(this);
 		this.mouseManager = new MouseManager();
 		this.mouseManager.setUIManager(this.uiManager);
