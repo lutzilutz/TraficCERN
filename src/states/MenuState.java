@@ -10,6 +10,8 @@ import ui.ClickListener;
 import ui.UIManager;
 import ui.UISlider;
 import ui.UITextButton;
+import ui.UITextSwitch;
+import utils.Utils;
 
 public class MenuState extends State {
 	
@@ -26,6 +28,7 @@ public class MenuState extends State {
 	
 	private UITextButton network1, network2, network3;
 	private UISlider sizeOfNetwork;
+	private UITextSwitch numOrProba;
 	
 	public MenuState(Simulation simulation) {
 		super(simulation);
@@ -53,10 +56,23 @@ public class MenuState extends State {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				simulation.setSimState(new SimState(simulation));
-				simulation.getSimSettingsState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 1, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 				simulation.getSimState().init();
-				State.setState(simulation.getSimSettingsState());
+				
+				if (DataManager.useProbabilities) {
+					
+					Utils.initAllData();
+					DataManager.applyDataProba(simulation);
+					
+					simulation.getSimState().enableUIManager();
+				} else {
+					simulation.getSimSettingsState().enableUIManager();
+				}
+				if (DataManager.useProbabilities) {
+					State.setState(simulation.getSimState());
+				} else {
+					State.setState(simulation.getSimSettingsState());
+				}
 			}
 		});
 		this.uiManager.addObject(network2);
@@ -82,6 +98,15 @@ public class MenuState extends State {
 			}
 		});
 		this.uiManager.addObject(sizeOfNetwork);
+		
+		numOrProba = new UITextSwitch(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", false, new ClickListener(){
+			@Override
+			public void onClick() {
+				numOrProba.switchIt();
+				DataManager.switchNumProba();
+			}
+		});
+		this.uiManager.addObject(numOrProba);
 		
 		this.uiManager.addObject(new UITextButton(xStart, yStart+7*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override

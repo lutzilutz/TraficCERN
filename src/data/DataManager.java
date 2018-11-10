@@ -13,6 +13,12 @@ import utils.Utils;
 
 public class DataManager {
 	
+	public static boolean useProbabilities = true;
+	
+	// ============================================================================================
+	// Numerical values ===========================================================================
+	// ============================================================================================
+	
 	private static float value = 0;
 	private static double repartition1 = 0;
 	private static double repartition2 = 0;
@@ -114,6 +120,30 @@ public class DataManager {
 	public static int nToBEmpiric = 0;
 	public static int nFromBEmpiric = 0;
 	
+	// ============================================================================================
+	// Statistical values =========================================================================
+	// ============================================================================================
+	
+	public static double[][] probas = new double[][]{
+		
+		{0.000,	0.327,	0.368,	0.325,	0.405,	0.531,	0.405,	0.604},
+		{0.049,	0.000,	0.039,	0.035,	0.043,	0.057,	0.043,	0.065},
+		{0.210,	0.148,	0.000,	0.148,	0.184,	0.242,	0.184,	0.274},
+		{0.219,	0.155,	0.175,	0.155,	0.000,	0.000,	0.000,	0.000},
+		{0.044,	0.031,	0.035,	0.000,	0.039,	0.051,	0.039,	0.058},
+		{0.070,	0.049,	0.056,	0.049,	0.000,	0.080,	0.000,	0.000},
+		{0.374,	0.265,	0.299,	0.264,	0.329,	0.000,	0.329,	0.000},
+		{0.034,	0.024,	0.027,	0.024,	0.000,	0.039,	0.000,	0.000}
+	};
+	public static int[] flowPerExit = new int[] {
+		1828, 671, 717, 213, 75, 195, 43, 0, 704, 142, 583, 663, 141, 226, 1172, 111
+	};
+	
+	
+	// ============================================================================================
+	// Light system ===============================================================================
+	// ============================================================================================
+	
 	public static int cycle1LTSmin = 0;
 	public static int cycle1LTSmax = 15;
 	public static int cycle2LTSmin = 0;
@@ -142,27 +172,171 @@ public class DataManager {
 			return false;
 		}
 	}
-	public static void applyData(Simulation simulation) {
+	public static void applyDataProba(Simulation simulation) {
 		
-		nFrGeChosen = simulation.getSimSettingsState().fromFrToGe().getCurrentValue();
-		nGeFrChosen = simulation.getSimSettingsState().fromGeToFr().getCurrentValue();
-		nToEChosen = simulation.getSimSettingsState().toEntranceE().getCurrentValue();
-		nFromEChosen = simulation.getSimSettingsState().fromEntranceE().getCurrentValue();
-		nToAChosen = simulation.getSimSettingsState().toEntranceA().getCurrentValue();
-		nFromAChosen = simulation.getSimSettingsState().fromEntranceA().getCurrentValue();
-		nToBChosen = simulation.getSimSettingsState().toEntranceB().getCurrentValue();
-		nFromBChosen = simulation.getSimSettingsState().fromEntranceB().getCurrentValue();
+		System.out.println("Trying to apply ...");
 		
-		if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
-			//Utils.log("applying data to Network ... ");
-			applyDataToRides(simulation);
-			applyRidesToRoads(simulation);
-			//Utils.log("done\n");
-		} else {
-			//Utils.log("applying random gen to Network ... done\n");
+		if (useProbabilities) {
+			
+			Utils.log("applying data (proba) to Network ... ");
+			applyDataToRidesProba(simulation);
+			applyDataToRoadsProba(simulation);
+			Utils.log("done\n");
+			
 		}
 	}
-	public static void applyFlowFromVariables(Simulation sim, Ride r) {
+	public static void applyDataToRidesProba(Simulation simulation) {
+		
+		Network n = simulation.getSimState().getNetwork();
+		SimSettingsState settings = simulation.getSimSettingsState();
+		
+		for (AllNetworkRides anr: n.getAllNetworkRides()) {
+			for (Ride r: anr.getNetworkRides()) {
+				r.setNumberOfSameRide(numberOfSameRides(simulation, r.getRoadName(), r.getNextConnections().get(r.getNextConnections().size()-1).getName()));
+			}
+		}
+		
+		/*System.out.println("Printing all rides -----");
+		for (AllNetworkRides anr: n.getAllNetworkRides()) {
+			for (Ride ride: anr.getNetworkRides()) {
+				System.out.println(ride);
+			}
+		}
+		System.out.println("-----");*/
+		// From A ===========================================================================================
+		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
+			
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {
+				r.setFlow((float) (probas[0][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {
+				r.setFlow((float) (probas[1][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {
+				r.setFlow((float) (probas[2][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {
+				r.setFlow((float) (probas[3][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {
+				r.setFlow((float) (probas[4][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			}
+			// To L1 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {
+				r.setFlow((float) (probas[5][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
+				r.setFlow((float) (probas[6][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {
+				r.setFlow((float) (probas[7][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
+			} else {
+				r.setFlow(0);
+			}
+			
+		}
+		// From B ===========================================================================================
+		for (Ride r: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
+			
+			r.setFlow(0);
+		}
+		// From C ===========================================================================================
+		for (Ride r: n.getAllRides("rRueGermaineTillionSW").getNetworkRides()) {
+			
+			r.setFlow(0);
+		}
+		// From D ===========================================================================================
+		for (Ride r: n.getAllRides("rTunnelNW").getNetworkRides()) {
+			
+			r.setFlow(0);
+		}
+		// From E1 ===========================================================================================
+		for (Ride r: n.getAllRides("rRoutePauliSouthNELeft").getNetworkRides()) {
+			
+			r.setFlow(0);
+		}
+		// From E3 ===========================================================================================
+		for (Ride r: n.getAllRides("rRouteDeMeyrinSouthNW").getNetworkRides()) {
+			
+			r.setFlow(0);
+		}
+		// From E4 ===========================================================================================
+		for (Ride r: n.getAllRides("rRouteBellNE").getNetworkRides()) {
+			
+			r.setFlow(0);
+		}
+		// From F ===========================================================================================
+		for (Ride r: n.getAllRides("rSortieCERNNW").getNetworkRides()) {
+			
+			r.setFlow(0);
+		}
+		
+	}
+	public static void applyDataToRoadsProba(Simulation simulation) {
+		
+		System.out.println("Applying ...");
+		
+		Network n = simulation.getSimState().getNetwork();
+		for (Road road: n.getRoads()) {
+			if (n.getAllRides(road.getName()) != null) {
+				if (road.getName().equals("rD884NE")) {
+					road.setGenerateVehicules(flowPerExit[0]);
+					System.out.println(road.getFlow());
+				} else {
+					road.setGenerateVehicules(0);
+				}
+			}
+			
+		}
+		for (Ride ride: n.getAllRides("rD884NE").getNetworkRides()) {
+			System.out.print(ride.getNextConnections().get(ride.getNextConnections().size()-1).getName() + " ");
+			System.out.println(ride.getFlow());
+		}
+		
+		if (n.getN() == 1) {
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
+			
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue2());
+			
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue2());
+			
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
+		}
+	}
+	public static void applyDataNumerical(Simulation simulation) {
+		
+		if (!useProbabilities) {
+			nFrGeChosen = simulation.getSimSettingsState().fromFrToGe().getCurrentValue();
+			nGeFrChosen = simulation.getSimSettingsState().fromGeToFr().getCurrentValue();
+			nToEChosen = simulation.getSimSettingsState().toEntranceE().getCurrentValue();
+			nFromEChosen = simulation.getSimSettingsState().fromEntranceE().getCurrentValue();
+			nToAChosen = simulation.getSimSettingsState().toEntranceA().getCurrentValue();
+			nFromAChosen = simulation.getSimSettingsState().fromEntranceA().getCurrentValue();
+			nToBChosen = simulation.getSimSettingsState().toEntranceB().getCurrentValue();
+			nFromBChosen = simulation.getSimSettingsState().fromEntranceB().getCurrentValue();
+			
+			if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
+				//Utils.log("applying data to Network ... ");
+				applyDataToRidesNumerical(simulation);
+				applyRidesToRoads(simulation);
+				//Utils.log("done\n");
+			} else {
+				//Utils.log("applying random gen to Network ... done\n");
+			}	
+		}
+	}
+	public static void applyFlowFromVariablesNumerical(Simulation sim, Ride r) {
 		
 		/*if (r.getNextConnections().size() > 0) {
 			numberOfSameRide = numberOfSameRides(sim, r.getRoadName(), r.getNextConnections().get(r.getNextConnections().size()-1).getName());
@@ -173,32 +347,36 @@ public class DataManager {
 //		if (!useFrToFr) {
 //			randomValue = 0;
 //		}
-		numberOfSameRide = r.getNumberOfSameRide();
 		
-		r.setFlow((float) ((value)*(repartition2-repartition1)*(1-repartitionRHMorning-repartitionRHEvening)/(21.0*numberOfSameRide)));
-		
-		if (repartitionRH7 > 0 && repartitionRH8 > 0 && repartitionRH9 > 0) {
-			r.setFlow(7, 8, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH7/((float) numberOfSameRide)));
-			r.setFlow(8, 9, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH8/((float) numberOfSameRide)));
-			r.setFlow(9, 10, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH9/((float) numberOfSameRide)));
-		} else {
-			if (repartitionRHMorning > 0) {
-				r.setFlow(7, 10, (float) ((value-randomValue)*(repartition2-repartition1)*repartitionRHMorning/((float) numberOfSameRide*3.0)));
+		if (!useProbabilities) {
+			numberOfSameRide = r.getNumberOfSameRide();
+			
+			r.setFlow((float) ((value)*(repartition2-repartition1)*(1-repartitionRHMorning-repartitionRHEvening)/(21.0*numberOfSameRide)));
+			
+			if (repartitionRH7 > 0 && repartitionRH8 > 0 && repartitionRH9 > 0) {
+				r.setFlow(7, 8, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH7/((float) numberOfSameRide)));
+				r.setFlow(8, 9, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH8/((float) numberOfSameRide)));
+				r.setFlow(9, 10, (float) ((value)*(repartition2-repartition1)*repartitionRHMorning*repartitionRH9/((float) numberOfSameRide)));
+			} else {
+				if (repartitionRHMorning > 0) {
+					r.setFlow(7, 10, (float) ((value-randomValue)*(repartition2-repartition1)*repartitionRHMorning/((float) numberOfSameRide*3.0)));
+				}
+			}
+			
+			if (repartitionRH17 > 0 && repartitionRH18 > 0 && repartitionRH19 > 0) {
+				r.setFlow(17, 18, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH17/((float) numberOfSameRide)));
+				r.setFlow(18, 19, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH18/((float) numberOfSameRide)));
+				r.setFlow(19, 20, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH19/((float) numberOfSameRide)));
+			} else {
+				if (repartitionRHEvening > 0) {
+					r.setFlow(17, 20, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening/((float) numberOfSameRide*3.0)));
+				}
 			}
 		}
 		
-		if (repartitionRH17 > 0 && repartitionRH18 > 0 && repartitionRH19 > 0) {
-			r.setFlow(17, 18, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH17/((float) numberOfSameRide)));
-			r.setFlow(18, 19, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH18/((float) numberOfSameRide)));
-			r.setFlow(19, 20, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening*repartitionRH19/((float) numberOfSameRide)));
-		} else {
-			if (repartitionRHEvening > 0) {
-				r.setFlow(17, 20, (float) ((value)*(repartition2-repartition1)*repartitionRHEvening/((float) numberOfSameRide*3.0)));
-			}
-		}
 		//randomValue = tmp;
 	}
-	public static void applyDataToRides(Simulation simulation) {
+	public static void applyDataToRidesNumerical(Simulation simulation) {
 		
 		Network n = simulation.getSimState().getNetwork();
 		SimSettingsState settings = simulation.getSimSettingsState();
@@ -265,7 +443,7 @@ public class DataManager {
 				repartition2 = 1;
 				useFrToFr = true;
 			}*/
-			applyFlowFromVariables(simulation, r);
+			applyFlowFromVariablesNumerical(simulation, r);
 		}
 		
 		for (Ride r: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
@@ -310,7 +488,7 @@ public class DataManager {
 				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			}
-			applyFlowFromVariables(simulation, r);
+			applyFlowFromVariablesNumerical(simulation, r);
 		}
 		
 		for (Ride r: n.getAllRides("rRueGermaineTillionSW").getNetworkRides()) {
@@ -355,7 +533,7 @@ public class DataManager {
 				repartitionRH8 = (settings.fromFrToGeRepartitionRH().getCurrentValue2() - settings.fromFrToGeRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.fromFrToGeRepartitionRH().getCurrentValue2()) / 100.0;
 			}
-			applyFlowFromVariables(simulation, r);
+			applyFlowFromVariablesNumerical(simulation, r);
 		}
 		for (Ride r: n.getAllRides("rC5SW").getNetworkRides()) {
 			
@@ -384,7 +562,7 @@ public class DataManager {
 				repartitionRH8 = (settings.toEntranceBRepartitionRH().getCurrentValue2() - settings.toEntranceBRepartitionRH().getCurrentValue1()) / 100.0;
 				repartitionRH9 = (100 - settings.toEntranceBRepartitionRH().getCurrentValue2()) / 100.0;
 			}
-			applyFlowFromVariables(simulation, r);
+			applyFlowFromVariablesNumerical(simulation, r);
 		}
 		
 		// Geneva to France =================================================================================
@@ -438,7 +616,7 @@ public class DataManager {
 				repartitionRH18 = 0;
 				repartitionRH19 = 0;
 			}
-			applyFlowFromVariables(simulation, r);
+			applyFlowFromVariablesNumerical(simulation, r);
 		}
 		
 		// From entrance E to France ========================================================================
@@ -464,7 +642,7 @@ public class DataManager {
 			repartitionRH18 = (settings.fromEntranceERepartitionRH2().getCurrentValue2() - settings.fromEntranceERepartitionRH2().getCurrentValue1()) / 100.0;
 			repartitionRH19 = (100 - settings.fromEntranceERepartitionRH2().getCurrentValue2()) / 100.0;
 			repartitionRHEvening = 1;
-			applyFlowFromVariables(simulation, r);
+			applyFlowFromVariablesNumerical(simulation, r);
 		}
 		
 		// From entrance A ==================================================================================
@@ -484,7 +662,7 @@ public class DataManager {
 			repartitionRH18 = (settings.fromEntranceARepartitionRH2().getCurrentValue2() - settings.fromEntranceARepartitionRH2().getCurrentValue1()) / 100.0;
 			repartitionRH19 = (100 - settings.fromEntranceARepartitionRH2().getCurrentValue2()) / 100.0;
 			repartitionRHEvening = 1;
-			applyFlowFromVariables(simulation, r);
+			applyFlowFromVariablesNumerical(simulation, r);
 		}
 		
 		// From entrance B ==================================================================================
@@ -519,7 +697,7 @@ public class DataManager {
 				repartitionRH18 = (settings.fromEntranceBRepartitionRH2().getCurrentValue2() - settings.fromEntranceBRepartitionRH2().getCurrentValue1()) / 100.0;
 				repartitionRH19 = (100 - settings.fromEntranceBRepartitionRH2().getCurrentValue2()) / 100.0;
 				repartitionRHEvening = 1;
-				applyFlowFromVariables(simulation, r);
+				applyFlowFromVariablesNumerical(simulation, r);
 			}
 		}
 		
@@ -644,5 +822,8 @@ public class DataManager {
 		numberOfSameRide = 0;
 		useFrToFr = false;
 		repartitionFrToFr = 0;
+	}
+	public static void switchNumProba() {
+		useProbabilities = !useProbabilities;
 	}
 }

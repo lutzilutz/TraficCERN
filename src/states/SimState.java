@@ -183,7 +183,7 @@ public class SimState extends State {
 		this.uiManager.addObject(exitN);
 		
 		// Bottom buttons ============================================================================================
-		colorOn = new UITextSwitch(Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", network.getDrawColors(), new ClickListener(){
+		colorOn = new UITextSwitch(simulation, Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", network.getDrawColors(), new ClickListener(){
 			@Override
 			public void onClick() {
 				colorOn.switchIt();
@@ -191,7 +191,7 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", network.getDrawWire(), new ClickListener(){
+		wireOn = new UITextSwitch(simulation, Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", network.getDrawWire(), new ClickListener(){
 			@Override
 			public void onClick() {
 				wireOn.switchIt();
@@ -199,7 +199,7 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", network.getDrawRoadID(), new ClickListener(){
+		idOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", network.getDrawRoadID(), new ClickListener(){
 			@Override
 			public void onClick() {
 				idOn.switchIt();
@@ -207,21 +207,21 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", network.getDrawCenters(), new ClickListener(){
+		ridesOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				ridesOn.switchIt();
 				network.switchDrawRides();
 			}
 		});
-		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
+		namesOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				namesOn.switchIt();
 				network.switchDrawNames();
 			}
 		});
-		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
+		centersOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				centersOn.switchIt();

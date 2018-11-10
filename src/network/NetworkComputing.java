@@ -219,6 +219,9 @@ public class NetworkComputing {
 		for (Road r: n.getRoads()) {
 			
 			// generation of new Vehicles
+			if (r.getName().equals("rD884NE")) {
+				//System.out.println(r.getFlow());
+			}
 			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
 				

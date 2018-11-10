@@ -427,7 +427,11 @@ public class SimSettingsState extends State {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				Utils.initAllData();
-				DataManager.applyData(simulation);
+				if (DataManager.useProbabilities) {
+					DataManager.applyDataProba(simulation);
+				} else {
+					DataManager.applyDataNumerical(simulation);
+				}
 				simulation.getSimState().enableUIManager();
 				State.setState(simulation.getSimState());
 				Utils.log("Simulation starts\n");
@@ -485,7 +489,9 @@ public class SimSettingsState extends State {
 		}
 		
 		if (counter % 10 == 0) {
-			DataManager.applyData(simulation);
+			if (!DataManager.useProbabilities) {
+				DataManager.applyDataNumerical(simulation);
+			}
 		}
 		counter++;
 	}

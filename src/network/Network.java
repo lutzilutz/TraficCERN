@@ -1602,6 +1602,16 @@ public class Network {
 					}
 					if (chosenRide.getNextConnections().isEmpty()) {
 						Utils.log("No adapted probability found for " + roadName + " :\n");
+						for (Float f: chosenRide.getFlow()) {
+							System.out.print(f + " ");
+						}
+						for (Road road: this.getRoads()) {
+							if (this.getAllRides(road.getName()) != null) {
+								if (road.getName().equals("rRueDeGeneveSE")) {
+									System.out.println(road.getFlow());
+								}
+							}
+						}
 					}
 					//Utils.log()
 				}
@@ -1616,7 +1626,6 @@ public class Network {
 		for (AllNetworkRides anr: allNetworkRides) {
 			
 			if (anr.getRoadName().equals(roadName)) {
-				
 				for (Ride ride: anr.getNetworkRides()) {
 					
 					if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals(chosenRide.getNextConnections().get(chosenRide.getNextConnections().size()-1).getName())) {
