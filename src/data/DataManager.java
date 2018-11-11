@@ -205,77 +205,178 @@ public class DataManager {
 		System.out.println("-----");*/
 		// From A ===========================================================================================
 		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
-			
 			// To G -----------------------------------------------------------------------------------------
-			if (lastRoadIs(r, "rD884SW")) {
-				r.setFlow((float) (probas[0][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			}
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
 			// To H -----------------------------------------------------------------------------------------
-			else if (lastRoadIs(r, "rRueDeGeneveNW")) {
-				r.setFlow((float) (probas[1][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			}
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
 			// To I -----------------------------------------------------------------------------------------
-			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {
-				r.setFlow((float) (probas[2][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			}
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
 			// To J -----------------------------------------------------------------------------------------
-			else if (lastRoadIs(r, "rSortieCERNSE")) {
-				r.setFlow((float) (probas[3][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			}
+			else if (lastRoadIs(r, "rD884CERN")) {r.setFlow((float) (probas[3][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
 			// To K -----------------------------------------------------------------------------------------
-			else if (lastRoadIs(r, "rC5NE")) {
-				r.setFlow((float) (probas[4][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			}
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
 			// To L1 -----------------------------------------------------------------------------------------
-			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {
-				r.setFlow((float) (probas[5][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			}
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
 			// To L3 -----------------------------------------------------------------------------------------
-			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {
-				r.setFlow((float) (probas[6][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			}
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
 			// To L4 -----------------------------------------------------------------------------------------
-			else if (lastRoadIs(r, "rRouteBellSW")) {
-				r.setFlow((float) (probas[7][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));
-			} else {
-				r.setFlow(0);
-			}
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][0])*flowPerExit[0] / (float) (r.getNumberOfSameRide()));}
+			
+			else {r.setFlow(0);}
 			
 		}
 		// From B ===========================================================================================
 		for (Ride r: n.getAllRides("rRueDeGeneveSE").getNetworkRides()) {
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {r.setFlow((float) (probas[3][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
+			// To L1 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][1])*flowPerExit[1] / (float) (r.getNumberOfSameRide()));}
 			
-			r.setFlow(0);
+			else {r.setFlow(0);}
+			
 		}
 		// From C ===========================================================================================
 		for (Ride r: n.getAllRides("rRueGermaineTillionSW").getNetworkRides()) {
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {r.setFlow((float) (probas[3][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
+			// To L1 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][2])*flowPerExit[2] / (float) (r.getNumberOfSameRide()));}
 			
-			r.setFlow(0);
+			else {r.setFlow(0);}
 		}
 		// From D ===========================================================================================
-		for (Ride r: n.getAllRides("rTunnelNW").getNetworkRides()) {
+		for (Ride r: n.getAllRides("rC5SW").getNetworkRides()) {
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {r.setFlow((float) (probas[3][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
+			// To L1 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][3])*flowPerExit[3] / (float) (r.getNumberOfSameRide()));}
 			
-			r.setFlow(0);
+			else {r.setFlow(0);}
 		}
-		// From E1 ===========================================================================================
+		// From E1 (left) ===================================================================================
 		for (Ride r: n.getAllRides("rRoutePauliSouthNELeft").getNetworkRides()) {
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {r.setFlow((float) (probas[3][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
 			
-			r.setFlow(0);
+			else {r.setFlow(0);}
+		}
+		// From E1 (right) ==================================================================================
+		for (Ride r: n.getAllRides("rRoutePauliSouthNERight").getNetworkRides()) {
+			// To L1 -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][4])*flowPerExit[4] / (float) (r.getNumberOfSameRide()));}
+			
+			else {r.setFlow(0);}
 		}
 		// From E3 ===========================================================================================
 		for (Ride r: n.getAllRides("rRouteDeMeyrinSouthNW").getNetworkRides()) {
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {r.setFlow((float) (probas[3][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
+			// To L1 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][5])*flowPerExit[5] / (float) (r.getNumberOfSameRide()));}
 			
-			r.setFlow(0);
+			else {r.setFlow(0);}
 		}
 		// From E4 ===========================================================================================
 		for (Ride r: n.getAllRides("rRouteBellNE").getNetworkRides()) {
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {r.setFlow((float) (probas[3][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
+			// To L1 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][6])*flowPerExit[6] / (float) (r.getNumberOfSameRide()));}
 			
-			r.setFlow(0);
+			else {r.setFlow(0);}
 		}
 		// From F ===========================================================================================
 		for (Ride r: n.getAllRides("rSortieCERNNW").getNetworkRides()) {
+			// To G -----------------------------------------------------------------------------------------
+			if (lastRoadIs(r, "rD884SW")) {r.setFlow((float) (probas[0][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
+			// To H -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueDeGeneveNW")) {r.setFlow((float) (probas[1][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
+			// To I -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRueGermaineTillionNE")) {r.setFlow((float) (probas[2][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
+			// To J -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rSortieCERNSE")) {r.setFlow((float) (probas[3][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
+			// To K -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rC5NE")) {r.setFlow((float) (probas[4][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
+			// To L1 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {r.setFlow((float) (probas[5][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
+			// To L3 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {r.setFlow((float) (probas[6][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
+			// To L4 -----------------------------------------------------------------------------------------
+			else if (lastRoadIs(r, "rRouteBellSW")) {r.setFlow((float) (probas[7][7])*flowPerExit[7] / (float) (r.getNumberOfSameRide()));}
 			
-			r.setFlow(0);
+			else {r.setFlow(0);}
 		}
 		
 	}
@@ -286,19 +387,25 @@ public class DataManager {
 		Network n = simulation.getSimState().getNetwork();
 		for (Road road: n.getRoads()) {
 			if (n.getAllRides(road.getName()) != null) {
-				if (road.getName().equals("rD884NE")) {
-					road.setGenerateVehicules(flowPerExit[0]);
-					System.out.println(road.getFlow());
-				} else {
+				if (road.getName().equals("rD884NE")) {road.setGenerateVehicules(flowPerExit[0]);}
+				else if (road.getName().equals("rRueDeGeneveSE")) {road.setGenerateVehicules(flowPerExit[1]);}
+				else if (road.getName().equals("rRueGermaineTillionSW")) {road.setGenerateVehicules(flowPerExit[2]);}
+				else if (road.getName().equals("rC5SW")) {road.setGenerateVehicules(flowPerExit[3]);}
+				//else if (road.getName().equals("rRoutePauliSouthNELeft")) {road.setGenerateVehicules(flowPerExit[4]);}
+				else if (road.getName().equals("rRouteDeMeyrinSouthNW")) {road.setGenerateVehicules(flowPerExit[5]);}
+				else if (road.getName().equals("rRouteBellNE")) {road.setGenerateVehicules(flowPerExit[6]);}
+				else if (road.getName().equals("rSortieCERNNW")) {road.setGenerateVehicules(flowPerExit[7]);}
+				
+				else {
 					road.setGenerateVehicules(0);
 				}
 			}
 			
 		}
-		for (Ride ride: n.getAllRides("rD884NE").getNetworkRides()) {
+		/*for (Ride ride: n.getAllRides("rD884NE").getNetworkRides()) {
 			System.out.print(ride.getNextConnections().get(ride.getNextConnections().size()-1).getName() + " ");
 			System.out.println(ride.getFlow());
-		}
+		}*/
 		
 		if (n.getN() == 1) {
 			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
