@@ -345,7 +345,19 @@ public class NetworkRendering {
 				if (cr.getMiddleCells()[i].getVehicle() != null) {
 					Vehicle v = cr.getMiddleCells()[i].getVehicle();
 					if (n.getDrawVehicleColor()) {
-						gg.setColor(v.getColor());
+						int newSize = (int) (n.getCellWidth()*1.5);
+						int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
+						gg.setColor(v.getDstColor());
+						gg.fillOval((int) (cr.getMiddleCells()[i].getX()-newOffset), (int) (cr.getMiddleCells()[i].getY()-newOffset), newSize, newSize);
+						int smallOffset = newSize/4;
+						gg.setColor(v.getSrcColor());
+						gg.fillOval((int) (cr.getMiddleCells()[i].getX()-newOffset+smallOffset), (int) (cr.getMiddleCells()[i].getY()-newOffset+smallOffset), newSize/2, newSize/2);
+					} else {
+						gg.setColor(Color.black);
+						gg.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
+					}
+					/*if (n.getDrawVehicleColor()) {
+						gg.setColor(v.getDstColor());
 					} else {
 						gg.setColor(Color.black);
 					}
@@ -353,7 +365,7 @@ public class NetworkRendering {
 						gg.fillRect((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
 					} else {
 						gg.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
-					}
+					}*/
 				}
 			}
 		}
@@ -364,7 +376,19 @@ public class NetworkRendering {
 					if (!r.getRoadCells().get(i).isUnderground()) {
 						Vehicle v = r.getRoadCells().get(i).getVehicle();
 						if (n.getDrawVehicleColor()) {
-							gg.setColor(v.getColor());
+							int newSize = (int) (n.getCellWidth()*1.5);
+							int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
+							gg.setColor(v.getDstColor());
+							gg.fillOval((int) (r.getRoadCells().get(i).getX()-newOffset), (int) (r.getRoadCells().get(i).getY()-newOffset), newSize, newSize);
+							int smallOffset = newSize/4;
+							gg.setColor(v.getSrcColor());
+							gg.fillOval((int) (r.getRoadCells().get(i).getX()-newOffset+smallOffset), (int) (r.getRoadCells().get(i).getY()-newOffset+smallOffset), newSize/2, newSize/2);
+						} else {
+							gg.setColor(Color.black);
+							gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
+						}
+						/*if (n.getDrawVehicleColor()) {
+							gg.setColor(v.getDstColor());
 						} else {
 							gg.setColor(Color.black);
 						}
@@ -372,7 +396,7 @@ public class NetworkRendering {
 							gg.fillRect((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
 						} else {
 							gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
-						}
+						}*/
 					}
 				}
 			}
@@ -382,7 +406,19 @@ public class NetworkRendering {
 				if (r.getRoadCells().get(i).getVehicle() != null) {
 					Vehicle v = r.getRoadCells().get(i).getVehicle();
 					if (n.getDrawVehicleColor()) {
-						gg.setColor(v.getColor());
+						int newSize = (int) (n.getCellWidth()*1.5);
+						int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
+						gg.setColor(v.getDstColor());
+						gg.fillOval((int) (r.getRoadCells().get(i).getX()-newOffset), (int) (r.getRoadCells().get(i).getY()-newOffset), newSize, newSize);
+						int smallOffset = newSize/4;
+						gg.setColor(v.getSrcColor());
+						gg.fillOval((int) (r.getRoadCells().get(i).getX()-newOffset+smallOffset), (int) (r.getRoadCells().get(i).getY()-newOffset+smallOffset), newSize/2, newSize/2);
+					} else {
+						gg.setColor(Color.black);
+						gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
+					}
+					/*if (n.getDrawVehicleColor()) {
+						gg.setColor(v.getDstColor());
 					} else {
 						gg.setColor(Color.black);
 					}
@@ -390,7 +426,7 @@ public class NetworkRendering {
 						gg.fillRect((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
 					} else {
 						gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
-					}
+					}*/
 				}
 			}
 		}
@@ -449,46 +485,51 @@ public class NetworkRendering {
 		
 		if (n.getDrawVehicleColor()) {
 			int x = 660;
-			int y = n.getSimulation().getHeight()-117;
+			int y = n.getSimulation().getHeight()-134;
 			int yTextOffset = 10;
 			int xMargin = 20;
 			int yMargin = 17;
 			int radius = 10;
 			
-			g.setColor(Color.red);
+			g.setColor(Assets.vhcFranceCol1);
 			g.fillOval(x, y, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("In entrance E", x+xMargin, y + yTextOffset);
+			g.drawString("Thoiry", x+xMargin, y + yTextOffset);
 			
-			g.setColor(Color.green);
+			g.setColor(Assets.vhcFranceCol2);
 			g.fillOval(x, y+yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("In entrance B", x+xMargin, y + yMargin + yTextOffset);
+			g.drawString("St-Genis", x+xMargin, y + yMargin + yTextOffset);
 			
-			g.setColor(Color.blue);
+			g.setColor(Assets.vhcFranceCol3);
 			g.fillOval(x, y+2*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("In entrance A", x+xMargin, y + 2*yMargin + yTextOffset);
+			g.drawString("Ferney", x+xMargin, y + 2*yMargin + yTextOffset);
 			
-			g.setColor(Color.black);
-			g.fillRect(x, y+3*yMargin, radius, radius);
+			g.setColor(Assets.vhcFranceCol4);
+			g.fillOval(x, y+3*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("Transit", x+xMargin, y + 3*yMargin + yTextOffset);
+			g.drawString("Europe", x+xMargin, y + 3*yMargin + yTextOffset);
 			
-			g.setColor(Color.orange);
-			g.fillRect(x, y+4*yMargin, radius, radius);
+			g.setColor(Assets.vhcSuisseCol);
+			g.fillOval(x, y+4*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("Transit FR", x+xMargin, y + 4*yMargin + yTextOffset);
+			g.drawString("Genève", x+xMargin, y + 4*yMargin + yTextOffset);
 			
-			g.setColor(Color.gray);
+			g.setColor(Assets.vhcCERNCol1);
 			g.fillOval(x, y+5*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("Other", x+xMargin, y + 5*yMargin + yTextOffset);
+			g.drawString("Entree E", x+xMargin, y + 5*yMargin + yTextOffset);
 			
-			g.setColor(Color.magenta);
+			g.setColor(Assets.vhcCERNCol2);
 			g.fillOval(x, y+6*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("Wrong road", x+xMargin, y + 6*yMargin + yTextOffset);
+			g.drawString("Entree B", x+xMargin, y + 6*yMargin + yTextOffset);
+			
+			g.setColor(Assets.vhcCERNCol3);
+			g.fillOval(x, y+7*yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("Entree A", x+xMargin, y + 7*yMargin + yTextOffset);
 			
 		}
 	}
@@ -535,7 +576,7 @@ public class NetworkRendering {
 		// Middle bottom corner
 		if (n.getDrawVehicleColor()) {
 			g.setColor(Assets.bgAlphaCol);
-			g.fillRoundRect(650, n.getSimulation().getHeight()-122, 130, 132, 10, 10);
+			g.fillRoundRect(650, n.getSimulation().getHeight()-139, 130, 149, 10, 10);
 		}
 	}
 }

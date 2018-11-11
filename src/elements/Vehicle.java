@@ -18,7 +18,8 @@ public class Vehicle {
 	private ArrayList<Ride> ride = new ArrayList<Ride>();
 	private int idCurrentRide = 0;
 	private boolean inBucket = true;
-	private Color color = new Color(100,0,0);
+	private Color srcColor = new Color(100,0,0);
+	private Color dstColor = new Color(100,0,0);
 	private boolean isTransiting = false;
 	private String currentRoadName;
 	
@@ -263,6 +264,12 @@ public class Vehicle {
 	}
 	
 	// Getters & setters ====================================================================================
+	public boolean isDestination(String destination) {
+		return this.getRide().get(this.getIdCurrentRide()).getNextConnections().get(this.getRide().get(this.getIdCurrentRide()).getNextConnections().size()-1).getName().equals(destination);
+	}
+	public boolean isSource(String source) {
+		return this.getRide().get(this.getIdCurrentRide()).getRoadName().equals(source);
+	}
 	public String getCurrentRoadName() {
 		return this.currentRoadName;
 	}
@@ -275,11 +282,17 @@ public class Vehicle {
 	public void setIsTransiting(boolean isTransiting) {
 		this.isTransiting = isTransiting;
 	}
-	public Color getColor() {
-		return color;
+	public Color getSrcColor() {
+		return srcColor;
 	}
-	public void setColor(Color color) {
-		this.color = color;
+	public void setSrcColor(Color srcColor) {
+		this.srcColor = srcColor;
+	}
+	public Color getDstColor() {
+		return dstColor;
+	}
+	public void setDstColor(Color dstColor) {
+		this.dstColor = dstColor;
 	}
 	public boolean inBucket() {
 		return inBucket;

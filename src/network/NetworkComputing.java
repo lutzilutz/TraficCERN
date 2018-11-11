@@ -12,6 +12,7 @@ import elements.Road;
 import elements.RoundAbout;
 import elements.TrafficLightsSystem;
 import elements.Vehicle;
+import graphics.Assets;
 import utils.Utils;
 
 public class NetworkComputing {
@@ -209,7 +210,8 @@ public class NetworkComputing {
 			for (Cell c: r.getRoadCells()) {
 				if (c.getVehicle() != null) {
 					if (!c.getVehicle().getCurrentRoadName().equals(r.getName())) {
-						c.getVehicle().setColor(Color.magenta);
+						c.getVehicle().setSrcColor(Color.magenta);
+						c.getVehicle().setDstColor(Color.magenta);
 					}
 				}
 			}
@@ -429,7 +431,28 @@ public class NetworkComputing {
 		
 	}
 	public static void chooseAspect(Vehicle v) {
+		
+		if (v.isSource("rD884NE")) {v.setSrcColor(Assets.vhcFranceCol1);}
+		else if (v.isSource("rRueDeGeneveSE")) {v.setSrcColor(Assets.vhcFranceCol2);}
+		else if (v.isSource("rRueGermaineTillionSW")) {v.setSrcColor(Assets.vhcFranceCol3);}
+		else if (v.isSource("rC5SW")) {v.setSrcColor(Assets.vhcFranceCol4);}
+		else if (v.isSource("rRouteDeMeyrinSouthNW")) {v.setSrcColor(Assets.vhcSuisseCol);}
+		else if (v.isSource("rRouteBellNE") || v.isSource("rRouteBellNELeft")) {v.setSrcColor(Assets.vhcCERNCol3);}
+		else if (v.isSource("rRoutePauliSouthNELeft") || v.isSource("rRoutePauliSouthNERight")) {v.setSrcColor(Assets.vhcCERNCol2);}
+		else if (v.isSource("rSortieCERNNW")) {v.setSrcColor(Assets.vhcCERNCol1);}
+		
 		if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
+			if (v.isDestination("rD884SW")) {v.setDstColor(Assets.vhcFranceCol1);}
+			else if (v.isDestination("rRueDeGeneveNW")) {v.setDstColor(Assets.vhcFranceCol2);}
+			else if (v.isDestination("rRueGermaineTillionNE")) {v.setDstColor(Assets.vhcFranceCol3);}
+			else if (v.isDestination("rC5NE")) {v.setDstColor(Assets.vhcFranceCol4);}
+			else if (v.isDestination("rRouteDeMeyrinSouthSE")) {v.setDstColor(Assets.vhcSuisseCol);}
+			else if (v.isDestination("rRouteBellSW")) {v.setDstColor(Assets.vhcCERNCol3);}
+			else if (v.isDestination("rRoutePauliSouthSW")) {v.setDstColor(Assets.vhcCERNCol2);}
+			else if (v.isDestination("rSortieCERNSE") || v.isDestination("rD884CERN")) {v.setDstColor(Assets.vhcCERNCol1);}
+		}
+		
+		/*if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
 			if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rSortieCERNSE")
 					|| v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rD884CERN")) {
 				v.setColor(Color.red);
@@ -470,7 +493,7 @@ public class NetworkComputing {
 			} else {
 				v.setColor(Color.darkGray);
 			}
-		}
+		}*/
 	}
 	public static void writeData(Network n) {
 		

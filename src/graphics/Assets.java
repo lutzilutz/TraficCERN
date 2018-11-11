@@ -20,6 +20,16 @@ public class Assets {
 	public static Color zoneCERNCol = new Color(0,100,0);
 	public static Color zoneCERNtextCol = new Color(120,255,120);
 	
+	// Vehicles colors
+	public static Color vhcFranceCol1 = new Color(0,0,150);
+	public static Color vhcFranceCol2 = new Color(0,100,255);
+	public static Color vhcFranceCol3 = new Color(0,200,255);
+	public static Color vhcFranceCol4 = new Color(150,150,255);
+	public static Color vhcSuisseCol = new Color(0,200,0);
+	public static Color vhcCERNCol1 = new Color(200,0,0);
+	public static Color vhcCERNCol2 = new Color(255,100,0);
+	public static Color vhcCERNCol3 = new Color(255,200,0);
+	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);
 	public static Font normalBoldFont = new Font("Arial", Font.BOLD, 12);
