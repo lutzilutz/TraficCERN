@@ -622,15 +622,27 @@ public class DataManager {
 		}
 		
 	}
-	public static void saveFlowIntoRide(Ride r, int in, int out) {
-		
+	// in : entering road index in probas ; out : exiting road index in probas
+	public static void saveFlowIntoRide(Ride r, int in, int out) {		
 		for (int i=0; i<24; i++) {
 			r.setFlow(i, i+1, (float) (probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
 		}
 	}
-	public static void saveFlowIntoRoad(Road road, int index) {
+	public static void saveFlowIntoRoad(Road road, int index, int specialCase) {
 		for (int i=0; i<24; i++) {
 			road.setGenerateVehicules(i, i+1, flowPerExit[i][index]);
+			// All roads
+			if (specialCase == 0) {
+				road.setGenerateVehicules(i, i+1, flowPerExit[i][index]);
+			}
+			// RoutePauliSouthNELeft
+			else if (specialCase == 1) {
+				road.setGenerateVehicules(i, i+1, (int) ((probas[i][3][0]+probas[i][3][1]+probas[i][3][2]+probas[i][3][3]+probas[i][3][4]) * flowPerExit[i][index]));
+			}
+			// RoutePauliSouthNERight
+			else if (specialCase == 2) {
+				road.setGenerateVehicules(i, i+1, (int) ((probas[i][3][5]+probas[i][3][6]+probas[i][3][7]) * flowPerExit[i][index]));
+			}
 		}
 	}
 	public static void applyDataToRoadsProba(Simulation simulation) {
@@ -640,14 +652,15 @@ public class DataManager {
 		Network n = simulation.getSimState().getNetwork();
 		for (Road road: n.getRoads()) {
 			if (n.getAllRides(road.getName()) != null) {
-				if (road.getName().equals("rD884NE")) {saveFlowIntoRoad(road, 0);}
-				else if (road.getName().equals("rRueDeGeneveSE")) {saveFlowIntoRoad(road, 1);}
-				else if (road.getName().equals("rRueGermaineTillionSW")) {saveFlowIntoRoad(road, 2);}
-				else if (road.getName().equals("rC5SW")) {saveFlowIntoRoad(road, 3);}
-				//else if (road.getName().equals("rRoutePauliSouthNELeft")) {saveFlowIntoRoad(road, 4);}
-				else if (road.getName().equals("rRouteDeMeyrinSouthNW")) {saveFlowIntoRoad(road, 5);}
-				else if (road.getName().equals("rRouteBellNE")) {saveFlowIntoRoad(road, 6);}
-				else if (road.getName().equals("rSortieCERNNW")) {saveFlowIntoRoad(road, 7);}
+				if (road.getName().equals("rD884NE")) {saveFlowIntoRoad(road, 0, 0);}
+				else if (road.getName().equals("rRueDeGeneveSE")) {saveFlowIntoRoad(road, 1, 0);}
+				else if (road.getName().equals("rRueGermaineTillionSW")) {saveFlowIntoRoad(road, 2, 0);}
+				else if (road.getName().equals("rC5SW")) {saveFlowIntoRoad(road, 3, 0);}
+				else if (road.getName().equals("rRoutePauliSouthNELeft")) {saveFlowIntoRoad(road, 4, 1);}
+				else if (road.getName().equals("rRoutePauliSouthNERight")) {saveFlowIntoRoad(road, 4, 2);}
+				else if (road.getName().equals("rRouteDeMeyrinSouthNW")) {saveFlowIntoRoad(road, 5, 0);}
+				else if (road.getName().equals("rRouteBellNE")) {saveFlowIntoRoad(road, 6, 0);}
+				else if (road.getName().equals("rSortieCERNNW")) {saveFlowIntoRoad(road, 7, 0);}
 				
 				else {
 					road.setGenerateVehicules(0);
