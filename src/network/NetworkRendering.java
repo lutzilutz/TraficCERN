@@ -388,10 +388,10 @@ public class NetworkRendering {
 						int newSize = (int) (n.getCellWidth()*1.5);
 						int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
 						gg.setColor(v.getDstColor());
-						gg.fillOval((int) (r.getRoadCells().get(i).getX()-newOffset), (int) (r.getRoadCells().get(i).getY()-newOffset), newSize, newSize);
+						gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2-newOffset), (int) (r.getRoadCells().get(i).getY()-n.getCellWidth()/2-newOffset), newSize, newSize);
 						int smallOffset = newSize/4;
 						gg.setColor(v.getSrcColor());
-						gg.fillOval((int) (r.getRoadCells().get(i).getX()-newOffset+smallOffset), (int) (r.getRoadCells().get(i).getY()-newOffset+smallOffset), newSize/2, newSize/2);
+						gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2-newOffset+smallOffset), (int) (r.getRoadCells().get(i).getY()-n.getCellWidth()/2-newOffset+smallOffset), newSize/2, newSize/2);
 					} else {
 						gg.setColor(Color.black);
 						gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
