@@ -221,7 +221,7 @@ public class NetworkComputing {
 			else if (endRoad.equals("rC5NE")) {DataManager.flowPerExitEmpiric[12]++;}
 			else if (endRoad.equals("rRoutePauliSouthSW")) {DataManager.flowPerExitEmpiric[13]++;}
 			else if (endRoad.equals("rRouteDeMeyrinSouthSE")) {DataManager.flowPerExitEmpiric[14]++;}
-			else if (endRoad.equals("rRouteBellNE")) {DataManager.flowPerExitEmpiric[15]++;}
+			else if (endRoad.equals("rRouteBellSW")) {DataManager.flowPerExitEmpiric[15]++;}
 		}
 	}
 	// Compute future state of the Cells of the Road

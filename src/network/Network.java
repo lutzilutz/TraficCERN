@@ -1589,7 +1589,7 @@ public class Network {
 					chosenRide = new Ride();
 					//return voidRide;
 				} else if (probas.size() == 1) {
-					Utils.log("Only one probability int selectARideWithProbability for " + roadName + "\n");
+					//Utils.log("Only one probability int selectARideWithProbability for " + roadName + "\n");
 					//return anr.getNetworkRides().get(0).clone();
 					chosenRide = anr.getNetworkRides().get(0).clone();
 				} else {

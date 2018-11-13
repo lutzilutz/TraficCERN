@@ -1,6 +1,5 @@
 package data;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import elements.Ride;
@@ -421,7 +420,6 @@ public class DataManager {
 	public static void applyDataToRidesProba(Simulation simulation) {
 		
 		Network n = simulation.getSimState().getNetwork();
-		SimSettingsState settings = simulation.getSimSettingsState();
 		
 		for (AllNetworkRides anr: n.getAllNetworkRides()) {
 			for (Ride r: anr.getNetworkRides()) {

@@ -334,7 +334,6 @@ public class NetworkRendering {
 		}
 		renderCounters(network, g);
 		renderLeakyBuckets(network, g);
-		//System.out.println("Render");
 	}
 	public static void renderVehicles(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
@@ -356,16 +355,6 @@ public class NetworkRendering {
 						gg.setColor(Color.black);
 						gg.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
 					}
-					/*if (n.getDrawVehicleColor()) {
-						gg.setColor(v.getDstColor());
-					} else {
-						gg.setColor(Color.black);
-					}
-					if (v.isTransiting() && n.getDrawVehicleColor()) {
-						gg.fillRect((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
-					} else {
-						gg.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
-					}*/
 				}
 			}
 		}
@@ -387,16 +376,6 @@ public class NetworkRendering {
 							gg.setColor(Color.black);
 							gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
 						}
-						/*if (n.getDrawVehicleColor()) {
-							gg.setColor(v.getDstColor());
-						} else {
-							gg.setColor(Color.black);
-						}
-						if (v.isTransiting() && n.getDrawVehicleColor()) {
-							gg.fillRect((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
-						} else {
-							gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
-						}*/
 					}
 				}
 			}
@@ -415,18 +394,8 @@ public class NetworkRendering {
 						gg.fillOval((int) (r.getRoadCells().get(i).getX()-newOffset+smallOffset), (int) (r.getRoadCells().get(i).getY()-newOffset+smallOffset), newSize/2, newSize/2);
 					} else {
 						gg.setColor(Color.black);
-						gg.fillOval((int) (r.getRoadCells().get(i).getX()), (int) (r.getRoadCells().get(i).getY()), n.getCellWidth(), n.getCellHeight());
-					}
-					/*if (n.getDrawVehicleColor()) {
-						gg.setColor(v.getDstColor());
-					} else {
-						gg.setColor(Color.black);
-					}
-					if (v.isTransiting() && n.getDrawVehicleColor()) {
-						gg.fillRect((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
-					} else {
 						gg.fillOval((int) (r.getRoadCells().get(i).getX()-n.getCellWidth()/2), (int) (r.getRoadCells().get(i).getY()-n.getCellHeight()/2), n.getCellWidth(), n.getCellHeight());
-					}*/
+					}
 				}
 			}
 		}
