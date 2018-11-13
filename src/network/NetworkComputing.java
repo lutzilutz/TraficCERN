@@ -13,6 +13,7 @@ import elements.RoundAbout;
 import elements.TrafficLightsSystem;
 import elements.Vehicle;
 import graphics.Assets;
+import main.Simulation;
 import utils.Utils;
 
 public class NetworkComputing {
@@ -135,68 +136,92 @@ public class NetworkComputing {
 			}
 		}
 	}
-	public static void saveRideIntoData(Ride ride) {
+	public static void saveRideIntoData(Ride ride, Simulation simulation) {
+		
 		String startRoad = ride.getRoadName();
 		String endRoad = ride.getNextConnections().get(ride.getNextConnections().size()-1).getName();
 		
-		if (startRoad.equals("rD884NE")) {
-			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-				DataManager.nFrGeEmpiric++;
-			} else if (endRoad.equals("rSortieCERNSE") || endRoad.equals("rD884CERN")) {
-				DataManager.nToEEmpiric++;
-			} else if (endRoad.equals("rRouteBellSW")) {
-				DataManager.nToAEmpiric++;
-			} else if (endRoad.equals("rRoutePauliSouthSW")) {
-				DataManager.nToBEmpiric++;
+		if (!DataManager.useProbabilities) {
+			
+			if (startRoad.equals("rD884NE")) {
+				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+					DataManager.nFrGeEmpiric++;
+				} else if (endRoad.equals("rSortieCERNSE") || endRoad.equals("rD884CERN")) {
+					DataManager.nToEEmpiric++;
+				} else if (endRoad.equals("rRouteBellSW")) {
+					DataManager.nToAEmpiric++;
+				} else if (endRoad.equals("rRoutePauliSouthSW")) {
+					DataManager.nToBEmpiric++;
+				}
+			} else if (startRoad.equals("rRueDeGeneveSE")) {
+				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+					DataManager.nFrGeEmpiric++;
+				} else if (endRoad.equals("rSortieCERNSE")) {
+					DataManager.nToEEmpiric++;
+				} else if (endRoad.equals("rRouteBellSW")) {
+					DataManager.nToAEmpiric++;
+				} else if (endRoad.equals("rRoutePauliSouthSW")) {
+					DataManager.nToBEmpiric++;
+				}
+			} else if (startRoad.equals("rRueGermaineTillionSW")) {
+				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+					DataManager.nFrGeEmpiric++;
+				} else if (endRoad.equals("rSortieCERNSE")) {
+					DataManager.nToEEmpiric++;
+				} else if (endRoad.equals("rRouteBellSW")) {
+					DataManager.nToAEmpiric++;
+				} else if (endRoad.equals("rRoutePauliSouthSW")) {
+					DataManager.nToBEmpiric++;
+				}
+			} else if (startRoad.equals("rC5SW")) {
+				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
+					DataManager.nFrGeEmpiric++;
+				} else if (endRoad.equals("rRouteBellSW")) {
+					DataManager.nToAEmpiric++;
+				} else if (endRoad.equals("rRoutePauliSouthSW")) {
+					DataManager.nToBEmpiric++;
+				}
+			} else if (startRoad.equals("rRouteDeMeyrinSouthNW")) {
+				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE")) {
+					DataManager.nGeFrEmpiric++;
+				} else if (endRoad.equals("rRouteBellSW")) {
+					DataManager.nToAEmpiric++;
+				} else if (endRoad.equals("rRoutePauliSouthSW")) {
+					DataManager.nToBEmpiric++;
+				}
+			} else if (startRoad.equals("rSortieCERNNW")) {
+				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE")) {
+					DataManager.nFromEEmpiric++;
+				}
+			} else if (startRoad.equals("rRouteBellNE")) {
+				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
+					DataManager.nFromAEmpiric++;
+				}
+			} else if (startRoad.equals("rRoutePauliSouthNE") || startRoad.equals("rRoutePauliSouthNELeft") || startRoad.equals("rRoutePauliSouthNERight")) {
+				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
+					DataManager.nFromBEmpiric++;
+				}
 			}
-		} else if (startRoad.equals("rRueDeGeneveSE")) {
-			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-				DataManager.nFrGeEmpiric++;
-			} else if (endRoad.equals("rSortieCERNSE")) {
-				DataManager.nToEEmpiric++;
-			} else if (endRoad.equals("rRouteBellSW")) {
-				DataManager.nToAEmpiric++;
-			} else if (endRoad.equals("rRoutePauliSouthSW")) {
-				DataManager.nToBEmpiric++;
-			}
-		} else if (startRoad.equals("rRueGermaineTillionSW")) {
-			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-				DataManager.nFrGeEmpiric++;
-			} else if (endRoad.equals("rSortieCERNSE")) {
-				DataManager.nToEEmpiric++;
-			} else if (endRoad.equals("rRouteBellSW")) {
-				DataManager.nToAEmpiric++;
-			} else if (endRoad.equals("rRoutePauliSouthSW")) {
-				DataManager.nToBEmpiric++;
-			}
-		} else if (startRoad.equals("rC5SW")) {
-			if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-				DataManager.nFrGeEmpiric++;
-			} else if (endRoad.equals("rRouteBellSW")) {
-				DataManager.nToAEmpiric++;
-			} else if (endRoad.equals("rRoutePauliSouthSW")) {
-				DataManager.nToBEmpiric++;
-			}
-		} else if (startRoad.equals("rRouteDeMeyrinSouthNW")) {
-			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE")) {
-				DataManager.nGeFrEmpiric++;
-			} else if (endRoad.equals("rRouteBellSW")) {
-				DataManager.nToAEmpiric++;
-			} else if (endRoad.equals("rRoutePauliSouthSW")) {
-				DataManager.nToBEmpiric++;
-			}
-		} else if (startRoad.equals("rSortieCERNNW")) {
-			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE")) {
-				DataManager.nFromEEmpiric++;
-			}
-		} else if (startRoad.equals("rRouteBellNE")) {
-			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
-				DataManager.nFromAEmpiric++;
-			}
-		} else if (startRoad.equals("rRoutePauliSouthNE") || startRoad.equals("rRoutePauliSouthNELeft") || startRoad.equals("rRoutePauliSouthNERight")) {
-			if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
-				DataManager.nFromBEmpiric++;
-			}
+		} else {
+			int hours = simulation.getSimState().getHours();
+			
+			if (startRoad.equals("rD884NE")) {DataManager.flowPerExitEmpiric[0]++;}
+			else if (startRoad.equals("rRueDeGeneveSE")) {DataManager.flowPerExitEmpiric[1]++;}
+			else if (startRoad.equals("rRueGermaineTillionSW")) {DataManager.flowPerExitEmpiric[2]++;}
+			else if (startRoad.equals("rC5SW")) {DataManager.flowPerExitEmpiric[3]++;}
+			else if (startRoad.equals("rRoutePauliSouthNELeft") || startRoad.equals("rRoutePauliSouthNERight")) {DataManager.flowPerExitEmpiric[4]++;}
+			else if (startRoad.equals("rRouteDeMeyrinSouthNW")) {DataManager.flowPerExitEmpiric[5]++;}
+			else if (startRoad.equals("rRouteBellNW")) {DataManager.flowPerExitEmpiric[6]++;}
+			else if (startRoad.equals("rSortieCERNNW")) {DataManager.flowPerExitEmpiric[7]++;}
+			
+			if (endRoad.equals("rD884SW")) {DataManager.flowPerExitEmpiric[8]++;}
+			else if (endRoad.equals("rRueDeGeneveNW")) {DataManager.flowPerExitEmpiric[9]++;}
+			else if (endRoad.equals("rRueGermaineTillionNE")) {DataManager.flowPerExitEmpiric[10]++;}
+			else if (endRoad.equals("rSortieCERNSE") || endRoad.equals("rD884CERN")) {DataManager.flowPerExitEmpiric[11]++;}
+			else if (endRoad.equals("rC5NE")) {DataManager.flowPerExitEmpiric[12]++;}
+			else if (endRoad.equals("rRoutePauliSouthSW")) {DataManager.flowPerExitEmpiric[13]++;}
+			else if (endRoad.equals("rRouteDeMeyrinSouthSE")) {DataManager.flowPerExitEmpiric[14]++;}
+			else if (endRoad.equals("rRouteBellNE")) {DataManager.flowPerExitEmpiric[15]++;}
 		}
 	}
 	// Compute future state of the Cells of the Road
@@ -229,7 +254,7 @@ public class NetworkComputing {
 				
 				if (!n.isRandomGeneration()) {
 					tmp.addRide(n.selectRidesWithProbability(r.getName()));
-					saveRideIntoData(tmp.getRide().get(tmp.getIdCurrentRide()));
+					saveRideIntoData(tmp.getRide().get(tmp.getIdCurrentRide()), n.getSimulation());
 				} else {
 					tmp.addRide(n.selectARide(r.getName()));
 				}
@@ -451,49 +476,6 @@ public class NetworkComputing {
 			else if (v.isDestination("rRoutePauliSouthSW")) {v.setDstColor(Assets.vhcCERNCol2);}
 			else if (v.isDestination("rSortieCERNSE") || v.isDestination("rD884CERN")) {v.setDstColor(Assets.vhcCERNCol1);}
 		}
-		
-		/*if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
-			if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rSortieCERNSE")
-					|| v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rD884CERN")) {
-				v.setColor(Color.red);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRoutePauliSouthSW")) {
-				v.setColor(Color.green);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRouteBellSW")) {
-				v.setColor(Color.blue);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRouteDeMeyrinSouthSE")) {
-				v.setColor(Color.black);
-				v.setIsTransiting(true);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRouteDeMeyrinSouthNW")) {
-				v.setColor(Color.black);
-				v.setIsTransiting(true);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rD884SW") &&
-					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueGermaineTillionSW")) {
-				v.setColor(Color.orange);
-				v.setIsTransiting(true);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rD884SW") &&
-					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueDeGeneveSE")) {
-				v.setColor(Color.orange);
-				v.setIsTransiting(true);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueDeGeneveNW") &&
-					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueGermaineTillionSW")) {
-				v.setColor(Color.orange);
-				v.setIsTransiting(true);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueDeGeneveNW") &&
-					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rD884NE")) {
-				v.setColor(Color.orange);
-				v.setIsTransiting(true);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueGermaineTillionNE") &&
-					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rRueDeGeneveSE")) {
-				v.setColor(Color.orange);
-				v.setIsTransiting(true);
-			} else if (v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(v.getRide().get(v.getIdCurrentRide()).getNextConnections().size()-1).getName().equals("rRueGermaineTillionNE") &&
-					v.getRide().get(v.getIdCurrentRide()).getRoadName().equals("rD884NE")) {
-				v.setColor(Color.orange);
-				v.setIsTransiting(true);
-			} else {
-				v.setColor(Color.darkGray);
-			}
-		}*/
 	}
 	public static void writeData(Network n) {
 		

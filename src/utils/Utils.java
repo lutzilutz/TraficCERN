@@ -18,9 +18,11 @@ public class Utils {
 	public static PrintStream dataSegmentCounters;
 	public static PrintStream dataChecking;
 	public static PrintStream dataLeakyBuckets;
+	public static PrintStream dataEnterExit;
 	public static String dataStrCounters = "";
 	public static String dataStrSegmentCounters = "";
 	public static String dataStrLeakyBuckets = "";
+	public static String dataStrEnterExit = "";
 	public static String dataDir = "data";
 	private static Date date = new Date();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -53,7 +55,7 @@ public class Utils {
 		initDataSegmentCounters();
 		initCheckingValues();
 		initDataLeakyBuckets();
-		
+		initDataEnterExit();
 	}
 	public static void initDataLeakyBuckets() {
 		try {
@@ -88,6 +90,14 @@ public class Utils {
 			e.printStackTrace();
 		}
 		dataChecking.print("Checking probabilities\n");
+	}
+	public static void initDataEnterExit() {
+		try {
+			dataEnterExit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_enter_exit.txt", false));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		dataEnterExit.print("Checking enters and exits\n");
 	}
 	public static void saveCheckingValues() {
 		float errorFrGe;
@@ -176,6 +186,7 @@ public class Utils {
 		saveDataCounters();
 		saveDataSegmentCounters();
 		saveDataLeakyBuckets();
+		saveDataEnterExit();
 	}
 	public static void writeDataCounters(String text) {
 		dataStrCounters = dataStrCounters + text;
@@ -197,6 +208,16 @@ public class Utils {
 	public static void saveDataLeakyBuckets() {
 		dataLeakyBuckets.print(dataStrLeakyBuckets);
 		dataStrLeakyBuckets = "";
+	}
+	public static void saveDataEnterExit() {
+		
+		for (int i=0; i<16; i++) {
+			dataStrEnterExit += DataManager.flowPerExitEmpiric[i] + "\t";
+			DataManager.flowPerExitEmpiric[i] = 0;
+		}
+		dataStrEnterExit += "\n";
+		dataEnterExit.print(dataStrEnterExit);
+		dataStrEnterExit = "";
 	}
 	public static int parseInt(String number) {
 		try {
