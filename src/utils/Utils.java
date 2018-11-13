@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import data.DataManager;
@@ -19,10 +20,12 @@ public class Utils {
 	public static PrintStream dataChecking;
 	public static PrintStream dataLeakyBuckets;
 	public static PrintStream dataEnterExit;
+	public static PrintStream dataMeanTimeSpent;
 	public static String dataStrCounters = "";
 	public static String dataStrSegmentCounters = "";
 	public static String dataStrLeakyBuckets = "";
 	public static String dataStrEnterExit = "";
+	public static String dataStrMeanTimeSpent = "";
 	public static String dataDir = "data";
 	private static Date date = new Date();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -56,6 +59,7 @@ public class Utils {
 		initCheckingValues();
 		initDataLeakyBuckets();
 		initDataEnterExit();
+		initDataMeanTimeSpent();
 	}
 	public static void initDataLeakyBuckets() {
 		try {
@@ -97,7 +101,15 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		dataEnterExit.print("Checking enters and exits\n");
+		dataEnterExit.print("Checking enters and exits (per hour)\n");
+	}
+	public static void initDataMeanTimeSpent() {
+		try {
+			dataMeanTimeSpent = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time.txt", false));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		dataMeanTimeSpent.print("Checking mean time spent on network in seconds (per hour)\n");
 	}
 	public static void saveCheckingValues() {
 		float errorFrGe;
@@ -187,6 +199,7 @@ public class Utils {
 		saveDataSegmentCounters();
 		saveDataLeakyBuckets();
 		saveDataEnterExit();
+		saveMeanTimeSpent();
 	}
 	public static void writeDataCounters(String text) {
 		dataStrCounters = dataStrCounters + text;
@@ -218,6 +231,17 @@ public class Utils {
 		dataStrEnterExit += "\n";
 		dataEnterExit.print(dataStrEnterExit);
 		dataStrEnterExit = "";
+	}
+	public static void saveMeanTimeSpent() {
+		double meanTimeLastHour = 0;
+		for (Integer i: DataManager.timeSpent) {
+			meanTimeLastHour += i;
+		}
+		meanTimeLastHour = meanTimeLastHour / (double) (DataManager.timeSpent.size());
+		DataManager.timeSpent = new ArrayList<Integer>();
+		dataStrMeanTimeSpent = String.format("%.2f", meanTimeLastHour) + "\n";
+		dataMeanTimeSpent.print(dataStrMeanTimeSpent);
+		dataStrMeanTimeSpent = "";
 	}
 	public static int parseInt(String number) {
 		try {

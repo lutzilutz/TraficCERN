@@ -387,6 +387,13 @@ public class DataManager {
 	
 	public static int randomValue = 0;
 	
+	// ============================================================================================
+	// Time spent on network ======================================================================
+	// ============================================================================================
+	
+	public static ArrayList<Integer> timeSpent = new ArrayList<Integer>();
+	public static double meanTime = 0;
+	
 	public static void loadData(Simulation simulation) {
 		
 		//applyDataToRides(simulation);

@@ -3,6 +3,7 @@ package elements;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import data.DataManager;
 import network.Network;
 
 public class Vehicle {
@@ -23,12 +24,17 @@ public class Vehicle {
 	private boolean isTransiting = false;
 	private String currentRoadName;
 	
+	private int enteringTime = 0;
+	private int exitingTime = 0;
+	
 	public Vehicle(Network n) {
 		this.n = n;
 		id = idCounter;
 		idCounter++;
 		cell = null;
 		nextPlace = null;
+		enteringTime = n.getSimulation().getSimState().getStep();
+		exitingTime = enteringTime;
 	}
 	
 	public void evolve() {
@@ -51,6 +57,9 @@ public class Vehicle {
 				nextPlace.setVehicle(null);
 			}
 			nextPlace = null;
+			exitingTime = n.getSimulation().getSimState().getStep();
+			DataManager.timeSpent.add(exitingTime-enteringTime);
+			System.out.println(exitingTime - enteringTime);
 		}
 	}
 	public int checkNextCells(int nCells) {
