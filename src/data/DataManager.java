@@ -628,11 +628,11 @@ public class DataManager {
 			}
 			// RoutePauliSouthNELeft
 			else if (specialCase == 1) {
-				road.setGenerateVehicules(i, i+1, (int) ((probas[i][3][0]+probas[i][3][1]+probas[i][3][2]+probas[i][3][3]+probas[i][3][4]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (int) ((probas[i][0][3]+probas[i][1][3]+probas[i][2][3]+probas[i][3][3]+probas[i][4][3]) * flowPerExit[i][index]));
 			}
 			// RoutePauliSouthNERight
 			else if (specialCase == 2) {
-				road.setGenerateVehicules(i, i+1, (int) ((probas[i][3][5]+probas[i][3][6]+probas[i][3][7]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (int) ((probas[i][5][3]+probas[i][6][3]+probas[i][7][3]) * flowPerExit[i][index]));
 			}
 		}
 	}
