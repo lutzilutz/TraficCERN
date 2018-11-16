@@ -372,6 +372,8 @@ public class DataManager {
 	
 	public static int[] flowPerExitEmpiric = new int[16];
 	
+	public static double globalFlowMultiplier = 1.14;
+	
 	// ============================================================================================
 	// Light system ===============================================================================
 	// ============================================================================================
@@ -394,12 +396,6 @@ public class DataManager {
 	public static ArrayList<Integer> timeSpent = new ArrayList<Integer>();
 	public static double meanTime = 0;
 	
-	public static void loadData(Simulation simulation) {
-		
-		//applyDataToRides(simulation);
-		//applyRidesToRoads(simulation);
-		
-	}
 	public static boolean lastRoadIs(Ride r, String roadName) {
 		if (r.getNextConnections().size()>0) {
 			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
@@ -621,23 +617,23 @@ public class DataManager {
 	// in : entering road index in probas ; out : exiting road index in probas
 	public static void saveFlowIntoRide(Ride r, int in, int out) {		
 		for (int i=0; i<24; i++) {
-			r.setFlow(i, i+1, (float) (probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
+			r.setFlow(i, i+1, (float) (globalFlowMultiplier*probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
 		}
 	}
 	public static void saveFlowIntoRoad(Road road, int index, int specialCase) {
 		for (int i=0; i<24; i++) {
-			road.setGenerateVehicules(i, i+1, flowPerExit[i][index]);
+			//road.setGenerateVehicules(i, i+1, flowPerExit[i][index]);
 			// All roads
 			if (specialCase == 0) {
-				road.setGenerateVehicules(i, i+1, flowPerExit[i][index]);
+				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*flowPerExit[i][index]));
 			}
 			// RoutePauliSouthNELeft
 			else if (specialCase == 1) {
-				road.setGenerateVehicules(i, i+1, (int) ((probas[i][0][3]+probas[i][1][3]+probas[i][2][3]+probas[i][3][3]+probas[i][4][3]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][0][3]+probas[i][1][3]+probas[i][2][3]+probas[i][3][3]+probas[i][4][3]) * flowPerExit[i][index]));
 			}
 			// RoutePauliSouthNERight
 			else if (specialCase == 2) {
-				road.setGenerateVehicules(i, i+1, (int) ((probas[i][5][3]+probas[i][6][3]+probas[i][7][3]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][5][3]+probas[i][6][3]+probas[i][7][3]) * flowPerExit[i][index]));
 			}
 		}
 	}

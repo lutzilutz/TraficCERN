@@ -27,7 +27,7 @@ public class MenuState extends State {
 	private int sliderWidth = 500;
 	
 	private UITextButton network1, network2, network3;
-	private UISlider sizeOfNetwork;
+	private UISlider sizeOfNetwork, globalMultiplier;
 	private UITextSwitch numOrProba;
 	
 	public MenuState(Simulation simulation) {
@@ -108,7 +108,15 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(numOrProba);
 		
-		this.uiManager.addObject(new UITextButton(xStart, yStart+7*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
+		globalMultiplier = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, 16, true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		//this.uiManager.addObject(globalMultiplier);
+		
+		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
 				System.exit(0);
@@ -117,7 +125,15 @@ public class MenuState extends State {
 	}
 	
 	public void tick(int n) {
+		if (DataManager.useProbabilities && !this.uiManager.getObjects().contains(globalMultiplier)) {
+			this.uiManager.addObject(globalMultiplier);
+		} else if (!DataManager.useProbabilities && this.uiManager.getObjects().contains(globalMultiplier)) {
+			this.uiManager.removeObject(globalMultiplier);
+		}
 		this.uiManager.tick();
+		
+		DataManager.globalFlowMultiplier = (float) (globalMultiplier.getCurrentValue()+100) / 100.0;
+		System.out.println(DataManager.globalFlowMultiplier);
 	}
 	public void tick() {
 		
