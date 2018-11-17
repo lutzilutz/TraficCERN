@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import data.DataManager;
 import graphics.Assets;
 import graphics.Text;
 import input.KeyManager;
@@ -86,12 +87,12 @@ public class SimState extends State {
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.restartIdle, Assets.restartActive, new ClickListener(){
 			@Override
 			public void onClick() {
-				restarting = true;
+				/*restarting = true;
 				try {
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					Utils.log(e);
-				}
+				}*/
 				restartNetwork();
 			}
 		}));
@@ -408,13 +409,8 @@ public class SimState extends State {
 	}*/
 	public void restartNetwork() {
 		step = 1;
-		currentNetwork = network.getN();
-		simSpeed = defaultSimSpeed;
-		simulation.getSimState().setNetwork(null);
-		System.out.println("Current network : " + currentNetwork);
-		simulation.getSimState().setNetwork(new Network(simulation, currentNetwork, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
-		NetworkComputing.computeCellsPosition(network);
-		restarting = false;
+		network.restart();
+		Utils.initAllData();
 	}
 	
 	// Return time in format "hh:mm:ss"

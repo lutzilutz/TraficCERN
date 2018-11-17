@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import elements.Cell;
 import elements.Connection;
 import elements.CrossRoad;
 import elements.MultiLaneRoundAbout;
@@ -1731,6 +1732,26 @@ public class Network {
 	public void setNetworkSize() {
 		this.setCellWidth((int) (Math.pow(2, 1+sim.getMenuState().getSizeOfNetwork().getCurrentValue())));
 		this.setCellHeight((int) (Math.pow(2, 1+sim.getMenuState().getSizeOfNetwork().getCurrentValue())));
+	}
+	public void restart() {
+		vehicles = new ArrayList<Vehicle>();
+		for (Road road: roads) {
+			for (Cell cell: road.getRoadCells()) {
+				cell.setVehicle(null);
+			}
+			road.setLeakyBucket(new ArrayList<Vehicle>());
+		}
+		for (RoundAbout ra: roundAbouts) {
+			for (Cell cell: ra.getRoadCells()) {
+				cell.setVehicle(null);
+			}
+		}
+		for (CrossRoad cr: crossRoads) {
+			for (Cell cell: cr.getMiddleCells()) {
+				cell.setVehicle(null);
+			}
+		}
+		numberOfVehicles = 0;
 	}
 	// Getters & setters ====================================================================================
 	public ArrayList<TrafficLightsSystem> getTrafficLightsSystems() {

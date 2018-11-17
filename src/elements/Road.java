@@ -434,6 +434,9 @@ public class Road {
 	public ArrayList<Vehicle> getLeakyBucket() {
 		return leakyBucket;
 	}
+	public void setLeakyBucket(ArrayList<Vehicle> leakyBucket) {
+		this.leakyBucket = leakyBucket;
+	}
 	public void addNewVehicle(Vehicle v) {
 		leakyBucket.add(v);
 		v.setCurrentRoadName(name);
