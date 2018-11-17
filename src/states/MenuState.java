@@ -36,21 +36,7 @@ public class MenuState extends State {
 		
 		// Play button ==============================================================================================
 		
-		network1 = new UITextButton(xStart, yStart, buttonWidth, buttonHeight, Network.getTitle(0), new ClickListener(){
-			@Override
-			public void onClick() {
-				// prevents user to continue clicking after state change
-				disableUIManager();
-				simulation.setSimState(new SimState(simulation));
-				simulation.getSimSettingsState().enableUIManager();
-				simulation.getSimState().setNetwork(new Network(simulation, 0, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
-				simulation.getSimState().init();
-				State.setState(simulation.getSimSettingsState());
-			}
-		});
-		this.uiManager.addObject(network1);
-		
-		network2 = new UITextButton(xStart,  yStart+(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(1), new ClickListener(){
+		network2 = new UITextButton(xStart,  yStart+0*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(1), new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
@@ -77,7 +63,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(network2);
 		
-		network3 = new UITextButton(xStart, yStart+2*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(2), new ClickListener(){
+		network3 = new UITextButton(xStart, yStart+1*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(2), new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
@@ -86,7 +72,21 @@ public class MenuState extends State {
 				simulation.getSimSettingsState().enableUIManager();
 				simulation.getSimState().setNetwork(new Network(simulation, 2, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 				simulation.getSimState().init();
-				State.setState(simulation.getSimSettingsState());
+				
+				if (DataManager.useProbabilities) {
+					
+					Utils.initAllData();
+					DataManager.applyDataProba(simulation);
+					
+					simulation.getSimState().enableUIManager();
+				} else {
+					simulation.getSimSettingsState().enableUIManager();
+				}
+				if (DataManager.useProbabilities) {
+					State.setState(simulation.getSimState());
+				} else {
+					State.setState(simulation.getSimSettingsState());
+				}
 			}
 		});
 		this.uiManager.addObject(network3);
@@ -149,22 +149,16 @@ public class MenuState extends State {
 		
 		Text.drawString(g, "Trafic simulation at CERN", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
 		
-		if (network1.isHovering()) {
-			Text.drawString(g, Network.getDescription(0), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+buttonHeight/2+5, false, Assets.normalFont);
-		} else {
-			Text.drawString(g, Network.getDescription(0), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+buttonHeight/2+5, false, Assets.normalFont);
-		}
-		
 		if (network2.isHovering()) {
-			Text.drawString(g, Network.getDescription(1), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(1), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+0*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		} else {
-			Text.drawString(g, Network.getDescription(1), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(1), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+0*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		}
 		
 		if (network3.isHovering()) {
-			Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		} else {
-			Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+2*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
+			Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
 		}
 		
 		this.uiManager.render(g);
