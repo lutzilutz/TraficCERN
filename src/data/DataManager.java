@@ -30,8 +30,8 @@ public class DataManager {
 	private static double repartitionRH18 = 0;
 	private static double repartitionRH19 = 0;
 	private static int numberOfSameRide = 0;
-	private static double repartitionFrToFr = 0;
-	private static boolean useFrToFr = false;
+	//private static double repartitionFrToFr = 0;
+	//private static boolean useFrToFr = false;
 	
 	// Theoritical default values -------------------------
 	
@@ -396,6 +396,7 @@ public class DataManager {
 	public static ArrayList<Integer> timeSpent = new ArrayList<Integer>();
 	public static double meanTime = 0;
 	
+	// Is roadName the last road of the ride r ?
 	public static boolean lastRoadIs(Ride r, String roadName) {
 		if (r.getNextConnections().size()>0) {
 			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
@@ -430,13 +431,6 @@ public class DataManager {
 			}
 		}
 		
-		/*System.out.println("Printing all rides -----");
-		for (AllNetworkRides anr: n.getAllNetworkRides()) {
-			for (Ride ride: anr.getNetworkRides()) {
-				System.out.println(ride);
-			}
-		}
-		System.out.println("-----");*/
 		// From A ===========================================================================================
 		for (Ride r: n.getAllRides("rD884NE").getNetworkRides()) {
 			// To G -----------------------------------------------------------------------------------------
@@ -654,16 +648,9 @@ public class DataManager {
 				else if (road.getName().equals("rRouteBellNE")) {saveFlowIntoRoad(road, 6, 0);}
 				else if (road.getName().equals("rSortieCERNNW")) {saveFlowIntoRoad(road, 7, 0);}
 				
-				else {
-					road.setGenerateVehicules(0);
-				}
+				else {road.setGenerateVehicules(0);}
 			}
 		}
-		
-		/*for (Ride ride: n.getAllRides("rD884NE").getNetworkRides()) {
-			System.out.print(ride.getNextConnections().get(ride.getNextConnections().size()-1).getName() + " ");
-			System.out.println(ride.getFlow());
-		}*/
 		
 		if (n.getN() == 1) {
 			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
@@ -703,16 +690,6 @@ public class DataManager {
 	}
 	public static void applyFlowFromVariablesNumerical(Simulation sim, Ride r) {
 		
-		/*if (r.getNextConnections().size() > 0) {
-			numberOfSameRide = numberOfSameRides(sim, r.getRoadName(), r.getNextConnections().get(r.getNextConnections().size()-1).getName());
-		} else {
-			numberOfSameRide = 1;
-		}*/
-//		int tmp = randomValue;
-//		if (!useFrToFr) {
-//			randomValue = 0;
-//		}
-		
 		if (!useProbabilities) {
 			numberOfSameRide = r.getNumberOfSameRide();
 			
@@ -738,8 +715,6 @@ public class DataManager {
 				}
 			}
 		}
-		
-		//randomValue = tmp;
 	}
 	public static void applyDataToRidesNumerical(Simulation simulation) {
 		
@@ -1071,39 +1046,12 @@ public class DataManager {
 				road.setMaxOutflow(settings.timePerVhcEntrance().getCurrentValue());
 			}
 		}
-		
-		/*for (AllNetworkRides anr: n.getAllNetworkRides()) {
-			
-			for (Ride ride: anr.getNetworkRides()) {
-				//if ((ride.getRoadName().equals("rRueDeGeneveSE") || ride.getRoadName().equals("rD884NE") || ride.getRoadName().equals("rRueGermaineTillionSW") || ride.getRoadName().equals("rC5SW")) && lastRoadIs(ride,"rRoutePauliSouthSW")) {
-				if ((ride.getRoadName().equals("rD884NE")) && lastRoadIs(ride,"rRoutePauliSouthSW")) {
-					ride.print();
-					System.out.println();
-				}
-			}
-		}*/
 	}
 	public static void applyRidesToRoads(Simulation simulation) {
 		
 		Network n = simulation.getSimState().getNetwork();
 		
 		for (Road road: n.getRoads()) {
-			/*if (n.getAllRides(road.getName()) != null) {
-				if (road.getName().equals("rSortieCERNNW")) {//rRueDeGeneveSE//rSortieCERNNW
-					System.out.println(road.getName() + " : ");
-					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
-						ride.print();
-						System.out.println();
-						int tmp = 0;
-						for (Integer i: ride.getFlow()) {
-							System.out.print(i + " ");
-							tmp += i;
-						}
-						System.out.println();
-						System.out.println(tmp);
-					}
-				}
-			}*/
 			int tmp = 0;
 			
 			for (int h=0 ; h<24 ; h++) {
@@ -1124,23 +1072,6 @@ public class DataManager {
 			Utils.saveCheckingValues("\n");
 			Utils.saveCheckingValues("Total : " + tmp + "\n");
 		}
-		/*
-		for (AllNetworkRides anr: n.getAllNetworkRides()) {
-			for (Ride ride: anr.getNetworkRides()) {
-				System.out.print(ride.getRoadName() + " to " + ride.getNextConnections().get(ride.getNextConnections().size()-1).getName() + " : ");
-				for (Float flow: ride.getFlow()) {
-					System.out.print(flow + " ");
-				}
-				System.out.println();
-			}
-		}
-		for (Road road: n.getRoads()) {
-			System.out.println(road.getName() + " : ");
-			for (int i=0; i<road.getFlow().size() ; i++) {
-				System.out.print(road.getFlow().get(i) + " ");
-			}
-			System.out.println();
-		}*/
 		
 		if (n.getN() == 1) {
 			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
@@ -1185,8 +1116,8 @@ public class DataManager {
 		repartitionRH18 = 0;
 		repartitionRH19 = 0;
 		numberOfSameRide = 0;
-		useFrToFr = false;
-		repartitionFrToFr = 0;
+		//useFrToFr = false;
+		//repartitionFrToFr = 0;
 	}
 	public static void switchNumProba() {
 		useProbabilities = !useProbabilities;

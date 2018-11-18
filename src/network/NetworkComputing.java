@@ -1,7 +1,6 @@
 package network;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import data.DataManager;
@@ -22,7 +21,9 @@ public class NetworkComputing {
 	private static boolean countersUpdated = false;
 	
 	// Pre-processing operations ####################################################################################################################
-	// ##############################################################################################################################################	
+	// ##############################################################################################################################################
+	
+	// Compute position on-screen of all cells
 	public static void computeCellsPosition(Network n) {
 		Utils.log("computing Cells position ... ");
 		Utils.tick();
@@ -80,6 +81,7 @@ public class NetworkComputing {
 		Utils.log("done");
 		Utils.logTime();
 	}
+	// Corrects bounds of the network image
 	public static void correctBounds(double x, double y) {
 		if (x<NetworkRendering.bounds.x) {
 			NetworkRendering.bounds.width += NetworkRendering.bounds.x - x ;//+ margin;
@@ -99,6 +101,7 @@ public class NetworkComputing {
 	// Computing operations #########################################################################################################################
 	// ##############################################################################################################################################	
 	
+	// Updates vehicle counter of roads
 	public static void computeFlows(Network n) {
 		for (Road r: n.getRoads()) {
 			if (r.getVehicleCounter() != null) {
@@ -109,24 +112,27 @@ public class NetworkComputing {
 	// Update Cell of the Road according to the next state
 	public static void evolve(Network n) {
 		
+		// Updates vehicle counters
+		for (Road r: n.getRoads()) {
+			if (r.getVehicleCounter() != null) {
+				r.getVehicleCounter().computeCounter();
+			}
+		}
+		if (n.getSimulation().getSimState().getStep()%60 == 0) {
+			if (!countersUpdated) {
+				computeFlows(n);
+				countersUpdated = true;
+			}
+		} else {
+			countersUpdated = false;
+		}
+		
+		// Evolves all vehicles
 		for (Vehicle v: n.getVehicles()) {
-			
-			for (Road r: n.getRoads()) {
-				if (r.getVehicleCounter() != null) {
-					r.getVehicleCounter().computeCounter();
-				}
-			}
-			if (n.getSimulation().getSimState().getStep()%60 == 0) {
-				if (!countersUpdated) {
-					computeFlows(n);
-					countersUpdated = true;
-				}
-			} else {
-				countersUpdated = false;
-			}
 			v.evolve();
 		}
 		
+		// Removes vehicles leaving the network
 		Iterator<Vehicle> iter = n.getVehicles().iterator();
 		while (iter.hasNext()) {
 			Vehicle vec = iter.next();
@@ -136,6 +142,7 @@ public class NetworkComputing {
 			}
 		}
 	}
+	// Updates data with the new ride
 	public static void saveRideIntoData(Ride ride, Simulation simulation) {
 		
 		String startRoad = ride.getRoadName();
@@ -203,7 +210,7 @@ public class NetworkComputing {
 				}
 			}
 		} else {
-			int hours = simulation.getSimState().getHours();
+			//int hours = simulation.getSimState().getHours();
 			
 			if (startRoad.equals("rD884NE")) {DataManager.flowPerExitEmpiric[0]++;}
 			else if (startRoad.equals("rRueDeGeneveSE")) {DataManager.flowPerExitEmpiric[1]++;}
@@ -325,11 +332,8 @@ public class NetworkComputing {
 						
 					// Else if NEXT cell EMPTY
 					} else if (!v.isNextCellOccupied() && v.getSpeed() > 0){
-						
 						v.goToXthNextCell(v.getSpeed());
-						
 					} else {
-						
 						v.stayHere();
 						v.setSpeed(0);
 					}
@@ -414,7 +418,7 @@ public class NetworkComputing {
 			Utils.saveData();
 		}
 	}
-	public static boolean hasMultipleLaneChoice(Vehicle v) {
+	/*public static boolean hasMultipleLaneChoice(Vehicle v) {
 		int tmp = -1;
 		if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
 			v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(0).getPosition();
@@ -427,8 +431,8 @@ public class NetworkComputing {
 			}
 		}
 		return false;
-	}
-	public static void chooseBestLane(Network n, Vehicle v) {
+	}*/
+	/*public static void chooseBestLane(Network n, Vehicle v) {
 		ArrayList<Integer> numberOfVhcPerRoad = new ArrayList<Integer>();
 		int min = 1000;
 		for (Ride ride: v.getRide()) {
@@ -454,7 +458,8 @@ public class NetworkComputing {
 			}
 		}
 		
-	}
+	}*/
+	// Change aspect of vehicle based on its ride
 	public static void chooseAspect(Vehicle v) {
 		
 		if (v.isSource("rD884NE")) {v.setSrcColor(Assets.vhcFranceCol1);}
@@ -477,6 +482,7 @@ public class NetworkComputing {
 			else if (v.isDestination("rSortieCERNSE") || v.isDestination("rD884CERN")) {v.setDstColor(Assets.vhcCERNCol1);}
 		}
 	}
+	// Write data every minute into output
 	public static void writeData(Network n) {
 		
 		if (!n.isRandomGeneration()) {

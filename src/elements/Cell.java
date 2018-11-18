@@ -22,13 +22,6 @@ public class Cell {
 	private double x,y; // center of the Cell
 	private boolean isUnderground = false;
 	
-	public Cell() {
-		previousCell = null;
-		nextCell = null;
-		outCell = null;
-		vehicle = null;
-	}
-	
 	public Cell(String name) {
 		this.roadName = name;
 		inCell = null;

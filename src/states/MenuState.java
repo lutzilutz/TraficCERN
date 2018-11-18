@@ -26,7 +26,7 @@ public class MenuState extends State {
 	private int sliderHeight = 30;
 	private int sliderWidth = 500;
 	
-	private UITextButton network1, network2, network3;
+	private UITextButton network2, network3;
 	private UISlider sizeOfNetwork, globalMultiplier;
 	private UITextSwitch numOrProba;
 	
@@ -39,26 +39,7 @@ public class MenuState extends State {
 		network2 = new UITextButton(xStart,  yStart+0*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(1), new ClickListener(){
 			@Override
 			public void onClick() {
-				// prevents user to continue clicking after state change
-				disableUIManager();
-				simulation.setSimState(new SimState(simulation));
-				simulation.getSimState().setNetwork(new Network(simulation, 1, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
-				simulation.getSimState().init();
-				
-				if (DataManager.useProbabilities) {
-					
-					Utils.initAllData();
-					DataManager.applyDataProba(simulation);
-					
-					simulation.getSimState().enableUIManager();
-				} else {
-					simulation.getSimSettingsState().enableUIManager();
-				}
-				if (DataManager.useProbabilities) {
-					State.setState(simulation.getSimState());
-				} else {
-					State.setState(simulation.getSimSettingsState());
-				}
+				launchSimulation(1);
 			}
 		});
 		this.uiManager.addObject(network2);
@@ -66,27 +47,7 @@ public class MenuState extends State {
 		network3 = new UITextButton(xStart, yStart+1*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(2), new ClickListener(){
 			@Override
 			public void onClick() {
-				// prevents user to continue clicking after state change
-				disableUIManager();
-				simulation.setSimState(new SimState(simulation));
-				simulation.getSimSettingsState().enableUIManager();
-				simulation.getSimState().setNetwork(new Network(simulation, 2, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
-				simulation.getSimState().init();
-				
-				if (DataManager.useProbabilities) {
-					
-					Utils.initAllData();
-					DataManager.applyDataProba(simulation);
-					
-					simulation.getSimState().enableUIManager();
-				} else {
-					simulation.getSimSettingsState().enableUIManager();
-				}
-				if (DataManager.useProbabilities) {
-					State.setState(simulation.getSimState());
-				} else {
-					State.setState(simulation.getSimSettingsState());
-				}
+				launchSimulation(2);
 			}
 		});
 		this.uiManager.addObject(network3);
@@ -99,7 +60,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(sizeOfNetwork);
 		
-		numOrProba = new UITextSwitch(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", false, new ClickListener(){
+		numOrProba = new UITextSwitch(xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", false, new ClickListener(){
 			@Override
 			public void onClick() {
 				numOrProba.switchIt();
@@ -114,7 +75,6 @@ public class MenuState extends State {
 				
 			}
 		});
-		//this.uiManager.addObject(globalMultiplier);
 		
 		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
@@ -123,7 +83,27 @@ public class MenuState extends State {
 			}
 		}));
 	}
-	
+	// launch the simulation #nSimulation, depending on probabilities/numerical values
+	public void launchSimulation(int nSimulation) {
+		
+		// prevents user to continue clicking after state change
+		disableUIManager();
+		
+		// create a new SimState
+		simulation.setSimState(new SimState(simulation));
+		simulation.getSimState().setNetwork(new Network(simulation, nSimulation, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
+		simulation.getSimState().init();
+		
+		if (DataManager.useProbabilities) {
+			Utils.initAllData();
+			DataManager.applyDataProba(simulation);
+			simulation.getSimState().enableUIManager();
+			State.setState(simulation.getSimState());
+		} else {
+			simulation.getSimSettingsState().enableUIManager();
+			State.setState(simulation.getSimSettingsState());
+		}
+	}
 	public void tick(int n) {
 		if (DataManager.useProbabilities && !this.uiManager.getObjects().contains(globalMultiplier)) {
 			this.uiManager.addObject(globalMultiplier);

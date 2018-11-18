@@ -39,6 +39,7 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
+	// initialize all data output streams (folder /data/XXXXXXXX_XXXXXX.txt
 	public static void initAllData() {
 		date = new Date();
 		dataDirSim = dataDir + "/" + dateFormat.format(date);

@@ -11,7 +11,6 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import elements.CrossRoad;
@@ -30,7 +29,7 @@ public class NetworkRendering {
 	// One-time operations ##########################################################################################################################
 	// ##############################################################################################################################################
 	
-	// Compute Background (one-time operation)
+	// Render (compute) all background images
 	public static BufferedImage[] renderAllBGs(Network n, BufferedImage[] backgrounds) {
 		Utils.log("generating Network images ... ");
 		BufferedImage[] tmp = new BufferedImage[8];
@@ -67,6 +66,8 @@ public class NetworkRendering {
 		
 		return tmp;
 	}
+	
+	// Render one background image
 	public static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
 		// CERN zone ==================================================================================================
 		g.setColor(Assets.zoneCERNCol);

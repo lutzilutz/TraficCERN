@@ -3,7 +3,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import data.DataManager;
 import graphics.Assets;
 import graphics.Text;
 import input.KeyManager;
@@ -27,7 +26,6 @@ public class SimState extends State {
 	
 	private int step = 1; // step counter
 	private double stepSize = 1; // duration of one step in seconds-
-	private String[] daysOfWeek = {"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
 	private int startHour = 0;
 	private boolean paused = false;
 	private boolean askExit = false;
@@ -87,12 +85,6 @@ public class SimState extends State {
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.restartIdle, Assets.restartActive, new ClickListener(){
 			@Override
 			public void onClick() {
-				/*restarting = true;
-				try {
-					Thread.sleep(200);
-				} catch (InterruptedException e) {
-					Utils.log(e);
-				}*/
 				restartNetwork();
 			}
 		}));
@@ -184,7 +176,7 @@ public class SimState extends State {
 		this.uiManager.addObject(exitN);
 		
 		// Bottom buttons ============================================================================================
-		colorOn = new UITextSwitch(simulation, Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", network.getDrawColors(), new ClickListener(){
+		colorOn = new UITextSwitch(Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", network.getDrawColors(), new ClickListener(){
 			@Override
 			public void onClick() {
 				colorOn.switchIt();
@@ -192,7 +184,7 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		wireOn = new UITextSwitch(simulation, Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", network.getDrawWire(), new ClickListener(){
+		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", network.getDrawWire(), new ClickListener(){
 			@Override
 			public void onClick() {
 				wireOn.switchIt();
@@ -200,7 +192,7 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		idOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", network.getDrawRoadID(), new ClickListener(){
+		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", network.getDrawRoadID(), new ClickListener(){
 			@Override
 			public void onClick() {
 				idOn.switchIt();
@@ -208,21 +200,21 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		ridesOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", network.getDrawCenters(), new ClickListener(){
+		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				ridesOn.switchIt();
 				network.switchDrawRides();
 			}
 		});
-		namesOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
+		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				namesOn.switchIt();
 				network.switchDrawNames();
 			}
 		});
-		centersOn = new UITextSwitch(simulation, Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
+		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				centersOn.switchIt();
@@ -400,13 +392,6 @@ public class SimState extends State {
 			}
 		}
 	}
-	/*public void applyUserSettings() {
-		for (Road r: network.getRoads()) {
-			if (r.getName().equals("rSortieCERNNW")) {
-				r.setGenerateVehicules(simulation.getEntranceERate());
-			}
-		}
-	}*/
 	public void restartNetwork() {
 		step = 1;
 		network.restart();
@@ -435,9 +420,6 @@ public class SimState extends State {
 			hrStr = "0" + hrStr;
 		}
 		
-		String dayStr = daysOfWeek[(time/(60*60*24)) % 7];
-		
-		//return dayStr + " " + hrStr + ":" + minStr + ":" + secStr;
 		return hrStr + ":" + minStr + ":" + secStr;
 	}
 	public int getHours() {
