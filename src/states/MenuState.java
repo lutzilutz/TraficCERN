@@ -113,7 +113,7 @@ public class MenuState extends State {
 		this.uiManager.tick();
 		
 		DataManager.globalFlowMultiplier = (float) (globalMultiplier.getCurrentValue()+100) / 100.0;
-		System.out.println(DataManager.globalFlowMultiplier);
+		//System.out.println(DataManager.globalFlowMultiplier);
 	}
 	public void tick() {
 		
