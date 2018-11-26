@@ -211,7 +211,7 @@ public class Network {
 		rD884NE.addExit("rD884CERN", 27);
 		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
 		rD884CERN.addEnter("rD884NE", 0);
-		rD884CERN.setMaxOutflow(40);
+		rD884CERN.setMaxOutflow(8);
 		
 		// LHC --------------------------------------------------------------------------------------------------------
 		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
