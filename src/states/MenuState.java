@@ -28,7 +28,7 @@ public class MenuState extends State {
 	
 	private UITextButton network2, network3;
 	private UISlider sizeOfNetwork, globalMultiplier;
-	private UITextSwitch numOrProba;
+	private UITextSwitch numOrProba, minMaxTransfer;
 	
 	public MenuState(Simulation simulation) {
 		super(simulation);
@@ -60,7 +60,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(sizeOfNetwork);
 		
-		numOrProba = new UITextSwitch(xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", false, new ClickListener(){
+		numOrProba = new UITextSwitch(xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", 1, new ClickListener(){
 			@Override
 			public void onClick() {
 				numOrProba.switchIt();
@@ -75,7 +75,13 @@ public class MenuState extends State {
 				
 			}
 		});
-		
+		minMaxTransfer = new UITextSwitch(xStart, yStart+7*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", 0, new ClickListener(){
+			@Override
+			public void onClick() {
+				minMaxTransfer.switchIt();
+				simulation.getSimState().getNetwork().setTransfers(minMaxTransfer.getChosenArg());
+			}
+		});
 		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -109,6 +115,11 @@ public class MenuState extends State {
 			this.uiManager.addObject(globalMultiplier);
 		} else if (!DataManager.useProbabilities && this.uiManager.getObjects().contains(globalMultiplier)) {
 			this.uiManager.removeObject(globalMultiplier);
+		}
+		if (DataManager.useProbabilities && !this.uiManager.getObjects().contains(minMaxTransfer)) {
+			this.uiManager.addObject(minMaxTransfer);
+		} else if (!DataManager.useProbabilities && this.uiManager.getObjects().contains(minMaxTransfer)) {
+			this.uiManager.removeObject(minMaxTransfer);
 		}
 		this.uiManager.tick();
 		

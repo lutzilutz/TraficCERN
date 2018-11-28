@@ -1,6 +1,7 @@
 package network;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import data.DataManager;
@@ -231,6 +232,70 @@ public class NetworkComputing {
 			else if (endRoad.equals("rRouteBellSW")) {DataManager.flowPerExitEmpiric[15]++;}
 		}
 	}
+	public static ArrayList<Ride> applyTransfers(Network n, ArrayList<Ride> rides) {
+		String firstConnection = rides.get(0).getRoadName();
+		String lastConnection = rides.get(0).getNextConnections().get(rides.get(0).getNextConnections().size()-1).getName();
+		ArrayList<Ride> newRides = new ArrayList<Ride>();
+		double percentage = 0;
+		
+		// Entrance B to E ----------------------------------------------------------------------------------
+		if (lastConnection.equals("rRoutePauliSouthSW")) {
+			
+			if (n.getTransfers()==1) {percentage = 0.3;}
+			else if (n.getTransfers()==2) {percentage = 0.7;}
+			
+			for (AllNetworkRides anr: n.getAllNetworkRides()) {
+				for (Ride r: anr.getNetworkRides()) {
+					
+					if (r.getNextConnections().size()>0 && Math.random()<percentage) {
+						if (firstConnection.equals("rD884NE") && r.getRoadName().equals(firstConnection)) {
+							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
+								newRides.add(r.clone());
+								return newRides;
+							}
+						} else if (r.getRoadName().equals(firstConnection)) {
+							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+								newRides.add(r.clone());
+								return newRides;
+							}
+						}
+					}
+				}
+			}
+			return rides;
+		}
+		
+		// Entrance A to E ----------------------------------------------------------------------------------
+		else if (lastConnection.equals("rRouteBellSW")) {
+			
+			if (n.getTransfers()==1) {percentage = 0.2;}
+			else if (n.getTransfers()==2) {percentage = 0.5;}
+			
+			for (AllNetworkRides anr: n.getAllNetworkRides()) {
+				for (Ride r: anr.getNetworkRides()) {
+					
+					if (r.getNextConnections().size()>0 && Math.random()<percentage) {
+						if (firstConnection.equals("rD884NE") && r.getRoadName().equals(firstConnection)) {
+							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
+								newRides.add(r.clone());
+								return newRides;
+							}
+						} else if (r.getRoadName().equals(firstConnection)) {
+							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+								newRides.add(r.clone());
+								return newRides;
+							}
+						}
+					}
+					
+				}
+				
+			}
+			return rides;
+		} else {
+			return rides;
+		}
+	}
 	// Compute future state of the Cells of the Road
 	public static void computeEvolution(Network n) {
 		
@@ -260,12 +325,21 @@ public class NetworkComputing {
 				Vehicle tmp = new Vehicle(n);
 				
 				if (!n.isRandomGeneration()) {
-					tmp.addRide(n.selectRidesWithProbability(r.getName()));
+					ArrayList<Ride> tmpRides = new ArrayList<Ride>();
+					tmpRides = n.selectRidesWithProbability(r.getName());
+					
+					if (n.getTransfers()!=0 && (n.getSimulation().getSimState().isRushHours())) {
+						tmp.addRide(applyTransfers(n, tmpRides));
+					} else {
+						tmp.addRide(tmpRides);
+					}
+					if (tmp.getRide().size()==0) {
+						System.out.println("Racaille !");
+					}
 					saveRideIntoData(tmp.getRide().get(tmp.getIdCurrentRide()), n.getSimulation());
 				} else {
 					tmp.addRide(n.selectARide(r.getName()));
 				}
-				
 				chooseAspect(tmp);
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);

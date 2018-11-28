@@ -59,7 +59,7 @@ public class Vehicle {
 			nextPlace = null;
 			exitingTime = n.getSimulation().getSimState().getStep();
 			DataManager.timeSpent.add(exitingTime-enteringTime);
-			System.out.println(exitingTime - enteringTime);
+			//System.out.println(exitingTime - enteringTime);
 		}
 	}
 	public int checkNextCells(int nCells) {

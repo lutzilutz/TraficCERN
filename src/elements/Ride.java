@@ -29,6 +29,7 @@ public class Ride implements Cloneable {
 		for (Connection c: nextConnections) {
 			c.print();
 		}
+		System.out.println();
 	}
 	
 	public void addNextConnection(Connection c) {
