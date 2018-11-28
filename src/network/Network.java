@@ -51,7 +51,7 @@ public class Network {
 	private int maxSpeed = 2;
 	private boolean randomGeneration = true;
 	
-	private int transfers = 2;//0=none, 1=min, 2=max
+	private int transfers = 0;//0=none, 1=min, 2=max
 	
 	public Network(Simulation sim, int n, int size) {
 		this.setCellWidth((int) (Math.pow(2, 1+size)));
@@ -213,7 +213,7 @@ public class Network {
 		rD884NE.addExit("rD884CERN", 27);
 		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
 		rD884CERN.addEnter("rD884NE", 0);
-		rD884CERN.setMaxOutflow(40);
+		rD884CERN.setMaxOutflow(8);
 		
 		// LHC --------------------------------------------------------------------------------------------------------
 		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");

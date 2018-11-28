@@ -321,7 +321,8 @@ public class NetworkComputing {
 			if (r.getName().equals("rD884NE")) {
 				//System.out.println(r.getFlow());
 			}
-			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
+			double rnd = Math.random();
+			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && rnd < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
 				
 				if (!n.isRandomGeneration()) {
@@ -344,7 +345,7 @@ public class NetworkComputing {
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
-			} else if (n.isRandomGeneration() && Math.random() < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
+			} else if (n.isRandomGeneration() && rnd < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
 				tmp.addRide(n.selectARide(r.getName()));
 				r.addNewVehicle(tmp);
