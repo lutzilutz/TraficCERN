@@ -68,7 +68,7 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		dataLeakyBuckets.print("Time Thoiry St-Genis Ferney Tun Geneva\n");
+		dataLeakyBuckets.print("Thoiry St-Genis Ferney Tun Geneva\n");
 	}
 	public static void initDataCounters() {
 		try {
