@@ -69,7 +69,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(numOrProba);
 		
-		globalMultiplier = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, 16, true, new ClickListener(){
+		globalMultiplier = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, (int) (DataManager.globalFlowMultiplier*100 - 100), true, new ClickListener(){
 			@Override
 			public void onClick() {
 				

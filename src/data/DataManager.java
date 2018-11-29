@@ -396,7 +396,7 @@ public class DataManager {
 	
 	public static int[] flowPerExitEmpiric = new int[16];
 	
-	public static double globalFlowMultiplier = 1.14;
+	public static double globalFlowMultiplier = 1.10;
 	
 	// ============================================================================================
 	// Light system ===============================================================================
