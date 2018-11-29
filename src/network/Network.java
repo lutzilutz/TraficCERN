@@ -51,8 +51,6 @@ public class Network {
 	private int maxSpeed = 2;
 	private boolean randomGeneration = true;
 	
-	private int transfers = 0;//0=none, 1=min, 2=max
-	
 	public Network(Simulation sim, int n, int size) {
 		this.setCellWidth((int) (Math.pow(2, 1+size)));
 		this.setCellHeight((int) (Math.pow(2, 1+size)));
@@ -1761,12 +1759,6 @@ public class Network {
 	}
 	public boolean isRandomGeneration() {
 		return randomGeneration;
-	}
-	public int getTransfers() {
-		return transfers;
-	}
-	public void setTransfers(int transfers) {
-		this.transfers = transfers;
 	}
 	public int getN() {
 		return n;

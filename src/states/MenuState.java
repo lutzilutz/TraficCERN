@@ -79,7 +79,7 @@ public class MenuState extends State {
 			@Override
 			public void onClick() {
 				minMaxTransfer.switchIt();
-				simulation.getSimState().getNetwork().setTransfers(minMaxTransfer.getChosenArg());
+				DataManager.transfers = minMaxTransfer.getChosenArg();
 			}
 		});
 		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
