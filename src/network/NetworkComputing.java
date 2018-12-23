@@ -242,7 +242,7 @@ public class NetworkComputing {
 		if (lastConnection.equals("rRoutePauliSouthSW")) {
 			
 			if (DataManager.transfers==1) {percentage = 0.3;}
-			else if (DataManager.transfers==2) {percentage = 1.7;}
+			else if (DataManager.transfers==2) {percentage = 0.7;}
 			
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {
@@ -269,7 +269,7 @@ public class NetworkComputing {
 		else if (lastConnection.equals("rRouteBellSW")) {
 			
 			if (DataManager.transfers==1) {percentage = 0.2;}
-			else if (DataManager.transfers==2) {percentage = 1.5;}
+			else if (DataManager.transfers==2) {percentage = 0.5;}
 			
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {
@@ -318,30 +318,10 @@ public class NetworkComputing {
 		for (Road r: n.getRoads()) {
 			
 			// generation of new Vehicles
-			if (r.getName().equals("rD884NE")) {
-				//System.out.println(r.getFlow());
-			}
 			double rnd = Math.random();
 			if (r.getFlow().get(n.getSimulation().getSimState().getHours()) > 0 && rnd < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
 				Vehicle tmp = new Vehicle(n);
 				
-				if (!n.isRandomGeneration()) {
-					ArrayList<Ride> tmpRides = new ArrayList<Ride>();
-					tmpRides = n.selectRidesWithProbability(r.getName());
-					
-					if (DataManager.transfers!=0 && (n.getSimulation().getSimState().isRushHours())) {
-						tmp.addRide(applyTransfers(n, tmpRides));
-					} else {
-						tmp.addRide(tmpRides);
-					}
-					if (tmp.getRide().size()==0) {
-						System.out.println("Racaille !");
-					}
-					saveRideIntoData(tmp.getRide().get(tmp.getIdCurrentRide()), n.getSimulation());
-				} else {
-					tmp.addRide(n.selectARide(r.getName()));
-				}
-				chooseAspect(tmp);
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
@@ -483,6 +463,25 @@ public class NetworkComputing {
 				v.setNextPlace(r.getRoadCells().get(0));
 				v.setInBucket(false);
 				r.removeVehicleFromBucket(r.getLeakyBucket().get(0));
+				
+				if (!n.isRandomGeneration()) {
+					ArrayList<Ride> tmpRides = new ArrayList<Ride>();
+					tmpRides = n.selectRidesWithProbability(r.getName());
+					
+					if (DataManager.transfers!=0 && (n.getSimulation().getSimState().isRushHours())) {
+						v.addRide(applyTransfers(n, tmpRides));
+					} else {
+						v.addRide(tmpRides);
+					}
+					if (v.getRide().size()==0) {
+						System.out.println("Racaille !");
+					}
+					saveRideIntoData(v.getRide().get(v.getIdCurrentRide()), n.getSimulation());
+				} else {
+					v.addRide(n.selectARide(r.getName()));
+				}
+				chooseAspect(v);
+				
 			}
 		}
 		
