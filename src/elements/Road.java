@@ -25,6 +25,7 @@ public class Road {
 	private ArrayList<Point> reorientations = new ArrayList<Point>();
 	private int maxOutflow = 0; // maximum outflow, in seconds between 2 vehicles
 	private int outflowCounter = 0; // outflow counter
+	private boolean useSingleOutflow = true;
 	private boolean isBlocked = false;
 	private boolean startOutflowCount = false;
 	private VehicleCounter vehicleCounter = null;
@@ -71,26 +72,29 @@ public class Road {
 	}
 	public void outflowTick() {
 		
-		if (startOutflowCount) {
-			if (outflowCounter <= 0) {
-				outflowCounter = maxOutflow;
-				isBlocked = false;
-				startOutflowCount = false;
+		if (useSingleOutflow) {
+		
+			if (startOutflowCount) {
+				if (outflowCounter <= 0) {
+					outflowCounter = maxOutflow;
+					isBlocked = false;
+					startOutflowCount = false;
+				} else {
+					outflowCounter--;
+					isBlocked = true;
+				}
 			} else {
-				outflowCounter--;
-				isBlocked = true;
+				isBlocked = false;
 			}
-		} else {
-			isBlocked = false;
-		}
-		
-		if (roadCells.get(roadCells.size()-1).getVehicle() != null) {
-			if (!startOutflowCount) {
-				startOutflowCount = true;
+			
+			if (roadCells.get(roadCells.size()-1).getVehicle() != null) {
+				if (!startOutflowCount) {
+					startOutflowCount = true;
+				}
 			}
+			
+			roadCells.get(roadCells.size()-1).setBlocked(isBlocked);
 		}
-		
-		roadCells.get(roadCells.size()-1).setBlocked(isBlocked);
 	}
 	public void setCounter(double location, String name) {
 		vehicleCounter = new VehicleCounter(n, this, location, name);
@@ -400,6 +404,15 @@ public class Road {
 		}
 		
 	}
+	public int getNumberOfVehiclesAtEnd(int size) {
+		int n = 0;
+		for (int i=roadCells.size()-1 ; i>=roadCells.size()-1-size ; i--) {
+			if (roadCells.get(i).getVehicle() != null) {
+				n++;
+			}
+		}
+		return n;
+	}
 	public int getNumberOfVehicles(int speed) {
 		int n = 0;
 		for (Cell cell: roadCells) {
@@ -544,5 +557,11 @@ public class Road {
 		for (Cell c: this.getRoadCells()) {
 			c.setMaxSpeed(maxSpeed);
 		}
+	}
+	public void useSingleOutflow(boolean useSingleOutflow) {
+		this.useSingleOutflow = useSingleOutflow;
+	}
+	public void setIsBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
 }

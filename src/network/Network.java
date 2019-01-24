@@ -9,6 +9,7 @@ import java.util.HashSet;
 import elements.Cell;
 import elements.Connection;
 import elements.CrossRoad;
+import elements.MaxVehicleOutflow;
 import elements.MultiLaneRoundAbout;
 import elements.Phase;
 import elements.Ride;
@@ -33,6 +34,7 @@ public class Network {
 	private ArrayList<TrafficLightsSystem> trafficLightsSystems = new ArrayList<TrafficLightsSystem>();
 	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+	private ArrayList<MaxVehicleOutflow> maxVehicleOutflows = new ArrayList<MaxVehicleOutflow>();
 	private int numberOfVehicles = 0;
 	private int cellWidth=10, cellHeight=cellWidth;
 	
@@ -517,6 +519,10 @@ public class Network {
 		rD984FSES.setCounter(0.3, "counter 2A");
 		rD984FNWS.setCounter(0.702, "coutner 2B");
 		
+		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
+		outflowEntranceE.addRoad(rSortieCERNSE);
+		maxVehicleOutflows.add(outflowEntranceE);
+		
 	}
 	
 	public void createRealNetworkMulti() {
@@ -639,6 +645,8 @@ public class Network {
 		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
 		rD884CERN.addEnter("rD884NE", 0);
 		rD884CERN.setMaxOutflow(8);
+		
+		
 		
 		// LHC --------------------------------------------------------------------------------------------------------
 		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
@@ -1122,6 +1130,10 @@ public class Network {
 		
 		rD984FSES.setCounter(0.3, "counter 2A");
 		rD984FNWS.setCounter(0.702, "coutner 2B");
+		
+		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
+		outflowEntranceE.addRoad(rSortieCERNSE);
+		maxVehicleOutflows.add(outflowEntranceE);
 		
 	}
 	public void createRealNetworkSingle() {
@@ -1843,6 +1855,9 @@ public class Network {
 	}
 	public ArrayList<RoundAbout> getRoundAbouts() {
 		return this.roundAbouts;
+	}
+	public ArrayList<MaxVehicleOutflow> getMaxVehicleOutflows() {
+		return this.maxVehicleOutflows;
 	}
 	public boolean getDrawVehicleColor() {
 		return this.drawVehicleColor;

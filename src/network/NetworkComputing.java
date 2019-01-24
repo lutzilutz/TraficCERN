@@ -7,6 +7,7 @@ import java.util.Iterator;
 import data.DataManager;
 import elements.Cell;
 import elements.CrossRoad;
+import elements.MaxVehicleOutflow;
 import elements.Ride;
 import elements.Road;
 import elements.RoundAbout;
@@ -143,14 +144,6 @@ public class NetworkComputing {
 			}
 		}
 	}
-	
-	public static boolean isRoadInFrance(Network n, String name) {
-		if (name.equals("rD884NE") || name.equals("rRouteDeGeneveSE") || name.equals("rRueGermaineTillionSW") || name.equals("rC5SW")) {
-			return true;
-		}
-		return false;
-	}
-	
 	// Updates data with the new ride
 	public static void saveRideIntoData(Ride ride, Simulation simulation) {
 		
@@ -247,7 +240,7 @@ public class NetworkComputing {
 		double percentage = 0;
 		
 		// Entrance B to E ----------------------------------------------------------------------------------
-		if (lastConnection.equals("rRoutePauliSouthSW") && isRoadInFrance(n, lastConnection)) {
+		if (lastConnection.equals("rRoutePauliSouthSW")) {
 			
 			if (DataManager.transfers==1) {percentage = 0.3;}
 			else if (DataManager.transfers==2) {percentage = 0.7;}
@@ -274,7 +267,7 @@ public class NetworkComputing {
 		}
 		
 		// Entrance A to E ----------------------------------------------------------------------------------
-		else if (lastConnection.equals("rRouteBellSW") && isRoadInFrance(n, lastConnection)) {
+		else if (lastConnection.equals("rRouteBellSW")) {
 			
 			if (DataManager.transfers==1) {percentage = 0.2;}
 			else if (DataManager.transfers==2) {percentage = 0.5;}
@@ -342,7 +335,13 @@ public class NetworkComputing {
 			} 
 			
 			// tick for outflow
-			r.outflowTick();
+			//r.outflowTick();
+		}
+		
+		for (MaxVehicleOutflow maxVhcOutflow: n.getMaxVehicleOutflows()) {
+			
+			maxVhcOutflow.tick();
+			
 		}
 		
 		for (CrossRoad cr: n.getCrossRoads()) {
