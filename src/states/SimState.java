@@ -30,6 +30,9 @@ public class SimState extends State {
 	private boolean paused = false;
 	private boolean askExit = false;
 	private long lastTick;
+	private boolean firstSimulation = true;
+	private int numberOfSimulations = 1;
+	private int simulationID = 1;
 	private boolean restarting = false;
 	private boolean finished = false;
 	
@@ -291,8 +294,14 @@ public class SimState extends State {
 						step++;
 						if (step >= 86400 && !finished) {
 							Utils.saveCheckingValues();
-							switchPause();
-							finished = true;
+							if (simulationID < numberOfSimulations) {
+								step = 1;
+								simulationID++;
+								network.restart();
+							} else {
+								switchPause();
+								finished = true;
+							}
 						}
 						updateRH();
 						NetworkComputing.computeEvolution(network);
@@ -374,7 +383,6 @@ public class SimState extends State {
 	
 	public void render(Graphics g) {
 		
-		
 		if (!restarting) {
 			g.drawImage(background, 0, 0, null);
 			Graphics2D gg = (Graphics2D) g.create();
@@ -438,6 +446,16 @@ public class SimState extends State {
 		}
 	}
 	// Getters & setters ====================================================================================
+	public int getSimulationID() {
+		return this.simulationID;
+	}
+	public int getNumberOfSimulation() {
+		return this.numberOfSimulations;
+	}
+	public void setNumberOfSimulations(int numberOfSimulations) {
+		this.numberOfSimulations = numberOfSimulations;
+		this.simulationID = 1;
+	}
 	public boolean isRushHours() {
 		return rushHours;
 	}

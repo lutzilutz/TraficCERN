@@ -27,7 +27,7 @@ public class MenuState extends State {
 	private int sliderWidth = 500;
 	
 	private UITextButton network2, network3;
-	private UISlider sizeOfNetwork, globalMultiplier;
+	private UISlider sizeOfNetwork, globalMultiplier, nOfSimulations;
 	private UITextSwitch numOrProba, minMaxTransfer;
 	
 	public MenuState(Simulation simulation) {
@@ -52,7 +52,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(network3);
 		
-		sizeOfNetwork = new UISlider(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, 2, false, new ClickListener(){
+		sizeOfNetwork = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, 2, false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -60,7 +60,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(sizeOfNetwork);
 		
-		numOrProba = new UITextSwitch(xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", 1, new ClickListener(){
+		numOrProba = new UITextSwitch(xStart, yStart+4*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", 1, new ClickListener(){
 			@Override
 			public void onClick() {
 				numOrProba.switchIt();
@@ -69,19 +69,26 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(numOrProba);
 		
-		globalMultiplier = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, (int) (DataManager.globalFlowMultiplier*100 - 100), true, new ClickListener(){
+		globalMultiplier = new UISlider(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, (int) (DataManager.globalFlowMultiplier*100 - 100), true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
-		minMaxTransfer = new UITextSwitch(xStart, yStart+7*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", 0, new ClickListener(){
+		minMaxTransfer = new UITextSwitch(xStart, yStart+6*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", 0, new ClickListener(){
 			@Override
 			public void onClick() {
 				minMaxTransfer.switchIt();
 				DataManager.transfers = minMaxTransfer.getChosenArg();
 			}
 		});
+		nOfSimulations = new UISlider(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Number of simulations", 100, 1, 1, false, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
+		this.uiManager.addObject(nOfSimulations);
 		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -105,6 +112,7 @@ public class MenuState extends State {
 			DataManager.applyDataProba(simulation);
 			simulation.getSimState().enableUIManager();
 			State.setState(simulation.getSimState());
+			simulation.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
 		} else {
 			simulation.getSimSettingsState().enableUIManager();
 			State.setState(simulation.getSimSettingsState());

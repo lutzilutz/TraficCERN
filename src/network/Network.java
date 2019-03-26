@@ -1781,6 +1781,9 @@ public class Network {
 	public void increaseNumberOfVehicles(int n) {
 		numberOfVehicles += n;
 	}
+	public void setVehicles(ArrayList<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
 	public ArrayList<Vehicle> getVehicles() {
 		return vehicles;
 	}

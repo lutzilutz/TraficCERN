@@ -619,4 +619,7 @@ public class NetworkComputing {
 			}
 		}
 	}
+	public static void clearVehicles(Network n) {
+		n.restart();
+	}
 }

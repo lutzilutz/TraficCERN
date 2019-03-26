@@ -732,6 +732,7 @@ public class DataManager {
 			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
 		}
 	}
+	// OBSOLTED
 	public static void applyDataNumerical(Simulation simulation) {
 		
 		if (!useProbabilities) {

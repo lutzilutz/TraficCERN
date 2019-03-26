@@ -447,11 +447,12 @@ public class NetworkRendering {
 	}
 	public static void renderInformations(Network n, Graphics g) {
 		g.setColor(Color.white);
-		g.drawString("Vehicles :    " + Integer.toString(n.getNumberOfVehicles()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-90);
-		g.drawString("Steps :    " + Integer.toString(n.getSimulation().getSimState().getStep()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-70);
-		g.drawString("Time :    " + n.getSimulation().getSimState().getTime(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-50);
-		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getSimState().getStepSize())/10.0) + " km/h", n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-30);
-		g.drawString("Rush hours : " + n.getSimulation().getSimState().isRushHours(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-10);
+		g.drawString("Simulation :    " + Integer.toString(n.getSimulation().getSimState().getSimulationID()) + "/" + Integer.toString(n.getSimulation().getSimState().getNumberOfSimulation()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-90);
+		g.drawString("Vehicles :    " + Integer.toString(n.getNumberOfVehicles()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-70);
+		g.drawString("Steps :    " + Integer.toString(n.getSimulation().getSimState().getStep()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-50);
+		g.drawString("Time :    " + n.getSimulation().getSimState().getTime(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-30);
+		g.drawString("Speed : " + ((int) (10*3.6*7.5/n.getSimulation().getSimState().getStepSize())/10.0) + " km/h", n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-10);
+		//g.drawString("Rush hours : " + n.getSimulation().getSimState().isRushHours(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-10);
 		
 		if (n.getDrawVehicleColor()) {
 			int x = 660;
