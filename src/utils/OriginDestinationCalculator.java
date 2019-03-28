@@ -4,10 +4,10 @@ public class OriginDestinationCalculator {
 	private double[][] entries;					// k x n
 	private double[][] exits;					// k x m
 	private boolean[][] links;					// n x m
-	public double[][] betas;					// k x n 
-	public double[][][] P;						// n x m x k
+	private double[][] betas;					// k x n 
+	private double[][][] P;						// n x m x k
 	
-	OriginDestinationCalculator(double[][] I, double[][] O, boolean[][] L) {
+	public OriginDestinationCalculator(double[][] I, double[][] O, boolean[][] L) {
 		entries=I;
 		exits=O;
 		links=L;
@@ -22,6 +22,8 @@ public class OriginDestinationCalculator {
 
 	}
 	
+	
+
 	private void computeCoeff() {
 		for (int k=0; k<P[0][0].length; ++k) {
 			for (int i=0; i<P.length; ++i) {
@@ -79,6 +81,14 @@ public class OriginDestinationCalculator {
 			}
 			System.out.println("");
 		}
+	}
+	
+	public double[][][] getP() {
+		return P;
+	}
+
+	public void setP(double[][][] p) {
+		P = p;
 	}
 	
 	public static void main(String[] args) {
