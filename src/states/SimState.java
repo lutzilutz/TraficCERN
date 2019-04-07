@@ -15,6 +15,7 @@ import ui.UIImageButton;
 import ui.UIManager;
 import ui.UITextButton;
 import ui.UITextSwitch;
+import utils.ExpVarCalculator;
 import utils.Utils;
 
 public class SimState extends State {
@@ -58,6 +59,12 @@ public class SimState extends State {
 	private BufferedImage background;
 	private int currentBackgroundID = 0;
 	private int currentNetwork = -1;
+	
+	private ExpVarCalculator leakyBucketsEVC_rD884NE;
+	private ExpVarCalculator leakyBucketsEVC_rRueDeGeneveSE;
+	private ExpVarCalculator leakyBucketsEVC_rRueGermaineTillionSW;
+	private ExpVarCalculator leakyBucketsEVC_rC5SW;
+	private ExpVarCalculator leakyBucketsEVC_rRouteDeMeyrinSouthNW;
 	
 	public SimState(Simulation simulation) {
 		super(simulation);
@@ -235,12 +242,18 @@ public class SimState extends State {
 		
 		NetworkComputing.computeCellsPosition(network);
 		
-		// Rendering background ---------------------------------------------------
+		// Rendering background -------------------------------------------------------------------
 		background = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_RGB);
 		networkDisplays = new BufferedImage[8];
 		hud = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		renderBG(network, networkDisplays);
-		// ------------------------------------------------------------------------
+		// Init output structures -----------------------------------------------------------------
+		leakyBucketsEVC_rD884NE = new ExpVarCalculator(24*4);
+		leakyBucketsEVC_rRueDeGeneveSE = new ExpVarCalculator(24*4);
+		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4);
+		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4);
+		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4);
+		// ----------------------------------------------------------------------------------------
 		
 		lastTick = System.nanoTime();
 		
@@ -301,6 +314,8 @@ public class SimState extends State {
 							} else {
 								switchPause();
 								finished = true;
+								System.out.println("finiiiii");
+								NetworkComputing.writeFinalData(network);
 							}
 						}
 						updateRH();
@@ -404,6 +419,11 @@ public class SimState extends State {
 		step = 1;
 		network.restart();
 		Utils.initAllData();
+		leakyBucketsEVC_rC5SW.saveTemp();
+		leakyBucketsEVC_rD884NE.saveTemp();
+		leakyBucketsEVC_rRouteDeMeyrinSouthNW.saveTemp();
+		leakyBucketsEVC_rRueDeGeneveSE.saveTemp();
+		leakyBucketsEVC_rRueGermaineTillionSW.saveTemp();
 	}
 	
 	// Return time in format "hh:mm:ss"
@@ -446,6 +466,21 @@ public class SimState extends State {
 		}
 	}
 	// Getters & setters ====================================================================================
+	public ExpVarCalculator getLBrD884NE() {
+		return this.leakyBucketsEVC_rD884NE;
+	}
+	public ExpVarCalculator getLBrRueDeGeneveSE() {
+		return this.leakyBucketsEVC_rRueDeGeneveSE;
+	}
+	public ExpVarCalculator getLBrRueGermaineTillionSW() {
+		return this.leakyBucketsEVC_rRueGermaineTillionSW;
+	}
+	public ExpVarCalculator getLBrC5SW() {
+		return this.leakyBucketsEVC_rC5SW;
+	}
+	public ExpVarCalculator getLBrRouteDeMeyrinSouthNW() {
+		return this.leakyBucketsEVC_rRouteDeMeyrinSouthNW;
+	}
 	public int getSimulationID() {
 		return this.simulationID;
 	}
