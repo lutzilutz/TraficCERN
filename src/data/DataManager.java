@@ -472,9 +472,10 @@ public class DataManager {
 				}
 			}
 		}
+		ODC2.println(0);
 	}
 
-	public static int[][] flowPerExit = new int[][] {
+	public static int[][] flowPerExit = new int[24][18]; /*{
 
 		{77, 10, 191, 0, 0, 29, 94, 1, 0, 264, 14, 53, 0, 0, 12, 58, 1},
 		{43, 10, 93, 0, 0, 25, 35, 1, 0, 126, 14, 29, 0, 0, 7, 30, 1},
@@ -500,7 +501,7 @@ public class DataManager {
 		{298, 200, 242, 0, 0, 139, 172, 4, 0, 495, 205, 152, 0, 0, 31, 169, 3},
 		{260, 200, 216, 0, 0, 105, 174, 1, 0, 441, 205, 133, 0, 0, 23, 154, 0},
 		{192, 200, 189, 0, 0, 196, 48, 1, 0, 389, 206, 99, 0, 0, 12, 118, 2}
-	};
+	};*/
 
 	public static int[] flowPerExitEmpiric = new int[16];
 
@@ -554,30 +555,30 @@ public class DataManager {
 
 		double[][] Matrice_M =
 			{
-				{	264,	14,		53,		0+0,		0-		0,		12,		58,		1	},
-				{	126,	14,		29,		0+0,		0-		0,		7,		30,		1	},
-				{	87,		13,		19,		0+0,		0-		0,		2,		23,		1	},
-				{	68,		24,		31,		0+0,		0-		0,		4,		37,		0	},
-				{	88,		21,		110,	0+0,		0-		0,		8,		139,	0	},
-				{	147,	111,	309,	0+0,		0-		0,		47,		363,	2	},
-				{	365,	157,	688,	0+0,		0-		0,		149,	800,	0	},
-				{	704,	142,	583,	332+331,	170-	27,		226,	1200,	111	},
-				{	686,	225,	712,	386+386,	278-	114,	354,	1100,	263	},
-				{	758,	178,	683,	143+144,	252-	99,		390,	900,	180	},
-				{	914,	147,	525,	0+0,		0-		0,		295,	500,	106	},
-				{	1026,	139,	465,	0+0,		0-		0,		239,	286,	94	},
-				{	1212,	139,	448,	0+0,		0-		0,		256,	216,	124	},
-				{	981,	138,	557,	0+0,		0-		0,		453,	64,		226	},
-				{	1177,	139,	469,	0+0,		0-		0,		293,	213,	118	},
-				{	1311,	140,	466,	0+0,		0-		0,		183,	373,	65	},
-				{	1810,	141,	470,	0+0,		0-		0,		154,	409,	62	},
-				{	1807,	553,	591,	0+0,		251-	73,		116,	500,	72	},
-				{	1644,	585,	779,	0+0,		204-	1,		115,	550,	40	},
-				{	1304,	487,	661,	0+0,		163-	0,		120,	600,	4	},
-				{	684,	200,	305,	0+0,		0-		0,		50,		344,	12	},
-				{	495,	205,	152,	0+0,		0-		0,		31,		169,	3	},
-				{	441,	205,	152,	0+0,		0-		0,		23,		154,	0	},
-				{	389,	206,	99,		0+0,		0-		0,		12,		118,	2	}
+				{	264,	14,		53,		0+0,		0,		0,		12,		58,		1	},
+				{	126,	14,		29,		0+0,		0,		0,		7,		30,		1	},
+				{	87,		13,		19,		0+0,		0,		0,		2,		23,		1	},
+				{	68,		24,		31,		0+0,		0,		0,		4,		37,		0	},
+				{	88,		21,		110,	0+0,		0,		0,		8,		139,	0	},
+				{	147,	111,	309,	0+0,		0,		0,		47,		363,	2	},
+				{	365,	157,	688,	0+0,		0,		0,		149,	800,	0	},
+				{	704,	142,	583,	332+331,	170,	27,		226,	1200,	111	},
+				{	686,	225,	712,	386+386,	278,	114,	354,	1100,	263	},
+				{	758,	178,	683,	143+144,	252,	99,		390,	900,	180	},
+				{	914,	147,	525,	0+0,		0,		0,		295,	500,	106	},
+				{	1026,	139,	465,	0+0,		0,		0,		239,	286,	94	},
+				{	1212,	139,	448,	0+0,		0,		0,		256,	216,	124	},
+				{	981,	138,	557,	0+0,		0,		0,		453,	64,		226	},
+				{	1177,	139,	469,	0+0,		0,		0,		293,	213,	118	},
+				{	1311,	140,	466,	0+0,		0,		0,		183,	373,	65	},
+				{	1810,	141,	470,	0+0,		0,		0,		154,	409,	62	},
+				{	1807,	553,	591,	0+0,		251,	73,		116,	500,	72	},
+				{	1644,	585,	779,	0+0,		204,	1,		115,	550,	40	},
+				{	1304,	487,	661,	0+0,		163,	0,		120,	600,	4	},
+				{	684,	200,	305,	0+0,		0,		0,		50,		344,	12	},
+				{	495,	205,	152,	0+0,		0,		0,		31,		169,	3	},
+				{	441,	205,	152,	0+0,		0,		0,		23,		154,	0	},
+				{	389,	206,	99,		0+0,		0,		0,		12,		118,	2	}
 			};
 		for (int i=0; i<Matrice_N[0].length+Matrice_M[0].length; ++i) {
 			for (int j=0; j<24; ++j) {
@@ -617,6 +618,7 @@ public class DataManager {
 		if (useProbabilities) {
 			initProbas();
 			initFlowPerExit();
+			
 			Utils.log("applying data (proba) to Network ... ");
 			applyDataToRidesProba(simulation);
 			applyDataToRoadsProba(simulation);
@@ -853,6 +855,7 @@ public class DataManager {
 	// in : entering road index in probas ; out : exiting road index in probas
 	public static void saveFlowIntoRide(Ride r, int in, int out) {
 		for (int i=0; i<24; i++) {
+			
 			r.setFlow(i, i+1, (float) (globalFlowMultiplier*probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
 		}
 	}
@@ -865,11 +868,14 @@ public class DataManager {
 			}
 			// RoutePauliSouthNELeft
 			else if (specialCase == 1) {
-				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][0][3]+probas[i][1][3]+probas[i][2][3]+probas[i][3][3]+probas[i][4][3]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][0][5]+probas[i][1][5]+probas[i][2][5]+probas[i][3][5]+probas[i][4][5]+probas[i][5][5]) * flowPerExit[i][index]));
 			}
 			// RoutePauliSouthNERight
 			else if (specialCase == 2) {
-				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][5][3]+probas[i][6][3]+probas[i][7][3]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][6][5]+probas[i][7][5]+probas[i][8][5]) * flowPerExit[i][index]));
+			}
+			if (specialCase != 0 && i==23) {
+				// System.out.println(road.getName() + " " + specialCase + " " + index + road.getFlow());
 			}
 		}
 	}

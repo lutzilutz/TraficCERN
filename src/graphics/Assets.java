@@ -29,6 +29,7 @@ public class Assets {
 	public static Color vhcCERNCol1 = new Color(200,0,0);
 	public static Color vhcCERNCol2 = new Color(255,100,0);
 	public static Color vhcCERNCol3 = new Color(255,200,0);
+	public static Color vhcCERNCol4 = new Color(155,0,255);
 	
 	// Fonts
 	public static Font normalFont = new Font("Arial", Font.PLAIN, 12);

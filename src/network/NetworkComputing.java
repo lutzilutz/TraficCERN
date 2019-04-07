@@ -553,6 +553,7 @@ public class NetworkComputing {
 		else if (v.isSource("rRouteDeMeyrinSouthNW")) {v.setSrcColor(Assets.vhcSuisseCol);}
 		else if (v.isSource("rRouteBellNE") || v.isSource("rRouteBellNELeft")) {v.setSrcColor(Assets.vhcCERNCol3);}
 		else if (v.isSource("rRoutePauliSouthNELeft") || v.isSource("rRoutePauliSouthNERight")) {v.setSrcColor(Assets.vhcCERNCol2);}
+		else if (v.isSource("rRoutePauliNorthSW")) {v.setSrcColor(Assets.vhcCERNCol4);}
 		else if (v.isSource("rSortieCERNNW")) {v.setSrcColor(Assets.vhcCERNCol1);}
 		
 		if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
@@ -563,6 +564,7 @@ public class NetworkComputing {
 			else if (v.isDestination("rRouteDeMeyrinSouthSE")) {v.setDstColor(Assets.vhcSuisseCol);}
 			else if (v.isDestination("rRouteBellSW")) {v.setDstColor(Assets.vhcCERNCol3);}
 			else if (v.isDestination("rRoutePauliSouthSW")) {v.setDstColor(Assets.vhcCERNCol2);}
+			else if (v.isDestination("rRoutePauliNorthNE")) {v.setDstColor(Assets.vhcCERNCol4);}
 			else if (v.isDestination("rSortieCERNSE") || v.isDestination("rD884CERN")) {v.setDstColor(Assets.vhcCERNCol1);}
 		}
 	}

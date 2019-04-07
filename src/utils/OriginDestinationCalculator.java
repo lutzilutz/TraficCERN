@@ -19,7 +19,6 @@ public class OriginDestinationCalculator {
 		}
 		P = new double[entries[0].length][exits[0].length][exits.length];
 		computeCoeff();
-
 	}
 	
 	
