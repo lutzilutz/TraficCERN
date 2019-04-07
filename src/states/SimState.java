@@ -314,7 +314,7 @@ public class SimState extends State {
 							} else {
 								switchPause();
 								finished = true;
-								System.out.println("finiiiii");
+								//System.out.println("finiiiii");
 								NetworkComputing.writeFinalData(network);
 							}
 						}
