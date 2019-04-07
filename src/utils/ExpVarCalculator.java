@@ -34,7 +34,7 @@ public class ExpVarCalculator {
 		if (tempX.size() < this.size) {
 			tempX.add(i);
 		} else {
-			System.out.println("Can't add another number to EVC");
+			// System.out.println("Can't add another number to EVC");
 		}
 	}
 	public void saveTemp() {
