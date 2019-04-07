@@ -566,18 +566,30 @@ public class NetworkComputing {
 			else if (v.isDestination("rSortieCERNSE") || v.isDestination("rD884CERN")) {v.setDstColor(Assets.vhcCERNCol1);}
 		}
 	}
+	public static void writeFinalData(Network n) {
+		//Utils.writeDataLeakyBucketsAll(Utils.dataStrLeakyBucketsAll);
+		//Utils.saveDataLeakyBucketsAll();
+	}
 	// Write data every 15 minutes into output
 	public static void writeData15Minutes(Network n) {
 		
 		if (!n.isRandomGeneration()) {
 			
-			//Utils.writeDataLeakyBuckets(n.getSimulation().getSimState().getTime() + " ");
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rD884NE").getLeakyBucket().size()) + " ");
+			n.getSimulation().getSimState().getLBrD884NE().addTemp(n.selectARoad("rD884NE").getLeakyBucket().size());
+			
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + " ");
+			n.getSimulation().getSimState().getLBrRueDeGeneveSE().addTemp(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size());
+			
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size()) + " ");
+			n.getSimulation().getSimState().getLBrRueGermaineTillionSW().addTemp(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size());
+			
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rC5SW").getLeakyBucket().size()) + " ");
+			n.getSimulation().getSimState().getLBrC5SW().addTemp(n.selectARoad("rC5SW").getLeakyBucket().size());
+			
 			if (n.selectARoad("rRouteDeMeyrinSouthNW") != null) {
 				Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
+				n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().addTemp(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size());
 			}
 		}
 	}

@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public class ExpVarCalculator {
 	private ArrayList<Long> X;
 	private ArrayList<Long> X2;
+	private ArrayList<Integer> tempX;
 	private int N = 0;
 	private int size;
 	
-	ExpVarCalculator(int n) {
+	public ExpVarCalculator(int n) {
 		size = n;
 		X = new ArrayList<Long>();
 		X2 = new ArrayList<Long>();
+		tempX = new ArrayList<Integer>();
 		for (int i = 0; i < n; ++i) {
 			X.add((long) 0);
 			X2.add((long) 0);
@@ -28,7 +30,17 @@ public class ExpVarCalculator {
 		}
 		System.out.println("");
 	}
-	
+	public void addTemp(Integer i) {
+		if (tempX.size() < this.size) {
+			tempX.add(i);
+		} else {
+			System.out.println("Can't add another number to EVC");
+		}
+	}
+	public void saveTemp() {
+		add(tempX);
+		tempX = new ArrayList<Integer>();
+	}
 	public void add(ArrayList<Integer> A) {
 		if (A.size() == this.size) {
 			++N;
@@ -63,7 +75,7 @@ public class ExpVarCalculator {
 		return ecartType;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		ExpVarCalculator C = new ExpVarCalculator(24);
 		C.println();
 		for (int i = 0; i < 10000; ++i) {
@@ -97,6 +109,5 @@ public class ExpVarCalculator {
 			System.out.print(Math.round(100*et_i)/100.0 + "\t");
 		}
 		System.out.println("");
-	}
-
+	}*/
 }

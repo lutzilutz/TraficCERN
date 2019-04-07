@@ -19,11 +19,13 @@ public class Utils {
 	public static PrintStream dataSegmentCounters;
 	public static PrintStream dataChecking;
 	public static PrintStream dataLeakyBuckets;
+	public static PrintStream dataLeakyBucketsAll;
 	public static PrintStream dataEnterExit;
 	public static PrintStream dataMeanTimeSpent;
 	public static String dataStrCounters = "";
 	public static String dataStrSegmentCounters = "";
 	public static String dataStrLeakyBuckets = "";
+	public static String dataStrLeakyBucketsAll = "";
 	public static String dataStrEnterExit = "";
 	public static String dataStrMeanTimeSpent = "";
 	public static String dataDir = "data";
@@ -69,6 +71,13 @@ public class Utils {
 			e.printStackTrace();
 		}
 		dataLeakyBuckets.print("Thoiry St-Genis Ferney Tun Geneva\n");
+		
+		try {
+			dataLeakyBucketsAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets_all.txt", false));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		dataLeakyBucketsAll.print("Thoiry St-Genis Ferney Tun Geneva\n");
 	}
 	public static void initDataCounters() {
 		try {
@@ -202,6 +211,9 @@ public class Utils {
 		saveDataEnterExit();
 		saveMeanTimeSpent();
 	}
+	public static void saveDataAll() {
+		
+	}
 	public static void writeDataCounters(String text) {
 		dataStrCounters = dataStrCounters + text;
 	}
@@ -222,6 +234,13 @@ public class Utils {
 	public static void saveDataLeakyBuckets() {
 		dataLeakyBuckets.print(dataStrLeakyBuckets);
 		dataStrLeakyBuckets = "";
+	}
+	/*public static void writeDataLeakyBucketsAll(String text) {
+		dataStrLeakyBucketsAll = dataStrLeakyBucketsAll + text;
+	}*/
+	public static void saveDataLeakyBucketsAll() {
+		dataLeakyBucketsAll.print(dataStrLeakyBucketsAll);
+		dataStrLeakyBucketsAll = "";
 	}
 	public static void saveDataEnterExit() {
 		
