@@ -6,7 +6,7 @@ public class ExpVarCalculator {
 	private ArrayList<Long> X;
 	private ArrayList<Long> X2;
 	private ArrayList<Integer> tempX;
-	private int N = 0;
+	private int n = 0;
 	private int size;
 	
 	public ExpVarCalculator(int n) {
@@ -43,17 +43,20 @@ public class ExpVarCalculator {
 	}
 	public void add(ArrayList<Integer> A) {
 		if (A.size() == this.size) {
-			++N;
+			//System.out.println("Good size in EVC");
+			n++;
 			for (int i=0; i<this.size; ++i) {
 				this.X.set(i, this.X.get(i) + A.get(i));
 				this.X2.set(i, (long) (this.X2.get(i) + Math.pow(A.get(i), 2)));
 			}
+		} else {
+			//System.out.println("Wrong size in EVC (expected " + size + ", got " + A.size() + ")");
 		}
 	}
 	public ArrayList<Float> getEsperance() {
 		ArrayList<Float> esp = new ArrayList<Float>();
 		for (int i=0; i<size; ++i) {
-			esp.add((float) (this.X.get(i)/(float) N));
+			esp.add((float) (this.X.get(i)/(float) n));
 		}
 		return esp;
 	}
@@ -61,7 +64,7 @@ public class ExpVarCalculator {
 	public ArrayList<Float> getVariance() {
 		ArrayList<Float> var = new ArrayList<Float>();
 		for (int i=0; i<size; ++i) {
-			var.add((float) (this.X2.get(i)/(float) N - Math.pow(this.X.get(i)/(float) N, 2)));
+			var.add((float) (this.X2.get(i)/(float) n - Math.pow(this.X.get(i)/(float) n, 2)));
 		}
 		return var;
 	}

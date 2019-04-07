@@ -235,9 +235,9 @@ public class Utils {
 		dataLeakyBuckets.print(dataStrLeakyBuckets);
 		dataStrLeakyBuckets = "";
 	}
-	/*public static void writeDataLeakyBucketsAll(String text) {
+	public static void writeDataLeakyBucketsAll(String text) {
 		dataStrLeakyBucketsAll = dataStrLeakyBucketsAll + text;
-	}*/
+	}
 	public static void saveDataLeakyBucketsAll() {
 		dataLeakyBucketsAll.print(dataStrLeakyBucketsAll);
 		dataStrLeakyBucketsAll = "";
