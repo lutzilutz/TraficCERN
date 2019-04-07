@@ -10,7 +10,7 @@
 bin/
 
 # log and data file
-data/
+data/OLD/
 data_*.txt
 log.txt
 data/*.txt
