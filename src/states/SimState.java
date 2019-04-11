@@ -315,7 +315,7 @@ public class SimState extends State {
 								switchPause();
 								finished = true;
 								//System.out.println("finiiiii");
-								NetworkComputing.writeFinalData(network);
+								//NetworkComputing.writeFinalData(network);
 							}
 						}
 						updateRH();
@@ -419,11 +419,11 @@ public class SimState extends State {
 		step = 1;
 		network.restart();
 		Utils.initAllData();
-		leakyBucketsEVC_rC5SW.saveTemp();
-		leakyBucketsEVC_rD884NE.saveTemp();
-		leakyBucketsEVC_rRouteDeMeyrinSouthNW.saveTemp();
-		leakyBucketsEVC_rRueDeGeneveSE.saveTemp();
-		leakyBucketsEVC_rRueGermaineTillionSW.saveTemp();
+		//leakyBucketsEVC_rC5SW.saveTemp();
+		//leakyBucketsEVC_rD884NE.saveTemp();
+		//leakyBucketsEVC_rRouteDeMeyrinSouthNW.saveTemp();
+		//leakyBucketsEVC_rRueDeGeneveSE.saveTemp();
+		//leakyBucketsEVC_rRueGermaineTillionSW.saveTemp();
 	}
 	
 	// Return time in format "hh:mm:ss"

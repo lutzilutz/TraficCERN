@@ -33,12 +33,14 @@ public class ExpVarCalculator {
 	public void addTemp(Integer i) {
 		if (tempX.size() < this.size) {
 			tempX.add(i);
+			//System.out.println("INF : Add another number to EVC, expected " + tempX.size() + ", got " + this.size + ")");
 		} else {
-			// System.out.println("Can't add another number to EVC");
+			System.out.println("ERR : Can't add another number to EVC (size mismatch in addTemp) expected " + size + ", got " + this.size + ")");
 		}
 	}
 	public void saveTemp() {
 		add(tempX);
+		//System.out.println("Saved temp data " + tempX.size());
 		tempX = new ArrayList<Integer>();
 	}
 	public void add(ArrayList<Integer> A) {
@@ -49,8 +51,9 @@ public class ExpVarCalculator {
 				this.X.set(i, this.X.get(i) + A.get(i));
 				this.X2.set(i, (long) (this.X2.get(i) + Math.pow(A.get(i), 2)));
 			}
+			tempX = new ArrayList<Integer>();
 		} else {
-			//System.out.println("Wrong size in EVC (expected " + size + ", got " + A.size() + ")");
+			System.out.println("ERR : Wrong size in EVC (expected " + size + ", got " + A.size() + ")");
 		}
 	}
 	public ArrayList<Float> getEsperance() {
@@ -58,6 +61,7 @@ public class ExpVarCalculator {
 		for (int i=0; i<size; ++i) {
 			esp.add((float) (this.X.get(i)/(float) n));
 		}
+		//System.out.println(X.get(0) + " - " + n + " - " + esp);
 		return esp;
 	}
 	
