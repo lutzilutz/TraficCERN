@@ -319,7 +319,7 @@ public class Road {
 										}
 									} else if (ride.getNextConnections().size() == 1) {
 										if (ent.getName().equals(ride.getRoadName())) {
-											if (ent.getPosition() >= e.getPosition()) {
+											if (ent.getPosition() > e.getPosition()) {
 												canAdd = false;
 											}
 										}
