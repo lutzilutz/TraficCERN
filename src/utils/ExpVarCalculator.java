@@ -2,7 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 
-public class ExpVarCalculator {
+public class ExpVarCalculator { 
 	private ArrayList<Long> X;
 	private ArrayList<Long> X2;
 	private ArrayList<Integer> tempX;
@@ -35,13 +35,15 @@ public class ExpVarCalculator {
 			tempX.add(i);
 			//System.out.println("INF : Add another number to EVC, expected " + tempX.size() + ", got " + this.size + ")");
 		} else {
-			System.out.println("ERR : Can't add another number to EVC (size mismatch in addTemp) expected " + size + ", got " + this.size + ")");
+			//System.out.println("ERR : Can't add another number to EVC (size mismatch in addTemp) expected " + size + ", got " + tempX.size() + ")");
 		}
 	}
 	public void saveTemp() {
+		//System.out.println(tempX);
+		//System.out.print("Saved temp data (size = " + tempX.size() + ")");
 		add(tempX);
-		//System.out.println("Saved temp data " + tempX.size());
 		tempX = new ArrayList<Integer>();
+		//System.out.println(", new size = " + tempX.size());
 	}
 	public void add(ArrayList<Integer> A) {
 		if (A.size() == this.size) {

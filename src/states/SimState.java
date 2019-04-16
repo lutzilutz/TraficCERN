@@ -248,11 +248,11 @@ public class SimState extends State {
 		hud = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		renderBG(network, networkDisplays);
 		// Init output structures -----------------------------------------------------------------
-		leakyBucketsEVC_rD884NE = new ExpVarCalculator(24*4);
-		leakyBucketsEVC_rRueDeGeneveSE = new ExpVarCalculator(24*4);
-		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4);
-		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4);
-		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4);
+		leakyBucketsEVC_rD884NE = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRueDeGeneveSE = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4-1);
 		// ----------------------------------------------------------------------------------------
 		
 		lastTick = System.nanoTime();

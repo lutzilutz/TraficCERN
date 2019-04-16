@@ -501,7 +501,8 @@ public class NetworkComputing {
 		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) {
 			Utils.saveData();
 		}
-		if (n.getSimulation().getSimState().getStep()%86400 == 0) {
+		if ((n.getSimulation().getSimState().getStep()+1)%86400 == 0) {
+			//System.out.println("Steps % 86400 = 0");
 			writeData24Hours(n);
 			if (n.getSimulation().getSimState().getSimulationID() == n.getSimulation().getSimState().getNumberOfSimulation()) {
 				writeFinalData(n);
@@ -577,19 +578,13 @@ public class NetworkComputing {
 	// Write data at the end of N simulations
 	public static void writeFinalData(Network n) {
 		
-		//for (int i=0 ; i<24*4 ; i++) {
-			//n.getSimulation().getSimState().getLBrD884NE().saveTemp();
-			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrD884NE().getEsperance().get(0)) + " ");
-			//System.out.println(n.getSimulation().getSimState().getLBrD884NE().getEsperance().get(i));
-			//n.getSimulation().getSimState().getLBrRueDeGeneveSE().saveTemp();
-			//Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueDeGeneveSE().getEsperance().get(i)) + " ");
-			//n.getSimulation().getSimState().getLBrRueGermaineTillionSW().saveTemp();
-			//Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueGermaineTillionSW().getEsperance().get(i)) + " ");
-			//n.getSimulation().getSimState().getLBrC5SW().saveTemp();
-			//Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrC5SW().getEsperance().get(i)) + " ");
-			//n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().saveTemp();
-			//Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().getEsperance().get(i)) + "\n");
-		//}
+		for (int i=0 ; i<24*4-1 ; i++) {
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrD884NE().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueDeGeneveSE().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueGermaineTillionSW().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrC5SW().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().getEsperance().get(i)) + "\n");
+		}
 		
 		Utils.saveDataLeakyBucketsAll();
 		
@@ -597,6 +592,10 @@ public class NetworkComputing {
 	// Write data at the end of a simulation
 	public static void writeData24Hours(Network n) {
 		n.getSimulation().getSimState().getLBrD884NE().saveTemp();
+		n.getSimulation().getSimState().getLBrRueDeGeneveSE().saveTemp();
+		n.getSimulation().getSimState().getLBrRueGermaineTillionSW().saveTemp();
+		n.getSimulation().getSimState().getLBrC5SW().saveTemp();
+		n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().saveTemp();
 	}
 	// Write data every 15 minutes into output
 	public static void writeData15Minutes(Network n) {
@@ -607,17 +606,17 @@ public class NetworkComputing {
 			n.getSimulation().getSimState().getLBrD884NE().addTemp(n.selectARoad("rD884NE").getLeakyBucket().size());
 			
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + " ");
-			//n.getSimulation().getSimState().getLBrRueDeGeneveSE().addTemp(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size());
+			n.getSimulation().getSimState().getLBrRueDeGeneveSE().addTemp(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size());
 			
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size()) + " ");
-			//n.getSimulation().getSimState().getLBrRueGermaineTillionSW().addTemp(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size());
+			n.getSimulation().getSimState().getLBrRueGermaineTillionSW().addTemp(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size());
 			
 			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rC5SW").getLeakyBucket().size()) + " ");
-			//n.getSimulation().getSimState().getLBrC5SW().addTemp(n.selectARoad("rC5SW").getLeakyBucket().size());
+			n.getSimulation().getSimState().getLBrC5SW().addTemp(n.selectARoad("rC5SW").getLeakyBucket().size());
 			
 			if (n.selectARoad("rRouteDeMeyrinSouthNW") != null) {
 				Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\n");
-				//n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().addTemp(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size());
+				n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().addTemp(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size());
 			}
 		}
 	}
