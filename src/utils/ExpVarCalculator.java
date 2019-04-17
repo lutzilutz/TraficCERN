@@ -55,7 +55,7 @@ public class ExpVarCalculator {
 			}
 			tempX = new ArrayList<Integer>();
 		} else {
-			System.out.println("ERR : Wrong size in EVC (expected " + size + ", got " + A.size() + ")");
+			Utils.log("ERR : Wrong size in EVC (expected " + size + ", got " + A.size() + ")\n");
 		}
 	}
 	public ArrayList<Float> getEsperance() {
