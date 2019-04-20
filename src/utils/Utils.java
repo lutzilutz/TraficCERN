@@ -77,7 +77,7 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		dataLeakyBucketsAll.print("Thoiry St-Genis Ferney Tun Geneva\n");
+		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-Var St-Genis-Exp St-Genis-Var Ferney-Exp Ferney-Var Tun-Exp Tun-Var Geneva-Exp Geneva-Var\n");
 	}
 	public static void initDataCounters() {
 		try {

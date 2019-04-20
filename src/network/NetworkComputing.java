@@ -524,10 +524,15 @@ public class NetworkComputing {
 		
 		for (int i=0 ; i<24*4-1 ; i++) {
 			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrD884NE().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrD884NE().getEcartType().get(i)) + " ");
 			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueDeGeneveSE().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueDeGeneveSE().getEcartType().get(i)) + " ");
 			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueGermaineTillionSW().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRueGermaineTillionSW().getEcartType().get(i)) + " ");
 			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrC5SW().getEsperance().get(i)) + " ");
-			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().getEsperance().get(i)) + "\n");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrC5SW().getEcartType().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().getEsperance().get(i)) + " ");
+			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().getEcartType().get(i)) + "\n");
 		}
 		
 		Utils.saveDataLeakyBucketsAll();

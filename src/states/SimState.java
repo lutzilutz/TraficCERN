@@ -289,8 +289,15 @@ public class SimState extends State {
 						step++;
 						if (step >= 86400 && !finished) {
 							Utils.saveCheckingValues();
-							switchPause();
-							finished = true;
+							if (simulationID < numberOfSimulations) {
+								step = 1;
+								simulationID++;
+								network.restart();
+							} else {
+								System.out.println("Finished");
+								switchPause();
+								finished = true;
+							}
 							break;
 						}
 						NetworkComputing.computeEvolution(network);
