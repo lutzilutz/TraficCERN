@@ -456,7 +456,7 @@ public class NetworkRendering {
 		
 		if (n.getDrawVehicleColor()) {
 			int x = 660;
-			int y = n.getSimulation().getHeight()-134;
+			int y = n.getSimulation().getHeight()-151;
 			int yTextOffset = 10;
 			int xMargin = 20;
 			int yMargin = 17;
@@ -497,10 +497,15 @@ public class NetworkRendering {
 			g.setColor(Color.white);
 			g.drawString("Entree B", x+xMargin, y + 6*yMargin + yTextOffset);
 			
-			g.setColor(Assets.vhcCERNCol3);
+			g.setColor(Assets.vhcCERNCol4);
 			g.fillOval(x, y+7*yMargin, radius, radius);
 			g.setColor(Color.white);
-			g.drawString("Entree A", x+xMargin, y + 7*yMargin + yTextOffset);
+			g.drawString("Entree B North", x+xMargin, y + 7*yMargin + yTextOffset);
+			
+			g.setColor(Assets.vhcCERNCol3);
+			g.fillOval(x, y+8*yMargin, radius, radius);
+			g.setColor(Color.white);
+			g.drawString("Entree A", x+xMargin, y + 8*yMargin + yTextOffset);
 			
 		}
 	}
@@ -547,7 +552,7 @@ public class NetworkRendering {
 		// Middle bottom corner
 		if (n.getDrawVehicleColor()) {
 			g.setColor(Assets.bgAlphaCol);
-			g.fillRoundRect(650, n.getSimulation().getHeight()-139, 130, 149, 10, 10);
+			g.fillRoundRect(650, n.getSimulation().getHeight()-156, 130, 166, 10, 10);
 		}
 	}
 }
