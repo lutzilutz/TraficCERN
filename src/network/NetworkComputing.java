@@ -363,23 +363,6 @@ public class NetworkComputing {
 				//NEXT and OUT cells
 				if (v.hasANextCell() && v.hasAnOutCell()) {
 					
-					// Lane choice based on number of vehicles =======================================================================
-					/*if (hasMultipleLaneChoice(v) && n.selectARoad(v.getCurrentRoadName()) != null) {
-						System.out.println("Multiple choices at #" + v.getCell().getPosition() + " of " + v.getCurrentRoadName());
-						//for (Ride ride: v.getRide()) {
-							//ride.print();
-							//System.out.println();
-						//}
-						ArrayList<Integer> index = new ArrayList<Integer>();
-						for (Ride ride: v.getRide()) {
-							if (!index.contains(ride.getNextConnections().get(0).getPosition())) {
-								index.add(ride.getNextConnections().get(0).getPosition());
-							}
-						}
-						ArrayList<Integer> numberOfVhcOnRoad = new ArrayList<Integer>();
-						chooseBestLane(n, v);
-					}*/
-					
 					if (!v.isOutCellOccupied() && (v.isOnNextConnection() || v.isRideEmpty() && Math.random() < 0.5)) {
 						
 						// Check PREVIOUS cells
@@ -443,7 +426,7 @@ public class NetworkComputing {
 					}
 				}
 				
-				// should never happen ...
+				// should never happen (exhaustive checking of hasANextCell() and hasAnOutCell()
 				else {
 					v.stayHere();
 					v.setSpeed(0);
@@ -481,7 +464,7 @@ public class NetworkComputing {
 						v.addRide(tmpRides);
 					}
 					if (v.getRide().size()==0) {
-						System.out.println("Racaille !");
+						System.out.println("ERR : Vehicle with empty ride");
 					}
 					saveRideIntoData(v.getRide().get(v.getIdCurrentRide()), n.getSimulation());
 				} else {
@@ -492,64 +475,24 @@ public class NetworkComputing {
 			}
 		}
 		
-		if (n.getSimulation().getSimState().getStep()%60 == 0) {
+		if (n.getSimulation().getSimState().getStep()%60 == 0) { // every minute
 			writeDataMinutes(n);
 		}
-		if (n.getSimulation().getSimState().getStep()%900 == 0) {
+		if (n.getSimulation().getSimState().getStep()%900 == 0) { // every 15 minutes
 			writeData15Minutes(n);
 		}
-		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) {
+		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) { // every hour
 			Utils.saveData();
 		}
-		if ((n.getSimulation().getSimState().getStep()+1)%86400 == 0) {
-			//System.out.println("Steps % 86400 = 0");
+		if ((n.getSimulation().getSimState().getStep()+1)%86400 == 0) { // every day
+			
 			writeData24Hours(n);
 			if (n.getSimulation().getSimState().getSimulationID() == n.getSimulation().getSimState().getNumberOfSimulation()) {
 				writeFinalData(n);
 			}
 		}
 	}
-	/*public static boolean hasMultipleLaneChoice(Vehicle v) {
-		int tmp = -1;
-		if (!v.getRide().get(v.getIdCurrentRide()).getNextConnections().isEmpty()) {
-			v.getRide().get(v.getIdCurrentRide()).getNextConnections().get(0).getPosition();
-		}
-		for (Ride ride: v.getRide()) {
-			if (!ride.getNextConnections().isEmpty()) {
-				if (ride.getNextConnections().get(0).getPosition() != tmp) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}*/
-	/*public static void chooseBestLane(Network n, Vehicle v) {
-		ArrayList<Integer> numberOfVhcPerRoad = new ArrayList<Integer>();
-		int min = 1000;
-		for (Ride ride: v.getRide()) {
-			
-			if (v.getCell().getPosition() == ride.getNextConnections().get(0).getPosition()) {
-				numberOfVhcPerRoad.add(v.numberOfVhcAhead(n.selectARoad(ride.getNextConnections().get(0).getName())));
-				
-			} else if (v.getCell().getPosition() < ride.getNextConnections().get(0).getPosition()) {
-				numberOfVhcPerRoad.add(v.numberOfVhcAhead(n.selectARoad(v.getCurrentRoadName())));
-			} else {
-				System.out.println("Probleme in chooseBestLane");
-			}
-			
-			if (numberOfVhcPerRoad.get(numberOfVhcPerRoad.size()-1) < min) {
-				min = numberOfVhcPerRoad.get(numberOfVhcPerRoad.size()-1);
-			}
-		}
-		
-		for (int i=0 ; i<numberOfVhcPerRoad.size() ; i++) {
-			if (numberOfVhcPerRoad.get(i) == min) {
-				
-				v.setIdCurrentRide(i);
-			}
-		}
-		
-	}*/
+	
 	// Change aspect of vehicle based on its ride
 	public static void chooseAspect(Vehicle v) {
 		
@@ -575,6 +518,7 @@ public class NetworkComputing {
 			else if (v.isDestination("rSortieCERNSE") || v.isDestination("rD884CERN")) {v.setDstColor(Assets.vhcCERNCol1);}
 		}
 	}
+	
 	// Write data at the end of N simulations
 	public static void writeFinalData(Network n) {
 		
