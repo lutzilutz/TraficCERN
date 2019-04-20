@@ -15,3 +15,9 @@ data_*.txt
 log.txt
 data/*.txt
 data/*/*.txt
+
+# Eclipse Core      
+.project
+
+# JDT-specific (Eclipse Java Development Tools)     
+.classpath
