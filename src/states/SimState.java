@@ -280,11 +280,6 @@ public class SimState extends State {
 	
 	public void tick(int n) {
 		
-		/*if (firstRun) {
-			applyUserSettings();
-			firstRun = false;
-		}*/
-		
 		if (!getPause() && !restarting) {
 			
 			if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
@@ -298,7 +293,6 @@ public class SimState extends State {
 							finished = true;
 							break;
 						}
-						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
 					}
@@ -314,11 +308,8 @@ public class SimState extends State {
 							} else {
 								switchPause();
 								finished = true;
-								//System.out.println("finiiiii");
-								//NetworkComputing.writeFinalData(network);
 							}
 						}
-						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
 					}
@@ -457,13 +448,6 @@ public class SimState extends State {
 		int hr = ((((time - sec)/60) - min)/60) % 24;
 		
 		return hr;
-	}
-	public void updateRH() {
-		if ((getHours() >= 7 && getHours() < 10) || (getHours() >= 17 && getHours() < 20)) {
-			rushHours = true;
-		} else {
-			rushHours = false;
-		}
 	}
 	// Getters & setters ====================================================================================
 	public ExpVarCalculator getLBrD884NE() {
