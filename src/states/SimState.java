@@ -68,6 +68,11 @@ public class SimState extends State {
 	
 	private ExpVarCalculator meanTimeSpentEVC;
 	
+	private ExpVarCalculator counter1AEVC;
+	private ExpVarCalculator counter1BEVC;
+	private ExpVarCalculator counter2AEVC;
+	private ExpVarCalculator counter2BEVC;
+	
 	public SimState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
@@ -256,6 +261,10 @@ public class SimState extends State {
 		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4-1);
 		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4-1);
 		meanTimeSpentEVC = new ExpVarCalculator(24);
+		counter1AEVC = new ExpVarCalculator(24*60-1);
+		counter1BEVC = new ExpVarCalculator(24*60-1);
+		counter2AEVC = new ExpVarCalculator(24*60-1);
+		counter2BEVC = new ExpVarCalculator(24*60-1);
 		// ----------------------------------------------------------------------------------------
 		
 		lastTick = System.nanoTime();
@@ -297,7 +306,7 @@ public class SimState extends State {
 								simulationID++;
 								network.restart();
 							} else {
-								Utils.log(simulationID + " simulations finished\n");
+								Utils.log("        " + simulationID + " simulations finished\n");
 								switchPause();
 								finished = true;
 							}
@@ -317,9 +326,9 @@ public class SimState extends State {
 								network.restart();
 							} else {
 								if (simulationID<=1) {
-									Utils.log(simulationID + " simulation finished\n");
+									Utils.log("        " + simulationID + " simulation finished\n");
 								} else {
-									Utils.log(simulationID + " simulations finished\n");
+									Utils.log("        " + simulationID + " simulations finished\n");
 								}
 								switchPause();
 								finished = true;
@@ -482,6 +491,18 @@ public class SimState extends State {
 	}
 	public ExpVarCalculator getMeanTimeSpent() {
 		return this.meanTimeSpentEVC;
+	}
+	public ExpVarCalculator getCounter1A() {
+		return this.counter1AEVC;
+	}
+	public ExpVarCalculator getCounter1B() {
+		return this.counter1BEVC;
+	}
+	public ExpVarCalculator getCounter2A() {
+		return this.counter2AEVC;
+	}
+	public ExpVarCalculator getCounter2B() {
+		return this.counter2BEVC;
 	}
 	public int getSimulationID() {
 		return this.simulationID;

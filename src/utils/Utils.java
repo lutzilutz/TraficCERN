@@ -16,6 +16,7 @@ public class Utils {
 
 	public static PrintStream log;
 	public static PrintStream dataCounters;
+	public static PrintStream dataCountersAll;
 	public static PrintStream dataSegmentCounters;
 	public static PrintStream dataChecking;
 	public static PrintStream dataLeakyBuckets;
@@ -24,6 +25,7 @@ public class Utils {
 	public static PrintStream dataMeanTimeSpent;
 	public static PrintStream dataMeanTimeSpentAll;
 	public static String dataStrCounters = "";
+	public static String dataStrCountersAll = "";
 	public static String dataStrSegmentCounters = "";
 	public static String dataStrLeakyBuckets = "";
 	public static String dataStrLeakyBucketsAll = "";
@@ -89,6 +91,14 @@ public class Utils {
 		}
 		dataCounters.print("Number of vehicles per minute passing through counters ---\n");
 		dataCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");
+		
+		try {
+			dataCountersAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters_all.txt", false));
+		} catch (FileNotFoundException e) {
+			Utils.log(e);
+		}
+		dataCountersAll.print("Number of vehicles per minute passing through counters ---\n");
+		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B\n");
 	}
 	public static void initDataSegmentCounters() {
 		try {
@@ -229,6 +239,13 @@ public class Utils {
 	public static void saveDataCounters() {
 		dataCounters.print(dataStrCounters);
 		dataStrCounters = "";
+	}
+	public static void writeDataCountersAll(String text) {
+		dataStrCountersAll = dataStrCountersAll + text;
+	}
+	public static void saveDataCountersAll() {
+		dataCountersAll.print(dataStrCountersAll);
+		dataStrCountersAll = "";
 	}
 	public static void writeDataSegmentCounters(String text) {
 		dataStrSegmentCounters = dataStrSegmentCounters + text;

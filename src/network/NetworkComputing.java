@@ -548,6 +548,21 @@ public class NetworkComputing {
 		
 		Utils.saveDataMeanTimeSpentAll();
 		
+		// Counters -------------------------------------------------------------------------------
+		
+		for (int i=0 ; i<24*60-1 ; i++) {
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter1A().getEsperance().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter1A().getEcartType().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter1B().getEsperance().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter1B().getEcartType().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2A().getEsperance().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2A().getEcartType().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2B().getEsperance().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2B().getEcartType().get(i)) + "\n");
+		}
+		
+		Utils.saveDataCountersAll();
+
 	}
 	// Write data at the end of a simulation
 	public static void writeData24Hours(Network n) {
@@ -558,6 +573,11 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().saveTemp();
 		
 		n.getSimulation().getSimState().getMeanTimeSpent().saveTemp();
+		
+		n.getSimulation().getSimState().getCounter1A().saveTemp();
+		n.getSimulation().getSimState().getCounter1B().saveTemp();
+		n.getSimulation().getSimState().getCounter2A().saveTemp();
+		n.getSimulation().getSimState().getCounter2B().saveTemp();
 	}
 	// Write data every hour
 	public static void writeDataHours(Network n) {
@@ -599,6 +619,12 @@ public class NetworkComputing {
 	public static void writeDataMinutes(Network n) {
 		
 		if (!n.isRandomGeneration()) {
+			
+			n.getSimulation().getSimState().getCounter1A().addTemp(n.selectARoad("rD984FSE").getVehicleCounter().getCounter());
+			n.getSimulation().getSimState().getCounter1B().addTemp(n.selectARoad("rD984FNW").getVehicleCounter().getCounter());
+			n.getSimulation().getSimState().getCounter2A().addTemp(n.selectARoad("rD984FSES").getVehicleCounter().getCounter());
+			n.getSimulation().getSimState().getCounter2B().addTemp(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter());
+			
 			Utils.writeDataCounters(n.getSimulation().getSimState().getTime() + " ");
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
