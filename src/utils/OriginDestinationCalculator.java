@@ -73,7 +73,7 @@ public class OriginDestinationCalculator {
 		computeCoeff();
 	}
 	
-	public void println(int k) {
+	public void printl(int k) {
 		for (int i=0; i<P.length; ++i) {
 			for (int j=0; j<P[i].length; ++j) {
 				System.out.print(Math.round(10000*P[i][j][k])/10000.0 + "\t");
@@ -89,7 +89,7 @@ public class OriginDestinationCalculator {
 	public void setP(double[][][] p) {
 		P = p;
 	}
-	
+	/*
 	public static void main(String[] args) {
 		double[][] entrees = {{30, 100}, {40, 60}};
 		double[][] sorties = {{40, 50, 50}, {30, 30, 40}};
@@ -206,5 +206,5 @@ public class OriginDestinationCalculator {
 			ODC2.println(i);
 			System.out.println("");
 		}
-	}
+	}*/
 }

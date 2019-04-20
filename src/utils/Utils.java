@@ -22,12 +22,14 @@ public class Utils {
 	public static PrintStream dataLeakyBucketsAll;
 	public static PrintStream dataEnterExit;
 	public static PrintStream dataMeanTimeSpent;
+	public static PrintStream dataMeanTimeSpentAll;
 	public static String dataStrCounters = "";
 	public static String dataStrSegmentCounters = "";
 	public static String dataStrLeakyBuckets = "";
 	public static String dataStrLeakyBucketsAll = "";
 	public static String dataStrEnterExit = "";
 	public static String dataStrMeanTimeSpent = "";
+	public static String dataStrMeanTimeSpentAll = "";
 	public static String dataDir = "data";
 	private static Date date = new Date();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -68,14 +70,14 @@ public class Utils {
 		try {
 			dataLeakyBuckets = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets.txt", false));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 		dataLeakyBuckets.print("Thoiry St-Genis Ferney Tun Geneva\n");
 		
 		try {
 			dataLeakyBucketsAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets_all.txt", false));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-Var St-Genis-Exp St-Genis-Var Ferney-Exp Ferney-Var Tun-Exp Tun-Var Geneva-Exp Geneva-Var\n");
 	}
@@ -83,7 +85,7 @@ public class Utils {
 		try {
 			dataCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters.txt", false));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 		dataCounters.print("Number of vehicles per minute passing through counters ---\n");
 		dataCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");
@@ -92,7 +94,7 @@ public class Utils {
 		try {
 			dataSegmentCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_segment_counters.txt", false));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 		dataSegmentCounters.print("Number of vehicles at a given time, syntax is [counter ID, speed] ---\n");
 		dataSegmentCounters.print("Time 1A,0 1A,1 1A,2 1B,0 1B,1 1B,2 2A,0 2A,1 2A,2 2B,0 2B,1 2B,2\n");
@@ -101,7 +103,7 @@ public class Utils {
 		try {
 			dataChecking = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_checking.txt", false));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 		dataChecking.print("Checking probabilities\n");
 	}
@@ -109,7 +111,7 @@ public class Utils {
 		try {
 			dataEnterExit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_enter_exit.txt", false));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 		dataEnterExit.print("Checking enters and exits (per hour)\n");
 	}
@@ -117,9 +119,16 @@ public class Utils {
 		try {
 			dataMeanTimeSpent = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time.txt", false));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 		dataMeanTimeSpent.print("Checking mean time spent on network in seconds (per hour)\n");
+		
+		try {
+			dataMeanTimeSpentAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_all.txt", false));
+		} catch (FileNotFoundException e) {
+			Utils.log(e);
+		}
+		dataMeanTimeSpentAll.print("Checking mean time spent on network in seconds (per hour)\n");
 	}
 	public static void saveCheckingValues() {
 		float errorFrGe;
@@ -263,11 +272,18 @@ public class Utils {
 		dataMeanTimeSpent.print(dataStrMeanTimeSpent);
 		dataStrMeanTimeSpent = "";
 	}
+	public static void writeDataMeanTimeSpentAll(String text) {
+		dataStrMeanTimeSpentAll = dataStrMeanTimeSpentAll + text;
+	}
+	public static void saveDataMeanTimeSpentAll() {
+		dataMeanTimeSpentAll.print(dataStrMeanTimeSpentAll);
+		dataStrMeanTimeSpentAll = "";
+	}
 	public static int parseInt(String number) {
 		try {
 			return Integer.parseInt(number);
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Utils.log(e);
 			return 0;
 		}
 	}

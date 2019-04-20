@@ -486,11 +486,6 @@ public class Road {
 		for (int i=0 ; i<flow.size() ; i++) {
 			flow.set(i, value);
 		}
-		/*System.out.print(name + " : ");
-		for (Integer i: flow) {
-			System.out.print(i + " ");
-		}
-		System.out.println();*/
 	}
 	public double getX() {
 		return x;

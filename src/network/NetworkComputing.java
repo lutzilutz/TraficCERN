@@ -27,7 +27,7 @@ public class NetworkComputing {
 	
 	// Compute position on-screen of all cells
 	public static void computeCellsPosition(Network n) {
-		Utils.log("computing Cells position ... ");
+		Utils.log("        Computing Cells position ... ");
 		Utils.tick();
 		
 		margin = n.getCellWidth()*10;
@@ -464,7 +464,7 @@ public class NetworkComputing {
 						v.addRide(tmpRides);
 					}
 					if (v.getRide().size()==0) {
-						System.out.println("ERR : Vehicle with empty ride");
+						Utils.log("        ERROR : Vehicle with empty ride\n");
 					}
 					saveRideIntoData(v.getRide().get(v.getIdCurrentRide()), n.getSimulation());
 				} else {
@@ -482,6 +482,7 @@ public class NetworkComputing {
 			writeData15Minutes(n);
 		}
 		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) { // every hour
+			writeDataHours(n);
 			Utils.saveData();
 		}
 		if ((n.getSimulation().getSimState().getStep()+1)%86400 == 0) { // every day
@@ -522,6 +523,7 @@ public class NetworkComputing {
 	// Write data at the end of N simulations
 	public static void writeFinalData(Network n) {
 		
+		// Leaky buckets --------------------------------------------------------------------------
 		for (int i=0 ; i<24*4-1 ; i++) {
 			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrD884NE().getEsperance().get(i)) + " ");
 			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrD884NE().getEcartType().get(i)) + " ");
@@ -537,6 +539,15 @@ public class NetworkComputing {
 		
 		Utils.saveDataLeakyBucketsAll();
 		
+		// Time spent -----------------------------------------------------------------------------
+		
+		for (int i=0 ; i<24 ; i++) {
+			Utils.writeDataMeanTimeSpentAll(Float.toString(n.getSimulation().getSimState().getMeanTimeSpent().getEsperance().get(i)) + " ");
+			Utils.writeDataMeanTimeSpentAll(Float.toString(n.getSimulation().getSimState().getMeanTimeSpent().getEcartType().get(i)) + "\n");
+		}
+		
+		Utils.saveDataMeanTimeSpentAll();
+		
 	}
 	// Write data at the end of a simulation
 	public static void writeData24Hours(Network n) {
@@ -545,6 +556,21 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getLBrRueGermaineTillionSW().saveTemp();
 		n.getSimulation().getSimState().getLBrC5SW().saveTemp();
 		n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().saveTemp();
+		
+		n.getSimulation().getSimState().getMeanTimeSpent().saveTemp();
+	}
+	// Write data every hour
+	public static void writeDataHours(Network n) {
+		if (!n.isRandomGeneration()) {
+			
+			double meanTimeLastHour = 0;
+			for (Integer i: DataManager.timeSpent) {
+				meanTimeLastHour += i;
+			}
+			meanTimeLastHour = meanTimeLastHour / (double) (DataManager.timeSpent.size());
+			
+			n.getSimulation().getSimState().getMeanTimeSpent().addTemp((int) meanTimeLastHour);
+		}
 	}
 	// Write data every 15 minutes into output
 	public static void writeData15Minutes(Network n) {

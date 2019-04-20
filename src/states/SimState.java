@@ -66,6 +66,8 @@ public class SimState extends State {
 	private ExpVarCalculator leakyBucketsEVC_rC5SW;
 	private ExpVarCalculator leakyBucketsEVC_rRouteDeMeyrinSouthNW;
 	
+	private ExpVarCalculator meanTimeSpentEVC;
+	
 	public SimState(Simulation simulation) {
 		super(simulation);
 		this.uiManager = new UIManager(simulation);
@@ -164,7 +166,7 @@ public class SimState extends State {
 		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
 			@Override
 			public void onClick() {
-				Utils.log("Simulation ends at step " + step + "\n");
+				Utils.log("        Simulation ends at step " + step + "\n");
 				Utils.initAllData();
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
@@ -253,6 +255,7 @@ public class SimState extends State {
 		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4-1);
 		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4-1);
 		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4-1);
+		meanTimeSpentEVC = new ExpVarCalculator(24);
 		// ----------------------------------------------------------------------------------------
 		
 		lastTick = System.nanoTime();
@@ -294,7 +297,7 @@ public class SimState extends State {
 								simulationID++;
 								network.restart();
 							} else {
-								System.out.println("Finished");
+								Utils.log(simulationID + " simulations finished\n");
 								switchPause();
 								finished = true;
 							}
@@ -313,6 +316,11 @@ public class SimState extends State {
 								simulationID++;
 								network.restart();
 							} else {
+								if (simulationID<=1) {
+									Utils.log(simulationID + " simulation finished\n");
+								} else {
+									Utils.log(simulationID + " simulations finished\n");
+								}
 								switchPause();
 								finished = true;
 							}
@@ -471,6 +479,9 @@ public class SimState extends State {
 	}
 	public ExpVarCalculator getLBrRouteDeMeyrinSouthNW() {
 		return this.leakyBucketsEVC_rRouteDeMeyrinSouthNW;
+	}
+	public ExpVarCalculator getMeanTimeSpent() {
+		return this.meanTimeSpentEVC;
 	}
 	public int getSimulationID() {
 		return this.simulationID;

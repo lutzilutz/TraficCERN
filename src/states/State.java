@@ -17,7 +17,7 @@ public abstract class State {
 	}
 	
 	public static void setState(State state) {
-		Utils.log("--- " + state.getClass().getSimpleName() + "\n");
+		Utils.log("    " + state.getClass().getSimpleName() + " ----------\n");
 		currentState = state;
 	}
 	public static State getState() {

@@ -144,7 +144,7 @@ public class Simulation implements Runnable {
 			try {
 				Thread.sleep(Math.max(0, (int) ((now - System.nanoTime() + timePerTick) / 1000000)));
 			} catch (InterruptedException e) {
-				System.out.println(e);
+				Utils.log(e);
 			}
 		}
 		
@@ -168,7 +168,7 @@ public class Simulation implements Runnable {
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Utils.log(e);
 		}
 	}
 	

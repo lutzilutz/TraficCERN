@@ -65,7 +65,7 @@ public class Network {
 		yDefaultOffset = 0;
 	
 		if (n >= 0) {
-			Utils.log("creating Network #" + n + " ");
+			Utils.log("        Creating Network #" + n + " ");
 			Utils.tick();
 		}
 		switch (n) {
@@ -1598,7 +1598,7 @@ public class Network {
 				double random = Math.random();
 				
 				if (probas.size() == 0) {
-					Utils.log("No probability in selectARideWithProbability() for " + roadName + "\n");
+					Utils.log("        ERROR : No probability in selectARideWithProbability() for " + roadName + "\n");
 					chosenRide = new Ride();
 					//return voidRide;
 				} else if (probas.size() == 1) {
@@ -1614,7 +1614,7 @@ public class Network {
 						}
 					}
 					if (chosenRide.getNextConnections().isEmpty()) {
-						Utils.log("No adapted probability found for " + roadName + " :\n");
+						Utils.log("        ERROR : No adapted probability found for " + roadName + " :\n");
 						for (Float f: chosenRide.getFlow()) {
 							System.out.print(f + " ");
 						}
@@ -1696,7 +1696,7 @@ public class Network {
 	}
 	
 	public void generateAllNetworkRides(int n) {
-		Utils.log("generating Rides ... ");
+		Utils.log("        Generating Rides ... ");
 		Utils.tick();
 		for (Road r: this.roads) {
 			boolean generateAtLeastOne = false;
@@ -1738,7 +1738,7 @@ public class Network {
 				return r;
 			}
 		}
-		Utils.log("Error - while trying to find " + roadName + " in network\n");
+		Utils.log("        ERROR : while trying to find " + roadName + " in network\n");
 		return null;
 	}
 	public void setNetworkSize() {

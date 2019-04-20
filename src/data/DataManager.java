@@ -472,7 +472,7 @@ public class DataManager {
 				}
 			}
 		}
-		ODC2.println(0);
+		//ODC2.println(0);
 	}
 
 	public static int[][] flowPerExit = new int[24][18]; /*{
@@ -613,13 +613,10 @@ public class DataManager {
 	}
 	public static void applyDataProba(Simulation simulation) {
 
-		System.out.println("Trying to apply ...");
-
 		if (useProbabilities) {
+			Utils.log("        Applying data (proba) to Network ... ");
 			initProbas();
 			initFlowPerExit();
-			
-			Utils.log("applying data (proba) to Network ... ");
 			applyDataToRidesProba(simulation);
 			applyDataToRoadsProba(simulation);
 			Utils.log("done\n");
@@ -881,8 +878,6 @@ public class DataManager {
 	}
 	public static void applyDataToRoadsProba(Simulation simulation) {
 
-		System.out.println("Applying ...");
-
 		Network n = simulation.getSimState().getNetwork();
 		for (Road road: n.getRoads()) {
 			if (n.getAllRides(road.getName()) != null) {
@@ -929,12 +924,10 @@ public class DataManager {
 			nFromBChosen = simulation.getSimSettingsState().fromEntranceB().getCurrentValue();
 
 			if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
-				//Utils.log("applying data to Network ... ");
 				applyDataToRidesNumerical(simulation);
 				applyRidesToRoads(simulation);
-				//Utils.log("done\n");
 			} else {
-				//Utils.log("applying random gen to Network ... done\n");
+				
 			}
 		}
 	}

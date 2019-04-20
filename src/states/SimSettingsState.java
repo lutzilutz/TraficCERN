@@ -434,7 +434,7 @@ public class SimSettingsState extends State {
 				}
 				simulation.getSimState().enableUIManager();
 				State.setState(simulation.getSimState());
-				Utils.log("Simulation starts\n");
+				//Utils.log("Simulation starts\n");
 				
 			}
 		});
