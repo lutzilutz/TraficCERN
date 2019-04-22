@@ -488,7 +488,7 @@ public class NetworkComputing {
 		if ((n.getSimulation().getSimState().getStep()+1)%86400 == 0) { // every day
 			
 			writeData24Hours(n);
-			if (n.getSimulation().getSimState().getSimulationID() == n.getSimulation().getSimState().getNumberOfSimulation()) {
+			if (n.getSimulation().getSimState().getSimulationID() == n.getSimulation().getSimState().getNumberOfSimulations()) {
 				writeFinalData(n);
 			}
 		}

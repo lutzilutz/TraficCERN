@@ -39,7 +39,7 @@ public class MenuState extends State {
 		network2 = new UITextButton(xStart,  yStart+0*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(1), new ClickListener(){
 			@Override
 			public void onClick() {
-				launchSimulation(1);
+				launchSimulation(1, simulation.getSimState().getNumberOfSimulations());
 			}
 		});
 		this.uiManager.addObject(network2);
@@ -47,7 +47,7 @@ public class MenuState extends State {
 		network3 = new UITextButton(xStart, yStart+1*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(2), new ClickListener(){
 			@Override
 			public void onClick() {
-				launchSimulation(2);
+				launchSimulation(2, simulation.getSimState().getNumberOfSimulations());
 			}
 		});
 		this.uiManager.addObject(network3);
@@ -97,22 +97,22 @@ public class MenuState extends State {
 		}));
 	}
 	// launch the simulation #nSimulation, depending on probabilities/numerical values
-	public void launchSimulation(int nSimulation) {
+	public void launchSimulation(int scenarioID, int numberOfSimulations) {
 		
 		// prevents user to continue clicking after state change
 		disableUIManager();
 		
 		// create a new SimState
 		simulation.setSimState(new SimState(simulation));
-		simulation.getSimState().setNetwork(new Network(simulation, nSimulation, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
+		simulation.getSimState().setNetwork(new Network(simulation, scenarioID, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 		simulation.getSimState().init();
 		
 		if (DataManager.useProbabilities) {
-			Utils.initAllData();
+			simulation.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
+			Utils.initAllData(nOfSimulations.getCurrentValue());
 			DataManager.applyDataProba(simulation);
 			simulation.getSimState().enableUIManager();
 			State.setState(simulation.getSimState());
-			simulation.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
 		} else {
 			simulation.getSimSettingsState().enableUIManager();
 			State.setState(simulation.getSimSettingsState());

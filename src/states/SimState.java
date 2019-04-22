@@ -32,7 +32,7 @@ public class SimState extends State {
 	private boolean askExit = false;
 	private long lastTick;
 	private boolean firstSimulation = true;
-	private int numberOfSimulations = 1;
+	private int numberOfSimulations = 0;
 	private int simulationID = 1;
 	private boolean restarting = false;
 	private boolean finished = false;
@@ -172,7 +172,7 @@ public class SimState extends State {
 			@Override
 			public void onClick() {
 				Utils.log("        Simulation ends at step " + step + "\n");
-				Utils.initAllData();
+				Utils.initAllData(numberOfSimulations);
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
 				State.setState(simulation.getMenuState());
@@ -433,7 +433,7 @@ public class SimState extends State {
 	public void restartNetwork() {
 		step = 1;
 		network.restart();
-		Utils.initAllData();
+		Utils.initAllData(numberOfSimulations);
 		//leakyBucketsEVC_rC5SW.saveTemp();
 		//leakyBucketsEVC_rD884NE.saveTemp();
 		//leakyBucketsEVC_rRouteDeMeyrinSouthNW.saveTemp();
@@ -507,7 +507,7 @@ public class SimState extends State {
 	public int getSimulationID() {
 		return this.simulationID;
 	}
-	public int getNumberOfSimulation() {
+	public int getNumberOfSimulations() {
 		return this.numberOfSimulations;
 	}
 	public void setNumberOfSimulations(int numberOfSimulations) {

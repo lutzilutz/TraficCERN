@@ -45,10 +45,10 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
-	// initialize all data output streams (folder /data/XXXXXXXX_XXXXXX.txt
-	public static void initAllData() {
+	// initialize all data output streams for N simulations (folder /data/XXXXXXXX_XXXXXX_NN.txt
+	public static void initAllData(int numberOfSimulations) {
 		date = new Date();
-		dataDirSim = dataDir + "/" + dateFormat.format(date);
+		dataDirSim = dataDir + "/" + dateFormat.format(date) + "_" + Integer.toString(numberOfSimulations);
 		
 		File directory = new File(dataDir);
 		File directorySim = new File(dataDirSim);
