@@ -171,7 +171,7 @@ public class SimState extends State {
 		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
 			@Override
 			public void onClick() {
-				Utils.log("        Simulation ends at step " + step + "\n");
+				Utils.log("        /!\\ Simulation ends prematurely at step " + step + "\n");
 				Utils.initAllData(numberOfSimulations);
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
@@ -291,6 +291,11 @@ public class SimState extends State {
 	}
 	
 	public void tick(int n) {
+		
+		if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
+			Utils.log("        Launch of " + network.getSimulation().getSimState().getNumberOfSimulations() + " simulations\n");
+			Utils.log("        Simulating ...\n");
+		}
 		
 		if (!getPause() && !restarting) {
 			
