@@ -1,10 +1,11 @@
-package elements;
+package data;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 
+import elements.Road;
 import graphics.Assets;
 import graphics.Text;
 import network.Network;

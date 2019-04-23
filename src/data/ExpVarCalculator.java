@@ -1,6 +1,8 @@
-package utils;
+package data;
 
 import java.util.ArrayList;
+
+import utils.Utils;
 
 public class ExpVarCalculator { 
 	private ArrayList<Long> X;
@@ -63,7 +65,6 @@ public class ExpVarCalculator {
 		for (int i=0; i<size; ++i) {
 			esp.add((float) (this.X.get(i)/(float) n));
 		}
-		//System.out.println(X.get(0) + " - " + n + " - " + esp);
 		return esp;
 	}
 	

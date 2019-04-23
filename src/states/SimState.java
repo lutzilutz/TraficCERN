@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import data.ExpVarCalculator;
 import graphics.Assets;
 import graphics.Text;
 import input.KeyManager;
@@ -15,7 +16,6 @@ import ui.UIImageButton;
 import ui.UIManager;
 import ui.UITextButton;
 import ui.UITextSwitch;
-import utils.ExpVarCalculator;
 import utils.Utils;
 
 public class SimState extends State {
@@ -31,7 +31,6 @@ public class SimState extends State {
 	private boolean paused = false;
 	private boolean askExit = false;
 	private long lastTick;
-	private boolean firstSimulation = true;
 	private int numberOfSimulations = 0;
 	private int simulationID = 1;
 	private boolean restarting = false;

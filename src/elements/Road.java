@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
+import data.VehicleCounter;
 import network.Network;
 
 public class Road {
