@@ -248,16 +248,29 @@ public class NetworkComputing {
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {
 					
-					if (r.getNextConnections().size()>0 && Math.random()<percentage) {
-						if (firstConnection.equals("rD884NE") && r.getRoadName().equals(firstConnection)) {
-							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
-								newRides.add(r.clone());
-								return newRides;
-							}
-						} else if (r.getRoadName().equals(firstConnection)) {
-							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
-								newRides.add(r.clone());
-								return newRides;
+					if (r.getNextConnections().size()>0) {
+						if (r.getRoadName().equals(firstConnection)) {
+							if (firstConnection.equals("rD884NE")) {
+								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
+									if (Math.random()<percentage) {
+										newRides.add(r.clone());
+										return newRides;
+									}
+								}
+							} else if (firstConnection.equals("rRueDeGeneveSE")) {
+								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+									if (Math.random()<percentage) {
+										newRides.add(r.clone());
+										return newRides;
+									}
+								}
+							} else if (firstConnection.equals("rRueGermaineTillionSW")) {
+								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+									if (Math.random()<percentage) {
+										newRides.add(r.clone());
+										return newRides;
+									}
+								}
 							}
 						}
 					}
@@ -275,22 +288,33 @@ public class NetworkComputing {
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {
 					
-					if (r.getNextConnections().size()>0 && Math.random()<percentage) {
-						if (firstConnection.equals("rD884NE") && r.getRoadName().equals(firstConnection)) {
-							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
-								newRides.add(r.clone());
-								return newRides;
-							}
-						} else if (r.getRoadName().equals(firstConnection)) {
-							if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
-								newRides.add(r.clone());
-								return newRides;
+					if (r.getNextConnections().size()>0) {
+						if (r.getRoadName().equals(firstConnection)) {
+							if (firstConnection.equals("rD884NE")) {
+								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
+									if (Math.random()<percentage) {
+										newRides.add(r.clone());
+										return newRides;
+									}
+								}
+							} else if (firstConnection.equals("rRueDeGeneveSE")) {
+								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+									if (Math.random()<percentage) {
+										newRides.add(r.clone());
+										return newRides;
+									}
+								}
+							} else if (firstConnection.equals("rRueGermaineTillionSW")) {
+								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+									if (Math.random()<percentage) {
+										newRides.add(r.clone());
+										return newRides;
+									}
+								}
 							}
 						}
 					}
-					
 				}
-				
 			}
 			return rides;
 		} else {
@@ -457,8 +481,7 @@ public class NetworkComputing {
 				if (!n.isRandomGeneration()) {
 					ArrayList<Ride> tmpRides = new ArrayList<Ride>();
 					tmpRides = n.selectRidesWithProbability(r.getName());
-					
-					if (DataManager.transfers!=0 && (n.getSimulation().getSimState().isRushHours())) {
+					if (DataManager.transfers!=0 && (n.getSimulation().getSimState().isRushHoursMorning())) {
 						v.addRide(applyTransfers(n, tmpRides));
 					} else {
 						v.addRide(tmpRides);

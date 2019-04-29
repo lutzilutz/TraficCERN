@@ -36,7 +36,7 @@ public class SimState extends State {
 	private boolean restarting = false;
 	private boolean finished = false;
 	
-	private boolean rushHours = false;
+	private boolean rushHours = false, rushHoursMorning = false, rushHoursEvening = false;
 	
 	private boolean leftPressed = false;
 	private double clickedX=0, clickedY=0;
@@ -324,6 +324,7 @@ public class SimState extends State {
 							}
 							break;
 						}
+						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
 					}
@@ -346,6 +347,7 @@ public class SimState extends State {
 								finished = true;
 							}
 						}
+						updateRH();
 						NetworkComputing.computeEvolution(network);
 						NetworkComputing.evolve(network);
 					}
@@ -485,6 +487,21 @@ public class SimState extends State {
 		
 		return hr;
 	}
+	public void updateRH() {
+		if (getHours()>=7 && getHours()<10) {
+			rushHours = true;
+			rushHoursMorning = true;
+			rushHoursEvening = false;
+		} else if (getHours()>=17 && getHours()<20) {
+			rushHours = true;
+			rushHoursMorning = false;
+			rushHoursEvening = true;
+		} else {
+			rushHours = false;
+			rushHoursMorning = false;
+			rushHoursEvening = false;
+		}
+	}
 	// Getters & setters ====================================================================================
 	public ExpVarCalculator getLBrD884NE() {
 		return this.leakyBucketsEVC_rD884NE;
@@ -540,6 +557,9 @@ public class SimState extends State {
 	}
 	public boolean isRushHours() {
 		return rushHours;
+	}
+	public boolean isRushHoursMorning() {
+		return rushHoursMorning;
 	}
 	public void setCurrentNetwork(int currentNetwork) {
 		network = null;
