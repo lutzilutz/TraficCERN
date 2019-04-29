@@ -64,6 +64,8 @@ public class SimState extends State {
 	private ExpVarCalculator leakyBucketsEVC_rRueGermaineTillionSW;
 	private ExpVarCalculator leakyBucketsEVC_rC5SW;
 	private ExpVarCalculator leakyBucketsEVC_rRouteDeMeyrinSouthNW;
+	private ExpVarCalculator leakyBucketsEVC_rRoutePauliSouthNELeft;
+	private ExpVarCalculator leakyBucketsEVC_rRoutePauliSouthNERight;
 	
 	private ExpVarCalculator meanTimeSpentEVC;
 	
@@ -71,6 +73,8 @@ public class SimState extends State {
 	private ExpVarCalculator counter1BEVC;
 	private ExpVarCalculator counter2AEVC;
 	private ExpVarCalculator counter2BEVC;
+	private ExpVarCalculator counterEntranceBLeftEVC;
+	private ExpVarCalculator counterEntranceBRightEVC;
 	
 	public SimState(Simulation simulation) {
 		super(simulation);
@@ -259,11 +263,15 @@ public class SimState extends State {
 		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4-1);
 		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4-1);
 		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRoutePauliSouthNELeft = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRoutePauliSouthNERight = new ExpVarCalculator(24*4-1);
 		meanTimeSpentEVC = new ExpVarCalculator(24);
 		counter1AEVC = new ExpVarCalculator(24*60-1);
 		counter1BEVC = new ExpVarCalculator(24*60-1);
 		counter2AEVC = new ExpVarCalculator(24*60-1);
 		counter2BEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceBLeftEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceBRightEVC = new ExpVarCalculator(24*60-1);
 		// ----------------------------------------------------------------------------------------
 		
 		lastTick = System.nanoTime();
@@ -493,6 +501,12 @@ public class SimState extends State {
 	public ExpVarCalculator getLBrRouteDeMeyrinSouthNW() {
 		return this.leakyBucketsEVC_rRouteDeMeyrinSouthNW;
 	}
+	public ExpVarCalculator getLBrRoutePauliSouthNELeft() {
+		return this.leakyBucketsEVC_rRoutePauliSouthNELeft;
+	}
+	public ExpVarCalculator getLBrRoutePauliSouthNERight() {
+		return this.leakyBucketsEVC_rRoutePauliSouthNERight;
+	}
 	public ExpVarCalculator getMeanTimeSpent() {
 		return this.meanTimeSpentEVC;
 	}
@@ -507,6 +521,12 @@ public class SimState extends State {
 	}
 	public ExpVarCalculator getCounter2B() {
 		return this.counter2BEVC;
+	}
+	public ExpVarCalculator getCounterEntranceBLeft() {
+		return this.counterEntranceBLeftEVC;
+	}
+	public ExpVarCalculator getCounterEntranceBRight() {
+		return this.counterEntranceBRightEVC;
 	}
 	public int getSimulationID() {
 		return this.simulationID;

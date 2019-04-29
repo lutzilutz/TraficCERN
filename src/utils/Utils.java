@@ -81,7 +81,7 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
-		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-Var St-Genis-Exp St-Genis-Var Ferney-Exp Ferney-Var Tun-Exp Tun-Var Geneva-Exp Geneva-Var\n");
+		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
 	}
 	public static void initDataCounters() {
 		try {
@@ -98,7 +98,7 @@ public class Utils {
 			Utils.log(e);
 		}
 		dataCountersAll.print("Number of vehicles per minute passing through counters ---\n");
-		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B\n");
+		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight\n");
 	}
 	public static void initDataSegmentCounters() {
 		try {
