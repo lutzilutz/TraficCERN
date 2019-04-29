@@ -1640,9 +1640,10 @@ public class Network {
 			
 			if (anr.getRoadName().equals(roadName)) {
 				for (Ride ride: anr.getNetworkRides()) {
-					
-					if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals(chosenRide.getNextConnections().get(chosenRide.getNextConnections().size()-1).getName())) {
-						allRides.add(ride.clone());
+					if (ride.getNextConnections().size() > 0 && chosenRide.getNextConnections().size() > 0) {
+						if (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals(chosenRide.getNextConnections().get(chosenRide.getNextConnections().size()-1).getName())) {
+							allRides.add(ride.clone());
+						}
 					}
 				}
 			}
