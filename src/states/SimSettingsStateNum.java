@@ -18,7 +18,7 @@ import ui.UISliderTriple;
 import ui.UITextButton;
 import utils.Utils;
 
-public class SimSettingsState extends State {
+public class SimSettingsStateNum extends State {
 	
 	private UIManager uiManagerTransit;
 	private UIManager uiManagerTransitFrance;
@@ -79,7 +79,7 @@ public class SimSettingsState extends State {
 	private UIImageButton previous, next;
 	private UITextButton run, back;
 	
-	public SimSettingsState(Simulation simulation) {
+	public SimSettingsStateNum(Simulation simulation) {
 		super(simulation);
 		this.uiManagerTransit = new UIManager(simulation);
 		this.uiManagerTransitFrance = new UIManager(simulation);

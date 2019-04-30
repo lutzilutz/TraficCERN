@@ -359,7 +359,7 @@ public class NetworkComputing {
 			} 
 			
 			// tick for outflow
-			//r.outflowTick();
+			r.outflowTick();
 		}
 		
 		for (MaxVehicleOutflow maxVhcOutflow: n.getMaxVehicleOutflows()) {

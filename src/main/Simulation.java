@@ -12,7 +12,8 @@ import graphics.Display;
 import input.KeyManager;
 import input.MouseManager;
 import states.MenuState;
-import states.SimSettingsState;
+import states.SimSettingsStateNum;
+import states.SimSettingsStateProba;
 import states.SimState;
 import states.State;
 import ui.UIManager;
@@ -41,7 +42,8 @@ public class Simulation implements Runnable {
 	// States
 	private SimState simState;
 	private MenuState menuState;
-	private SimSettingsState simSettingsState;
+	private SimSettingsStateNum simSettingsStateNum;
+	private SimSettingsStateProba simSettingsStateProba;
 	
 	// User-chosen values
 	private int entranceERate;
@@ -75,7 +77,8 @@ public class Simulation implements Runnable {
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		
 		simState = new SimState(this);
-		simSettingsState = new SimSettingsState(this);
+		simSettingsStateNum = new SimSettingsStateNum(this);
+		simSettingsStateProba = new SimSettingsStateProba(this);
 		menuState = new MenuState(this);
 		mouseManager.setUIManager(menuState.getUIManager());
 		
@@ -185,8 +188,11 @@ public class Simulation implements Runnable {
 	public SimState getSimState() {
 		return this.simState;
 	}
-	public SimSettingsState getSimSettingsState() {
-		return this.simSettingsState;
+	public SimSettingsStateNum getSimSettingsStateNum() {
+		return this.simSettingsStateNum;
+	}
+	public SimSettingsStateProba getSimSettingsStateProba() {
+		return this.simSettingsStateProba;
 	}
 	public MenuState getMenuState() {
 		return this.menuState;

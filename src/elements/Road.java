@@ -462,6 +462,9 @@ public class Road {
 	public VehicleCounter getVehicleCounter() {
 		return this.vehicleCounter;
 	}
+	public int getMaxOutflow() {
+		return this.maxOutflow;
+	}
 	public void setMaxOutflow(int maxOutflow) {
 		this.maxOutflow = maxOutflow;
 		outflowCounter = maxOutflow;

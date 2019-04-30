@@ -518,6 +518,9 @@ public class Network {
 		
 		rD984FSES.setCounter(0.3, "counter 2A");
 		rD984FNWS.setCounter(0.702, "coutner 2B");
+
+		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
+		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		
 		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
 		outflowEntranceE.addRoad(rSortieCERNSE);

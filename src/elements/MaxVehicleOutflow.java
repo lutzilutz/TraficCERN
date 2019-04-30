@@ -68,4 +68,7 @@ public class MaxVehicleOutflow {
 			roads.get(1).getRoadCells().get(roads.get(1).getRoadCells().size()-1).setBlocked(true);
 		}
 	}
+	public void setGlobalOutflow(int globalOutflow) {
+		this.globalOutflow = globalOutflow;
+	}
 }

@@ -2,12 +2,13 @@ package data;
 
 import java.util.ArrayList;
 
+import elements.MaxVehicleOutflow;
 import elements.Ride;
 import elements.Road;
 import main.Simulation;
 import network.AllNetworkRides;
 import network.Network;
-import states.SimSettingsState;
+import states.SimSettingsStateNum;
 import utils.OriginDestinationCalculator;
 import utils.Utils;
 
@@ -619,6 +620,15 @@ public class DataManager {
 			initFlowPerExit();
 			applyDataToRidesProba(simulation);
 			applyDataToRoadsProba(simulation);
+			for (Road road: simulation.getSimState().getNetwork().getRoads()) {
+				if (road.getName().equals("rSortieCERNSE") || road.getName().equals("rD884CERN") || road.getName().equals("rRoutePauliSouthSW") || road.getName().equals("rRouteBellSW")) {
+					road.setMaxOutflow(simulation.getSimSettingsStateProba().timePerVhcEntrance().getCurrentValue());
+					for (MaxVehicleOutflow maxOutflow: simulation.getSimState().getNetwork().getMaxVehicleOutflows()) {
+						maxOutflow.setGlobalOutflow(simulation.getSimSettingsStateProba().timePerVhcEntrance().getCurrentValue());
+					}
+				}
+			}
+			
 			Utils.log("done\n");
 
 		}
@@ -897,31 +907,31 @@ public class DataManager {
 		}
 
 		if (n.getN() == 1) {
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue2());
 		}
 	}
 	// OBSOLTED
 	public static void applyDataNumerical(Simulation simulation) {
 
 		if (!useProbabilities) {
-			nFrGeChosen = simulation.getSimSettingsState().fromFrToGe().getCurrentValue();
-			nGeFrChosen = simulation.getSimSettingsState().fromGeToFr().getCurrentValue();
-			nToEChosen = simulation.getSimSettingsState().toEntranceE().getCurrentValue();
-			nFromEChosen = simulation.getSimSettingsState().fromEntranceE().getCurrentValue();
-			nToAChosen = simulation.getSimSettingsState().toEntranceA().getCurrentValue();
-			nFromAChosen = simulation.getSimSettingsState().fromEntranceA().getCurrentValue();
-			nToBChosen = simulation.getSimSettingsState().toEntranceB().getCurrentValue();
-			nFromBChosen = simulation.getSimSettingsState().fromEntranceB().getCurrentValue();
+			nFrGeChosen = simulation.getSimSettingsStateNum().fromFrToGe().getCurrentValue();
+			nGeFrChosen = simulation.getSimSettingsStateNum().fromGeToFr().getCurrentValue();
+			nToEChosen = simulation.getSimSettingsStateNum().toEntranceE().getCurrentValue();
+			nFromEChosen = simulation.getSimSettingsStateNum().fromEntranceE().getCurrentValue();
+			nToAChosen = simulation.getSimSettingsStateNum().toEntranceA().getCurrentValue();
+			nFromAChosen = simulation.getSimSettingsStateNum().fromEntranceA().getCurrentValue();
+			nToBChosen = simulation.getSimSettingsStateNum().toEntranceB().getCurrentValue();
+			nFromBChosen = simulation.getSimSettingsStateNum().fromEntranceB().getCurrentValue();
 
 			if (!simulation.getSimState().getNetwork().isRandomGeneration()) {
 				applyDataToRidesNumerical(simulation);
@@ -963,7 +973,7 @@ public class DataManager {
 	public static void applyDataToRidesNumerical(Simulation simulation) {
 
 		Network n = simulation.getSimState().getNetwork();
-		SimSettingsState settings = simulation.getSimSettingsState();
+		SimSettingsStateNum settings = simulation.getSimSettingsStateNum();
 
 		for (AllNetworkRides anr: n.getAllNetworkRides()) {
 			for (Ride r: anr.getNetworkRides()) {
@@ -1318,17 +1328,17 @@ public class DataManager {
 		}
 
 		if (n.getN() == 1) {
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsState().crEntreeB_phase2().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsState().crEntreeB_phase3().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue2());
 		}
 	}
 	public static int numberOfSameRides(Simulation sim, String start, String end) {
