@@ -38,12 +38,6 @@ public class Network {
 	private int numberOfVehicles = 0;
 	private int cellWidth=10, cellHeight=cellWidth;
 	
-	private boolean drawWire = true; // true for rendering the border of the cells
-	private boolean drawColors = true; // true for rendering color codes (end of road, out cells, ...)
-	private boolean drawRoadID = false; // true for rendering roads ID
-	private boolean drawNames = false; // true for rendering names of road
-	private boolean drawCenters = false; // true for rendering centers (x,y position)
-	private boolean drawVehicleColor = false;
 	private ArrayList<Polygon> zones = new ArrayList<Polygon>();
 	
 	private double xOffset=0, yOffset=0; // offset of the network on screen
@@ -1833,24 +1827,6 @@ public class Network {
 	public void setyOffset(double yOffset) {
 		this.yOffset = yOffset;
 	}
-	public void switchDrawWire() {
-		drawWire = !drawWire;
-	}
-	public void switchDrawColors() {
-		drawColors = !drawColors;
-	}
-	public void switchDrawRoadID() {
-		drawRoadID = !drawRoadID;
-	}
-	public void switchDrawCenters() {
-		drawCenters = !drawCenters;
-	}
-	public void switchDrawNames() {
-		drawNames = !drawNames;
-	}
-	public void switchDrawRides() {
-		drawVehicleColor = !drawVehicleColor;
-	}
 	public Simulation getSimulation() {
 		return this.sim;
 	}
@@ -1868,24 +1844,6 @@ public class Network {
 	}
 	public ArrayList<MaxVehicleOutflow> getMaxVehicleOutflows() {
 		return this.maxVehicleOutflows;
-	}
-	public boolean getDrawVehicleColor() {
-		return this.drawVehicleColor;
-	}
-	public boolean getDrawWire() {
-		return this.drawWire;
-	}
-	public boolean getDrawColors() {
-		return this.drawColors;
-	}
-	public boolean getDrawRoadID() {
-		return this.drawRoadID;
-	}
-	public boolean getDrawNames() {
-		return this.drawNames;
-	}
-	public boolean getDrawCenters() {
-		return this.drawCenters;
 	}
 	public void addRoadtoRoads(Road r) {
 		this.roads.add(r);

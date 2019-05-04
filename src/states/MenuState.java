@@ -11,6 +11,7 @@ import ui.UIManager;
 import ui.UISlider;
 import ui.UITextButton;
 import ui.UITextSwitch;
+import utils.Defaults;
 import utils.Utils;
 
 public class MenuState extends State {
@@ -52,7 +53,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(network2);
 		
-		sizeOfNetwork = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, 2, false, new ClickListener(){
+		sizeOfNetwork = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, Defaults.getSizeOfNetwork(), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -69,7 +70,7 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(numOrProba);*/
 		
-		globalMultiplier = new UISlider(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, (int) (DataManager.globalFlowMultiplier*100 - 100), true, new ClickListener(){
+		globalMultiplier = new UISlider(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, (int) (Defaults.getGlobalFlowMultiplier()*100 - 100), true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -82,7 +83,7 @@ public class MenuState extends State {
 				DataManager.transfers = minMaxTransfer.getChosenArg();
 			}
 		});
-		nOfSimulations = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Number of simulations", 100, 1, 1, false, new ClickListener(){
+		nOfSimulations = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Number of simulations", 100, 1, Defaults.getNumberOfSimulations(), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -131,7 +132,7 @@ public class MenuState extends State {
 		}
 		this.uiManager.tick();
 		
-		DataManager.globalFlowMultiplier = (float) (globalMultiplier.getCurrentValue()+100) / 100.0;
+		Defaults.setGlobalFlowMultiplier((float) (globalMultiplier.getCurrentValue()+100) / 100.0);
 		//System.out.println(DataManager.globalFlowMultiplier);
 	}
 	public void tick() {

@@ -9,6 +9,7 @@ import main.Simulation;
 import network.AllNetworkRides;
 import network.Network;
 import states.SimSettingsStateNum;
+import utils.Defaults;
 import utils.OriginDestinationCalculator;
 import utils.Utils;
 
@@ -506,8 +507,6 @@ public class DataManager {
 
 	public static int[] flowPerExitEmpiric = new int[16];
 
-	public static double globalFlowMultiplier = 1.10;
-
 	public static int transfers = 0;
 
 	// ============================================================================================
@@ -863,7 +862,7 @@ public class DataManager {
 	public static void saveFlowIntoRide(Ride r, int in, int out) {
 		for (int i=0; i<24; i++) {
 			
-			r.setFlow(i, i+1, (float) (globalFlowMultiplier*probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
+			r.setFlow(i, i+1, (float) (Defaults.getGlobalFlowMultiplier()*probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
 		}
 	}
 	public static void saveFlowIntoRoad(Road road, int index, int specialCase) {
@@ -871,15 +870,15 @@ public class DataManager {
 			//road.setGenerateVehicules(i, i+1, flowPerExit[i][index]);
 			// All roads
 			if (specialCase == 0) {
-				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (float) (Defaults.getGlobalFlowMultiplier()*flowPerExit[i][index]));
 			}
 			// RoutePauliSouthNELeft
 			else if (specialCase == 1) {
-				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][0][5]+probas[i][1][5]+probas[i][2][5]+probas[i][3][5]+probas[i][4][5]+probas[i][5][5]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (float) (Defaults.getGlobalFlowMultiplier()*(probas[i][0][5]+probas[i][1][5]+probas[i][2][5]+probas[i][3][5]+probas[i][4][5]+probas[i][5][5]) * flowPerExit[i][index]));
 			}
 			// RoutePauliSouthNERight
 			else if (specialCase == 2) {
-				road.setGenerateVehicules(i, i+1, (float) (globalFlowMultiplier*(probas[i][6][5]+probas[i][7][5]+probas[i][8][5]) * flowPerExit[i][index]));
+				road.setGenerateVehicules(i, i+1, (float) (Defaults.getGlobalFlowMultiplier()*(probas[i][6][5]+probas[i][7][5]+probas[i][8][5]) * flowPerExit[i][index]));
 			}
 			if (specialCase != 0 && i==23) {
 				// System.out.println(road.getName() + " " + specialCase + " " + index + road.getFlow());

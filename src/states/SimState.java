@@ -16,6 +16,7 @@ import ui.UIImageButton;
 import ui.UIManager;
 import ui.UITextButton;
 import ui.UITextSwitch;
+import utils.Defaults;
 import utils.Utils;
 
 public class SimState extends State {
@@ -196,7 +197,7 @@ public class SimState extends State {
 		this.uiManager.addObject(exitN);
 		
 		// Bottom buttons ============================================================================================
-		colorOn = new UITextSwitch(Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", network.getDrawColors(), new ClickListener(){
+		colorOn = new UITextSwitch(Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", Defaults.getDrawColors(), new ClickListener(){
 			@Override
 			public void onClick() {
 				colorOn.switchIt();
@@ -204,7 +205,7 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", network.getDrawWire(), new ClickListener(){
+		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", Defaults.getDrawWire(), new ClickListener(){
 			@Override
 			public void onClick() {
 				wireOn.switchIt();
@@ -212,7 +213,7 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", network.getDrawRoadID(), new ClickListener(){
+		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", Defaults.getDrawRoadID(), new ClickListener(){
 			@Override
 			public void onClick() {
 				idOn.switchIt();
@@ -220,25 +221,25 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", network.getDrawCenters(), new ClickListener(){
+		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", Defaults.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				ridesOn.switchIt();
-				network.switchDrawRides();
+				Defaults.switchDrawRides();
 			}
 		});
-		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", network.getDrawCenters(), new ClickListener(){
+		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", Defaults.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				namesOn.switchIt();
-				network.switchDrawNames();
+				Defaults.switchDrawNames();
 			}
 		});
-		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", network.getDrawCenters(), new ClickListener(){
+		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", Defaults.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				centersOn.switchIt();
-				network.switchDrawCenters();
+				Defaults.switchDrawCenters();
 			}
 		});
 		this.uiManager.addObject(colorOn);
@@ -285,13 +286,13 @@ public class SimState extends State {
 		NetworkRendering.renderButtonsHeader(network, hud);
 		networkDisplays = NetworkRendering.renderAllBGs(network, backgrounds);
 		currentBackgroundID = 0;
-		if (network.getDrawRoadID()) {
+		if (Defaults.getDrawRoadID()) {
 			currentBackgroundID += 1;
 		}
-		if (network.getDrawWire()) {
+		if (Defaults.getDrawWire()) {
 			currentBackgroundID += 2;
 		}
-		if (network.getDrawColors()) {
+		if (Defaults.getDrawColors()) {
 			currentBackgroundID += 4;
 		}
 		currentDisplay = this.networkDisplays[currentBackgroundID];

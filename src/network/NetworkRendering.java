@@ -19,6 +19,7 @@ import elements.RoundAbout;
 import elements.Vehicle;
 import graphics.Assets;
 import graphics.Text;
+import utils.Defaults;
 import utils.Utils;
 
 public class NetworkRendering {
@@ -327,10 +328,10 @@ public class NetworkRendering {
 		
 	public static void render(Network network, Graphics g) {
 		renderVehicles(network, g);
-		if (network.getDrawNames()) {
+		if (Defaults.getDrawNames()) {
 			renderElementName(network, g);
 		}
-		if (network.getDrawCenters()) {
+		if (Defaults.getDrawCenters()) {
 			renderElementCenter(network, g);
 		}
 		//renderCounters(network, g);
@@ -344,7 +345,7 @@ public class NetworkRendering {
 			for (int i=0; i<4; ++i) {
 				if (cr.getMiddleCells()[i].getVehicle() != null) {
 					Vehicle v = cr.getMiddleCells()[i].getVehicle();
-					if (n.getDrawVehicleColor()) {
+					if (Defaults.getDrawVehicleColor()) {
 						int newSize = (int) (n.getCellWidth()*1.5);
 						int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
 						gg.setColor(v.getDstColor());
@@ -365,7 +366,7 @@ public class NetworkRendering {
 				if (r.getRoadCells().get(i).getVehicle() != null) {
 					if (!r.getRoadCells().get(i).isUnderground()) {
 						Vehicle v = r.getRoadCells().get(i).getVehicle();
-						if (n.getDrawVehicleColor()) {
+						if (Defaults.getDrawVehicleColor()) {
 							int newSize = (int) (n.getCellWidth()*1.5);
 							int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
 							gg.setColor(v.getDstColor());
@@ -385,7 +386,7 @@ public class NetworkRendering {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).getVehicle() != null) {
 					Vehicle v = r.getRoadCells().get(i).getVehicle();
-					if (n.getDrawVehicleColor()) {
+					if (Defaults.getDrawVehicleColor()) {
 						int newSize = (int) (n.getCellWidth()*1.5);
 						int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
 						gg.setColor(v.getDstColor());
@@ -454,7 +455,7 @@ public class NetworkRendering {
 		g.drawString("Steps :       " + Integer.toString(n.getSimulation().getSimState().getStep()), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-30);
 		g.drawString("Time :        " + n.getSimulation().getSimState().getTime(), n.getSimulation().getWidth()-170, n.getSimulation().getHeight()-10);
 		
-		if (n.getDrawVehicleColor()) {
+		if (Defaults.getDrawVehicleColor()) {
 			int x = 660;
 			int y = n.getSimulation().getHeight()-151;
 			int yTextOffset = 10;
@@ -550,7 +551,7 @@ public class NetworkRendering {
 		g.fillRoundRect(n.getSimulation().getWidth()-175, n.getSimulation().getHeight()-105, 185, 115, 10, 10);
 		
 		// Middle bottom corner
-		if (n.getDrawVehicleColor()) {
+		if (Defaults.getDrawVehicleColor()) {
 			g.setColor(Assets.bgAlphaCol);
 			g.fillRoundRect(650, n.getSimulation().getHeight()-156, 130, 166, 10, 10);
 		}
