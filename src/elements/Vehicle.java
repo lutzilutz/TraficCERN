@@ -17,6 +17,7 @@ public class Vehicle {
 	private Cell nextPlace;
 	private int speed = 1;
 	private boolean hasToLeave = false;
+	private boolean instantDestroy = false;
 	private ArrayList<Ride> ride = new ArrayList<Ride>();
 	private int idCurrentRide = 0;
 	private boolean inBucket = true;
@@ -128,6 +129,10 @@ public class Vehicle {
 		hasToLeave = true;
 		nextPlace = null;
 	}
+	public void destroyIt() {
+		instantDestroy = true;
+	}
+	
 	public void stayHere() {
 		nextPlace = cell;
 	}
@@ -312,6 +317,9 @@ public class Vehicle {
 	}
 	public boolean hasToLeave() {
 		return hasToLeave;
+	}
+	public boolean instantDestroy() {
+		return instantDestroy;
 	}
 	public int getId() {
 		return id;

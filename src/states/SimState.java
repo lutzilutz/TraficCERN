@@ -318,7 +318,7 @@ public class SimState extends State {
 								simulationID++;
 								network.restart();
 							} else {
-								Utils.log("        " + simulationID + " simulations finished\n");
+								Utils.log("        " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
 								switchPause();
 								finished = true;
 							}
@@ -339,9 +339,9 @@ public class SimState extends State {
 								network.restart();
 							} else {
 								if (simulationID<=1) {
-									Utils.log("        " + simulationID + " simulation finished\n");
+									Utils.log("        " + simulationID + " simulation finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
 								} else {
-									Utils.log("        " + simulationID + " simulations finished\n");
+									Utils.log("        " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
 								}
 								switchPause();
 								finished = true;

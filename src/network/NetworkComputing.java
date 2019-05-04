@@ -472,6 +472,7 @@ public class NetworkComputing {
 		}
 		
 		for (Road r: n.getRoads()) {
+			boolean skipThisVehicle = false;
 			if (r.getLeakyBucket().size()>0 && r.getRoadCells().get(0).getVehicle() == null) {
 				Vehicle v = r.getLeakyBucket().get(0);
 				v.setNextPlace(r.getRoadCells().get(0));
@@ -489,12 +490,33 @@ public class NetworkComputing {
 					if (v.getRide().size()==0) {
 						Utils.log("        ERROR : Vehicle with empty ride\n");
 					}
-					saveRideIntoData(v.getRide().get(v.getIdCurrentRide()), n.getSimulation());
+					if (v.getRide().size()>0) {
+						skipThisVehicle = false;
+						saveRideIntoData(v.getRide().get(v.getIdCurrentRide()), n.getSimulation());
+					} else {
+						skipThisVehicle = true;
+						Utils.log("        ERROR : Can't save ride into data (NetworkComputing.computeEvolution) ... trying to skip !\n");
+					}
 				} else {
 					v.addRide(n.selectARide(r.getName()));
 				}
-				chooseAspect(v);
+				if (!skipThisVehicle) {
+					chooseAspect(v);
+				} else {
+					v.destroyIt();
+				}
 				
+			}
+		}
+		
+		// Removes vehicles instantly (debug)
+		Iterator<Vehicle> iter = n.getVehicles().iterator();
+		while (iter.hasNext()) {
+			Vehicle vec = iter.next();
+			if (vec.instantDestroy()) {
+				n.artificiallyDestroyedVehicles++;
+				iter.remove();
+				n.increaseNumberOfVehicles(-1);
 			}
 		}
 		

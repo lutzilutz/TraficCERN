@@ -53,6 +53,8 @@ public class Network {
 	private int maxSpeed = 2;
 	private boolean randomGeneration = true;
 	
+	public int artificiallyDestroyedVehicles = 0;
+	
 	public Network(Simulation sim, int n, int size) {
 		this.setCellWidth((int) (Math.pow(2, 1+size)));
 		this.setCellHeight((int) (Math.pow(2, 1+size)));
@@ -1618,13 +1620,13 @@ public class Network {
 						}
 					}
 					if (chosenRide.getNextConnections().isEmpty()) {
-						Utils.log("        ERROR : No adapted probability found for " + roadName + " :\n");
+						Utils.log("        ERROR : No adapted probability found for " + roadName + " : ");
 						for (Float f: chosenRide.getFlow()) {
 							System.out.print(f + " ");
 						}
 						for (Road road: this.getRoads()) {
 							if (this.getAllRides(road.getName()) != null) {
-								if (road.getName().equals("rRueDeGeneveSE")) {
+								if (road.getName().equals(roadName)) {
 									System.out.println(road.getFlow());
 								}
 							}
