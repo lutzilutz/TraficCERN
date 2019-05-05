@@ -252,24 +252,51 @@ public class NetworkComputing {
 					if (r.getNextConnections().size()>0) {
 						if (r.getRoadName().equals(firstConnection)) {
 							if (firstConnection.equals("rD884NE")) {
-								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
-									if (Math.random()<percentage) {
-										newRides.add(r.clone());
-										return newRides;
+								if (Math.random()*100 > Defaults.getRepartitionETunnel()) {
+									if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rD884CERN")) {
+										if (Math.random()<percentage) {
+											newRides.add(r.clone());
+											return newRides;
+										}
+									}
+								} else {
+									if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rTunnelSE")) {
+										if (Math.random()<percentage) {
+											newRides.add(r.clone());
+											return newRides;
+										}
 									}
 								}
 							} else if (firstConnection.equals("rRueDeGeneveSE")) {
-								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
-									if (Math.random()<percentage) {
-										newRides.add(r.clone());
-										return newRides;
+								if (Math.random()*100 > Defaults.getRepartitionETunnel()) {
+									if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+										if (Math.random()<percentage) {
+											newRides.add(r.clone());
+											return newRides;
+										}
+									}
+								} else {
+									if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rTunnelSE")) {
+										if (Math.random()<percentage) {
+											newRides.add(r.clone());
+											return newRides;
+										}
 									}
 								}
 							} else if (firstConnection.equals("rRueGermaineTillionSW")) {
-								if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
-									if (Math.random()<percentage) {
-										newRides.add(r.clone());
-										return newRides;
+								if (Math.random()*100 > Defaults.getRepartitionETunnel()) {
+									if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rSortieCERNSE")) {
+										if (Math.random()<percentage) {
+											newRides.add(r.clone());
+											return newRides;
+										}
+									}
+								} else {
+									if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals("rTunnelSE")) {
+										if (Math.random()<percentage) {
+											newRides.add(r.clone());
+											return newRides;
+										}
 									}
 								}
 							}

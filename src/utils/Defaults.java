@@ -9,12 +9,13 @@ public class Defaults {
 	private static boolean drawCenters = false; // true for rendering centers (x,y position)
 	private static boolean drawVehicleColor = false; // true for rendering rides color on vehicles
 	
-	private static int simSpeed = 100000; // 1 - RT ; 20 - > ; 100 - >> ; 2000 - >>> ; 100000 - max ;
+	private static int simSpeed = 100000; // 1 - RT ; 20 - > ; 100 - >> ; 2000 - >>> ; 100000 - max
 	
 	private static int sizeOfNetwork = 2; // visual size of network ; 1 - zoomed out ; 3 - zoomed in
 	private static int numberOfSimulations = 100; // number of simulations to compute
 	private static double globalFlowMultiplier = 1.00; // multiplier for the global flow ; 1.00 for 100% ; 1.50 for 150% ; ...
 	private static int transferScenario = 0; // 0 - no transfer ; 1 - min transfer ; 2 - max transfer
+	private static int repartitionETunnel = 50; // percentage of vehicle being transfered to entrance E (100-repartitionETunnel is transfer to tunnel)
 	
 	private static int controlDuration = 8; // time in seconds to control 1 vehicle at 1 entrance
 	private static int[] lightPhaseDuration = {0, 15, 0, 35, 0, 15, 0, 15}; // pairs of min/max light phase duration (4 phases)
@@ -71,6 +72,9 @@ public class Defaults {
 	}
 	public static int getTransferScenario() {
 		return transferScenario;
+	}
+	public static int getRepartitionETunnel() {
+		return repartitionETunnel;
 	}
 	public static int getControlDuration() {
 		return controlDuration;

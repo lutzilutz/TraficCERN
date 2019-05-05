@@ -37,7 +37,7 @@ public class SimState extends State {
 	private boolean restarting = false;
 	private boolean finished = false;
 	
-	private boolean rushHours = false, rushHoursMorning = false, rushHoursEvening = false;
+	private boolean rushHours = false, rushHoursMorning = false;//, rushHoursEvening = false;
 	
 	private boolean leftPressed = false;
 	private double clickedX=0, clickedY=0;
@@ -491,15 +491,15 @@ public class SimState extends State {
 		if (getHours()>=7 && getHours()<10) {
 			rushHours = true;
 			rushHoursMorning = true;
-			rushHoursEvening = false;
+			//rushHoursEvening = false;
 		} else if (getHours()>=17 && getHours()<20) {
 			rushHours = true;
 			rushHoursMorning = false;
-			rushHoursEvening = true;
+			//rushHoursEvening = true;
 		} else {
 			rushHours = false;
 			rushHoursMorning = false;
-			rushHoursEvening = false;
+			//rushHoursEvening = false;
 		}
 	}
 	// Getters & setters ====================================================================================

@@ -28,7 +28,7 @@ public class MenuState extends State {
 	private int sliderWidth = 500;
 	
 	private UITextButton network1, network2;
-	private UISlider sizeOfNetwork, globalMultiplier, nOfSimulations;
+	private UISlider sizeOfNetwork, globalMultiplier, nOfSimulations, repartition_E_tunnel;
 	private UITextSwitch numOrProba, minMaxTransfer;
 	
 	public MenuState(Simulation simulation) {
@@ -76,20 +76,28 @@ public class MenuState extends State {
 				
 			}
 		});
-		minMaxTransfer = new UITextSwitch(xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", Defaults.getTransferScenario(), new ClickListener(){
-			@Override
-			public void onClick() {
-				minMaxTransfer.switchIt();
-				Defaults.setTransferScenario(minMaxTransfer.getChosenArg());
-			}
-		});
-		nOfSimulations = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Number of simulations", 100, 1, Defaults.getNumberOfSimulations(), false, new ClickListener(){
+		this.uiManager.addObject(globalMultiplier);
+		nOfSimulations = new UISlider(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Number of simulations", 100, 1, Defaults.getNumberOfSimulations(), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManager.addObject(nOfSimulations);
+		minMaxTransfer = new UITextSwitch(xStart, yStart+6*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", Defaults.getTransferScenario(), new ClickListener(){
+			@Override
+			public void onClick() {
+				minMaxTransfer.switchIt();
+				Defaults.setTransferScenario(minMaxTransfer.getChosenArg());
+			}
+		});
+		this.uiManager.addObject(minMaxTransfer);
+		repartition_E_tunnel = new UISlider(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Transfer E-tunnel", 100, 1, Defaults.getRepartitionETunnel(), true, new ClickListener(){
+			@Override
+			public void onClick() {
+				
+			}
+		});
 		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -120,20 +128,14 @@ public class MenuState extends State {
 		}
 	}
 	public void tick(int n) {
-		if (DataManager.useProbabilities && !this.uiManager.getObjects().contains(globalMultiplier)) {
-			this.uiManager.addObject(globalMultiplier);
-		} else if (!DataManager.useProbabilities && this.uiManager.getObjects().contains(globalMultiplier)) {
-			this.uiManager.removeObject(globalMultiplier);
-		}
-		if (DataManager.useProbabilities && !this.uiManager.getObjects().contains(minMaxTransfer)) {
-			this.uiManager.addObject(minMaxTransfer);
-		} else if (!DataManager.useProbabilities && this.uiManager.getObjects().contains(minMaxTransfer)) {
-			this.uiManager.removeObject(minMaxTransfer);
+		if (Defaults.getTransferScenario() != 0 && !this.uiManager.getObjects().contains(repartition_E_tunnel)) {
+			this.uiManager.addObject(repartition_E_tunnel);
+		} else if (Defaults.getTransferScenario() == 0 && this.uiManager.getObjects().contains(repartition_E_tunnel)) {
+			this.uiManager.removeObject(repartition_E_tunnel);
 		}
 		this.uiManager.tick();
 		
 		Defaults.setGlobalFlowMultiplier((float) (globalMultiplier.getCurrentValue()+100) / 100.0);
-		//System.out.println(DataManager.globalFlowMultiplier);
 	}
 	public void tick() {
 		
