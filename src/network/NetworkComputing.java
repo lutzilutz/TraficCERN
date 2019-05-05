@@ -15,6 +15,7 @@ import elements.TrafficLightsSystem;
 import elements.Vehicle;
 import graphics.Assets;
 import main.Simulation;
+import utils.Defaults;
 import utils.Utils;
 
 public class NetworkComputing {
@@ -242,8 +243,8 @@ public class NetworkComputing {
 		// Entrance B to E ----------------------------------------------------------------------------------
 		if (lastConnection.equals("rRoutePauliSouthSW")) {
 			
-			if (DataManager.transfers==1) {percentage = 0.3;}
-			else if (DataManager.transfers==2) {percentage = 0.7;}
+			if (Defaults.getTransferScenario()==1) {percentage = 0.3;}
+			else if (Defaults.getTransferScenario()==2) {percentage = 0.7;}
 			
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {
@@ -282,8 +283,8 @@ public class NetworkComputing {
 		// Entrance A to E ----------------------------------------------------------------------------------
 		else if (lastConnection.equals("rRouteBellSW")) {
 			
-			if (DataManager.transfers==1) {percentage = 0.2;}
-			else if (DataManager.transfers==2) {percentage = 0.5;}
+			if (Defaults.getTransferScenario()==1) {percentage = 0.2;}
+			else if (Defaults.getTransferScenario()==2) {percentage = 0.5;}
 			
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {
@@ -482,7 +483,7 @@ public class NetworkComputing {
 				if (!n.isRandomGeneration()) {
 					ArrayList<Ride> tmpRides = new ArrayList<Ride>();
 					tmpRides = n.selectRidesWithProbability(r.getName());
-					if (DataManager.transfers!=0 && (n.getSimulation().getSimState().isRushHoursMorning())) {
+					if (Defaults.getTransferScenario()!=0 && (n.getSimulation().getSimState().isRushHoursMorning())) {
 						v.addRide(applyTransfers(n, tmpRides));
 					} else {
 						v.addRide(tmpRides);

@@ -507,20 +507,9 @@ public class DataManager {
 
 	public static int[] flowPerExitEmpiric = new int[16];
 
-	public static int transfers = 0;
-
 	// ============================================================================================
 	// Light system ===============================================================================
 	// ============================================================================================
-
-	public static int cycle1LTSmin = 0;
-	public static int cycle1LTSmax = 15;
-	public static int cycle2LTSmin = 0;
-	public static int cycle2LTSmax = 35;
-	public static int cycle3LTSmin = 0;
-	public static int cycle3LTSmax = 15;
-	public static int cycle4LTSmin = 0;
-	public static int cycle4LTSmax = 15;
 
 	public static int randomValue = 0;
 

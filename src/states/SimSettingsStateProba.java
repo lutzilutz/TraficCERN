@@ -16,6 +16,7 @@ import ui.UISlider;
 import ui.UISliderDouble;
 import ui.UISliderTriple;
 import ui.UITextButton;
+import utils.Defaults;
 import utils.Utils;
 
 public class SimSettingsStateProba extends State {
@@ -47,7 +48,7 @@ public class SimSettingsStateProba extends State {
 		super(simulation);
 		this.uiManagerGeneral = new UIManager(simulation);
 		
-		timePerVhcEntrance = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Control duration of 1 vehicle at entrances", 30, 8, false, new ClickListener(){
+		timePerVhcEntrance = new UISlider(simulation, xStart, yStart+1*(sliderHeight+buttonYMargin), sliderWidth, "Control duration of 1 vehicle at entrances", 30, Defaults.getControlDuration(), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -55,7 +56,7 @@ public class SimSettingsStateProba extends State {
 		});
 		this.uiManagerGeneral.addObject(timePerVhcEntrance);
 		
-		crEntreeB_phase1 = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 1", 60, DataManager.cycle1LTSmin, DataManager.cycle1LTSmax, false, new ClickListener(){
+		crEntreeB_phase1 = new UISliderDouble(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 1", 60, Defaults.getLightPhaseDuration()[0], Defaults.getLightPhaseDuration()[1], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -63,7 +64,7 @@ public class SimSettingsStateProba extends State {
 		});
 		this.uiManagerGeneral.addObject(crEntreeB_phase1);
 		
-		crEntreeB_phase2 = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 2", 60, DataManager.cycle2LTSmin, DataManager.cycle2LTSmax, false, new ClickListener(){
+		crEntreeB_phase2 = new UISliderDouble(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 2", 60, Defaults.getLightPhaseDuration()[2], Defaults.getLightPhaseDuration()[3], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -71,7 +72,7 @@ public class SimSettingsStateProba extends State {
 		});
 		this.uiManagerGeneral.addObject(crEntreeB_phase2);
 		
-		crEntreeB_phase3 = new UISliderDouble(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 3", 60, DataManager.cycle3LTSmin, DataManager.cycle3LTSmax, false, new ClickListener(){
+		crEntreeB_phase3 = new UISliderDouble(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 3", 60, Defaults.getLightPhaseDuration()[4], Defaults.getLightPhaseDuration()[5], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -79,7 +80,7 @@ public class SimSettingsStateProba extends State {
 		});
 		this.uiManagerGeneral.addObject(crEntreeB_phase3);
 		
-		crEntreeB_phase4 = new UISliderDouble(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 4", 60, DataManager.cycle4LTSmin, DataManager.cycle4LTSmax, false, new ClickListener(){
+		crEntreeB_phase4 = new UISliderDouble(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Duration phase 4", 60, Defaults.getLightPhaseDuration()[6], Defaults.getLightPhaseDuration()[7], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				

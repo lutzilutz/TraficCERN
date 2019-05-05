@@ -76,11 +76,11 @@ public class MenuState extends State {
 				
 			}
 		});
-		minMaxTransfer = new UITextSwitch(xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", 0, new ClickListener(){
+		minMaxTransfer = new UITextSwitch(xStart, yStart+5*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", Defaults.getTransferScenario(), new ClickListener(){
 			@Override
 			public void onClick() {
 				minMaxTransfer.switchIt();
-				DataManager.transfers = minMaxTransfer.getChosenArg();
+				Defaults.setTransferScenario(minMaxTransfer.getChosenArg());
 			}
 		});
 		nOfSimulations = new UISlider(simulation, xStart, yStart+6*(sliderHeight+buttonYMargin), sliderWidth, "Number of simulations", 100, 1, Defaults.getNumberOfSimulations(), false, new ClickListener(){

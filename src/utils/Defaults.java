@@ -9,9 +9,15 @@ public class Defaults {
 	private static boolean drawCenters = false; // true for rendering centers (x,y position)
 	private static boolean drawVehicleColor = false; // true for rendering rides color on vehicles
 	
-	private static int sizeOfNetwork = 2;
-	private static int numberOfSimulations = 100;
-	private static double globalFlowMultiplier = 1.00;
+	private static int simSpeed = 100000; // 1 - RT ; 20 - > ; 100 - >> ; 2000 - >>> ; 100000 - max ;
+	
+	private static int sizeOfNetwork = 2; // visual size of network ; 1 - zoomed out ; 3 - zoomed in
+	private static int numberOfSimulations = 100; // number of simulations to compute
+	private static double globalFlowMultiplier = 1.00; // multiplier for the global flow ; 1.00 for 100% ; 1.50 for 150% ; ...
+	private static int transferScenario = 0; // 0 - no transfer ; 1 - min transfer ; 2 - max transfer
+	
+	private static int controlDuration = 8; // time in seconds to control 1 vehicle at 1 entrance
+	private static int[] lightPhaseDuration = {0, 15, 0, 35, 0, 15, 0, 15}; // pairs of min/max light phase duration (4 phases)
 	
 	// Switchers
 	public static void switchDrawWire() {
@@ -51,6 +57,9 @@ public class Defaults {
 	public static boolean getDrawCenters() {
 		return drawCenters;
 	}
+	public static int getSimSpeed() {
+		return simSpeed;
+	}
 	public static int getSizeOfNetwork() {
 		return sizeOfNetwork;
 	}
@@ -60,8 +69,20 @@ public class Defaults {
 	public static double getGlobalFlowMultiplier() {
 		return globalFlowMultiplier;
 	}
+	public static int getTransferScenario() {
+		return transferScenario;
+	}
+	public static int getControlDuration() {
+		return controlDuration;
+	}
+	public static int[] getLightPhaseDuration() {
+		return lightPhaseDuration;
+	}
 	// Setters
 	public static void setGlobalFlowMultiplier(double newMultiplier) {
 		globalFlowMultiplier = newMultiplier;
+	}
+	public static void setTransferScenario(int newScenario) {
+		transferScenario = newScenario;
 	}
 }

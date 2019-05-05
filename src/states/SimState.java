@@ -42,8 +42,7 @@ public class SimState extends State {
 	private boolean leftPressed = false;
 	private double clickedX=0, clickedY=0;
 	
-	private double defaultSimSpeed = 20;
-	private double simSpeed = defaultSimSpeed;
+	private double simSpeed = Defaults.getSimSpeed();
 	private double offsetSpeed = 1;
 	private double offsetSpeedDefault = offsetSpeed;
 	private long offsetTime = 0;
