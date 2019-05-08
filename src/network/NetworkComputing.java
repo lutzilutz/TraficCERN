@@ -539,6 +539,7 @@ public class NetworkComputing {
 		
 		// Removes vehicles instantly (debug)
 		Iterator<Vehicle> iter = n.getVehicles().iterator();
+		int nVhcMoving = 0;
 		while (iter.hasNext()) {
 			Vehicle vec = iter.next();
 			if (vec.instantDestroy()) {
@@ -546,6 +547,12 @@ public class NetworkComputing {
 				iter.remove();
 				n.increaseNumberOfVehicles(-1);
 			}
+			if (vec.getSpeed() != 0) {
+				nVhcMoving++;
+			}
+		}
+		if (n.getVehicles().size() > 200 && nVhcMoving == 0) {
+			Utils.log("        ERROR : Network blocked !\n");
 		}
 		
 		if (n.getSimulation().getSimState().getStep()%60 == 0) { // every minute
