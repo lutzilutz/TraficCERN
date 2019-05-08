@@ -77,6 +77,7 @@ public class SimState extends State {
 	private ExpVarCalculator counterEntranceBRightEVC;
 	private ExpVarCalculator counterEntranceELeftEVC;
 	private ExpVarCalculator counterEntranceERightEVC;
+	private ExpVarCalculator counterEntranceESumEVC;
 	
 	public SimState(Simulation simulation) {
 		super(simulation);
@@ -276,6 +277,7 @@ public class SimState extends State {
 		counterEntranceBRightEVC = new ExpVarCalculator(24*60-1);
 		counterEntranceELeftEVC = new ExpVarCalculator(24*60-1);
 		counterEntranceERightEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceESumEVC = new ExpVarCalculator(24*60-1);
 		// ----------------------------------------------------------------------------------------
 		
 		lastTick = System.nanoTime();
@@ -554,6 +556,9 @@ public class SimState extends State {
 	}
 	public ExpVarCalculator getCounterEntranceERight() {
 		return this.counterEntranceERightEVC;
+	}
+	public ExpVarCalculator getCounterEntranceESum() {
+		return this.counterEntranceESumEVC;
 	}
 	public int getSimulationID() {
 		return this.simulationID;

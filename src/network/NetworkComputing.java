@@ -643,7 +643,9 @@ public class NetworkComputing {
 			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceELeft().getEsperance().get(i)) + " ");
 			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceELeft().getEcartType().get(i)) + " ");
 			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceERight().getEsperance().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceERight().getEcartType().get(i)) + "\n");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceERight().getEcartType().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceESum().getEsperance().get(i)) + " ");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceESum().getEcartType().get(i)) + "\n");
 		}
 		
 		Utils.saveDataCountersAll();
@@ -669,6 +671,7 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getCounterEntranceBRight().saveTemp();
 		n.getSimulation().getSimState().getCounterEntranceELeft().saveTemp();
 		n.getSimulation().getSimState().getCounterEntranceERight().saveTemp();
+		n.getSimulation().getSimState().getCounterEntranceESum().saveTemp();
 	}
 	// Write data every hour
 	public static void writeDataHours(Network n) {
@@ -726,6 +729,7 @@ public class NetworkComputing {
 			n.getSimulation().getSimState().getCounterEntranceBRight().addTemp(n.selectARoad("rRoutePauliSouthNERight").getVehicleCounter().getCounter());
 			n.getSimulation().getSimState().getCounterEntranceELeft().addTemp(n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
 			n.getSimulation().getSimState().getCounterEntranceERight().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter());
+			n.getSimulation().getSimState().getCounterEntranceESum().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter() + n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
 			
 			Utils.writeDataCounters(n.getSimulation().getSimState().getTime() + " ");
 			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
