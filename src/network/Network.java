@@ -1131,6 +1131,9 @@ public class Network {
 		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
 		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		
+		rSortieCERNSE.setCounter(0.5, "counter EntranceE right");
+		rD884CERN.setCounter(0.5, "counter EntranceE left");
+		
 		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
 		outflowEntranceE.addRoad(rSortieCERNSE);
 		maxVehicleOutflows.add(outflowEntranceE);

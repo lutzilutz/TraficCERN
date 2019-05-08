@@ -98,7 +98,7 @@ public class Utils {
 			Utils.log(e);
 		}
 		dataCountersAll.print("Number of vehicles per minute passing through counters ---\n");
-		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight\n");
+		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight EntranceELeft EntranceERight\n");
 	}
 	public static void initDataSegmentCounters() {
 		try {

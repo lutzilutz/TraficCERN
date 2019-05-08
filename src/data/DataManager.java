@@ -610,7 +610,7 @@ public class DataManager {
 			applyDataToRoadsProba(simulation);
 			for (Road road: simulation.getSimState().getNetwork().getRoads()) {
 				if (road.getName().equals("rSortieCERNSE") || road.getName().equals("rD884CERN") || road.getName().equals("rRoutePauliSouthSW") || road.getName().equals("rRouteBellSW")) {
-					road.setMaxOutflow(simulation.getSimSettingsStateProba().timePerVhcEntrance().getCurrentValue());
+					road.setMaxOutflow(simulation.getSimSettingsStateProba().timePerVhcEntrance().getCurrentValue()/2);
 					for (MaxVehicleOutflow maxOutflow: simulation.getSimState().getNetwork().getMaxVehicleOutflows()) {
 						maxOutflow.setGlobalOutflow(simulation.getSimSettingsStateProba().timePerVhcEntrance().getCurrentValue());
 					}

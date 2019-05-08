@@ -38,25 +38,30 @@ public class MaxVehicleOutflow {
 			}
 			if (roads.size() == 2) {
 				
-				// number of vehicle on each road
-				int file1 = roads.get(0).getNumberOfVehiclesAtEnd(13);
-				int file2 = roads.get(1).getNumberOfVehiclesAtEnd(13);
-				
-				// if road 0 have less vehicle than road 1
-				if (file1 < file2) {
-
-					// block road 0, unblock road 1
-					roads.get(0).getRoadCells().get(roads.get(0).getRoadCells().size()-1).setBlocked(true);
-					roads.get(1).getRoadCells().get(roads.get(1).getRoadCells().size()-1).setBlocked(false);
-					
-				} else {
-					
-					// unblock road 0, block road 1
+				// if control duration is instantaneous
+				if (globalOutflow == 0) {
 					roads.get(0).getRoadCells().get(roads.get(0).getRoadCells().size()-1).setBlocked(false);
-					roads.get(1).getRoadCells().get(roads.get(1).getRoadCells().size()-1).setBlocked(true);
+					roads.get(1).getRoadCells().get(roads.get(1).getRoadCells().size()-1).setBlocked(false);
+				} else {
+					// number of vehicle on each road
+					int file1 = roads.get(0).getNumberOfVehiclesAtEnd(13);
+					int file2 = roads.get(1).getNumberOfVehiclesAtEnd(13);
 					
+					// if road 0 have less vehicle than road 1
+					if (file1 < file2) {
+	
+						// block road 0, unblock road 1
+						roads.get(0).getRoadCells().get(roads.get(0).getRoadCells().size()-1).setBlocked(true);
+						roads.get(1).getRoadCells().get(roads.get(1).getRoadCells().size()-1).setBlocked(false);
+						
+					} else {
+						
+						// unblock road 0, block road 1
+						roads.get(0).getRoadCells().get(roads.get(0).getRoadCells().size()-1).setBlocked(false);
+						roads.get(1).getRoadCells().get(roads.get(1).getRoadCells().size()-1).setBlocked(true);
+						
+					}
 				}
-				
 			} else if (roads.size()==1) {
 				Utils.log("        ERROR : in MaxVehicleOutflow, roads is size 1 (unuseful)\n");
 			} else {
