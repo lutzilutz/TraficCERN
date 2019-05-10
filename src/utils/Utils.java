@@ -70,12 +70,12 @@ public class Utils {
 		Utils.log("    INFO : Initialized simulation folder " + dateFormat.format(date) + "\n");
 	}
 	public static void initDataLeakyBuckets() {
-		try {
+		/*try {
 			dataLeakyBuckets = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
-		dataLeakyBuckets.print("Thoiry St-Genis Ferney Tun Geneva\n");
+		dataLeakyBuckets.print("Thoiry St-Genis Ferney Tun Geneva\n");*/
 		
 		try {
 			dataLeakyBucketsAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets_all.txt", false));
@@ -85,13 +85,13 @@ public class Utils {
 		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
 	}
 	public static void initDataCounters() {
-		try {
+		/*try {
 			dataCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
 		dataCounters.print("Number of vehicles per minute passing through counters ---\n");
-		dataCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");
+		dataCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");*/
 		
 		try {
 			dataCountersAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters_all.txt", false));
@@ -102,37 +102,37 @@ public class Utils {
 		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight EntranceELeft EntranceERight EntranceESum\n");
 	}
 	public static void initDataSegmentCounters() {
-		try {
+		/*try {
 			dataSegmentCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_segment_counters.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
 		dataSegmentCounters.print("Number of vehicles at a given time, syntax is [counter ID, speed] ---\n");
-		dataSegmentCounters.print("Time 1A,0 1A,1 1A,2 1B,0 1B,1 1B,2 2A,0 2A,1 2A,2 2B,0 2B,1 2B,2\n");
+		dataSegmentCounters.print("Time 1A,0 1A,1 1A,2 1B,0 1B,1 1B,2 2A,0 2A,1 2A,2 2B,0 2B,1 2B,2\n");*/
 	}
 	public static void initCheckingValues() {
-		try {
+		/*try {
 			dataChecking = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_checking.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
-		dataChecking.print("Checking probabilities\n");
+		dataChecking.print("Checking probabilities\n");*/
 	}
 	public static void initDataEnterExit() {
-		try {
+		/*try {
 			dataEnterExit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_enter_exit.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
-		dataEnterExit.print("Checking enters and exits (per hour)\n");
+		dataEnterExit.print("Checking enters and exits (per hour)\n");*/
 	}
 	public static void initDataMeanTimeSpent() {
-		try {
+		/*try {
 			dataMeanTimeSpent = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
-		dataMeanTimeSpent.print("Checking mean time spent on network in seconds (per hour)\n");
+		dataMeanTimeSpent.print("Checking mean time spent on network in seconds (per hour)\n");*/
 		
 		try {
 			dataMeanTimeSpentAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_all.txt", false));
@@ -234,12 +234,12 @@ public class Utils {
 	public static void saveDataAll() {
 		
 	}
-	public static void writeDataCounters(String text) {
-		dataStrCounters = dataStrCounters + text;
+	public static void writeDataCounters(String text) {/*
+		dataStrCounters = dataStrCounters + text;*/
 	}
-	public static void saveDataCounters() {
+	public static void saveDataCounters() {/*
 		dataCounters.print(dataStrCounters);
-		dataStrCounters = "";
+		dataStrCounters = "";*/
 	}
 	public static void writeDataCountersAll(String text) {
 		dataStrCountersAll = dataStrCountersAll + text;
@@ -248,19 +248,19 @@ public class Utils {
 		dataCountersAll.print(dataStrCountersAll);
 		dataStrCountersAll = "";
 	}
-	public static void writeDataSegmentCounters(String text) {
-		dataStrSegmentCounters = dataStrSegmentCounters + text;
+	public static void writeDataSegmentCounters(String text) {/*
+		dataStrSegmentCounters = dataStrSegmentCounters + text;*/
 	}
-	public static void saveDataSegmentCounters() {
+	public static void saveDataSegmentCounters() {/*
 		dataSegmentCounters.print(dataStrSegmentCounters);
-		dataStrSegmentCounters = "";
+		dataStrSegmentCounters = "";*/
 	}
-	public static void writeDataLeakyBuckets(String text) {
-		dataStrLeakyBuckets = dataStrLeakyBuckets + text;
+	public static void writeDataLeakyBuckets(String text) {/*
+		dataStrLeakyBuckets = dataStrLeakyBuckets + text;*/
 	}
-	public static void saveDataLeakyBuckets() {
+	public static void saveDataLeakyBuckets() {/*
 		dataLeakyBuckets.print(dataStrLeakyBuckets);
-		dataStrLeakyBuckets = "";
+		dataStrLeakyBuckets = "";*/
 	}
 	public static void writeDataLeakyBucketsAll(String text) {
 		dataStrLeakyBucketsAll = dataStrLeakyBucketsAll + text;
@@ -269,7 +269,7 @@ public class Utils {
 		dataLeakyBucketsAll.print(dataStrLeakyBucketsAll);
 		dataStrLeakyBucketsAll = "";
 	}
-	public static void saveDataEnterExit() {
+	public static void saveDataEnterExit() {/*
 		
 		for (int i=0; i<16; i++) {
 			dataStrEnterExit += DataManager.flowPerExitEmpiric[i] + "\t";
@@ -277,9 +277,9 @@ public class Utils {
 		}
 		dataStrEnterExit += "\n";
 		dataEnterExit.print(dataStrEnterExit);
-		dataStrEnterExit = "";
+		dataStrEnterExit = "";*/
 	}
-	public static void saveMeanTimeSpent() {
+	public static void saveMeanTimeSpent() {/*
 		double meanTimeLastHour = 0;
 		for (Integer i: DataManager.timeSpent) {
 			meanTimeLastHour += i;
@@ -288,7 +288,7 @@ public class Utils {
 		DataManager.timeSpent = new ArrayList<Integer>();
 		dataStrMeanTimeSpent = String.format("%.2f", meanTimeLastHour) + "\n";
 		dataMeanTimeSpent.print(dataStrMeanTimeSpent);
-		dataStrMeanTimeSpent = "";
+		dataStrMeanTimeSpent = "";*/
 	}
 	public static void writeDataMeanTimeSpentAll(String text) {
 		dataStrMeanTimeSpentAll = dataStrMeanTimeSpentAll + text;
