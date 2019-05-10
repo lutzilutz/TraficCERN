@@ -585,7 +585,8 @@ public class DataManager {
 	// Time spent on network ======================================================================
 	// ============================================================================================
 
-	public static ArrayList<Integer> timeSpent = new ArrayList<Integer>();
+	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>();
+	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>();
 	public static double meanTime = 0;
 
 	// Is roadName the last road of the ride r ?

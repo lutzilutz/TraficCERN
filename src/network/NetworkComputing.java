@@ -626,8 +626,10 @@ public class NetworkComputing {
 		// Time spent -----------------------------------------------------------------------------
 		
 		for (int i=0 ; i<24 ; i++) {
-			Utils.writeDataMeanTimeSpentAll(Float.toString(n.getSimulation().getSimState().getMeanTimeSpent().getEsperance().get(i)) + " ");
-			Utils.writeDataMeanTimeSpentAll(Float.toString(n.getSimulation().getSimState().getMeanTimeSpent().getEcartType().get(i)) + "\n");
+			Utils.writeDataMeanTimeSpentAllTransit(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentTransit().getEsperance().get(i)) + " ");
+			Utils.writeDataMeanTimeSpentAllTransit(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentTransit().getEcartType().get(i)) + "\n");
+			Utils.writeDataMeanTimeSpentAllCERN(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentCERN().getEsperance().get(i)) + " ");
+			Utils.writeDataMeanTimeSpentAllCERN(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentCERN().getEcartType().get(i)) + "\n");
 		}
 		
 		Utils.saveDataMeanTimeSpentAll();
@@ -668,7 +670,8 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getLBrRoutePauliSouthNELeft().saveTemp();
 		n.getSimulation().getSimState().getLBrRoutePauliSouthNERight().saveTemp();
 		
-		n.getSimulation().getSimState().getMeanTimeSpent().saveTemp();
+		n.getSimulation().getSimState().getMeanTimeSpentTransit().saveTemp();
+		n.getSimulation().getSimState().getMeanTimeSpentCERN().saveTemp();
 		
 		n.getSimulation().getSimState().getCounter1A().saveTemp();
 		n.getSimulation().getSimState().getCounter1B().saveTemp();
@@ -684,13 +687,22 @@ public class NetworkComputing {
 	public static void writeDataHours(Network n) {
 		if (!n.isRandomGeneration()) {
 			
-			double meanTimeLastHour = 0;
-			for (Integer i: DataManager.timeSpent) {
-				meanTimeLastHour += i;
+			double meanTimeLastHourTransit = 0;
+			for (Integer i: DataManager.timeSpentTransit) {
+				meanTimeLastHourTransit += i;
 			}
-			meanTimeLastHour = meanTimeLastHour / (double) (DataManager.timeSpent.size());
+			meanTimeLastHourTransit = meanTimeLastHourTransit / (double) (DataManager.timeSpentTransit.size());
+			n.getSimulation().getSimState().getMeanTimeSpentTransit().addTemp((int) meanTimeLastHourTransit);
+			DataManager.timeSpentTransit = new ArrayList<Integer>();
 			
-			n.getSimulation().getSimState().getMeanTimeSpent().addTemp((int) meanTimeLastHour);
+			double meanTimeLastHourCERN = 0;
+			for (Integer i: DataManager.timeSpentCERN) {
+				meanTimeLastHourCERN += i;
+			}
+			meanTimeLastHourCERN = meanTimeLastHourCERN / (double) (DataManager.timeSpentCERN.size());
+			n.getSimulation().getSimState().getMeanTimeSpentCERN().addTemp((int) meanTimeLastHourCERN);
+			DataManager.timeSpentCERN = new ArrayList<Integer>();
+			
 		}
 	}
 	// Write data every 15 minutes into output

@@ -12,7 +12,7 @@ public class Defaults {
 	private static int simSpeed = 100000; // 1 - RT ; 20 - > ; 100 - >> ; 2000 - >>> ; 100000 - max
 	
 	private static int sizeOfNetwork = 2; // visual size of network ; 1 - zoomed out ; 3 - zoomed in
-	private static int numberOfSimulations = 100; // number of simulations to compute
+	private static int numberOfSimulations = 1; // number of simulations to compute
 	private static double globalFlowMultiplier = 1.00; // multiplier for the global flow ; 1.00 for 100% ; 1.50 for 150% ; ...
 	private static int transferScenario = 0; // 0 - no transfer ; 1 - min transfer ; 2 - max transfer
 	private static int repartitionETunnel = 50; // percentage of vehicle being transfered to entrance E (100-repartitionETunnel is transfer to tunnel)

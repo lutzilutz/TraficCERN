@@ -23,7 +23,8 @@ public class Utils {
 	public static PrintStream dataLeakyBucketsAll;
 	public static PrintStream dataEnterExit;
 	public static PrintStream dataMeanTimeSpent;
-	public static PrintStream dataMeanTimeSpentAll;
+	public static PrintStream dataMeanTimeSpentAll_transit;
+	public static PrintStream dataMeanTimeSpentAll_cern;
 	public static String dataStrCounters = "";
 	public static String dataStrCountersAll = "";
 	public static String dataStrSegmentCounters = "";
@@ -31,7 +32,8 @@ public class Utils {
 	public static String dataStrLeakyBucketsAll = "";
 	public static String dataStrEnterExit = "";
 	public static String dataStrMeanTimeSpent = "";
-	public static String dataStrMeanTimeSpentAll = "";
+	public static String dataStrMeanTimeSpentAll_transit = "";
+	public static String dataStrMeanTimeSpentAll_cern = "";
 	public static String dataDir = "data";
 	private static Date date = new Date();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -135,13 +137,20 @@ public class Utils {
 		dataMeanTimeSpent.print("Checking mean time spent on network in seconds (per hour)\n");*/
 		
 		try {
-			dataMeanTimeSpentAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_all.txt", false));
+			dataMeanTimeSpentAll_transit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_transit.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.log(e);
 		}
-		dataMeanTimeSpentAll.print("Checking mean time spent on network in seconds (per hour)\n");
+		dataMeanTimeSpentAll_transit.print("Checking mean time spent on network in seconds (per hour)\n");
+		
+		try {
+			dataMeanTimeSpentAll_cern = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_cern.txt", false));
+		} catch (FileNotFoundException e) {
+			Utils.log(e);
+		}
+		dataMeanTimeSpentAll_cern.print("Checking mean time spent on network in seconds (per hour)\n");
 	}
-	public static void saveCheckingValues() {
+	public static void saveCheckingValues() {/*
 		float errorFrGe;
 		float errorGeFr;
 		float errorToA;
@@ -198,7 +207,7 @@ public class Utils {
 		dataChecking.print("To entrance B (per day) :             expected " + DataManager.nToBChosen + ", got " + DataManager.nToBEmpiric + " (" + errorToB + "%)\n");
 		dataChecking.print("From entrance B (per day) :           expected " + DataManager.nFromBChosen + ", got " + DataManager.nFromBEmpiric + " (" + errorFromB + "%)\n");
 		dataChecking.print("From France to entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + " (" + errorToE + "%)\n");
-		dataChecking.print("From entrance E to France (per day) : expected " + DataManager.nFromEChosen + ", got " + DataManager.nFromEEmpiric + " (" + errorFromE + "%)\n");
+		dataChecking.print("From entrance E to France (per day) : expected " + DataManager.nFromEChosen + ", got " + DataManager.nFromEEmpiric + " (" + errorFromE + "%)\n");*/
 	}
 	public static void saveCheckingValues(String text) {
 		//dataChecking.print(text);	
@@ -290,12 +299,17 @@ public class Utils {
 		dataMeanTimeSpent.print(dataStrMeanTimeSpent);
 		dataStrMeanTimeSpent = "";*/
 	}
-	public static void writeDataMeanTimeSpentAll(String text) {
-		dataStrMeanTimeSpentAll = dataStrMeanTimeSpentAll + text;
+	public static void writeDataMeanTimeSpentAllTransit(String text) {
+		dataStrMeanTimeSpentAll_transit = dataStrMeanTimeSpentAll_transit + text;
+	}
+	public static void writeDataMeanTimeSpentAllCERN(String text) {
+		dataStrMeanTimeSpentAll_cern = dataStrMeanTimeSpentAll_cern + text;
 	}
 	public static void saveDataMeanTimeSpentAll() {
-		dataMeanTimeSpentAll.print(dataStrMeanTimeSpentAll);
-		dataStrMeanTimeSpentAll = "";
+		dataMeanTimeSpentAll_transit.print(dataStrMeanTimeSpentAll_transit);
+		dataStrMeanTimeSpentAll_transit = "";
+		dataMeanTimeSpentAll_cern.print(dataStrMeanTimeSpentAll_cern);
+		dataStrMeanTimeSpentAll_cern = "";
 	}
 	public static int parseInt(String number) {
 		try {

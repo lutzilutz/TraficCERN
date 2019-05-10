@@ -60,8 +60,41 @@ public class Vehicle {
 			}
 			nextPlace = null;
 			exitingTime = n.getSimulation().getSimState().getStep();
-			DataManager.timeSpent.add(exitingTime-enteringTime);
-			//System.out.println(exitingTime - enteringTime);
+			if (ride.size() != 0) {
+				if (ride.size() > 1) {
+					String firstRoad = ride.get(0).getRoadName();
+					if (currentRoadName.equals("rD884CERN")
+							|| currentRoadName.equals("rSortieCERNSE")
+							|| currentRoadName.equals("rRoutePauliSouthSW")
+							|| currentRoadName.equals("rRouteBellSW")
+							|| currentRoadName.equals("rTunnelSE")
+							|| firstRoad.equals("rSortieCERNNW")
+							|| firstRoad.equals("rRoutePauliSouthNELeft")
+							|| firstRoad.equals("rRoutePauliSouthNERight")
+							|| firstRoad.equals("rRouteBellNELeft")
+							|| firstRoad.equals("rRouteBellNERight")) {
+						DataManager.timeSpentCERN.add(exitingTime-enteringTime);
+					} else if ((firstRoad.equals("rD884NE")
+							|| firstRoad.equals("rRueDeGeneveSE")
+							|| firstRoad.equals("rRueGermaineTillionSW")
+							|| firstRoad.equals("rC5SW"))
+							&& (currentRoadName.equals("rRouteDeMeyrinSouthSE"))) {
+						DataManager.timeSpentTransit.add(exitingTime-enteringTime);
+					} else if ((currentRoadName.equals("rD884SW")
+							|| currentRoadName.equals("rRueDeGeneveNW")
+							|| currentRoadName.equals("rRueGermaineTillionNE")
+							|| currentRoadName.equals("rC5NE"))
+							&& (firstRoad.equals("rRouteDeMeyrinSouthNW"))) {
+						DataManager.timeSpentTransit.add(exitingTime-enteringTime);
+					}
+				} else {
+					System.out.println("Ride of size 1 !!!");
+				}
+			} else {
+				System.out.println("Empty ride !!!!!");
+			}
+			//DataManager.timeSpent.add(exitingTime-enteringTime);
+			//System.out.println(ride.size());
 		}
 	}
 	public int checkNextCells(int nCells) {
