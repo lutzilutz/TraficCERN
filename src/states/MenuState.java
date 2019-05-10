@@ -118,7 +118,7 @@ public class MenuState extends State {
 		
 		if (DataManager.useProbabilities) {
 			simulation.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
-			Utils.initAllData(nOfSimulations.getCurrentValue());
+			//Utils.initAllData(nOfSimulations.getCurrentValue());
 			DataManager.applyDataProba(simulation);
 			simulation.getSimSettingsStateProba().enableUIManager();
 			State.setState(simulation.getSimSettingsStateProba());

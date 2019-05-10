@@ -28,7 +28,7 @@ public class NetworkComputing {
 	
 	// Compute position on-screen of all cells
 	public static void computeCellsPosition(Network n) {
-		Utils.log("        Computing Cells position ... ");
+		Utils.log("    INFO : Computing Cells position ... ");
 		Utils.tick();
 		
 		margin = n.getCellWidth()*10;
@@ -516,14 +516,14 @@ public class NetworkComputing {
 						v.addRide(tmpRides);
 					}
 					if (v.getRide().size()==0) {
-						Utils.log("        ERROR : Vehicle with empty ride\n");
+						Utils.log("    ERROR : Vehicle with empty ride\n");
 					}
 					if (v.getRide().size()>0) {
 						skipThisVehicle = false;
 						saveRideIntoData(v.getRide().get(v.getIdCurrentRide()), n.getSimulation());
 					} else {
 						skipThisVehicle = true;
-						Utils.log("        ERROR : Can't save ride into data (NetworkComputing.computeEvolution) ... trying to skip !\n");
+						Utils.log("    ERROR : Can't save ride into data (NetworkComputing.computeEvolution) ... trying to skip !\n");
 					}
 				} else {
 					v.addRide(n.selectARide(r.getName()));
@@ -552,7 +552,7 @@ public class NetworkComputing {
 			}
 		}
 		if (n.getVehicles().size() > 200 && nVhcMoving == 0) {
-			Utils.log("        ERROR : Network blocked !\n");
+			Utils.log("    ERROR : Network blocked !\n");
 		}
 		
 		if (n.getSimulation().getSimState().getStep()%60 == 0) { // every minute

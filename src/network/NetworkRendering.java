@@ -32,7 +32,7 @@ public class NetworkRendering {
 	
 	// Render (compute) all background images
 	public static BufferedImage[] renderAllBGs(Network n, BufferedImage[] backgrounds) {
-		Utils.log("        Generating Network images ... ");
+		Utils.log("    INFO : Generating Network images ... ");
 		BufferedImage[] tmp = new BufferedImage[8];
 		for (int i=0 ; i<8 ; i++) {
 			tmp[i] = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);

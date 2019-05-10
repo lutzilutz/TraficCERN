@@ -61,16 +61,16 @@ public class Network {
 		yDefaultOffset = 0;
 	
 		if (n >= 0) {
-			Utils.log("        Creating Network #" + n + " ");
+			Utils.log("    INFO : Creating Network #" + n + " ");
 			Utils.tick();
 		}
 		switch (n) {
 		case 0:
-			Utils.log("(single-lane) ... ");
+			//Utils.log("(single-lane) ... ");
 			createRealNetworkSingle();
 			break;
 		case 1:
-			Utils.log("(multi-lane) ... ");
+			Utils.log("(current scenario) ... ");
 			createRealNetworkMulti();
 			break;
 		case 2:
@@ -1604,7 +1604,7 @@ public class Network {
 				double random = Math.random();
 				
 				if (probas.size() == 0) {
-					Utils.log("        ERROR : No probability in selectARideWithProbability() for " + roadName + "\n");
+					Utils.log("    ERROR : No probability in selectARideWithProbability() for " + roadName + "\n");
 					chosenRide = new Ride();
 					//return voidRide;
 				} else if (probas.size() == 1) {
@@ -1703,7 +1703,7 @@ public class Network {
 	}
 	
 	public void generateAllNetworkRides(int n) {
-		Utils.log("        Generating Rides ... ");
+		Utils.log("    INFO : Generating Rides ... ");
 		Utils.tick();
 		for (Road r: this.roads) {
 			boolean generateAtLeastOne = false;
@@ -1745,7 +1745,7 @@ public class Network {
 				return r;
 			}
 		}
-		Utils.log("        ERROR : while trying to find " + roadName + " in network\n");
+		Utils.log("    ERROR : while trying to find " + roadName + " in network\n");
 		return null;
 	}
 	public void setNetworkSize() {

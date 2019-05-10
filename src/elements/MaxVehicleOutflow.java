@@ -34,7 +34,7 @@ public class MaxVehicleOutflow {
 			counter = 0;
 			
 			if (roads.size() > 2) {
-				Utils.log("        ERROR : more than 2 roads in MaxVehicleOutflow, case not considered");
+				Utils.log("    ERROR : more than 2 roads in MaxVehicleOutflow, case not considered");
 			}
 			if (roads.size() == 2) {
 				
@@ -63,9 +63,9 @@ public class MaxVehicleOutflow {
 					}
 				}
 			} else if (roads.size()==1) {
-				Utils.log("        ERROR : in MaxVehicleOutflow, roads is size 1 (unuseful)\n");
+				Utils.log("    ERROR : in MaxVehicleOutflow, roads is size 1 (unuseful)\n");
 			} else {
-				Utils.log("        ERROR : in MaxVehicleOutflow, roads is size 0\n");
+				Utils.log("    ERROR : in MaxVehicleOutflow, roads is size 0\n");
 			}
 			
 		} else {

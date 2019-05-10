@@ -67,6 +67,7 @@ public class Utils {
 		initDataLeakyBuckets();
 		initDataEnterExit();
 		initDataMeanTimeSpent();
+		Utils.log("    INFO : Initialized simulation folder " + dateFormat.format(date) + "\n");
 	}
 	public static void initDataLeakyBuckets() {
 		try {

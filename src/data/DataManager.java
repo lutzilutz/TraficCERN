@@ -603,7 +603,7 @@ public class DataManager {
 	public static void applyDataProba(Simulation simulation) {
 
 		if (useProbabilities) {
-			Utils.log("        Applying data (proba) to Network ... ");
+			Utils.log("    INFO : Applying data (proba) to Network ... ");
 			initProbas();
 			initFlowPerExit();
 			applyDataToRidesProba(simulation);

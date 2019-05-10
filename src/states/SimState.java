@@ -177,7 +177,7 @@ public class SimState extends State {
 		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
 			@Override
 			public void onClick() {
-				Utils.log("        /!\\ Simulation ends prematurely at step " + step + "\n");
+				Utils.log("    WARNING : User ends simulation prematurely at step " + step + "\n");
 				Utils.initAllData(numberOfSimulations);
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
@@ -305,17 +305,17 @@ public class SimState extends State {
 	
 	public void tick(int n) {
 		
-		if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
-			Utils.log("        Launch of " + network.getSimulation().getSimState().getNumberOfSimulations() + " simulations\n");
-			Utils.log("        Simulating ...\n");
-		}
-		
 		if (!getPause() && !restarting) {
 			
 			if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
 				
 				if (simSpeed >= 5000) {
 					while((System.nanoTime()-lastTick) <= 1000000000/60 && !restarting) {
+						if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
+							Utils.log("    INFO : Launch of " + network.getSimulation().getSimState().getNumberOfSimulations() + " simulations\n");
+							Utils.log("    INFO : Simulating ...\n");
+						}
+						
 						step++;
 						if (step >= 86400 && !finished) {
 							Utils.saveCheckingValues();
@@ -324,7 +324,7 @@ public class SimState extends State {
 								simulationID++;
 								network.restart();
 							} else {
-								Utils.log("        " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
+								Utils.log("    INFO : " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
 								switchPause();
 								finished = true;
 							}
@@ -336,6 +336,10 @@ public class SimState extends State {
 					}
 				} else {
 					for (int i=0 ; i<n ; i++) {
+						if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
+							Utils.log("    INFO : Launch of " + network.getSimulation().getSimState().getNumberOfSimulations() + " simulations\n");
+							Utils.log("    INFO : Simulating ...\n");
+						}
 						step++;
 						if (step >= 86400 && !finished) {
 							Utils.saveCheckingValues();
@@ -345,9 +349,9 @@ public class SimState extends State {
 								network.restart();
 							} else {
 								if (simulationID<=1) {
-									Utils.log("        " + simulationID + " simulation finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
+									Utils.log("    INFO : " + simulationID + " simulation finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
 								} else {
-									Utils.log("        " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
+									Utils.log("    INFO : " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
 								}
 								switchPause();
 								finished = true;

@@ -11,7 +11,7 @@ import utils.Utils;
 public class ImageLoader {
 
 	public static BufferedImage loadImage(String path) {
-		Utils.log("    Loading " + path + " ... ");
+		Utils.log("  INFO : Loading " + path + " ... ");
 		try {
 			BufferedImage bi = ImageIO.read(ImageLoader.class.getResourceAsStream(path));
 			Utils.log("success\n");
