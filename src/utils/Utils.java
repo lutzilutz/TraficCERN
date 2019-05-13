@@ -1,15 +1,17 @@
 package utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import data.DataManager;
 
 
 public class Utils {
@@ -310,6 +312,42 @@ public class Utils {
 		dataStrMeanTimeSpentAll_transit = "";
 		dataMeanTimeSpentAll_cern.print(dataStrMeanTimeSpentAll_cern);
 		dataStrMeanTimeSpentAll_cern = "";
+	}
+	public static String loadFileInsideJarAsString(String path) {
+		StringBuilder builder = new StringBuilder();
+		
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(Utils.class.getResourceAsStream(path)));
+			String line;
+			while ((line = br.readLine()) != null) {
+				builder.append(line + "\n");
+			}
+			br.close();
+		} catch (IOException e) {
+			Utils.log(e);
+		}
+		return builder.toString();
+	}
+	public static ArrayList<String> loadFileOutsideJarAsString(String path) {
+		Utils.log("  INFO : Loading " + path + " ... ");
+		
+		ArrayList<String> text = new ArrayList<String>();
+		//StringBuilder builder = new StringBuilder();
+		
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+			String line;
+			while ((line = br.readLine()) != null) {
+				//builder.append(line + "\n");
+				text.add(line);
+			}
+			br.close();
+			Utils.log("success\n");
+		} catch (IOException e) {
+			Utils.log(e);
+		}
+		//return builder.toString();
+		return text;
 	}
 	public static int parseInt(String number) {
 		try {

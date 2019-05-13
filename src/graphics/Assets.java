@@ -3,6 +3,9 @@ package graphics;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import utils.Utils;
 
 public class Assets {
 
@@ -40,6 +43,10 @@ public class Assets {
 	// Images
 	public static BufferedImage pauseIdle, pauseActive, playIdle, playActive, restartIdle, restartActive, fastIdle, fastActive, fastFastIdle, fastFastActive, fastFastFastIdle, fastFastFastActive, previousIdle, previousActive, nextIdle, nextActive;
 	
+	// Text files
+	public static ArrayList<String> inputDataEntrance;
+	public static ArrayList<String> inputDataExit;
+	
 	public static void init() {
 		
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/img/buttons_spritesheet.png"));
@@ -62,6 +69,14 @@ public class Assets {
 		nextIdle = sheet.crop(smallButtonW*2, buttonH*3, smallButtonW, buttonH);
 		nextActive = sheet.crop(smallButtonW*3, buttonH*3, smallButtonW, buttonH);
 		
+		inputDataEntrance = Utils.loadFileOutsideJarAsString("inputData_entrance.txt");
+		if (inputDataEntrance.size() != 24) {
+			Utils.log("  WARNING : File inputData_entrance.txt has " + inputDataEntrance.size() + " lines, should have 24 lines (id est 24 hours)\n");
+		}
+		inputDataExit = Utils.loadFileOutsideJarAsString("inputData_exit.txt");
+		if (inputDataExit.size() != 24) {
+			Utils.log("  WARNING : File inputData_exit.txt has " + inputDataExit.size() + " lines, should have 24 lines (id est 24 hours)\n");
+		}
 	}
 	
 }
