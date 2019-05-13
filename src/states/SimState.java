@@ -320,7 +320,7 @@ public class SimState extends State {
 						
 						step++;
 						if (step >= 86400 && !finished) {
-							Utils.saveCheckingValues();
+							
 							if (simulationID < numberOfSimulations) {
 								step = 1;
 								simulationID++;
@@ -344,7 +344,7 @@ public class SimState extends State {
 						}
 						step++;
 						if (step >= 86400 && !finished) {
-							Utils.saveCheckingValues();
+							
 							if (simulationID < numberOfSimulations) {
 								step = 1;
 								simulationID++;
@@ -367,8 +367,6 @@ public class SimState extends State {
 				lastTick = System.nanoTime();
 			}
 		}
-		
-		
 		
 		uiManager.tick();
 		keyManager.tick();
@@ -434,7 +432,7 @@ public class SimState extends State {
 		offsetSpeed = Math.max(offsetSpeedDefault, Math.min(5*offsetSpeedDefault, Math.log(100*(System.nanoTime()-offsetTime)/1000000000.0)));
 	}
 	public void tick() {
-		//this.uiManager.tick();
+		
 	}
 	
 	public void render(Graphics g) {
@@ -460,11 +458,6 @@ public class SimState extends State {
 		step = 1;
 		network.restart();
 		Utils.initAllData(numberOfSimulations);
-		//leakyBucketsEVC_rC5SW.saveTemp();
-		//leakyBucketsEVC_rD884NE.saveTemp();
-		//leakyBucketsEVC_rRouteDeMeyrinSouthNW.saveTemp();
-		//leakyBucketsEVC_rRueDeGeneveSE.saveTemp();
-		//leakyBucketsEVC_rRueGermaineTillionSW.saveTemp();
 	}
 	
 	// Return time in format "hh:mm:ss"
@@ -503,17 +496,15 @@ public class SimState extends State {
 		if (getHours()>=7 && getHours()<10) {
 			rushHours = true;
 			rushHoursMorning = true;
-			//rushHoursEvening = false;
 		} else if (getHours()>=17 && getHours()<20) {
 			rushHours = true;
 			rushHoursMorning = false;
-			//rushHoursEvening = true;
 		} else {
 			rushHours = false;
 			rushHoursMorning = false;
-			//rushHoursEvening = false;
 		}
 	}
+	
 	// Getters & setters ====================================================================================
 	public ExpVarCalculator getLBrD884NE() {
 		return this.leakyBucketsEVC_rD884NE;

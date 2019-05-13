@@ -51,15 +51,17 @@ public class UITextButton extends UIObject {
 			clicker.onClick();
 		}
 	}
-	public void setVisible(boolean isVisible) {
-		this.isVisible = isVisible;
-		this.isActivable = isVisible;
+	public void switchActivable() {
+		isActivable = !isActivable;
 	}
+	
+	// Getters & setters ====================================================================================
 	public boolean isVisible() {
 		return this.isVisible;
 	}
-	public void switchActivable() {
-		isActivable = !isActivable;
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+		this.isActivable = isVisible;
 	}
 	public void setActivable(boolean isActivable) {
 		this.isActivable = isActivable;

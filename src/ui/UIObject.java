@@ -39,8 +39,8 @@ public abstract class UIObject {
 			hovering = false;
 		}
 	}
-	// Getters and setters ============================================
 	
+	// Getters & setters ====================================================================================	
 	public float getX() {
 		return x;
 	}

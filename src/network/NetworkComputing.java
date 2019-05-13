@@ -14,7 +14,6 @@ import elements.RoundAbout;
 import elements.TrafficLightsSystem;
 import elements.Vehicle;
 import graphics.Assets;
-import main.Simulation;
 import utils.Defaults;
 import utils.Utils;
 
@@ -143,95 +142,6 @@ public class NetworkComputing {
 				iter.remove();
 				n.increaseNumberOfVehicles(-1);
 			}
-		}
-	}
-	// Updates data with the new ride
-	public static void saveRideIntoData(Ride ride, Simulation simulation) {
-		
-		String startRoad = ride.getRoadName();
-		String endRoad = ride.getNextConnections().get(ride.getNextConnections().size()-1).getName();
-		
-		if (!DataManager.useProbabilities) {
-			
-			if (startRoad.equals("rD884NE")) {
-				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-					DataManager.nFrGeEmpiric++;
-				} else if (endRoad.equals("rSortieCERNSE") || endRoad.equals("rD884CERN")) {
-					DataManager.nToEEmpiric++;
-				} else if (endRoad.equals("rRouteBellSW")) {
-					DataManager.nToAEmpiric++;
-				} else if (endRoad.equals("rRoutePauliSouthSW")) {
-					DataManager.nToBEmpiric++;
-				}
-			} else if (startRoad.equals("rRueDeGeneveSE")) {
-				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-					DataManager.nFrGeEmpiric++;
-				} else if (endRoad.equals("rSortieCERNSE")) {
-					DataManager.nToEEmpiric++;
-				} else if (endRoad.equals("rRouteBellSW")) {
-					DataManager.nToAEmpiric++;
-				} else if (endRoad.equals("rRoutePauliSouthSW")) {
-					DataManager.nToBEmpiric++;
-				}
-			} else if (startRoad.equals("rRueGermaineTillionSW")) {
-				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-					DataManager.nFrGeEmpiric++;
-				} else if (endRoad.equals("rSortieCERNSE")) {
-					DataManager.nToEEmpiric++;
-				} else if (endRoad.equals("rRouteBellSW")) {
-					DataManager.nToAEmpiric++;
-				} else if (endRoad.equals("rRoutePauliSouthSW")) {
-					DataManager.nToBEmpiric++;
-				}
-			} else if (startRoad.equals("rC5SW")) {
-				if (endRoad.equals("rRouteDeMeyrinSouthSE")) {
-					DataManager.nFrGeEmpiric++;
-				} else if (endRoad.equals("rRouteBellSW")) {
-					DataManager.nToAEmpiric++;
-				} else if (endRoad.equals("rRoutePauliSouthSW")) {
-					DataManager.nToBEmpiric++;
-				}
-			} else if (startRoad.equals("rRouteDeMeyrinSouthNW")) {
-				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE")) {
-					DataManager.nGeFrEmpiric++;
-				} else if (endRoad.equals("rRouteBellSW")) {
-					DataManager.nToAEmpiric++;
-				} else if (endRoad.equals("rRoutePauliSouthSW")) {
-					DataManager.nToBEmpiric++;
-				}
-			} else if (startRoad.equals("rSortieCERNNW")) {
-				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE")) {
-					DataManager.nFromEEmpiric++;
-				}
-			} else if (startRoad.equals("rRouteBellNE")) {
-				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
-					DataManager.nFromAEmpiric++;
-				}
-			} else if (startRoad.equals("rRoutePauliSouthNE") || startRoad.equals("rRoutePauliSouthNELeft") || startRoad.equals("rRoutePauliSouthNERight")) {
-				if (endRoad.equals("rD884SW") || endRoad.equals("rRueDeGeneveNW") || endRoad.equals("rRueGermaineTillionNE") || endRoad.equals("rC5NE") || endRoad.equals("rRouteDeMeyrinSouthSE")) {
-					DataManager.nFromBEmpiric++;
-				}
-			}
-		} else {
-			//int hours = simulation.getSimState().getHours();
-			
-			if (startRoad.equals("rD884NE")) {DataManager.flowPerExitEmpiric[0]++;}
-			else if (startRoad.equals("rRueDeGeneveSE")) {DataManager.flowPerExitEmpiric[1]++;}
-			else if (startRoad.equals("rRueGermaineTillionSW")) {DataManager.flowPerExitEmpiric[2]++;}
-			else if (startRoad.equals("rC5SW")) {DataManager.flowPerExitEmpiric[3]++;}
-			else if (startRoad.equals("rRoutePauliSouthNELeft") || startRoad.equals("rRoutePauliSouthNERight")) {DataManager.flowPerExitEmpiric[4]++;}
-			else if (startRoad.equals("rRouteDeMeyrinSouthNW")) {DataManager.flowPerExitEmpiric[5]++;}
-			else if (startRoad.equals("rRouteBellNW")) {DataManager.flowPerExitEmpiric[6]++;}
-			else if (startRoad.equals("rSortieCERNNW")) {DataManager.flowPerExitEmpiric[7]++;}
-			
-			if (endRoad.equals("rD884SW")) {DataManager.flowPerExitEmpiric[8]++;}
-			else if (endRoad.equals("rRueDeGeneveNW")) {DataManager.flowPerExitEmpiric[9]++;}
-			else if (endRoad.equals("rRueGermaineTillionNE")) {DataManager.flowPerExitEmpiric[10]++;}
-			else if (endRoad.equals("rSortieCERNSE") || endRoad.equals("rD884CERN")) {DataManager.flowPerExitEmpiric[11]++;}
-			else if (endRoad.equals("rC5NE")) {DataManager.flowPerExitEmpiric[12]++;}
-			else if (endRoad.equals("rRoutePauliSouthSW")) {DataManager.flowPerExitEmpiric[13]++;}
-			else if (endRoad.equals("rRouteDeMeyrinSouthSE")) {DataManager.flowPerExitEmpiric[14]++;}
-			else if (endRoad.equals("rRouteBellSW")) {DataManager.flowPerExitEmpiric[15]++;}
 		}
 	}
 	public static ArrayList<Ride> applyTransfers(Network n, ArrayList<Ride> rides) {
@@ -378,12 +288,6 @@ public class NetworkComputing {
 				r.addNewVehicle(tmp);
 				n.getVehicles().add(tmp);
 				n.increaseNumberOfVehicles(1);
-			} else if (n.isRandomGeneration() && rnd < r.getFlow().get(n.getSimulation().getSimState().getHours()) / 3600.0) {
-				Vehicle tmp = new Vehicle(n);
-				tmp.addRide(n.selectARide(r.getName()));
-				r.addNewVehicle(tmp);
-				n.getVehicles().add(tmp);
-				n.increaseNumberOfVehicles(1);
 			} 
 			
 			// tick for outflow
@@ -507,27 +411,23 @@ public class NetworkComputing {
 				v.setInBucket(false);
 				r.removeVehicleFromBucket(r.getLeakyBucket().get(0));
 				
-				if (!n.isRandomGeneration()) {
-					ArrayList<Ride> tmpRides = new ArrayList<Ride>();
-					tmpRides = n.selectRidesWithProbability(r.getName());
-					if (Defaults.getTransferScenario()!=0 && (n.getSimulation().getSimState().isRushHoursMorning())) {
-						v.addRide(applyTransfers(n, tmpRides));
-					} else {
-						v.addRide(tmpRides);
-					}
-					if (v.getRide().size()==0) {
-						Utils.log("    ERROR : Vehicle with empty ride\n");
-					}
-					if (v.getRide().size()>0) {
-						skipThisVehicle = false;
-						saveRideIntoData(v.getRide().get(v.getIdCurrentRide()), n.getSimulation());
-					} else {
-						skipThisVehicle = true;
-						Utils.log("    ERROR : Can't save ride into data (NetworkComputing.computeEvolution) ... trying to skip !\n");
-					}
+				ArrayList<Ride> tmpRides = new ArrayList<Ride>();
+				tmpRides = n.selectRidesWithProbability(r.getName());
+				if (Defaults.getTransferScenario()!=0 && (n.getSimulation().getSimState().isRushHoursMorning())) {
+					v.addRide(applyTransfers(n, tmpRides));
 				} else {
-					v.addRide(n.selectARide(r.getName()));
+					v.addRide(tmpRides);
 				}
+				if (v.getRide().size()==0) {
+					Utils.log("    ERROR : Vehicle with empty ride\n");
+				}
+				if (v.getRide().size()>0) {
+					skipThisVehicle = false;
+				} else {
+					skipThisVehicle = true;
+					Utils.log("    ERROR : Can't save ride into data (NetworkComputing.computeEvolution) ... trying to skip !\n");
+				}
+				
 				if (!skipThisVehicle) {
 					chooseAspect(v);
 				} else {
@@ -563,7 +463,6 @@ public class NetworkComputing {
 		}
 		if ((n.getSimulation().getSimState().getStep()+1)%3600 == 0) { // every hour
 			writeDataHours(n);
-			Utils.saveData();
 		}
 		if ((n.getSimulation().getSimState().getStep()+1)%86400 == 0) { // every day
 			
@@ -685,104 +584,51 @@ public class NetworkComputing {
 	}
 	// Write data every hour
 	public static void writeDataHours(Network n) {
-		if (!n.isRandomGeneration()) {
 			
-			double meanTimeLastHourTransit = 0;
-			for (Integer i: DataManager.timeSpentTransit) {
-				meanTimeLastHourTransit += i;
-			}
-			meanTimeLastHourTransit = meanTimeLastHourTransit / (double) (DataManager.timeSpentTransit.size());
-			n.getSimulation().getSimState().getMeanTimeSpentTransit().addTemp((int) meanTimeLastHourTransit);
-			DataManager.timeSpentTransit = new ArrayList<Integer>();
-			
-			double meanTimeLastHourCERN = 0;
-			for (Integer i: DataManager.timeSpentCERN) {
-				meanTimeLastHourCERN += i;
-			}
-			meanTimeLastHourCERN = meanTimeLastHourCERN / (double) (DataManager.timeSpentCERN.size());
-			n.getSimulation().getSimState().getMeanTimeSpentCERN().addTemp((int) meanTimeLastHourCERN);
-			DataManager.timeSpentCERN = new ArrayList<Integer>();
-			
+		double meanTimeLastHourTransit = 0;
+		for (Integer i: DataManager.timeSpentTransit) {
+			meanTimeLastHourTransit += i;
 		}
+		meanTimeLastHourTransit = meanTimeLastHourTransit / (double) (DataManager.timeSpentTransit.size());
+		n.getSimulation().getSimState().getMeanTimeSpentTransit().addTemp((int) meanTimeLastHourTransit);
+		DataManager.timeSpentTransit = new ArrayList<Integer>();
+		
+		double meanTimeLastHourCERN = 0;
+		for (Integer i: DataManager.timeSpentCERN) {
+			meanTimeLastHourCERN += i;
+		}
+		meanTimeLastHourCERN = meanTimeLastHourCERN / (double) (DataManager.timeSpentCERN.size());
+		n.getSimulation().getSimState().getMeanTimeSpentCERN().addTemp((int) meanTimeLastHourCERN);
+		DataManager.timeSpentCERN = new ArrayList<Integer>();
+		
 	}
 	// Write data every 15 minutes into output
 	public static void writeData15Minutes(Network n) {
 		
-		if (!n.isRandomGeneration()) {
-			
-			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rD884NE").getLeakyBucket().size()) + "\t");
-			n.getSimulation().getSimState().getLBrD884NE().addTemp(n.selectARoad("rD884NE").getLeakyBucket().size());
-			
-			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size()) + "\t");
-			n.getSimulation().getSimState().getLBrRueDeGeneveSE().addTemp(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size());
-			
-			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size()) + "\t");
-			n.getSimulation().getSimState().getLBrRueGermaineTillionSW().addTemp(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size());
-			
-			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rC5SW").getLeakyBucket().size()) + "\t");
-			n.getSimulation().getSimState().getLBrC5SW().addTemp(n.selectARoad("rC5SW").getLeakyBucket().size());
-			
-			if (n.selectARoad("rRouteDeMeyrinSouthNW") != null) {
-				Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size()) + "\t");
-				n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().addTemp(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size());
-			}
-			
-			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRoutePauliSouthNELeft").getLeakyBucket().size()) + "\t");
-			n.getSimulation().getSimState().getLBrRoutePauliSouthNELeft().addTemp(n.selectARoad("rRoutePauliSouthNELeft").getLeakyBucket().size());
-			
-			Utils.writeDataLeakyBuckets(Integer.toString(n.selectARoad("rRoutePauliSouthNERight").getLeakyBucket().size()) + "\n");
-			n.getSimulation().getSimState().getLBrRoutePauliSouthNERight().addTemp(n.selectARoad("rRoutePauliSouthNERight").getLeakyBucket().size());
-			
+		n.getSimulation().getSimState().getLBrD884NE().addTemp(n.selectARoad("rD884NE").getLeakyBucket().size());
+		n.getSimulation().getSimState().getLBrRueDeGeneveSE().addTemp(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size());
+		n.getSimulation().getSimState().getLBrRueGermaineTillionSW().addTemp(n.selectARoad("rRueGermaineTillionSW").getLeakyBucket().size());
+		n.getSimulation().getSimState().getLBrC5SW().addTemp(n.selectARoad("rC5SW").getLeakyBucket().size());
+		
+		if (n.selectARoad("rRouteDeMeyrinSouthNW") != null) {
+			n.getSimulation().getSimState().getLBrRouteDeMeyrinSouthNW().addTemp(n.selectARoad("rRouteDeMeyrinSouthNW").getLeakyBucket().size());
 		}
+		
+		n.getSimulation().getSimState().getLBrRoutePauliSouthNELeft().addTemp(n.selectARoad("rRoutePauliSouthNELeft").getLeakyBucket().size());
+		n.getSimulation().getSimState().getLBrRoutePauliSouthNERight().addTemp(n.selectARoad("rRoutePauliSouthNERight").getLeakyBucket().size());
+		
 	}
 	// Write data every minute into output
 	public static void writeDataMinutes(Network n) {
-		
-		if (!n.isRandomGeneration()) {
-			
-			n.getSimulation().getSimState().getCounter1A().addTemp(n.selectARoad("rD984FSE").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounter1B().addTemp(n.selectARoad("rD984FNW").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounter2A().addTemp(n.selectARoad("rD984FSES").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounter2B().addTemp(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounterEntranceBLeft().addTemp(n.selectARoad("rRoutePauliSouthNELeft").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounterEntranceBRight().addTemp(n.selectARoad("rRoutePauliSouthNERight").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounterEntranceELeft().addTemp(n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounterEntranceERight().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter());
-			n.getSimulation().getSimState().getCounterEntranceESum().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter() + n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
-			
-			Utils.writeDataCounters(n.getSimulation().getSimState().getTime() + " ");
-			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSE").getVehicleCounter().getCounter()) + " ");
-			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNW").getVehicleCounter().getCounter()) + " ");
-			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FSES").getVehicleCounter().getCounter()) + " ");
-			Utils.writeDataCounters(Integer.toString(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter()) + "\n");
-			
-			Utils.writeDataSegmentCounters(n.getSimulation().getSimState().getTime() + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(0)) + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(1)) + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSE").getNumberOfVehicles(2)) + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(0)) + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(1)) + " ");
-			Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNW").getNumberOfVehicles(2)) + " ");
-			if (n.selectARoad("rD984FSES2") != null && n.selectARoad("rD984FSES3") != null) {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(0) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(0)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(1) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(1)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(2) + n.selectARoad("rD984FSES2").getNumberOfVehicles(0) + n.selectARoad("rD984FSES3").getNumberOfVehicles(2)) + " ");
-			} else {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(0)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(1)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FSES").getNumberOfVehicles(2)) + " ");
-			}
-			
-			if (n.selectARoad("rD984FNWS2") != null) {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(0) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(0)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(1) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(1)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(2) + n.selectARoad("rD984FNWS2").getNumberOfVehicles(2)) + "\n");
-			} else {
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(0)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(1)) + " ");
-				Utils.writeDataSegmentCounters(Integer.toString(n.selectARoad("rD984FNWS").getNumberOfVehicles(2)) + "\n");
-			}
-		}
+		n.getSimulation().getSimState().getCounter1A().addTemp(n.selectARoad("rD984FSE").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounter1B().addTemp(n.selectARoad("rD984FNW").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounter2A().addTemp(n.selectARoad("rD984FSES").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounter2B().addTemp(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounterEntranceBLeft().addTemp(n.selectARoad("rRoutePauliSouthNELeft").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounterEntranceBRight().addTemp(n.selectARoad("rRoutePauliSouthNERight").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounterEntranceELeft().addTemp(n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounterEntranceERight().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter());
+		n.getSimulation().getSimState().getCounterEntranceESum().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter() + n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
 	}
 	public static void clearVehicles(Network n) {
 		n.restart();

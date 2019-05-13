@@ -39,7 +39,6 @@ public class UITextSwitch extends UIObject {
 		nArgs = 3;
 	}
 
-
 	@Override
 	public void tick() {
 		

@@ -20,7 +20,6 @@ import utils.Utils;
 public class SimSettingsStateProba extends State {
 	
 	private UIManager uiManagerGeneral;
-	private long counter = 0;
 	
 	private int xStart = 320;
 	private int yStart = 150;
@@ -30,7 +29,6 @@ public class SimSettingsStateProba extends State {
 	private int buttonHeight = 30;
 	private int sliderWidth = 500;
 	private int sliderHeight = 30;
-	//private int descriptionMargin = 20;
 	private boolean isLeftPressed = false;
 	
 	private UISlider timePerVhcEntrance;
@@ -86,25 +84,15 @@ public class SimSettingsStateProba extends State {
 		});
 		this.uiManagerGeneral.addObject(crEntreeB_phase4);
 		
-		// ##################################################################################################
-		// BUTTONS ##########################################################################################
-		// ##################################################################################################
-		
 		run = new UITextButton((simulation.getWidth()-0*buttonWidth)/2 + buttonXMargin/2, simulation.getHeight()-60, buttonWidth, buttonHeight, "Run", new ClickListener(){
 			@Override
 			public void onClick() {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				Utils.initAllData(simulation.getSimState().getNumberOfSimulations());
-				if (DataManager.useProbabilities) {
-					DataManager.applyDataProba(simulation);
-				} else {
-					DataManager.applyDataNumerical(simulation);
-				}
+				DataManager.applyDataProba(simulation);
 				simulation.getSimState().enableUIManager();
 				State.setState(simulation.getSimState());
-				//Utils.log("Simulation starts\n");
-				
 			}
 		});
 		this.uiManagerGeneral.addObject(run);
@@ -131,13 +119,6 @@ public class SimSettingsStateProba extends State {
 				isLeftPressed = false;
 			}
 		}
-		
-		if (counter % 10 == 0) {
-			if (!DataManager.useProbabilities) {
-				DataManager.applyDataNumerical(simulation);
-			}
-		}
-		counter++;
 	}
 	public void tick() {
 		
@@ -163,7 +144,6 @@ public class SimSettingsStateProba extends State {
 						totalFlow += ride.getFlow().get(i);
 					}
 				}
-				
 			}
 		}
 		
@@ -176,11 +156,8 @@ public class SimSettingsStateProba extends State {
 	public void render(Graphics g) {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
-		
 		Text.drawString(g, simulation.getVersionID(), Assets.idleCol, 10, simulation.getHeight()-10, false, Assets.normalFont);
-		
 		Text.drawString(g, "Simulation settings", Assets.idleCol, simulation.getWidth()/2+150, 50, true, Assets.largeFont);
-		
 		Text.drawString(g, "general settings", Assets.idleCol, simulation.getWidth()/2+150, 85, true, Assets.largeFont);
 		this.uiManagerGeneral.render(g);
 		

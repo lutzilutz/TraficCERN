@@ -127,6 +127,7 @@ public class UISliderTriple extends UIObject {
 			}
 		}
 	}
+	// Getters & setters ====================================================================================
 	public int getCurrentValue1() {
 		return this.currentValue1;
 	}

@@ -72,6 +72,8 @@ public class UIImageButton extends UIObject {
 	public void switchMode() {
 		isMode1 = !isMode1;
 	}
+	
+	// Getters & setters ====================================================================================
 	public void setVisible(boolean isVisible) {
 		this.isVisible = isVisible;
 		this.isActivable = isVisible;

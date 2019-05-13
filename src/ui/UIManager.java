@@ -44,7 +44,7 @@ public class UIManager {
 		this.objects.remove(o);
 	}
 
-	// Getters and setters ===============================================
+	// Getters & setters ====================================================================================
 	public Simulation getSimulation() {
 		return this.simulation;
 	}
@@ -54,5 +54,4 @@ public class UIManager {
 	public void setObjects(ArrayList<UIObject> objects) {
 		this.objects = objects;
 	}
-	// ===================================================================
 }

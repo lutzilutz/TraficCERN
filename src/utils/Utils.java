@@ -66,21 +66,11 @@ public class Utils {
 		}
 		
 		initDataCounters();
-		initDataSegmentCounters();
-		initCheckingValues();
 		initDataLeakyBuckets();
-		initDataEnterExit();
 		initDataMeanTimeSpent();
 		Utils.log("    INFO : Initialized simulation folder " + dateFormat.format(date) + "\n");
 	}
 	public static void initDataLeakyBuckets() {
-		/*try {
-			dataLeakyBuckets = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets.txt", false));
-		} catch (FileNotFoundException e) {
-			Utils.log(e);
-		}
-		dataLeakyBuckets.print("Thoiry St-Genis Ferney Tun Geneva\n");*/
-		
 		try {
 			dataLeakyBucketsAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets_all.txt", false));
 		} catch (FileNotFoundException e) {
@@ -89,14 +79,6 @@ public class Utils {
 		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
 	}
 	public static void initDataCounters() {
-		/*try {
-			dataCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters.txt", false));
-		} catch (FileNotFoundException e) {
-			Utils.log(e);
-		}
-		dataCounters.print("Number of vehicles per minute passing through counters ---\n");
-		dataCounters.print("Time Counter1A Counter1B Counter2A Counter2B\n");*/
-		
 		try {
 			dataCountersAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters_all.txt", false));
 		} catch (FileNotFoundException e) {
@@ -105,39 +87,7 @@ public class Utils {
 		dataCountersAll.print("Number of vehicles per minute passing through counters ---\n");
 		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight EntranceELeft EntranceERight EntranceESum\n");
 	}
-	public static void initDataSegmentCounters() {
-		/*try {
-			dataSegmentCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_segment_counters.txt", false));
-		} catch (FileNotFoundException e) {
-			Utils.log(e);
-		}
-		dataSegmentCounters.print("Number of vehicles at a given time, syntax is [counter ID, speed] ---\n");
-		dataSegmentCounters.print("Time 1A,0 1A,1 1A,2 1B,0 1B,1 1B,2 2A,0 2A,1 2A,2 2B,0 2B,1 2B,2\n");*/
-	}
-	public static void initCheckingValues() {
-		/*try {
-			dataChecking = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_checking.txt", false));
-		} catch (FileNotFoundException e) {
-			Utils.log(e);
-		}
-		dataChecking.print("Checking probabilities\n");*/
-	}
-	public static void initDataEnterExit() {
-		/*try {
-			dataEnterExit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_enter_exit.txt", false));
-		} catch (FileNotFoundException e) {
-			Utils.log(e);
-		}
-		dataEnterExit.print("Checking enters and exits (per hour)\n");*/
-	}
 	public static void initDataMeanTimeSpent() {
-		/*try {
-			dataMeanTimeSpent = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time.txt", false));
-		} catch (FileNotFoundException e) {
-			Utils.log(e);
-		}
-		dataMeanTimeSpent.print("Checking mean time spent on network in seconds (per hour)\n");*/
-		
 		try {
 			dataMeanTimeSpentAll_transit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_transit.txt", false));
 		} catch (FileNotFoundException e) {
@@ -151,68 +101,6 @@ public class Utils {
 			Utils.log(e);
 		}
 		dataMeanTimeSpentAll_cern.print("Checking mean time spent on network in seconds (per hour)\n");
-	}
-	public static void saveCheckingValues() {/*
-		float errorFrGe;
-		float errorGeFr;
-		float errorToA;
-		float errorFromA;
-		float errorToB;
-		float errorFromB;
-		float errorToE;
-		float errorFromE;
-		if (DataManager.nFrGeChosen > 0) {
-			errorFrGe = Math.round((1000*Math.abs((DataManager.nFrGeChosen-DataManager.nFrGeEmpiric)/ (float)DataManager.nFrGeChosen))) / (float) 10;
-		} else {
-			errorFrGe = 0;
-		}
-		if (DataManager.nFrGeChosen > 0) {
-			errorGeFr = Math.round((1000*Math.abs((DataManager.nGeFrChosen-DataManager.nGeFrEmpiric)/ (float)DataManager.nGeFrChosen))) / (float) 10;
-		} else {
-			errorGeFr = 0;
-		}
-		if (DataManager.nToAChosen > 0) {
-			errorToA = Math.round((1000*Math.abs((DataManager.nToAChosen-DataManager.nToAEmpiric)/ (float)DataManager.nToAChosen))) / (float) 10;
-		} else {
-			errorToA = 0;
-		}
-		if (DataManager.nFromAChosen > 0) {
-			errorFromA = Math.round((1000*Math.abs((DataManager.nFromAChosen-DataManager.nFromAEmpiric)/ (float)DataManager.nFromAChosen))) / (float) 10;
-		} else {
-			errorFromA = 0;
-		}
-		if (DataManager.nToBChosen > 0) {
-			errorToB = Math.round((1000*Math.abs((DataManager.nToBChosen-DataManager.nToBEmpiric)/ (float)DataManager.nToBChosen))) / (float) 10;
-		} else {
-			errorToB = 0;
-		}
-		if (DataManager.nFromBChosen > 0) {
-			errorFromB = Math.round((1000*Math.abs((DataManager.nFromBChosen-DataManager.nFromBEmpiric)/ (float)DataManager.nFromBChosen))) / (float) 10;
-		} else {
-			errorFromB = 0;
-		}
-		if (DataManager.nToEChosen > 0) {
-			errorToE = Math.round((1000*Math.abs((DataManager.nToEChosen-DataManager.nToEEmpiric)/ (float)DataManager.nToEChosen))) / (float) 10;
-		} else {
-			errorToE = 0;
-		}
-		if (DataManager.nFromEChosen > 0) {
-			errorFromE = Math.round((1000*Math.abs((DataManager.nFromEChosen-DataManager.nFromEEmpiric)/ (float)DataManager.nFromEChosen))) / (float) 10;
-		} else {
-			errorFromE = 0;
-		}
-		
-		dataChecking.print("From France to Geneva (per day) :     expected " + DataManager.nFrGeChosen + ", got " + DataManager.nFrGeEmpiric + " (" + errorFrGe + "%)\n");
-		dataChecking.print("From Geneva to France (per day) :     expected " + DataManager.nGeFrChosen + ", got " + DataManager.nGeFrEmpiric + " (" + errorGeFr + "%)\n");
-		dataChecking.print("To entrance A (per day) :             expected " + DataManager.nToAChosen + ", got " + DataManager.nToAEmpiric + " (" + errorToA + "%)\n");
-		dataChecking.print("From entrance A (per day) :           expected " + DataManager.nFromAChosen + ", got " + DataManager.nFromAEmpiric + " (" + errorFromA + "%)\n");
-		dataChecking.print("To entrance B (per day) :             expected " + DataManager.nToBChosen + ", got " + DataManager.nToBEmpiric + " (" + errorToB + "%)\n");
-		dataChecking.print("From entrance B (per day) :           expected " + DataManager.nFromBChosen + ", got " + DataManager.nFromBEmpiric + " (" + errorFromB + "%)\n");
-		dataChecking.print("From France to entrance E (per day) : expected " + DataManager.nToEChosen + ", got " + DataManager.nToEEmpiric + " (" + errorToE + "%)\n");
-		dataChecking.print("From entrance E to France (per day) : expected " + DataManager.nFromEChosen + ", got " + DataManager.nFromEEmpiric + " (" + errorFromE + "%)\n");*/
-	}
-	public static void saveCheckingValues(String text) {
-		//dataChecking.print(text);	
 	}
 	public static void log(String text) {
 		log.print(text);
@@ -235,23 +123,6 @@ public class Utils {
 		log.print(text);
 		System.out.print(text);
 	}
-	public static void saveData() {
-		saveDataCounters();
-		saveDataSegmentCounters();
-		saveDataLeakyBuckets();
-		saveDataEnterExit();
-		saveMeanTimeSpent();
-	}
-	public static void saveDataAll() {
-		
-	}
-	public static void writeDataCounters(String text) {/*
-		dataStrCounters = dataStrCounters + text;*/
-	}
-	public static void saveDataCounters() {/*
-		dataCounters.print(dataStrCounters);
-		dataStrCounters = "";*/
-	}
 	public static void writeDataCountersAll(String text) {
 		dataStrCountersAll = dataStrCountersAll + text;
 	}
@@ -259,47 +130,12 @@ public class Utils {
 		dataCountersAll.print(dataStrCountersAll);
 		dataStrCountersAll = "";
 	}
-	public static void writeDataSegmentCounters(String text) {/*
-		dataStrSegmentCounters = dataStrSegmentCounters + text;*/
-	}
-	public static void saveDataSegmentCounters() {/*
-		dataSegmentCounters.print(dataStrSegmentCounters);
-		dataStrSegmentCounters = "";*/
-	}
-	public static void writeDataLeakyBuckets(String text) {/*
-		dataStrLeakyBuckets = dataStrLeakyBuckets + text;*/
-	}
-	public static void saveDataLeakyBuckets() {/*
-		dataLeakyBuckets.print(dataStrLeakyBuckets);
-		dataStrLeakyBuckets = "";*/
-	}
 	public static void writeDataLeakyBucketsAll(String text) {
 		dataStrLeakyBucketsAll = dataStrLeakyBucketsAll + text;
 	}
 	public static void saveDataLeakyBucketsAll() {
 		dataLeakyBucketsAll.print(dataStrLeakyBucketsAll);
 		dataStrLeakyBucketsAll = "";
-	}
-	public static void saveDataEnterExit() {/*
-		
-		for (int i=0; i<16; i++) {
-			dataStrEnterExit += DataManager.flowPerExitEmpiric[i] + "\t";
-			DataManager.flowPerExitEmpiric[i] = 0;
-		}
-		dataStrEnterExit += "\n";
-		dataEnterExit.print(dataStrEnterExit);
-		dataStrEnterExit = "";*/
-	}
-	public static void saveMeanTimeSpent() {/*
-		double meanTimeLastHour = 0;
-		for (Integer i: DataManager.timeSpent) {
-			meanTimeLastHour += i;
-		}
-		meanTimeLastHour = meanTimeLastHour / (double) (DataManager.timeSpent.size());
-		DataManager.timeSpent = new ArrayList<Integer>();
-		dataStrMeanTimeSpent = String.format("%.2f", meanTimeLastHour) + "\n";
-		dataMeanTimeSpent.print(dataStrMeanTimeSpent);
-		dataStrMeanTimeSpent = "";*/
 	}
 	public static void writeDataMeanTimeSpentAllTransit(String text) {
 		dataStrMeanTimeSpentAll_transit = dataStrMeanTimeSpentAll_transit + text;
@@ -332,13 +168,11 @@ public class Utils {
 		Utils.log("  INFO : Loading " + path + " ... ");
 		
 		ArrayList<String> text = new ArrayList<String>();
-		//StringBuilder builder = new StringBuilder();
 		
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 			String line;
 			while ((line = br.readLine()) != null) {
-				//builder.append(line + "\n");
 				text.add(line);
 			}
 			br.close();
@@ -346,7 +180,6 @@ public class Utils {
 		} catch (IOException e) {
 			Utils.log(e);
 		}
-		//return builder.toString();
 		return text;
 	}
 	public static int parseInt(String number) {

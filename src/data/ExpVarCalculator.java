@@ -45,11 +45,9 @@ public class ExpVarCalculator {
 		//System.out.print("Saved temp data (size = " + tempX.size() + ")");
 		add(tempX);
 		tempX = new ArrayList<Integer>();
-		//System.out.println(", new size = " + tempX.size());
 	}
 	public void add(ArrayList<Integer> A) {
 		if (A.size() == this.size) {
-			//System.out.println("Good size in EVC");
 			n++;
 			for (int i=0; i<this.size; ++i) {
 				this.X.set(i, this.X.get(i) + A.get(i));
@@ -84,40 +82,4 @@ public class ExpVarCalculator {
 		}
 		return ecartType;
 	}
-
-	/*public static void main(String[] args) {
-		ExpVarCalculator C = new ExpVarCalculator(24);
-		C.println();
-		for (int i = 0; i < 10000; ++i) {
-			ArrayList<Integer> A = new ArrayList<Integer>();
-			for (int hours = 0; hours < 24; ++hours) {
-				int val = (int) ((1+0.2*Math.random()-0.1)*100*Math.sqrt(hours+1));
-				A.add(val);
-			}
-			
-			C.add(A);
-		}
-		System.out.println("");
-		System.out.println("N = " + C.N);
-		System.out.println("");
-		C.println();
-		System.out.println("");
-		System.out.println("Esperance: ");
-		for (float esp_i: C.getEsperance()) {
-			System.out.print(Math.round(100*esp_i)/100.0 + "\t");
-		}
-		System.out.println("");
-		
-		System.out.println("Variance: ");
-		for (float var_i: C.getVariance()) {
-			System.out.print(Math.round(100*var_i)/100.0 + "\t");
-		}
-		System.out.println("");
-		
-		System.out.println("Ecart type: ");
-		for (float et_i: C.getEcartType()) {
-			System.out.print(Math.round(100*et_i)/100.0 + "\t");
-		}
-		System.out.println("");
-	}*/
 }

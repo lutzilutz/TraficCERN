@@ -12,7 +12,6 @@ import ui.UISlider;
 import ui.UITextButton;
 import ui.UITextSwitch;
 import utils.Defaults;
-import utils.Utils;
 
 public class MenuState extends State {
 	
@@ -61,15 +60,6 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(sizeOfNetwork);
 		
-		/*numOrProba = new UITextSwitch(xStart, yStart+4*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "Use numerical", "Use probabilities", 1, new ClickListener(){
-			@Override
-			public void onClick() {
-				numOrProba.switchIt();
-				DataManager.switchNumProba();
-			}
-		});
-		this.uiManager.addObject(numOrProba);*/
-		
 		globalMultiplier = new UISlider(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, (int) (Defaults.getGlobalFlowMultiplier()*100 - 100), true, new ClickListener(){
 			@Override
 			public void onClick() {
@@ -115,17 +105,10 @@ public class MenuState extends State {
 		simulation.setSimState(new SimState(simulation));
 		simulation.getSimState().setNetwork(new Network(simulation, scenarioID, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
 		simulation.getSimState().init();
-		
-		if (DataManager.useProbabilities) {
-			simulation.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
-			//Utils.initAllData(nOfSimulations.getCurrentValue());
-			DataManager.applyDataProba(simulation);
-			simulation.getSimSettingsStateProba().enableUIManager();
-			State.setState(simulation.getSimSettingsStateProba());
-		} else {
-			simulation.getSimSettingsStateNum().enableUIManager();
-			State.setState(simulation.getSimSettingsStateNum());
-		}
+		simulation.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
+		DataManager.applyDataProba(simulation);
+		simulation.getSimSettingsStateProba().enableUIManager();
+		State.setState(simulation.getSimSettingsStateProba());
 	}
 	public void tick(int n) {
 		if (Defaults.getTransferScenario() != 0 && !this.uiManager.getObjects().contains(repartition_E_tunnel)) {
@@ -146,9 +129,7 @@ public class MenuState extends State {
 	public void render(Graphics g) {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
-
 		Text.drawString(g, simulation.getVersionID(), Assets.idleCol, 10, simulation.getHeight()-10, false, Assets.normalFont);
-		
 		Text.drawString(g, "Trafic simulation at CERN", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
 		
 		if (network1.isHovering()) {

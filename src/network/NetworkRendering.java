@@ -189,8 +189,6 @@ public class NetworkRendering {
 							gg.drawRect((int) (x), (int) (y), (int) (n.getCellWidth()*(r.getReorientations().get(i+1).getX()-r.getReorientations().get(i).getX())), n.getCellHeight());
 						}
 					}
-					
-					
 				}
 			}
 			gg.dispose();
@@ -360,7 +358,6 @@ public class NetworkRendering {
 				}
 			}
 		}
-		//System.out.println(n.getVehicles().size());
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).getVehicle() != null) {

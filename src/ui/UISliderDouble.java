@@ -106,6 +106,7 @@ public class UISliderDouble extends UIObject {
 			}
 		}
 	}
+	// Getters & setters ====================================================================================
 	public int getCurrentValue1() {
 		return this.currentValue1;
 	}

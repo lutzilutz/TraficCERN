@@ -39,7 +39,8 @@ public class Defaults {
 	public static void switchDrawRides() {
 		drawVehicleColor = !drawVehicleColor;
 	}
-	// Getters
+	
+	// Getters & setters ====================================================================================
 	public static boolean getDrawVehicleColor() {
 		return drawVehicleColor;
 	}
@@ -82,7 +83,6 @@ public class Defaults {
 	public static int[] getLightPhaseDuration() {
 		return lightPhaseDuration;
 	}
-	// Setters
 	public static void setGlobalFlowMultiplier(double newMultiplier) {
 		globalFlowMultiplier = newMultiplier;
 	}

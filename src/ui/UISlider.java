@@ -58,7 +58,6 @@ public class UISlider extends UIObject {
 
 	@Override
 	public void tick() {
-		
 		if (hovering && simulation.getMouseManager().isLeftPressed()) {
 			onClick();
 		}
@@ -119,11 +118,11 @@ public class UISlider extends UIObject {
 	@Override
 	public void onClick() {
 		clicker.onClick();
-		
-		//currentValue = Math.max(minValue, Math.min(nValues, Math.round((simulation.getMouseManager().getMouseX()-this.x) / ((float) (this.width/(float)(nValues-0*minValue))))));
 		currentValue = Math.max(1*minValue, minValue+Math.min(nValues-minValue, Math.round((simulation.getMouseManager().getMouseX()-this.x) / ((float) (this.width/(float)(nValues-1*minValue))))));
 		
 	}
+	
+	// Getters & setters ====================================================================================
 	public int getCurrentValue() {
 		return this.currentValue;
 	}
