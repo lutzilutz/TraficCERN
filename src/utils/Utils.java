@@ -74,6 +74,7 @@ public class Utils {
 		try {
 			dataLeakyBucketsAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets_all.txt", false));
 		} catch (FileNotFoundException e) {
+			Utils.log("    ERROR : Couldn't init print stream of data_leakyBuckets_all.txt\n");
 			Utils.log(e);
 		}
 		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
@@ -82,6 +83,7 @@ public class Utils {
 		try {
 			dataCountersAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters_all.txt", false));
 		} catch (FileNotFoundException e) {
+			Utils.log("    ERROR : Couldn't init print stream of data_counters_all.txt\n");
 			Utils.log(e);
 		}
 		dataCountersAll.print("Number of vehicles per minute passing through counters ---\n");
@@ -91,6 +93,7 @@ public class Utils {
 		try {
 			dataMeanTimeSpentAll_transit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_transit.txt", false));
 		} catch (FileNotFoundException e) {
+			Utils.log("    ERROR : Couldn't init print stream of data_mean_time_transit.txt\n");
 			Utils.log(e);
 		}
 		dataMeanTimeSpentAll_transit.print("Checking mean time spent on network in seconds (per hour)\n");
@@ -98,6 +101,7 @@ public class Utils {
 		try {
 			dataMeanTimeSpentAll_cern = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_cern.txt", false));
 		} catch (FileNotFoundException e) {
+			Utils.log("    ERROR : Couldn't init print stream of data_mean_time_cern.txt\n");
 			Utils.log(e);
 		}
 		dataMeanTimeSpentAll_cern.print("Checking mean time spent on network in seconds (per hour)\n");
@@ -160,6 +164,7 @@ public class Utils {
 			}
 			br.close();
 		} catch (IOException e) {
+			Utils.log("    ERROR : Couldn't read " + path + " and save it into a string\n");
 			Utils.log(e);
 		}
 		return builder.toString();
@@ -178,6 +183,8 @@ public class Utils {
 			br.close();
 			Utils.log("success\n");
 		} catch (IOException e) {
+			Utils.log("failed\n");
+			Utils.log("    ERROR : Couldn't read " + path + " and save it into a string\n");
 			Utils.log(e);
 		}
 		return text;
@@ -186,6 +193,7 @@ public class Utils {
 		try {
 			return Integer.parseInt(number);
 		} catch (NumberFormatException e) {
+			Utils.log("    ERROR : Couldn't parse integer in Utils.parseInt()\n");
 			Utils.log(e);
 			return 0;
 		}

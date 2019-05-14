@@ -45,7 +45,7 @@ public class Vehicle {
 				cell.setVehicle(null);
 			}
 			if (nextPlace == null && !inBucket) {
-				Utils.log("    ERROR : nextPlace is null for this Vehicle (id:" + id);
+				Utils.log("    ERROR : nextPlace is null for this Vehicle (id:" + id + ")\n");
 			}
 			if (!inBucket) {
 				cell = nextPlace;

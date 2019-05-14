@@ -144,6 +144,7 @@ public class Simulation implements Runnable {
 			try {
 				Thread.sleep(Math.max(0, (int) ((now - System.nanoTime() + timePerTick) / 1000000)));
 			} catch (InterruptedException e) {
+				Utils.log("    ERROR : Couldn't sleep in Simulation.run()\n");
 				Utils.log(e);
 			}
 		}
@@ -168,6 +169,7 @@ public class Simulation implements Runnable {
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
+			Utils.log("    ERROR : Couldn't join() thread in Simulation.stop()\n");
 			Utils.log(e);
 		}
 	}

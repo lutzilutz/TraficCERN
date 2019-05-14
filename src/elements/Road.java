@@ -194,14 +194,12 @@ public class Road {
 		this.setX(x);
 		this.setY(y);
 	}
-	// DEPRECATED ###
 	// Set position and direction from a RoundAbout cell (in road)
 	public void setEndPositionFrom(RoundAbout ra, int i) {
 		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360 + 180);
 		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.sin(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
 		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.cos(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
 	}
-	// ##############
 	public void setPositionInFrom(CrossRoad CR, int i) {
 		i = i % 4;
 		//this.direction = (int) ((CR.getDirection()+((3-i)%4)*90)%360);

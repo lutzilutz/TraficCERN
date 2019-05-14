@@ -34,7 +34,7 @@ public class MaxVehicleOutflow {
 			counter = 0;
 			
 			if (roads.size() > 2) {
-				Utils.log("    ERROR : more than 2 roads in MaxVehicleOutflow, case not considered");
+				Utils.log("    ERROR : more than 2 roads in MaxVehicleOutflow, case not considered\n");
 			}
 			if (roads.size() == 2) {
 				

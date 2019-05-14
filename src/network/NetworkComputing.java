@@ -386,6 +386,7 @@ public class NetworkComputing {
 				else {
 					v.stayHere();
 					v.setSpeed(0);
+					Utils.log("    WARNING : else block called in NetworkComputing.computeEvolution() that shouldn't be called\n");
 				}	
 			}
 		}
@@ -501,7 +502,7 @@ public class NetworkComputing {
 	
 	// Write data at the end of N simulations
 	public static void writeFinalData(Network n) {
-		
+		n.getSimulation().getSimState().incrementWritingState();
 		// Leaky buckets --------------------------------------------------------------------------
 		for (int i=0 ; i<24*4-1 ; i++) {
 			Utils.writeDataLeakyBucketsAll(Float.toString(n.getSimulation().getSimState().getLBrD884NE().getEsperance().get(i)) + " ");
@@ -521,6 +522,7 @@ public class NetworkComputing {
 		}
 		
 		Utils.saveDataLeakyBucketsAll();
+		n.getSimulation().getSimState().incrementWritingState();
 		
 		// Time spent -----------------------------------------------------------------------------
 		
@@ -532,6 +534,7 @@ public class NetworkComputing {
 		}
 		
 		Utils.saveDataMeanTimeSpentAll();
+		n.getSimulation().getSimState().incrementWritingState();
 		
 		// Counters -------------------------------------------------------------------------------
 		
@@ -557,6 +560,7 @@ public class NetworkComputing {
 		}
 		
 		Utils.saveDataCountersAll();
+		n.getSimulation().getSimState().setFinalDataWritingState(-1);
 
 	}
 	// Write data at the end of a simulation

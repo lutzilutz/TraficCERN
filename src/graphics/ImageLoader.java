@@ -17,7 +17,7 @@ public class ImageLoader {
 			Utils.log("success\n");
 			return bi;
 		} catch (IOException e) {
-			Utils.log("failed !\n");
+			Utils.log("failed ! Couldn't read image " + path + "\n");
 			Utils.log(e);
 			System.exit(1);
 		}

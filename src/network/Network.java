@@ -1296,11 +1296,9 @@ public class Network {
 							}
 						}
 					}
-					//Utils.log()
 				}
 			}
 		}
-		//Utils.log("Road not found " + roadName + "\n");
 		
 		if (chosenRide == null) {
 			chosenRide = new Ride();

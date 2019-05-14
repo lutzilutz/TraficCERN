@@ -1,4 +1,5 @@
 package states;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -79,6 +80,8 @@ public class SimState extends State {
 	private ExpVarCalculator counterEntranceELeftEVC;
 	private ExpVarCalculator counterEntranceERightEVC;
 	private ExpVarCalculator counterEntranceESumEVC;
+	
+	private int finalDataWritingState = 0;
 	
 	public SimState(Simulation simulation) {
 		super(simulation);
@@ -452,6 +455,18 @@ public class SimState extends State {
 			if (askExit) {
 				Text.drawString(g, "Are you sure ?", Assets.idleCol, simulation.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);
 			}
+			if (getStep() > 86000 && finalDataWritingState == 0) {
+				
+				if (getSimulationID() == getNumberOfSimulations()) {
+					incrementWritingState();
+				}
+			}
+			if (finalDataWritingState > 0) {
+				g.setColor(Assets.bgAlphaCol);
+				g.fillRect(0, 0, 1000, 700);
+				g.setColor(Color.white);
+				Text.drawString(g, "Please wait, writing output data into files ...", Color.white, network.getSimulation().getWidth()/2, network.getSimulation().getHeight()/2, true, Assets.largeFont);
+			}
 		}
 	}
 	public void restartNetwork() {
@@ -612,5 +627,15 @@ public class SimState extends State {
 	}
 	public void enableUIManager() {
 		simulation.getMouseManager().setUIManager(this.uiManager);
+	}
+	public int getFinalDataWritingState() {
+		return this.finalDataWritingState;
+	}
+	public void setFinalDataWritingState(int finalDataWritingState) {
+		this.finalDataWritingState = finalDataWritingState;
+	}
+	public void incrementWritingState() {
+		this.finalDataWritingState++;
+		System.out.println(finalDataWritingState);
 	}
 }
