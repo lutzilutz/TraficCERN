@@ -28,7 +28,7 @@ public class NetworkComputing {
 	
 	// Compute position on-screen of all cells
 	public static void computeCellsPosition(Network n) {
-		Utils.log("    INFO : Computing Cells position ... ");
+		Utils.logInfo("Computing Cells position ... ");
 		Utils.tick();
 		
 		margin = n.getCellWidth()*10;
@@ -387,7 +387,7 @@ public class NetworkComputing {
 				else {
 					v.stayHere();
 					v.setSpeed(0);
-					Utils.log("    WARNING : else block called in NetworkComputing.computeEvolution() that shouldn't be called\n");
+					Utils.logWarningln("else block called in NetworkComputing.computeEvolution() that shouldn't be called");
 				}	
 			}
 		}
@@ -421,13 +421,13 @@ public class NetworkComputing {
 					v.addRide(tmpRides);
 				}
 				if (v.getRide().size()==0) {
-					Utils.log("    ERROR : Vehicle with empty ride\n");
+					Utils.logErrorln("Vehicle with empty ride");
 				}
 				if (v.getRide().size()>0) {
 					skipThisVehicle = false;
 				} else {
 					skipThisVehicle = true;
-					Utils.log("    ERROR : Can't save ride into data (NetworkComputing.computeEvolution) ... trying to skip !\n");
+					Utils.logErrorln("Can't save ride into data (NetworkComputing.computeEvolution) ... trying to skip !");
 				}
 				
 				if (!skipThisVehicle) {
@@ -454,7 +454,7 @@ public class NetworkComputing {
 			}
 		}
 		if (n.getVehicles().size() > 200 && nVhcMoving == 0) {
-			Utils.log("    ERROR : Network blocked !\n");
+			Utils.logErrorln("Network blocked !");
 		}
 		
 		if (n.getSimulation().getSimState().getStep()%60 == 0) { // every minute
@@ -503,7 +503,7 @@ public class NetworkComputing {
 	
 	// Write data at the end of N simulations
 	public static void writeFinalData(Network n) {
-		Utils.log("    INFO : Writing output data into files ... ");
+		Utils.logInfo("Writing output data into files ... ");
 		n.getSimulation().getSimState().incrementWritingState();
 		// Leaky buckets --------------------------------------------------------------------------
 		for (int i=0 ; i<24*4-1 ; i++) {
@@ -564,7 +564,7 @@ public class NetworkComputing {
 		Utils.saveDataCountersAll();
 		n.getSimulation().getSimState().setFinalDataWritingState(-1);
 		writtenFinalData = true;
-		Utils.log("done\n");
+		Utils.logln("done");
 	}
 	// Write data at the end of a simulation
 	public static void writeData24Hours(Network n) {

@@ -4,12 +4,12 @@ import java.awt.Graphics;
 
 import graphics.Assets;
 import graphics.Text;
-import main.Simulation;
+import main.Simulator;
 
 public class UISliderDouble extends UIObject {
 	
 	private ClickListener clicker;
-	private Simulation simulation;
+	private Simulator simulation;
 	private String text;
 	private int nValues;
 	private int defaultValue1 = 2;
@@ -22,7 +22,7 @@ public class UISliderDouble extends UIObject {
 	private boolean firstSelected = true;
 	private boolean leftPressed = false;
 
-	public UISliderDouble(Simulation simulation, float x, float y, int width, String text, int nValues, int defaultValue1, int defaultValue2, boolean percentage, ClickListener clicker) {
+	public UISliderDouble(Simulator simulation, float x, float y, int width, String text, int nValues, int defaultValue1, int defaultValue2, boolean percentage, ClickListener clicker) {
 		super(x, y, width, 12);
 		this.simulation = simulation;
 		this.width = width;

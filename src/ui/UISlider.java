@@ -4,12 +4,12 @@ import java.awt.Graphics;
 
 import graphics.Assets;
 import graphics.Text;
-import main.Simulation;
+import main.Simulator;
 
 public class UISlider extends UIObject {
 	
 	private ClickListener clicker;
-	private Simulation simulation;
+	private Simulator simulation;
 	private String text;
 	private int nValues;
 	private int minValue = 0;
@@ -20,7 +20,7 @@ public class UISlider extends UIObject {
 	private boolean percentage = false;
 	private boolean printBothValues = false;
 
-	public UISlider(Simulation simulation, float x, float y, int width, String text, int nValues, int defaultValue, boolean percentage, ClickListener clicker) {
+	public UISlider(Simulator simulation, float x, float y, int width, String text, int nValues, int defaultValue, boolean percentage, ClickListener clicker) {
 		super(x, y, width, 12);
 		this.simulation = simulation;
 		this.width = width;
@@ -31,7 +31,7 @@ public class UISlider extends UIObject {
 		this.clicker = clicker;
 		this.percentage = percentage;
 	}
-	public UISlider(Simulation simulation, float x, float y, int width, String text, int nValues, int minValue, int defaultValue, boolean percentage, ClickListener clicker) {
+	public UISlider(Simulator simulation, float x, float y, int width, String text, int nValues, int minValue, int defaultValue, boolean percentage, ClickListener clicker) {
 		super(x, y, width, 12);
 		this.simulation = simulation;
 		this.width = width;
@@ -43,7 +43,7 @@ public class UISlider extends UIObject {
 		this.clicker = clicker;
 		this.percentage = percentage;
 	}
-	public UISlider(Simulation simulation, float x, float y, int width, String text, int nValues, int defaultValue, boolean percentage, boolean printBothValues, ClickListener clicker) {
+	public UISlider(Simulator simulation, float x, float y, int width, String text, int nValues, int defaultValue, boolean percentage, boolean printBothValues, ClickListener clicker) {
 		super(x, y, width, 12);
 		this.simulation = simulation;
 		this.width = width;

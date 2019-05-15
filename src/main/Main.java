@@ -7,15 +7,17 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Simulation simulation = new Simulation("Trafic simulation around CERN",1000,700);
-		simulation.start();
+		// instantiate the Simulator object (the software in itself)
+		Simulator simulator = new Simulator("Trafic simulation around CERN",1000,700);
+		simulator.start();
 		
+		// add a shutdown-hook to be able to print a last entry in log output before exiting
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
 				if (!NetworkComputing.writtenFinalData) {
-					Utils.log("    WARNING : User ends simulation prematurely at step " + simulation.getSimState().getStep() + "\n");
+					Utils.logWarningln("User ends simulation prematurely at step " + simulator.getSimState().getStep());
 				}
-				Utils.log("Closed ===============================================================\n");
+				Utils.logln("Closed ===============================================================");
 			}
 		}, "Shutdown-thread"));
 	}

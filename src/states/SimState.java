@@ -8,7 +8,7 @@ import data.ExpVarCalculator;
 import graphics.Assets;
 import graphics.Text;
 import input.KeyManager;
-import main.Simulation;
+import main.Simulator;
 import network.Network;
 import network.NetworkComputing;
 import network.NetworkRendering;
@@ -22,44 +22,48 @@ import utils.Utils;
 
 public class SimState extends State {
 	
+	// UI and keyboard managers
 	private UIManager uiManager;
 	private KeyManager keyManager;
 	
-	private Network network;
+	private Network network; // network being used
 	
 	private int step = 1; // step counter
-	private double stepSize = 1; // duration of one step in seconds-
-	private int startHour = 0;
-	private boolean paused = false;
-	private boolean askExit = false;
-	private long lastTick;
-	private int numberOfSimulations = 0;
-	private int simulationID = 1;
-	private boolean restarting = false;
-	private boolean finished = false;
+	private double stepSize = 1; // duration of one step in seconds
+	private boolean paused = false; // if simulation should be paused
+	private boolean askExit = false; // if user clicked on exit button
+	private long lastTick; // time of the last tick in [nanoseconds]
+	private int numberOfSimulations = 0; // number of simulation to compute
+	private int simulationID = 1; // current simulation being computed
+	private boolean restarting = false; // if user asked to restart the simulation
+	private boolean finished = false; // if all simulations finished
 	
-	private boolean rushHours = false, rushHoursMorning = false;//, rushHoursEvening = false;
+	private boolean rushHours = false, rushHoursMorning = false; // if simulation time is a rush hour
 	
-	private boolean leftPressed = false;
-	private double clickedX=0, clickedY=0;
+	private boolean leftPressed = false; // if user have left mouse button pressed
+	private double clickedX=0, clickedY=0; // position on-screen of the beginning of a click
 	
-	private double simSpeed = Defaults.getSimSpeed();
-	private double offsetSpeed = 1;
-	private double offsetSpeedDefault = offsetSpeed;
-	private long offsetTime = 0;
-	private double rotationSpeed = 0.02;
+	private double simSpeed = Defaults.getSimSpeed(); // simulation speed, set by default
+	private double offsetSpeedDefault = 1; // defaut speed of the offset
+	private double offsetSpeed = offsetSpeedDefault; // current speed of the offset
+	private long offsetTime = 0; // start of the offset in [nanoseconds]
+	private double rotationSpeed = 0.02; // speed of the rotation
 	
+	// Top screen buttons
 	private UITextButton stepByStep, exitY, exitN;
 	private UIImageButton playPause;
+	
+	// Bottom screen buttons
 	private UITextSwitch colorOn, wireOn, idOn, ridesOn, namesOn, centersOn;
 	
-	private BufferedImage[] networkDisplays;
-	private BufferedImage currentDisplay;
-	private BufferedImage hud;
-	private BufferedImage background;
-	private int currentBackgroundID = 0;
-	private int currentNetwork = -1;
+	private BufferedImage[] networkDisplays; // list of all network images depending on color, wire, ...
+	private BufferedImage currentDisplay; // current network image
+	private BufferedImage hud; // image of the head-up display (hud)
+	private BufferedImage background; // background image
+	private int currentBackgroundID = 0; // ID of the current background being displayed
+	private int currentNetwork = -1; // ID of the current network, -1 to generate empty network
 	
+	// ExpVarCalculator for all leaky buckets
 	private ExpVarCalculator leakyBucketsEVC_rD884NE;
 	private ExpVarCalculator leakyBucketsEVC_rRueDeGeneveSE;
 	private ExpVarCalculator leakyBucketsEVC_rRueGermaineTillionSW;
@@ -68,9 +72,11 @@ public class SimState extends State {
 	private ExpVarCalculator leakyBucketsEVC_rRoutePauliSouthNELeft;
 	private ExpVarCalculator leakyBucketsEVC_rRoutePauliSouthNERight;
 	
+	// ExpVarCalculator for all mean times
 	private ExpVarCalculator meanTimeSpentEVC_transit;
 	private ExpVarCalculator meanTimeSpentEVC_cern;
 	
+	// ExpVarCalculator for all counters
 	private ExpVarCalculator counter1AEVC;
 	private ExpVarCalculator counter1BEVC;
 	private ExpVarCalculator counter2AEVC;
@@ -81,15 +87,18 @@ public class SimState extends State {
 	private ExpVarCalculator counterEntranceERightEVC;
 	private ExpVarCalculator counterEntranceESumEVC;
 	
+	// state of the writing phase : 0 before, 1 when begins ... , -1 if finished
 	private int finalDataWritingState = 0;
 	
-	public SimState(Simulation simulation) {
+	public SimState(Simulator simulation) {
 		super(simulation);
+		
+		// Initialize UI and keyboard manager, and create empty network
 		this.uiManager = new UIManager(simulation);
 		this.keyManager = new KeyManager();
 		network = new Network(simulation, currentNetwork, 2);
 		
-		// Buttons ==============================================================================================
+		// "Controls" Buttons ===============================================================================
 		
 		stepByStep = new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*1, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Next step", new ClickListener(){
 			@Override
@@ -100,6 +109,8 @@ public class SimState extends State {
 			}
 		});
 		stepByStep.switchActivable();
+		this.uiManager.addObject(stepByStep);
+		
 		playPause = new UIImageButton(Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.pauseIdle, Assets.pauseActive, Assets.playIdle, Assets.playActive, new ClickListener(){
 			@Override
 			public void onClick() {
@@ -108,13 +119,16 @@ public class SimState extends State {
 			}
 		});
 		this.uiManager.addObject(playPause);
-		this.uiManager.addObject(stepByStep);
+		
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*2, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.restartIdle, Assets.restartActive, new ClickListener(){
 			@Override
 			public void onClick() {
 				restartNetwork();
 			}
 		}));
+		
+		// "Speed" buttons ==================================================================================
+		
 		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*3, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Real-time", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -126,6 +140,7 @@ public class SimState extends State {
 				}
 			}
 		}));
+		
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*4, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastIdle, Assets.fastActive, new ClickListener(){
 			@Override
 			public void onClick() {
@@ -137,6 +152,7 @@ public class SimState extends State {
 				}
 			}
 		}));
+		
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*5, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastFastIdle, Assets.fastFastActive, new ClickListener(){
 			@Override
 			public void onClick() {
@@ -148,6 +164,7 @@ public class SimState extends State {
 				}
 			}
 		}));
+		
 		this.uiManager.addObject(new UIImageButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*6, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, Assets.fastFastFastIdle, Assets.fastFastFastActive, new ClickListener(){
 			@Override
 			public void onClick() {
@@ -159,6 +176,7 @@ public class SimState extends State {
 				}
 			}
 		}));
+		
 		this.uiManager.addObject(new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*7, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Max", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -170,6 +188,9 @@ public class SimState extends State {
 				}
 			}
 		}));
+		
+		// Exit buttons =====================================================================================
+		
 		this.uiManager.addObject(new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -178,10 +199,11 @@ public class SimState extends State {
 				exitN.setVisible(askExit);
 			}
 		}));
+		
 		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
 			@Override
 			public void onClick() {
-				Utils.log("    WARNING : User ends simulation prematurely at step " + step + "\n");
+				Utils.logWarningln("User ends simulation prematurely at step " + step);
 				Utils.initAllData(numberOfSimulations);
 				disableUIManager();
 				simulation.getMenuState().enableUIManager();
@@ -202,7 +224,8 @@ public class SimState extends State {
 		exitN.setVisible(false);
 		this.uiManager.addObject(exitN);
 		
-		// Bottom buttons ============================================================================================
+		// Bottom buttons ===================================================================================
+		
 		colorOn = new UITextSwitch(Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", Defaults.getDrawColors(), new ClickListener(){
 			@Override
 			public void onClick() {
@@ -257,14 +280,16 @@ public class SimState extends State {
 	}
 	public void init() {
 		
+		// comput position of all cells of the network
 		NetworkComputing.computeCellsPosition(network);
 		
-		// Rendering background -------------------------------------------------------------------
-		background = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_RGB);
+		// Rendering background -----------------------------------------------------------------------------
+		background = new BufferedImage(simulator.getWidth(), simulator.getHeight(), BufferedImage.TYPE_INT_RGB);
 		networkDisplays = new BufferedImage[8];
-		hud = new BufferedImage(simulation.getWidth(), simulation.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		hud = new BufferedImage(simulator.getWidth(), simulator.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		renderBG(network, networkDisplays);
-		// Init output structures -----------------------------------------------------------------
+		
+		// Init output structures ---------------------------------------------------------------------------
 		leakyBucketsEVC_rD884NE = new ExpVarCalculator(24*4-1);
 		leakyBucketsEVC_rRueDeGeneveSE = new ExpVarCalculator(24*4-1);
 		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4-1);
@@ -283,155 +308,154 @@ public class SimState extends State {
 		counterEntranceELeftEVC = new ExpVarCalculator(24*60-1);
 		counterEntranceERightEVC = new ExpVarCalculator(24*60-1);
 		counterEntranceESumEVC = new ExpVarCalculator(24*60-1);
-		// ----------------------------------------------------------------------------------------
 		
+		// save time of current tick
 		lastTick = System.nanoTime();
 		
 	}
 	public void renderBG(Network network, BufferedImage[] backgrounds) {
+		
+		// create Graphics object for the background, and draw on it
 		Graphics2D g = background.createGraphics();
 		g.setColor(Assets.bgCol);
-		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
+		g.fillRect(0, 0, simulator.getWidth(), simulator.getHeight());
 		g.dispose();
+		
+		// render head-up display and all network images
 		NetworkRendering.renderButtonsHeader(network, hud);
 		networkDisplays = NetworkRendering.renderAllBGs(network, backgrounds);
+		
+		// compute ID of the current network image to use
 		currentBackgroundID = 0;
-		if (Defaults.getDrawRoadID()) {
-			currentBackgroundID += 1;
-		}
-		if (Defaults.getDrawWire()) {
-			currentBackgroundID += 2;
-		}
-		if (Defaults.getDrawColors()) {
-			currentBackgroundID += 4;
-		}
+		if (Defaults.getDrawRoadID()) {currentBackgroundID += 1;}
+		if (Defaults.getDrawWire()) {currentBackgroundID += 2;}
+		if (Defaults.getDrawColors()) {currentBackgroundID += 4;}
 		currentDisplay = this.networkDisplays[currentBackgroundID];
 	}
-	
-	public void tick(int n) {
-		
-		if (!getPause() && !restarting) {
+	public void networkTick() {
+		// check for the end of a day in-sim and not a "finished" flag
+		step++;
+		if (step >= 86400 && !finished) {
 			
-			if (System.nanoTime()-lastTick >= 1000000000/simSpeed) {
-				
-				if (simSpeed >= 5000) {
-					while((System.nanoTime()-lastTick) <= 1000000000/60 && !restarting) {
-						if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
-							Utils.log("    INFO : Launch of " + network.getSimulation().getSimState().getNumberOfSimulations() + " simulations\n");
-							Utils.log("    INFO : Simulating ...\n");
-						}
-						
-						step++;
-						if (step >= 86400 && !finished) {
-							
-							if (simulationID < numberOfSimulations) {
-								step = 1;
-								simulationID++;
-								network.restart();
-							} else {
-								Utils.log("    INFO : " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
-								switchPause();
-								finished = true;
-							}
-							break;
-						}
-						updateRH();
-						NetworkComputing.computeEvolution(network);
-						NetworkComputing.evolve(network);
-					}
-				} else {
-					for (int i=0 ; i<n ; i++) {
-						if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
-							Utils.log("    INFO : Launch of " + network.getSimulation().getSimState().getNumberOfSimulations() + " simulations\n");
-							Utils.log("    INFO : Simulating ...\n");
-						}
-						step++;
-						if (step >= 86400 && !finished) {
-							
-							if (simulationID < numberOfSimulations) {
-								step = 1;
-								simulationID++;
-								network.restart();
-							} else {
-								if (simulationID<=1) {
-									Utils.log("    INFO : " + simulationID + " simulation finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
-								} else {
-									Utils.log("    INFO : " + simulationID + " simulations finished (" + network.artificiallyDestroyedVehicles + " vehicles destroyed artificially)\n");
-								}
-								switchPause();
-								finished = true;
-							}
-						}
-						updateRH();
-						NetworkComputing.computeEvolution(network);
-						NetworkComputing.evolve(network);
-					}
-				}
-				lastTick = System.nanoTime();
+			// if more simulations should be computed
+			if (simulationID < numberOfSimulations) {
+				step = 1;
+				simulationID++;
+				network.restart();
+			}
+			// else, it's the last simulation, log it, and switch "paused" and "finished" flags
+			else {
+				Utils.logInfoln(simulationID + " simulation(s) finished (" + network.artificiallyDestroyedVehicles + " vehicle(s) destroyed artificially)");
+				switchPause();
+				finished = true;
 			}
 		}
 		
-		uiManager.tick();
-		keyManager.tick();
+		// tick the two main evolution methods
+		NetworkComputing.computeEvolution(network);
+		NetworkComputing.evolve(network);
+	}
+	public void checkFirstTick() {
 		
-		// Offset keys ============================================================================
-		if (simulation.getKeyManager().right) {
+		// if it's the first tick of this SimState, log it
+		if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
+			Utils.logInfoln("Launch of " + network.getSimulation().getSimState().getNumberOfSimulations() + " simulations");
+			Utils.logInfoln("Simulating ...");
+		}
+	}
+	public void keyboardTick() {
+		// Offset keys ======================================================================================
+		if (simulator.getKeyManager().right) {
 			network.setxOffset(network.getxOffset()-offsetSpeed*Math.cos(network.getRotation()));
 			network.setyOffset(network.getyOffset()+offsetSpeed*Math.sin(network.getRotation()));
 			increaseOffset();
-		} else if (simulation.getKeyManager().left) {
+		} else if (simulator.getKeyManager().left) {
 			network.setxOffset(network.getxOffset()+offsetSpeed*Math.cos(network.getRotation()));
 			network.setyOffset(network.getyOffset()-offsetSpeed*Math.sin(network.getRotation()));
 			increaseOffset();
 		}
-		if (simulation.getKeyManager().up) {
+		if (simulator.getKeyManager().up) {
 			network.setxOffset(network.getxOffset()+offsetSpeed*Math.sin(network.getRotation()));
 			network.setyOffset(network.getyOffset()+offsetSpeed*Math.cos(network.getRotation()));
 			increaseOffset();
-		} else if (simulation.getKeyManager().down) {
+		} else if (simulator.getKeyManager().down) {
 			network.setxOffset(network.getxOffset()-offsetSpeed*Math.sin(network.getRotation()));
 			network.setyOffset(network.getyOffset()-offsetSpeed*Math.cos(network.getRotation()));
 			increaseOffset();
 		}
-		if (simulation.getKeyManager().space) {
+		if (simulator.getKeyManager().space) {
 			network.setxOffset(network.getxDefaultOffset());
 			network.setyOffset(network.getyDefaultOffset());
 		}
 		
-		// Rotation keys ==========================================================================
-		if (simulation.getKeyManager().d) {
+		// Rotation keys ====================================================================================
+		if (simulator.getKeyManager().d) {
 			network.setRotation(network.getRotation()+rotationSpeed);
-		} else if (simulation.getKeyManager().a) {
+		} else if (simulator.getKeyManager().a) {
 			network.setRotation(network.getRotation()-rotationSpeed);
 		}
-		if (simulation.getKeyManager().s) {
+		if (simulator.getKeyManager().s) {
 			network.setRotation(0);
 		}
 		
 		// Acceleration of movement
-		if (!simulation.getKeyManager().up && !simulation.getKeyManager().down && !simulation.getKeyManager().right && !simulation.getKeyManager().left) {
+		if (!simulator.getKeyManager().up && !simulator.getKeyManager().down && !simulator.getKeyManager().right && !simulator.getKeyManager().left) {
 			offsetTime = 0;
 			offsetSpeed = offsetSpeedDefault;
 		}
 		// Left click to change offset
-		if (simulation.getMouseManager().isLeftPressed() && simulation.getMouseManager().getMouseY()>60 && simulation.getMouseManager().getMouseY()<simulation.getHeight()-60) {
+		if (simulator.getMouseManager().isLeftPressed() && simulator.getMouseManager().getMouseY()>60 && simulator.getMouseManager().getMouseY()<simulator.getHeight()-60) {
 			if (!leftPressed) {
-				clickedX = simulation.getMouseManager().getMouseX()-network.getxOffset();
-				clickedY = simulation.getMouseManager().getMouseY()-network.getyOffset();
+				clickedX = simulator.getMouseManager().getMouseX()-network.getxOffset();
+				clickedY = simulator.getMouseManager().getMouseY()-network.getyOffset();
 				leftPressed = true;
 			} else {
-				network.setxOffset(0*network.getxOffset() + simulation.getMouseManager().getMouseX()-clickedX);
-				network.setyOffset(0*network.getyOffset() + simulation.getMouseManager().getMouseY()-clickedY);
+				network.setxOffset(0*network.getxOffset() + simulator.getMouseManager().getMouseX()-clickedX);
+				network.setyOffset(0*network.getyOffset() + simulator.getMouseManager().getMouseY()-clickedY);
 			}
 		} else {
 			leftPressed = false;
 		}
 	}
+	public void tick(int n) {
+		
+		
+		if (!getPause() && !restarting && (System.nanoTime()-lastTick >= 1000000000/simSpeed)) {
+			
+			// if simulation speed is set to be maximum
+			if (simSpeed >= 5000) {
+				
+				// tick this loop to fill a 60th of seconds with maximum number of ticks
+				while((System.nanoTime()-lastTick) <= 1000000000/60 && !restarting) {
+					
+					checkFirstTick();
+					networkTick();
+				}
+			}
+			// else, simulation speed has a limit
+			else {
+				
+				// tick until i reach the number of simulation tick that should happen
+				for (int i=0 ; i<n ; i++) {
+					
+					checkFirstTick();
+					networkTick();
+				}
+			}
+			// update time to now
+			lastTick = System.nanoTime();
+		}
+		
+		// UI and keyboard managers tick
+		uiManager.tick();
+		keyManager.tick();
+		keyboardTick();
+		
+	}
 	public void increaseOffset() {
 		if (offsetTime == 0) {
 			offsetTime = System.nanoTime();
 		}
-		
 		offsetSpeed = Math.max(offsetSpeedDefault, Math.min(5*offsetSpeedDefault, Math.log(100*(System.nanoTime()-offsetTime)/1000000000.0)));
 	}
 	public void tick() {
@@ -441,50 +465,73 @@ public class SimState extends State {
 	public void render(Graphics g) {
 		
 		if (!restarting) {
+			
+			// draw background image
 			g.drawImage(background, 0, 0, null);
 			Graphics2D gg = (Graphics2D) g.create();
+			
+			// apply offset
 			gg.translate(network.getxOffset(), network.getyOffset());
-			gg.rotate(network.getRotation(), simulation.getWidth()/2-network.getxOffset(), simulation.getHeight()/2-network.getyOffset());
+			gg.rotate(network.getRotation(), simulator.getWidth()/2-network.getxOffset(), simulator.getHeight()/2-network.getyOffset());
+			
+			// draw network image
 			gg.drawImage(currentDisplay, 0, 0, null);
+			
+			// draw network elements
 			NetworkRendering.render(network, gg);
-			NetworkRendering.renderHeaderBG(network, g);
+			
+			// draw HUD
 			g.drawImage(hud, 0, 0, null);
+			
+			// draw simulation infos (bottom-right corner)
 			NetworkRendering.renderInformations(network, g);
 			gg.dispose();
+			
+			// draw UI manager
 			uiManager.render(g);
-			if (askExit) {
-				Text.drawString(g, "Are you sure ?", Assets.idleCol, simulation.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);
-			}
+			
+			// if user asked to exit simulation
+			if (askExit) {Text.drawString(g, "Are you sure ?", Assets.idleCol, simulator.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);}
+			
+			// if simulation speed is set to maximum
 			if (simSpeed >= 5000) {
 				if (getStep() > 86000 && finalDataWritingState == 0) {
 					if (getSimulationID() == getNumberOfSimulations()) {
-						incrementWritingState();
+						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
-			} else if (simSpeed >= 2000) {
+			}
+			// else if simulation speed is bigger than 2000
+			else if (simSpeed >= 2000) {
 				if (getStep() > 86300 && finalDataWritingState == 0) {
 					if (getSimulationID() == getNumberOfSimulations()) {
-						incrementWritingState();
+						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
-			} else if (simSpeed >= 100) {
+			}
+			// else if simulation speed is bigger than 100
+			else if (simSpeed >= 100) {
 				if (getStep() > 86390 && finalDataWritingState == 0) {
 					if (getSimulationID() == getNumberOfSimulations()) {
-						incrementWritingState();
+						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
-			} else {
+			}
+			// else simulation speed is below 100
+			else {
 				if (getStep() > 86399 && finalDataWritingState == 0) {
 					if (getSimulationID() == getNumberOfSimulations()) {
-						incrementWritingState();
+						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
 			}
 			
+			// if data has been written, reset this field
 			if (NetworkComputing.writtenFinalData) {
 				finalDataWritingState = 0;
 			}
 			
+			// if data writing has begun
 			if (finalDataWritingState > 0) {
 				g.setColor(Assets.bgAlphaCol);
 				g.fillRect(0, 0, 1000, 700);
@@ -501,7 +548,7 @@ public class SimState extends State {
 	
 	// Return time in format "hh:mm:ss"
 	public String getTime() {
-		int time = (int) (step*stepSize+startHour*60*60);
+		int time = (int) (step*stepSize);
 		int sec = time % 60;
 		int min = ((time - sec)/60) % 60;
 		int hr = ((((time - sec)/60) - min)/60) % 24;
@@ -524,24 +571,12 @@ public class SimState extends State {
 		return hrStr + ":" + minStr + ":" + secStr;
 	}
 	public int getHours() {
-		int time = (int) (step*stepSize+startHour*60*60);
+		int time = (int) (step*stepSize);
 		int sec = time % 60;
 		int min = ((time - sec)/60) % 60;
 		int hr = ((((time - sec)/60) - min)/60) % 24;
 		
 		return hr;
-	}
-	public void updateRH() {
-		if (getHours()>=7 && getHours()<10) {
-			rushHours = true;
-			rushHoursMorning = true;
-		} else if (getHours()>=17 && getHours()<20) {
-			rushHours = true;
-			rushHoursMorning = false;
-		} else {
-			rushHours = false;
-			rushHoursMorning = false;
-		}
 	}
 	
 	// Getters & setters ====================================================================================
@@ -618,7 +653,7 @@ public class SimState extends State {
 	public void setCurrentNetwork(int currentNetwork) {
 		network = null;
 		this.currentNetwork = currentNetwork;
-		network = new Network(simulation, currentNetwork, simulation.getMenuState().getSizeOfNetwork().getCurrentValue());
+		network = new Network(simulator, currentNetwork, simulator.getMenuState().getSizeOfNetwork().getCurrentValue());
 		init();
 		restartNetwork();
 	}
@@ -647,10 +682,10 @@ public class SimState extends State {
 		return this.simSpeed;
 	}
 	public void disableUIManager() {
-		simulation.getMouseManager().setUIManager(null);
+		simulator.getMouseManager().setUIManager(null);
 	}
 	public void enableUIManager() {
-		simulation.getMouseManager().setUIManager(this.uiManager);
+		simulator.getMouseManager().setUIManager(this.uiManager);
 	}
 	public int getFinalDataWritingState() {
 		return this.finalDataWritingState;

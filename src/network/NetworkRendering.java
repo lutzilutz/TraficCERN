@@ -32,7 +32,7 @@ public class NetworkRendering {
 	
 	// Render (compute) all background images
 	public static BufferedImage[] renderAllBGs(Network n, BufferedImage[] backgrounds) {
-		Utils.log("    INFO : Generating Network images ... ");
+		Utils.logInfo("Generating Network images ... ");
 		BufferedImage[] tmp = new BufferedImage[8];
 		for (int i=0 ; i<8 ; i++) {
 			tmp[i] = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_ARGB);
@@ -334,6 +334,7 @@ public class NetworkRendering {
 		}
 		//renderCounters(network, g);
 		renderLeakyBuckets(network, g);
+		renderHeaderBG(network, g);
 	}
 	public static void renderVehicles(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();

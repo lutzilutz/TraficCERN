@@ -48,6 +48,12 @@ public class Utils {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		
+		Utils.logln("Started at " + dateFormat.format(date) + " =======================================");
+		Utils.logln("Initialization ---------------------------------------------");
 	}
 	// initialize all data output streams for N simulations (folder /data/XXXXXXXX_XXXXXX_NN.txt
 	public static void initAllData(int numberOfSimulations) {
@@ -68,13 +74,13 @@ public class Utils {
 		initDataCounters();
 		initDataLeakyBuckets();
 		initDataMeanTimeSpent();
-		Utils.log("    INFO : Initialized simulation folder " + dateFormat.format(date) + "\n");
+		Utils.logErrorln("Initialized simulation folder " + dateFormat.format(date));
 	}
 	public static void initDataLeakyBuckets() {
 		try {
 			dataLeakyBucketsAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets_all.txt", false));
 		} catch (FileNotFoundException e) {
-			Utils.log("    ERROR : Couldn't init print stream of data_leakyBuckets_all.txt\n");
+			Utils.logErrorln("Couldn't init print stream of data_leakyBuckets_all.txt");
 			Utils.log(e);
 		}
 		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
@@ -83,7 +89,7 @@ public class Utils {
 		try {
 			dataCountersAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters_all.txt", false));
 		} catch (FileNotFoundException e) {
-			Utils.log("    ERROR : Couldn't init print stream of data_counters_all.txt\n");
+			Utils.logErrorln("Couldn't init print stream of data_counters_all.txt");
 			Utils.log(e);
 		}
 		dataCountersAll.print("Number of vehicles per minute passing through counters ---\n");
@@ -93,7 +99,7 @@ public class Utils {
 		try {
 			dataMeanTimeSpentAll_transit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_transit.txt", false));
 		} catch (FileNotFoundException e) {
-			Utils.log("    ERROR : Couldn't init print stream of data_mean_time_transit.txt\n");
+			Utils.logErrorln("Couldn't init print stream of data_mean_time_transit.txt");
 			Utils.log(e);
 		}
 		dataMeanTimeSpentAll_transit.print("Checking mean time spent on network in seconds (per hour)\n");
@@ -101,10 +107,32 @@ public class Utils {
 		try {
 			dataMeanTimeSpentAll_cern = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_cern.txt", false));
 		} catch (FileNotFoundException e) {
-			Utils.log("    ERROR : Couldn't init print stream of data_mean_time_cern.txt\n");
+			Utils.logErrorln("Couldn't init print stream of data_mean_time_cern.txt");
 			Utils.log(e);
 		}
 		dataMeanTimeSpentAll_cern.print("Checking mean time spent on network in seconds (per hour)\n");
+	}
+	public static void logErrorln(String text) {
+		logln("    ERROR    : " + text);
+	}
+	public static void logError(String text) {
+		log("    ERROR    : " + text);
+	}
+	public static void logWarningln(String text) {
+		logln("    WARNING  : " + text);
+	}
+	public static void logWarning(String text) {
+		log("    WARNING  : " + text);
+	}
+	public static void logInfoln(String text) {
+		logln("    INFO     : " + text);
+	}
+	public static void logInfo(String text) {
+		log("    INFO     : " + text);
+	}
+	public static void logln(String text) {
+		log.print(text + "\n");
+		System.out.println(text);
 	}
 	public static void log(String text) {
 		log.print(text);
@@ -164,13 +192,13 @@ public class Utils {
 			}
 			br.close();
 		} catch (IOException e) {
-			Utils.log("    ERROR : Couldn't read " + path + " and save it into a string\n");
+			Utils.logErrorln("Couldn't read " + path + " and save it into a string");
 			Utils.log(e);
 		}
 		return builder.toString();
 	}
 	public static ArrayList<String> loadFileOutsideJarAsString(String path) {
-		Utils.log("  INFO : Loading " + path + " ... ");
+		Utils.logInfo("Loading " + path + " ... ");
 		
 		ArrayList<String> text = new ArrayList<String>();
 		
@@ -181,10 +209,10 @@ public class Utils {
 				text.add(line);
 			}
 			br.close();
-			Utils.log("success\n");
+			Utils.logln("success");
 		} catch (IOException e) {
-			Utils.log("failed\n");
-			Utils.log("    ERROR : Couldn't read " + path + " and save it into a string\n");
+			Utils.logln("failed");
+			Utils.logErrorln("Couldn't read " + path + " and save it into a string");
 			Utils.log(e);
 		}
 		return text;
@@ -193,7 +221,7 @@ public class Utils {
 		try {
 			return Integer.parseInt(number);
 		} catch (NumberFormatException e) {
-			Utils.log("    ERROR : Couldn't parse integer in Utils.parseInt()\n");
+			Utils.logErrorln("Couldn't parse integer in Utils.parseInt()");
 			Utils.log(e);
 			return 0;
 		}

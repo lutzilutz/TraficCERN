@@ -17,7 +17,7 @@ import elements.Road;
 import elements.RoundAbout;
 import elements.TrafficLightsSystem;
 import elements.Vehicle;
-import main.Simulation;
+import main.Simulator;
 import utils.Utils;
 
 public class Network {
@@ -25,7 +25,7 @@ public class Network {
 	private static String[] titles;
 	private static String[] descriptions;
 	
-	private Simulation sim;
+	private Simulator sim;
 	private int n;
 	private ArrayList<Road> roads = new ArrayList<Road>();
 	private ArrayList<MultiLaneRoundAbout> multiLaneRoundAbouts = new ArrayList<MultiLaneRoundAbout>();
@@ -41,50 +41,53 @@ public class Network {
 	private ArrayList<Polygon> zones = new ArrayList<Polygon>();
 	
 	private double xOffset=0, yOffset=0; // offset of the network on screen
-	private double xDefaultOffset, yDefaultOffset;
+	private double xDefaultOffset=0, yDefaultOffset=0;
 	private double rotation=0;
 	
 	private int maxSpeed = 2;
 	
 	public int artificiallyDestroyedVehicles = 0;
 	
-	public Network(Simulation sim, int n, int size) {
+	public Network(Simulator sim, int n, int size) {
 		this.setCellWidth((int) (Math.pow(2, 1+size)));
 		this.setCellHeight((int) (Math.pow(2, 1+size)));
 		this.sim = sim;
 		this.n = n;
 		Road.resetID();
-		xOffset = 0;
-		yOffset = 0;
-		xDefaultOffset = 0;
-		yDefaultOffset = 0;
 	
 		if (n >= 0) {
-			Utils.log("    INFO : Creating Network #" + n + " ");
+			Utils.logInfo("Creating Network #" + n + " ");
 			Utils.tick();
 		}
+		
+		initCERNArea();
+		
 		switch (n) {
-		case 1:
+		case 0:
 			Utils.log("(current scenario) ... ");
 			createRealNetworkMulti();
 			break;
-		case 2:
+		case 1:
 			Utils.log("(scenario RA entrance B) ... ");
 			createScenarioRAEntranceB();
 			break;
 		}
+		
+		if (n >= 0) {
+			Utils.log("done");
+			Utils.logTime();
+		}
+		
+		titles = new String[2];
+		titles[0] = "CERN network";
+		titles[1] = "Scenario 1";
 
-		titles = new String[3];
-		titles[1] = "CERN network";
-		titles[2] = "Scenario 1";
-
-		descriptions = new String[3];
-		descriptions[1] = "Actual network arount the CERN, multi lanes";
-		descriptions[2] = "Entrance B crossroad replaced by round-about";
+		descriptions = new String[2];
+		descriptions[0] = "Actual network arount the CERN, multi lanes";
+		descriptions[1] = "Entrance B crossroad replaced by round-about";
 	}
 	
 	public void createScenarioRAEntranceB() {
-		initCERNArea();
 		
 		// Porte de France
 		MultiLaneRoundAbout raPorteDeFrance = new MultiLaneRoundAbout(this, 3, 48, "raPorteDeFrance");
@@ -492,9 +495,6 @@ public class Network {
 		
 		raLHC.setMaxSpeed(1);
 		
-		Utils.log("done");
-		Utils.logTime();
-		
 		this.generateAllNetworkRides(50);
 		this.cleanAllNetworkRides(2);
 		
@@ -519,7 +519,6 @@ public class Network {
 	}
 	
 	public void createRealNetworkMulti() {
-		initCERNArea();
 		
 		// Porte de France
 		MultiLaneRoundAbout raPorteDeFrance = new MultiLaneRoundAbout(this, 3, 48, "raPorteDeFrance");
@@ -1106,9 +1105,6 @@ public class Network {
 		
 		//raLHC.setMaxSpeed(1);
 		
-		Utils.log("done");
-		Utils.logTime();
-		
 		this.generateAllNetworkRides(50);
 		this.cleanAllNetworkRides(2);
 		
@@ -1268,7 +1264,7 @@ public class Network {
 				double random = Math.random();
 				
 				if (probas.size() == 0) {
-					Utils.log("    ERROR : No probability in selectARideWithProbability() for " + roadName + "\n");
+					Utils.logErrorln("No probability in selectARideWithProbability() for " + roadName + "");
 					chosenRide = new Ride();
 					//return voidRide;
 				} else if (probas.size() == 1) {
@@ -1284,7 +1280,7 @@ public class Network {
 						}
 					}
 					if (chosenRide.getNextConnections().isEmpty()) {
-						Utils.log("        ERROR : No adapted probability found for " + roadName + " : ");
+						Utils.logError("No adapted probability found for " + roadName + " : ");
 						for (Float f: chosenRide.getFlow()) {
 							System.out.print(f + " ");
 						}
@@ -1365,7 +1361,7 @@ public class Network {
 	}
 	
 	public void generateAllNetworkRides(int n) {
-		Utils.log("    INFO : Generating Rides ... ");
+		Utils.logInfo("Generating Rides ... ");
 		Utils.tick();
 		for (Road r: this.roads) {
 			boolean generateAtLeastOne = false;
@@ -1407,7 +1403,7 @@ public class Network {
 				return r;
 			}
 		}
-		Utils.log("    ERROR : while trying to find " + roadName + " in network\n");
+		Utils.logErrorln("While trying to find " + roadName + " in network");
 		return null;
 	}
 	public void setNetworkSize() {
@@ -1492,7 +1488,7 @@ public class Network {
 	public void setyOffset(double yOffset) {
 		this.yOffset = yOffset;
 	}
-	public Simulation getSimulation() {
+	public Simulator getSimulation() {
 		return this.sim;
 	}
 	public ArrayList<CrossRoad> getCrossRoads() {

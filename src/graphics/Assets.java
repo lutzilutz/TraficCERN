@@ -11,9 +11,12 @@ public class Assets {
 
 	// Dimensions
 	public static int buttonW = 90, buttonH = 34;
+	public static int menuButtonW = 140, menuButtonH = 30;
 	public static int smallButtonW = 50;
 	public static int buttonXStart = 20, buttonYStart = 30;
 	public static int buttonSpacing = 10;
+	public static int sliderWidth = 500;
+	public static int sliderHeight = 30;
 	
 	// Colors
 	public static Color bgCol = new Color(50,50,50);
@@ -71,11 +74,11 @@ public class Assets {
 		
 		inputDataEntrance = Utils.loadFileOutsideJarAsString("inputData_entrance.txt");
 		if (inputDataEntrance.size() != 24) {
-			Utils.log("  WARNING : File inputData_entrance.txt has " + inputDataEntrance.size() + " lines, should have 24 lines (id est 24 hours)\n");
+			Utils.logWarningln("File inputData_entrance.txt has " + inputDataEntrance.size() + " lines, should have 24 lines (id est 24 hours)");
 		}
 		inputDataExit = Utils.loadFileOutsideJarAsString("inputData_exit.txt");
 		if (inputDataExit.size() != 24) {
-			Utils.log("  WARNING : File inputData_exit.txt has " + inputDataExit.size() + " lines, should have 24 lines (id est 24 hours)\n");
+			Utils.logWarningln("File inputData_exit.txt has " + inputDataExit.size() + " lines, should have 24 lines (id est 24 hours)");
 		}
 	}
 	

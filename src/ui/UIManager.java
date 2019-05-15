@@ -4,15 +4,15 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import main.Simulation;
+import main.Simulator;
 
 public class UIManager {
 
-	private Simulation simulation;
+	private Simulator simulation;
 	
 	private ArrayList<UIObject> objects;
 	
-	public UIManager(Simulation simulation) {
+	public UIManager(Simulator simulation) {
 		this.simulation = simulation;
 		this.objects = new ArrayList<UIObject>();
 	}
@@ -45,7 +45,7 @@ public class UIManager {
 	}
 
 	// Getters & setters ====================================================================================
-	public Simulation getSimulation() {
+	public Simulator getSimulation() {
 		return this.simulation;
 	}
 	public ArrayList<UIObject> getObjects() {

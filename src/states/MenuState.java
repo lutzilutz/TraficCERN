@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import data.DataManager;
 import graphics.Assets;
 import graphics.Text;
-import main.Simulation;
+import main.Simulator;
 import network.Network;
 import ui.ClickListener;
 import ui.UIManager;
@@ -20,39 +20,37 @@ public class MenuState extends State {
 	private int xStart = 180;
 	private int yStart = 200;
 	private int buttonYMargin = 20;
-	private int buttonWidth = 140;
-	private int buttonHeight = 30;
 	private int descriptionMargin = 20;
-	private int sliderHeight = 30;
-	private int sliderWidth = 500;
 	
-	private UITextButton network1, network2;
+	private UITextButton network0, network1;
 	private UISlider sizeOfNetwork, globalMultiplier, nOfSimulations, repartition_E_tunnel;
-	private UITextSwitch numOrProba, minMaxTransfer;
+	private UITextSwitch minMaxTransfer;
 	
-	public MenuState(Simulation simulation) {
-		super(simulation);
-		this.uiManager = new UIManager(simulation);
+	public MenuState(Simulator simulator) {
+		super(simulator);
+		this.uiManager = new UIManager(simulator); // initialize the user interface manager
 		
-		// Play button ==============================================================================================
+		// Network selection buttons ========================================================================
 		
-		network1 = new UITextButton(xStart,  yStart+0*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(1), new ClickListener(){
+		network0 = new UITextButton(xStart,  yStart+0*(Assets.menuButtonH+buttonYMargin), Assets.menuButtonW, Assets.menuButtonH, Network.getTitle(0), new ClickListener(){
 			@Override
 			public void onClick() {
-				launchSimulation(1, simulation.getSimState().getNumberOfSimulations());
+				launchSimulation(0, simulator.getSimState().getNumberOfSimulations());
+			}
+		});
+		this.uiManager.addObject(network0);
+		
+		network1 = new UITextButton(xStart, yStart+1*(Assets.menuButtonH+buttonYMargin), Assets.menuButtonW, Assets.menuButtonH, Network.getTitle(1), new ClickListener(){
+			@Override
+			public void onClick() {
+				launchSimulation(1, simulator.getSimState().getNumberOfSimulations());
 			}
 		});
 		this.uiManager.addObject(network1);
 		
-		network2 = new UITextButton(xStart, yStart+1*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, Network.getTitle(2), new ClickListener(){
-			@Override
-			public void onClick() {
-				launchSimulation(2, simulation.getSimState().getNumberOfSimulations());
-			}
-		});
-		this.uiManager.addObject(network2);
+		// Settings buttons =================================================================================
 		
-		sizeOfNetwork = new UISlider(simulation, xStart, yStart+3*(sliderHeight+buttonYMargin), sliderWidth, "Size of network", 3, 1, Defaults.getSizeOfNetwork(), false, new ClickListener(){
+		sizeOfNetwork = new UISlider(simulator, xStart, yStart+3*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Size of network", 3, 1, Defaults.getSizeOfNetwork(), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -60,97 +58,109 @@ public class MenuState extends State {
 		});
 		this.uiManager.addObject(sizeOfNetwork);
 		
-		globalMultiplier = new UISlider(simulation, xStart, yStart+4*(sliderHeight+buttonYMargin), sliderWidth, "Additionnal flow", 100, 0, (int) (Defaults.getGlobalFlowMultiplier()*100 - 100), true, new ClickListener(){
+		globalMultiplier = new UISlider(simulator, xStart, yStart+4*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Additionnal flow", 100, 0, (int) (Defaults.getGlobalFlowMultiplier()*100 - 100), true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManager.addObject(globalMultiplier);
-		nOfSimulations = new UISlider(simulation, xStart, yStart+5*(sliderHeight+buttonYMargin), sliderWidth, "Number of simulations", 100, 1, Defaults.getNumberOfSimulations(), false, new ClickListener(){
+		nOfSimulations = new UISlider(simulator, xStart, yStart+5*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Number of simulations", 100, 1, Defaults.getNumberOfSimulations(), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
 		this.uiManager.addObject(nOfSimulations);
-		minMaxTransfer = new UITextSwitch(xStart, yStart+6*(sliderHeight+buttonYMargin), buttonWidth, buttonHeight, "No transfer", "Min transfer", "Max transfer", Defaults.getTransferScenario(), new ClickListener(){
+		minMaxTransfer = new UITextSwitch(xStart, yStart+6*(Assets.sliderHeight+buttonYMargin), Assets.menuButtonW, Assets.menuButtonH, "No transfer", "Min transfer", "Max transfer", Defaults.getTransferScenario(), new ClickListener(){
 			@Override
 			public void onClick() {
-				minMaxTransfer.switchIt();
-				Defaults.setTransferScenario(minMaxTransfer.getChosenArg());
+				minMaxTransfer.switchIt(); // switch state of the button
+				Defaults.setTransferScenario(minMaxTransfer.getChosenArg()); // change the type of transfer scenario according to the button
 			}
 		});
 		this.uiManager.addObject(minMaxTransfer);
-		repartition_E_tunnel = new UISlider(simulation, xStart, yStart+7*(sliderHeight+buttonYMargin), sliderWidth, "Transfer E-tunnel", 100, 1, Defaults.getRepartitionETunnel(), true, new ClickListener(){
+		repartition_E_tunnel = new UISlider(simulator, xStart, yStart+7*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Transfer E-tunnel", 100, 1, Defaults.getRepartitionETunnel(), true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
 			}
 		});
-		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(buttonHeight+buttonYMargin), buttonWidth, buttonHeight, "Exit", new ClickListener(){
+		
+		// Exit button ======================================================================================
+		
+		this.uiManager.addObject(new UITextButton(xStart, yStart+9*(Assets.menuButtonH+buttonYMargin), Assets.menuButtonW, Assets.menuButtonH, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
-				System.exit(0);
+				System.exit(0); // kill the programm
 			}
 		}));
 	}
-	// launch the simulation #nSimulation, depending on probabilities/numerical values
+	public void tick(int n) {
+		
+		// tick the UIManager
+		this.uiManager.tick();
+				
+		// if a transfer scenario is selected, show the corresponding slider
+		if (Defaults.getTransferScenario() != 0 && !this.uiManager.getObjects().contains(repartition_E_tunnel)) {
+			this.uiManager.addObject(repartition_E_tunnel);
+		} else if (Defaults.getTransferScenario() == 0 && this.uiManager.getObjects().contains(repartition_E_tunnel)) {
+			this.uiManager.removeObject(repartition_E_tunnel);
+		}
+		
+		// update the global flow multiplier to the button
+		Defaults.setGlobalFlowMultiplier((float) (globalMultiplier.getCurrentValue()+100) / 100.0);
+	}
+	public void tick() {
+		
+	}
+	public void render(Graphics g) {
+		// draw the background
+		g.setColor(Assets.bgCol);
+		g.fillRect(0, 0, simulator.getWidth(), simulator.getHeight());
+		
+		// draw title and subtitle
+		Text.drawString(g, simulator.getVersionID(), Assets.idleCol, 10, simulator.getHeight()-10, false, Assets.normalFont);
+		Text.drawString(g, "Trafic simulation at CERN", Assets.idleCol, simulator.getWidth()/2, 100, true, Assets.largeFont);
+		
+		// if the button network0 is hovered by the UI cursor, change color
+		if (network0.isHovering()) {
+			Text.drawString(g, Network.getDescription(0), Assets.textCol, xStart+Assets.menuButtonW+descriptionMargin, yStart+0*(Assets.menuButtonH+buttonYMargin)+Assets.menuButtonH/2+5, false, Assets.normalFont);
+		} else {
+			Text.drawString(g, Network.getDescription(0), Assets.idleCol, xStart+Assets.menuButtonW+descriptionMargin, yStart+0*(Assets.menuButtonH+buttonYMargin)+Assets.menuButtonH/2+5, false, Assets.normalFont);
+		}
+		
+		// if the button network1 is hovered by the UI cursor, change color
+		if (network1.isHovering()) {
+			Text.drawString(g, Network.getDescription(1), Assets.textCol, xStart+Assets.menuButtonW+descriptionMargin, yStart+1*(Assets.menuButtonH+buttonYMargin)+Assets.menuButtonH/2+5, false, Assets.normalFont);
+		} else {
+			Text.drawString(g, Network.getDescription(1), Assets.idleCol, xStart+Assets.menuButtonW+descriptionMargin, yStart+1*(Assets.menuButtonH+buttonYMargin)+Assets.menuButtonH/2+5, false, Assets.normalFont);
+		}
+		
+		// render the UIManager with the current graphical element
+		this.uiManager.render(g);
+	}
+	// launch the simulation #nSimulation, with the number of simulations to compute together
 	public void launchSimulation(int scenarioID, int numberOfSimulations) {
 		
 		// prevents user to continue clicking after state change
 		disableUIManager();
 		
 		// create a new SimState
-		simulation.setSimState(new SimState(simulation));
-		simulation.getSimState().setNetwork(new Network(simulation, scenarioID, simulation.getMenuState().getSizeOfNetwork().getCurrentValue()));
-		simulation.getSimState().init();
-		simulation.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
-		DataManager.applyDataProba(simulation);
-		simulation.getSimSettingsStateProba().enableUIManager();
-		State.setState(simulation.getSimSettingsStateProba());
-	}
-	public void tick(int n) {
-		if (Defaults.getTransferScenario() != 0 && !this.uiManager.getObjects().contains(repartition_E_tunnel)) {
-			this.uiManager.addObject(repartition_E_tunnel);
-		} else if (Defaults.getTransferScenario() == 0 && this.uiManager.getObjects().contains(repartition_E_tunnel)) {
-			this.uiManager.removeObject(repartition_E_tunnel);
-		}
-		this.uiManager.tick();
+		simulator.setSimState(new SimState(simulator));
+		simulator.getSimState().setNetwork(new Network(simulator, scenarioID, simulator.getMenuState().getSizeOfNetwork().getCurrentValue()));
+		simulator.getSimState().init();
+		simulator.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
 		
-		Defaults.setGlobalFlowMultiplier((float) (globalMultiplier.getCurrentValue()+100) / 100.0);
-	}
-	public void tick() {
+		// apply the input data to the simulation
+		DataManager.applyDataProba(simulator);
 		
-	}
-	public void applyNetworkSize() {
-		simulation.getSimState().getNetwork().setNetworkSize();
-	}
-	public void render(Graphics g) {
-		g.setColor(Assets.bgCol);
-		g.fillRect(0, 0, simulation.getWidth(), simulation.getHeight());
-		Text.drawString(g, simulation.getVersionID(), Assets.idleCol, 10, simulation.getHeight()-10, false, Assets.normalFont);
-		Text.drawString(g, "Trafic simulation at CERN", Assets.idleCol, simulation.getWidth()/2, 100, true, Assets.largeFont);
-		
-		if (network1.isHovering()) {
-			Text.drawString(g, Network.getDescription(1), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+0*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
-		} else {
-			Text.drawString(g, Network.getDescription(1), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+0*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
-		}
-		
-		if (network2.isHovering()) {
-			Text.drawString(g, Network.getDescription(2), Assets.textCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
-		} else {
-			Text.drawString(g, Network.getDescription(2), Assets.idleCol, xStart+buttonWidth+descriptionMargin, yStart+1*(buttonHeight+buttonYMargin)+buttonHeight/2+5, false, Assets.normalFont);
-		}
-		
-		this.uiManager.render(g);
+		// enable UIManager for the next state, switch state
+		simulator.getSimSettingsState().enableUIManager();
+		State.setState(simulator.getSimSettingsState());
 	}
 	
 	// Getters & setters ====================================================================================
-	public UITextSwitch getNumOrProba() {
-		return this.numOrProba;
-	}
 	public UISlider getSizeOfNetwork() {
 		return this.sizeOfNetwork;
 	}
@@ -158,9 +168,9 @@ public class MenuState extends State {
 		return this.uiManager;
 	}
 	public void disableUIManager() {
-		simulation.getMouseManager().setUIManager(null);
+		simulator.getMouseManager().setUIManager(null);
 	}
 	public void enableUIManager() {
-		simulation.getMouseManager().setUIManager(this.uiManager);
+		simulator.getMouseManager().setUIManager(this.uiManager);
 	}
 }

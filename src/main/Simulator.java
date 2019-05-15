@@ -3,54 +3,51 @@ package main;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import graphics.Assets;
 import graphics.Display;
 import input.KeyManager;
 import input.MouseManager;
 import states.MenuState;
-import states.SimSettingsStateProba;
+import states.SimSettingsState;
 import states.SimState;
 import states.State;
 import ui.UIManager;
 import utils.Utils;
 
-public class Simulation implements Runnable {
+public class Simulator implements Runnable {
 
-	private Display display;
-	private String title;
-	private String versionID;
-	private int width, height;
+	// Display
+	private Display display; // the window in itself
+	private String title; // program title
+	private String versionID; // version ID of the program
+	private int width, height; // width and height of screen in [pixels]
 	
 	// Thread
-	private boolean running = false;
-	private Thread thread;
+	private boolean running = false; // true if thread should be alive
+	private Thread thread; // the main thread of the program
 	
 	// Graphics
-	private BufferStrategy bs;
-	private Graphics g;
+	private BufferStrategy bs; // current buffer strategy (see official documentation)
+	private Graphics g; // main Graphics object on which to draw
 	
-	// UI
+	// Mouse, keyboard and UI managers
 	private MouseManager mouseManager;
 	private KeyManager keyManager;
 	private UIManager uiManager;
 	
-	// States
-	private SimState simState;
-	private MenuState menuState;
-	private SimSettingsStateProba simSettingsStateProba;
+	// States (in order of execution)
+	private MenuState menuState; // state of the program when it's on the main menu
+	private SimSettingsState simSettingsState; // state of the program when it's on the settings menu
+	private SimState simState; // state of the program when it runs simulations
 	
-	// User-chosen values
-	private int entranceERate;
-	
-	public Simulation(String title, int width, int height) {
+	public Simulator(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
 		this.versionID = "v 1.0";
+		
+		// initialize mouse, keyboard and UI managers
 		this.uiManager = new UIManager(this);
 		this.mouseManager = new MouseManager();
 		this.mouseManager.setUIManager(this.uiManager);
@@ -58,58 +55,67 @@ public class Simulation implements Runnable {
 	}
 	
 	private void init() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
 		
+		// init the log output and all the assets
 		Utils.initLog();
-		Utils.log("Started at " + dateFormat.format(date) + " =======================================\n");
-		Utils.log("Initialization ---------------------------------------------\n");
 		Assets.init();
 		
+		// instantiate the display and link it with mouse and keyboard listeners
 		display = new Display(title,width,height);
-		
 		display.getFrame().addKeyListener(keyManager);
 		display.getFrame().addMouseListener(mouseManager);
 		display.getFrame().addMouseMotionListener(mouseManager);
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		
+		// instantiate all states of the program
 		simState = new SimState(this);
-		simSettingsStateProba = new SimSettingsStateProba(this);
+		simSettingsState = new SimSettingsState(this);
 		menuState = new MenuState(this);
-		mouseManager.setUIManager(menuState.getUIManager());
 		
-		Utils.log("Running ----------------------------------------------------\n");
+		// go to the menu state
+		mouseManager.setUIManager(menuState.getUIManager());
 		State.setState(menuState);
+		
+		// log the end of the initialization
+		Utils.logln("Running ----------------------------------------------------");
+		
 	}
 	private void tick(int n) {
 		
+		// tick the current state it it exists
 		if (State.getState() != null) {
 			State.getState().tick(n);
 		}
+		
+		// the the keyboard manager
 		keyManager.tick();
 		
 	}
 	private void render() {
+		
+		// prepare the buffer strategy with value 3 (see official documentation)
 		bs = display.getCanvas().getBufferStrategy();
 		if (bs == null) {
 			display.getCanvas().createBufferStrategy(3);
 			return;
 		}
 		
+		// retrieve the Graphics object
 		g = bs.getDrawGraphics();
 		
 		// Clear screen
 		g.clearRect(0, 0, this.width, this.height);
 		
-		// start drawing =========================================
+		// Start drawing =========================================
 		
 		if (State.getState() != null) {
 			State.getState().render(g);
 		}
 		
-		// end drawing ===========================================
+		// End drawing ===========================================
 		
+		// display and dispose the Graphics object
 		bs.show();
 		g.dispose();
 		
@@ -117,78 +123,84 @@ public class Simulation implements Runnable {
 	@Override
 	public void run() {
 		
+		// call the initialization method
 		init();
 		
-		int fps = 60;
-		double timePerTick = 1000000000 / fps;
-		double delta = 0;
-		long now;
-		long lastTime = System.nanoTime();
+		int fps = 60; // number of frame per second
+		double timePerTick = 1000000000 / fps; // time corresponding to 1 tick, in [nanoseconds/tick]
+		double delta = 0; // delay since last tick, in [number of ticks]
+		long now; // current clock in [nanoseconds]
+		long lastTime = System.nanoTime(); // used to compute delay in [nanoseconds]
 		
 		while(running) {
 			
+			// compute actual delay since last tick
 			now = System.nanoTime();
 			delta += (now - lastTime) / timePerTick;
-			
 			lastTime = System.nanoTime();
 			
+			// if one tick of delay has passed
 			if (delta >= 1) {
+				
+				// compute number of ticks to do, and tick
 				int tickNumber = (int) Math.max(1, simState.getSimSpeed()/fps);
 				tick(tickNumber);
 				
-				render();
-				Toolkit.getDefaultToolkit().sync();
+				render(); // call the render method
+				Toolkit.getDefaultToolkit().sync(); // used to avoid graphics lag (see official documentation)
 				delta--;
 			}
 			
+			// try to sleep until next tick
 			try {
 				Thread.sleep(Math.max(0, (int) ((now - System.nanoTime() + timePerTick) / 1000000)));
 			} catch (InterruptedException e) {
-				Utils.log("    ERROR : Couldn't sleep in Simulation.run()\n");
+				Utils.logErrorln("Couldn't sleep in Simulator.run()");
 				Utils.log(e);
 			}
 		}
 		
+		// stop the program
 		stop();
 	}
 	public synchronized void start() {
+		
+		// if already running, exit method
 		if (running) {
 			return;
 		}
 		
+		// start a new thread
 		running = true;
 		thread = new Thread(this);
 		thread.start();
 	}
 	public synchronized void stop() {
+		
+		// thread has already been stopped
 		if (!running) {
 			return;
 		}
 		
+		// stop the thread
 		running = false;
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
-			Utils.log("    ERROR : Couldn't join() thread in Simulation.stop()\n");
+			Utils.logErrorln("Couldn't join() thread in Simulator.stop()");
 			Utils.log(e);
 		}
 	}
 	
 	// Getters & setters ====================================================================================
-	public int getEntranceERate() {
-		return entranceERate;
-	}
-	public void setEntranceERate(int entranceERate) {
-		this.entranceERate = entranceERate;
-	}
 	public void setSimState(SimState simState) {
 		this.simState = simState;
 	}
 	public SimState getSimState() {
 		return this.simState;
 	}
-	public SimSettingsStateProba getSimSettingsStateProba() {
-		return this.simSettingsStateProba;
+	public SimSettingsState getSimSettingsState() {
+		return this.simSettingsState;
 	}
 	public MenuState getMenuState() {
 		return this.menuState;

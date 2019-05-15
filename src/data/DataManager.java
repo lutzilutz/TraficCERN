@@ -6,7 +6,7 @@ import elements.MaxVehicleOutflow;
 import elements.Ride;
 import elements.Road;
 import graphics.Assets;
-import main.Simulation;
+import main.Simulator;
 import network.AllNetworkRides;
 import network.Network;
 import utils.Defaults;
@@ -31,11 +31,11 @@ public class DataManager {
 					if (tmpValue >= 0) {
 						inputMatrixEntrance[i][j] = tmpValue;
 					} else {
-						Utils.log("    WARNING : Negative value in inputData_entrance.txt at line " + i + " col " + j + "\n");
+						Utils.logWarningln("Negative value in inputData_entrance.txt at line " + i + " col " + j);
 					}
 				}
 			} else {
-				Utils.log("    WARNING : Line of size not 9 in inputData_entrance.txt at line " + i + "\n");
+				Utils.logWarningln("Line of size not 9 in inputData_entrance.txt at line " + i);
 			}
 		}
 		for (int i=0; i<24; i++) {
@@ -46,11 +46,11 @@ public class DataManager {
 					if (tmpValue >= 0) {
 						inputMatrixExit[i][j] = tmpValue;
 					} else {
-						Utils.log("    WARNING : Negative value in inputData_exit.txt at line " + i + " col " + j + "\n");
+						Utils.logWarningln("Negative value in inputData_exit.txt at line " + i + " col " + j);
 					}
 				}
 			} else {
-				Utils.log("    WARNING : Line of size not 9 in inputData_exit.txt at line " + i + "\n");
+				Utils.logWarningln("Line of size not 9 in inputData_exit.txt at line " + i);
 			}
 		}
 		
@@ -137,31 +137,31 @@ public class DataManager {
 			return false;
 		}
 	}
-	public static void applyDataProba(Simulation simulation) {
+	public static void applyDataProba(Simulator simulator) {
 
-		Utils.log("    INFO : Applying data (proba) to Network ... ");
+		Utils.logInfo("Applying data (proba) to Network ... ");
 		initProbas();
 		initFlowPerExit();
-		applyDataToRidesProba(simulation);
-		applyDataToRoadsProba(simulation);
-		for (Road road: simulation.getSimState().getNetwork().getRoads()) {
+		applyDataToRidesProba(simulator);
+		applyDataToRoadsProba(simulator);
+		for (Road road: simulator.getSimState().getNetwork().getRoads()) {
 			if (road.getName().equals("rSortieCERNSE") || road.getName().equals("rD884CERN") || road.getName().equals("rRoutePauliSouthSW") || road.getName().equals("rRouteBellSW")) {
-				road.setMaxOutflow(simulation.getSimSettingsStateProba().timePerVhcEntrance().getCurrentValue());
-				for (MaxVehicleOutflow maxOutflow: simulation.getSimState().getNetwork().getMaxVehicleOutflows()) {
-					maxOutflow.setGlobalOutflow(simulation.getSimSettingsStateProba().timePerVhcEntrance().getCurrentValue()/2);
+				road.setMaxOutflow(simulator.getSimSettingsState().timePerVhcEntrance().getCurrentValue());
+				for (MaxVehicleOutflow maxOutflow: simulator.getSimState().getNetwork().getMaxVehicleOutflows()) {
+					maxOutflow.setGlobalOutflow(simulator.getSimSettingsState().timePerVhcEntrance().getCurrentValue()/2);
 				}
 			}
 		}
 		
-		Utils.log("done\n");
+		Utils.logln("done");
 	}
-	public static void applyDataToRidesProba(Simulation simulation) {
+	public static void applyDataToRidesProba(Simulator simulator) {
 
-		Network n = simulation.getSimState().getNetwork();
+		Network n = simulator.getSimState().getNetwork();
 
 		for (AllNetworkRides anr: n.getAllNetworkRides()) {
 			for (Ride r: anr.getNetworkRides()) {
-				r.setNumberOfSameRide(numberOfSameRides(simulation, r.getRoadName(), r.getNextConnections().get(r.getNextConnections().size()-1).getName()));
+				r.setNumberOfSameRide(numberOfSameRides(simulator, r.getRoadName(), r.getNextConnections().get(r.getNextConnections().size()-1).getName()));
 			}
 		}
 
@@ -403,13 +403,13 @@ public class DataManager {
 			else if (specialCase == 2) {
 				road.setGenerateVehicules(i, i+1, (float) (Defaults.getGlobalFlowMultiplier()*(probas[i][6][5]+probas[i][7][5]+probas[i][8][5]) * flowPerExit[i][index]));
 			} else {
-				Utils.log("    WARNING : Special case not considered in DataManager.saveFlowIntoRoad()\n");
+				Utils.logWarningln("Special case not considered in DataManager.saveFlowIntoRoad()");
 			}
 		}
 	}
-	public static void applyDataToRoadsProba(Simulation simulation) {
+	public static void applyDataToRoadsProba(Simulator simulator) {
 
-		Network n = simulation.getSimState().getNetwork();
+		Network n = simulator.getSimState().getNetwork();
 		for (Road road: n.getRoads()) {
 			if (n.getAllRides(road.getName()) != null) {
 				if (road.getName().equals("rD884NE")) {saveFlowIntoRoad(road, 0, 0);}
@@ -427,23 +427,23 @@ public class DataManager {
 			}
 		}
 
-		if (n.getN() == 1) {
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue2());
+		if (n.getN() == 0) {
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulator.getSimSettingsState().crEntreeB_phase2().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulator.getSimSettingsState().crEntreeB_phase2().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulator.getSimSettingsState().crEntreeB_phase3().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulator.getSimSettingsState().crEntreeB_phase3().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
 		}
 	}
-	public static void applyRidesToRoads(Simulation simulation) {
+	public static void applyRidesToRoads(Simulator simulator) {
 
-		Network n = simulation.getSimState().getNetwork();
+		Network n = simulator.getSimState().getNetwork();
 
 		for (Road road: n.getRoads()) {
 			
@@ -460,20 +460,20 @@ public class DataManager {
 		}
 
 		if (n.getN() == 1) {
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase1().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase2().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulator.getSimSettingsState().crEntreeB_phase2().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulator.getSimSettingsState().crEntreeB_phase2().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase3().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulator.getSimSettingsState().crEntreeB_phase3().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulator.getSimSettingsState().crEntreeB_phase3().getCurrentValue2());
 
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulation.getSimSettingsStateProba().crEntreeB_phase4().getCurrentValue2());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
+			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
 		}
 	}
-	public static int numberOfSameRides(Simulation sim, String start, String end) {
+	public static int numberOfSameRides(Simulator sim, String start, String end) {
 		Network n = sim.getSimState().getNetwork();
 		int count = 1;
 		for (AllNetworkRides anr: n.getAllNetworkRides()) {

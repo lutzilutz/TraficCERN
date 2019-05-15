@@ -11,13 +11,13 @@ import utils.Utils;
 public class ImageLoader {
 
 	public static BufferedImage loadImage(String path) {
-		Utils.log("  INFO : Loading " + path + " ... ");
+		Utils.logInfo("Loading " + path + " ... ");
 		try {
 			BufferedImage bi = ImageIO.read(ImageLoader.class.getResourceAsStream(path));
-			Utils.log("success\n");
+			Utils.logln("success");
 			return bi;
 		} catch (IOException e) {
-			Utils.log("failed ! Couldn't read image " + path + "\n");
+			Utils.logln("failed ! Couldn't read image " + path);
 			Utils.log(e);
 			System.exit(1);
 		}

@@ -2,22 +2,22 @@ package states;
 
 import java.awt.Graphics;
 
-import main.Simulation;
+import main.Simulator;
 import utils.Utils;
 
 public abstract class State {
 
-	protected Simulation simulation;
+	protected Simulator simulator;
 	
 	// State Manager
 	private static State currentState = null;
 	
-	public State(Simulation simulation) {
-		this.simulation = simulation;
+	public State(Simulator simulator) {
+		this.simulator = simulator;
 	}
 	
 	public static void setState(State state) {
-		Utils.log("  " + state.getClass().getSimpleName() + " ----------\n");
+		Utils.logln("  " + state.getClass().getSimpleName() + " --------------");
 		currentState = state;
 	}
 	public static State getState() {
