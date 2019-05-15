@@ -21,6 +21,7 @@ public class NetworkComputing {
 	
 	private static int margin;
 	private static boolean countersUpdated = false;
+	public static boolean writtenFinalData = false;
 	
 	// Pre-processing operations ####################################################################################################################
 	// ##############################################################################################################################################
@@ -502,6 +503,7 @@ public class NetworkComputing {
 	
 	// Write data at the end of N simulations
 	public static void writeFinalData(Network n) {
+		Utils.log("    INFO : Writing output data into files ... ");
 		n.getSimulation().getSimState().incrementWritingState();
 		// Leaky buckets --------------------------------------------------------------------------
 		for (int i=0 ; i<24*4-1 ; i++) {
@@ -561,7 +563,8 @@ public class NetworkComputing {
 		
 		Utils.saveDataCountersAll();
 		n.getSimulation().getSimState().setFinalDataWritingState(-1);
-
+		writtenFinalData = true;
+		Utils.log("done\n");
 	}
 	// Write data at the end of a simulation
 	public static void writeData24Hours(Network n) {

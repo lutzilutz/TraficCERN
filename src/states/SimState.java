@@ -455,12 +455,36 @@ public class SimState extends State {
 			if (askExit) {
 				Text.drawString(g, "Are you sure ?", Assets.idleCol, simulation.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);
 			}
-			if (getStep() > 86000 && finalDataWritingState == 0) {
-				
-				if (getSimulationID() == getNumberOfSimulations()) {
-					incrementWritingState();
+			if (simSpeed >= 5000) {
+				if (getStep() > 86000 && finalDataWritingState == 0) {
+					if (getSimulationID() == getNumberOfSimulations()) {
+						incrementWritingState();
+					}
+				}
+			} else if (simSpeed >= 2000) {
+				if (getStep() > 86300 && finalDataWritingState == 0) {
+					if (getSimulationID() == getNumberOfSimulations()) {
+						incrementWritingState();
+					}
+				}
+			} else if (simSpeed >= 100) {
+				if (getStep() > 86390 && finalDataWritingState == 0) {
+					if (getSimulationID() == getNumberOfSimulations()) {
+						incrementWritingState();
+					}
+				}
+			} else {
+				if (getStep() > 86399 && finalDataWritingState == 0) {
+					if (getSimulationID() == getNumberOfSimulations()) {
+						incrementWritingState();
+					}
 				}
 			}
+			
+			if (NetworkComputing.writtenFinalData) {
+				finalDataWritingState = 0;
+			}
+			
 			if (finalDataWritingState > 0) {
 				g.setColor(Assets.bgAlphaCol);
 				g.fillRect(0, 0, 1000, 700);
@@ -636,6 +660,5 @@ public class SimState extends State {
 	}
 	public void incrementWritingState() {
 		this.finalDataWritingState++;
-		System.out.println(finalDataWritingState);
 	}
 }
