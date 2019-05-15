@@ -57,25 +57,19 @@ public class Network {
 	
 		if (n >= 0) {
 			Utils.logInfo("Creating Network #" + n + " ");
-			Utils.tick();
 		}
 		
 		initCERNArea();
 		
 		switch (n) {
 		case 0:
-			Utils.log("(current scenario) ... ");
+			Utils.logln("(current scenario) ... ");
 			createRealNetworkMulti();
 			break;
 		case 1:
-			Utils.log("(scenario RA entrance B) ... ");
+			Utils.logln("(scenario RA entrance B) ... ");
 			createScenarioRAEntranceB();
 			break;
-		}
-		
-		if (n >= 0) {
-			Utils.log("done");
-			Utils.logTime();
 		}
 		
 		titles = new String[2];

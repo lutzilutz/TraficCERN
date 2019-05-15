@@ -6,10 +6,10 @@ import java.awt.event.MouseEvent;
 
 public abstract class UIObject {
 
-	protected float x,y;
-	protected int width,height;
-	protected Rectangle bounds;
-	protected boolean hovering = false;
+	protected float x,y; // x and y position of the top left corner of the object
+	protected int width,height; // size of the object
+	protected Rectangle bounds; // bounding box of the object
+	protected boolean hovering = false; // if object is hovered by the user cursor
 	
 	public UIObject(float x, float y, int width, int height) {
 		this.x = x;
@@ -26,6 +26,8 @@ public abstract class UIObject {
 	public abstract void onClick();
 	
 	public void onMouseMove(MouseEvent e) {
+		
+		// check for the mouse over the object
 		if (bounds.contains(e.getX(), e.getY())) {
 			hovering = true;
 		} else {
@@ -34,6 +36,8 @@ public abstract class UIObject {
 		
 	}
 	public void onMouseRelease(MouseEvent e) {
+		
+		// if user click over a button, disabled hovering flag (avoid graphical bugs)
 		if (hovering) {
 			onClick();
 			hovering = false;

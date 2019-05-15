@@ -479,6 +479,7 @@ public class SimState extends State {
 			
 			// draw network elements
 			NetworkRendering.render(network, gg);
+			NetworkRendering.renderHeaderBG(network, g);
 			
 			// draw HUD
 			g.drawImage(hud, 0, 0, null);

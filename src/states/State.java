@@ -3,11 +3,10 @@ package states;
 import java.awt.Graphics;
 
 import main.Simulator;
-import utils.Utils;
 
 public abstract class State {
 
-	protected Simulator simulator;
+	protected Simulator simulator; // link to the simulator
 	
 	// State Manager
 	private static State currentState = null;
@@ -17,7 +16,6 @@ public abstract class State {
 	}
 	
 	public static void setState(State state) {
-		Utils.logln("  " + state.getClass().getSimpleName() + " --------------");
 		currentState = state;
 	}
 	public static State getState() {

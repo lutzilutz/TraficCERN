@@ -74,7 +74,7 @@ public class Utils {
 		initDataCounters();
 		initDataLeakyBuckets();
 		initDataMeanTimeSpent();
-		Utils.logErrorln("Initialized simulation folder " + dateFormat.format(date));
+		Utils.logInfoln("Initialized simulation folder " + dateFormat.format(date) + "_" + Integer.toString(numberOfSimulations));
 	}
 	public static void initDataLeakyBuckets() {
 		try {
@@ -113,22 +113,22 @@ public class Utils {
 		dataMeanTimeSpentAll_cern.print("Checking mean time spent on network in seconds (per hour)\n");
 	}
 	public static void logErrorln(String text) {
-		logln("    ERROR    : " + text);
+		logln("  ERROR    : " + text);
 	}
 	public static void logError(String text) {
-		log("    ERROR    : " + text);
+		log("  ERROR    : " + text);
 	}
 	public static void logWarningln(String text) {
-		logln("    WARNING  : " + text);
+		logln("  WARNING  : " + text);
 	}
 	public static void logWarning(String text) {
-		log("    WARNING  : " + text);
+		log("  WARNING  : " + text);
 	}
 	public static void logInfoln(String text) {
-		logln("    INFO     : " + text);
+		logln("  INFO     : " + text);
 	}
 	public static void logInfo(String text) {
-		log("    INFO     : " + text);
+		log("  INFO     : " + text);
 	}
 	public static void logln(String text) {
 		log.print(text + "\n");

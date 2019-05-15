@@ -15,21 +15,20 @@ import utils.Utils;
 
 public class SimSettingsState extends State {
 	
+	// UI manager
 	private UIManager uiManager;
 	
-	private int xStart = 320;
-	private int yStart = 150;
-	private int buttonYMargin = 5;
-	private int buttonXMargin = 15;
-	private boolean isLeftPressed = false;
+	private int xStart = 320, yStart = 150; // x and y position of top left corner of buttons
+	private int buttonYMargin = 5; // vertical margin between buttons
+	private int buttonXMargin = 15; // horizontal margin between buttons
+	private boolean isLeftPressed = false; // if user have left mouse button pressed
 	
+	// Buttons and slider of the setting
 	private UISlider timePerVhcEntrance;
-	
 	private UISliderDouble crEntreeB_phase1;
 	private UISliderDouble crEntreeB_phase2;
 	private UISliderDouble crEntreeB_phase3;
 	private UISliderDouble crEntreeB_phase4;
-	
 	private UITextButton run, back;
 	
 	public SimSettingsState(Simulator simulator) {

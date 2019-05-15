@@ -334,7 +334,6 @@ public class NetworkRendering {
 		}
 		//renderCounters(network, g);
 		renderLeakyBuckets(network, g);
-		renderHeaderBG(network, g);
 	}
 	public static void renderVehicles(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();

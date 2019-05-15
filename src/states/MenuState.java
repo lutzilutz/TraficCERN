@@ -17,11 +17,11 @@ public class MenuState extends State {
 	
 	private UIManager uiManager;
 	
-	private int xStart = 180;
-	private int yStart = 200;
-	private int buttonYMargin = 20;
-	private int descriptionMargin = 20;
+	private int xStart = 180, yStart = 200; // x and y position of top left corner of buttons
+	private int buttonYMargin = 20; // margin between buttons
+	private int descriptionMargin = 20; // margin between buttons and descriptions
 	
+	// Buttons and slider of the menu
 	private UITextButton network0, network1;
 	private UISlider sizeOfNetwork, globalMultiplier, nOfSimulations, repartition_E_tunnel;
 	private UITextSwitch minMaxTransfer;
