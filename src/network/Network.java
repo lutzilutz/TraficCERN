@@ -22,6 +22,7 @@ import utils.Utils;
 
 public class Network {
 
+	// list of button's title and description
 	private static String[] titles;
 	private static String[] descriptions;
 	
@@ -80,10 +81,7 @@ public class Network {
 		descriptions[0] = "Actual network arount the CERN, multi lanes";
 		descriptions[1] = "Entrance B crossroad replaced by round-about";
 	}
-	
-	public void createScenarioRAEntranceB() {
-		
-		// Porte de France
+	public MultiLaneRoundAbout genPorteDeFrance() {
 		MultiLaneRoundAbout raPorteDeFrance = new MultiLaneRoundAbout(this, 3, 48, "raPorteDeFrance");
 		raPorteDeFrance.setX(0);
 		raPorteDeFrance.setY(0);
@@ -92,43 +90,43 @@ public class Network {
 		for (RoundAbout ra: raPorteDeFrance.getLanes()) {
 			this.roundAbouts.add(ra);
 		}
-		
-		// Rue de Genève ----------------------------------------------------------------------------------------------
-		// N-W (out)
+		return raPorteDeFrance;
+	}
+	public void genRueDeGeneveNW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueDeGeneveNW = new Road(this, 15, "rRueDeGeneveNW");
 		rRueDeGeneveNW.setStartPositionFrom(raPorteDeFrance.getLanes()[0], 7);
 		rRueDeGeneveNW.setDirection(271);
 		rRueDeGeneveNW.addPoint(new Point(4,291));
 		roads.add(rRueDeGeneveNW);
 		raPorteDeFrance.connectTo(rRueDeGeneveNW, 7);
-		
-		// S-E (in)
+	}
+	public void genRueDeGeneveSE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueDeGeneveSE = new Road(this, 15, "rRueDeGeneveSE");
 		rRueDeGeneveSE.setDirection(111);
 		rRueDeGeneveSE.addPoint(new Point(11, 131));
 		rRueDeGeneveSE.setEndPositionFrom(raPorteDeFrance.getLanes()[0],11,111);
 		roads.add(rRueDeGeneveSE);
 		rRueDeGeneveSE.connectTo(raPorteDeFrance, 11);
-		
-		// Rue Germaine Tillion ---------------------------------------------------------------------------------------
-		// N-E (out)
+		rRueDeGeneveSE.setGenerateVehicules(200);
+	}
+	public void genRueGermaineTillionNE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueGermaineTillionNE = new Road(this, 25, "rRueGermaineTillionNE");
 		rRueGermaineTillionNE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-8);
 		rRueGermaineTillionNE.setDirection(24);
 		rRueGermaineTillionNE.addPoint(new Point(10, 38));
 		roads.add(rRueGermaineTillionNE);
 		raPorteDeFrance.connectTo(rRueGermaineTillionNE, raPorteDeFrance.getLanes()[0].getLength()-8);
-		
-		// S-W (in)
+	}
+	public void genRueGermaineTillionSW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueGermaineTillionSW = new Road(this, 25, "rRueGermaineTillionSW");
 		rRueGermaineTillionSW.setDirection(218);
 		rRueGermaineTillionSW.addPoint(new Point(15,232));
 		rRueGermaineTillionSW.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-2,230);
 		roads.add(rRueGermaineTillionSW);
 		rRueGermaineTillionSW.connectTo(raPorteDeFrance, raPorteDeFrance.getLanes()[0].getLength()-2);
-		
-		// D984F North ------------------------------------------------------------------------------------------------
-		// S-E (out)
+		rRueGermaineTillionSW.setGenerateVehicules(100);
+	}
+	public Road genD984FSE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD984FSE = new Road(this, 110, "rD984FSE");
 		rD984FSE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-17);
 		rD984FSE.setStartDirection(93);
@@ -136,36 +134,37 @@ public class Network {
 		rD984FSE.addPoint(new Point(rD984FSE.getLength()-4,97));
 		roads.add(rD984FSE);
 		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLanes()[0].getLength()-18);
-		
-		// N-W (in)
+		return rD984FSE;
+	}
+	public Road genD984FNW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD984FNW = new Road(this, 109, "rD984FNW");
 		rD984FNW.setDirection(274);
 		rD984FNW.addPoint(new Point(5,293));
 		rD984FNW.addPoint(new Point(105,313));
 		rD984FNW.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-13,293);
-		
 		roads.add(rD984FNW);
 		rD984FNW.connectTo(raPorteDeFrance, raPorteDeFrance.getLanes()[0].getLength()-13);
-		
-		// D884 ------------------------------------------------------------------------------------------------------
-		// S-W (out)
+		return rD984FNW;
+	}
+	public void genD884SW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD884SW = new Road(this, 15, "rD884SW");
 		rD884SW.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-32);
 		rD884SW.setDirection(198);
 		rD884SW.addPoint(new Point(2, 218));
 		roads.add(rD884SW);
 		raPorteDeFrance.connectTo(rD884SW, raPorteDeFrance.getLanes()[0].getLength()-32);
-		
-		// N-E (in)
+	}
+	public Road genD884NE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD884NE = new Road(this, 15+45, "rD884NE");
 		rD884NE.setDirection(38);
 		rD884NE.addPoint(new Point(13+45,58));
 		rD884NE.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-26,38);
 		roads.add(rD884NE);
 		rD884NE.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-26);
-		
-		// SortieCERN -------------------------------------------------------------------------------------------------
-		// S-E (out)
+		rD884NE.setGenerateVehicules(50);
+		return rD884NE;
+	}
+	public Road genSortieCERNSE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rSortieCERNSE = new Road(this, 15, "rSortieCERNSE");
 		rSortieCERNSE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-23);
 		rSortieCERNSE.setDirection(150);
@@ -174,8 +173,10 @@ public class Network {
 		roads.add(rSortieCERNSE);
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLanes()[0].getLength()-23);
 		rSortieCERNSE.setMaxOutflow(8);
-		
-		// N-W (in)
+		rSortieCERNSE.setCounter(0.5, "counter EntranceE right");
+		return rSortieCERNSE;
+	}
+	public Road genSortieCERNNW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
 		rSortieCERNNW.setDirection(330);
 		rSortieCERNNW.addPoint(new Point(5,350));
@@ -183,6 +184,32 @@ public class Network {
 		rSortieCERNNW.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-20,330);
 		roads.add(rSortieCERNNW);
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-20);
+		return rSortieCERNNW;
+	}
+	public void createScenarioRAEntranceB() {
+		
+		// Porte de France
+		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
+		
+		// Rue de Genève N-W (out) and S-E (in)
+		genRueDeGeneveNW(raPorteDeFrance);
+		genRueDeGeneveSE(raPorteDeFrance);
+		
+		// Rue Germaine Tillion N-E (out) and S-W (in)
+		genRueGermaineTillionNE(raPorteDeFrance);
+		genRueGermaineTillionSW(raPorteDeFrance);
+		
+		// D984F North S-E (out) and N-W (in)
+		Road rD984FSE = genD984FSE(raPorteDeFrance);
+		Road rD984FNW = genD984FNW(raPorteDeFrance);
+		
+		// D884 S-W (out) and N-E (in)
+		genD884SW(raPorteDeFrance);
+		Road rD884NE = genD884NE(raPorteDeFrance);
+		
+		// SortieCERN S-E (out) and N-W (in)
+		Road rSortieCERNSE = genSortieCERNSE(raPorteDeFrance);
+		Road rSortieCERNNW = genSortieCERNNW(raPorteDeFrance);
 		
 		// D884CERN
 		Road rD884CERN = new Road(this, 26+20, "rD884CERN");
@@ -473,9 +500,9 @@ public class Network {
 		rTunnelNW.setUnderground(17, 20, true);
 		
 		// Network settings =================================================================================
-		rRueDeGeneveSE.setGenerateVehicules(200);
-		rRueGermaineTillionSW.setGenerateVehicules(100);
-		rD884NE.setGenerateVehicules(50);
+		//rRueDeGeneveSE.setGenerateVehicules(200);
+		//rRueGermaineTillionSW.setGenerateVehicules(100);
+		//rD884NE.setGenerateVehicules(50);
 		rSortieCERNNW.setGenerateVehicules(50);
 		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
 		//rD984FNWS.setGenerateVehicules(true);
@@ -503,7 +530,6 @@ public class Network {
 		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
 		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		
-		rSortieCERNSE.setCounter(0.5, "counter EntranceE right");
 		rD884CERN.setCounter(0.5, "counter EntranceE left");
 		
 		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
@@ -515,85 +541,23 @@ public class Network {
 	public void createRealNetworkMulti() {
 		
 		// Porte de France
-		MultiLaneRoundAbout raPorteDeFrance = new MultiLaneRoundAbout(this, 3, 48, "raPorteDeFrance");
-		raPorteDeFrance.setX(0);
-		raPorteDeFrance.setY(0);
-		raPorteDeFrance.setDirection(0);
-		multiLaneRoundAbouts.add(raPorteDeFrance);
-		for (RoundAbout ra: raPorteDeFrance.getLanes()) {
-			this.roundAbouts.add(ra);
-		}
+		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
 		
-		// Rue de Genève ----------------------------------------------------------------------------------------------
-		// N-W (out)
-		Road rRueDeGeneveNW = new Road(this, 15, "rRueDeGeneveNW");
-		rRueDeGeneveNW.setStartPositionFrom(raPorteDeFrance.getLanes()[0], 7);
-		rRueDeGeneveNW.setDirection(271);
-		rRueDeGeneveNW.addPoint(new Point(4,291));
-		roads.add(rRueDeGeneveNW);
-		raPorteDeFrance.connectTo(rRueDeGeneveNW, 7);
+		// Rue de Genève N-W (out) and S-E (in)
+		genRueDeGeneveNW(raPorteDeFrance);
+		genRueDeGeneveSE(raPorteDeFrance);
 		
-		// S-E (in)
-		Road rRueDeGeneveSE = new Road(this, 15, "rRueDeGeneveSE");
-		rRueDeGeneveSE.setDirection(111);
-		rRueDeGeneveSE.addPoint(new Point(11, 131));
-		rRueDeGeneveSE.setEndPositionFrom(raPorteDeFrance.getLanes()[0],11,111);
-		roads.add(rRueDeGeneveSE);
-		rRueDeGeneveSE.connectTo(raPorteDeFrance, 11);
+		// Rue Germaine Tillion N-E (out) and S-W (in)
+		genRueGermaineTillionNE(raPorteDeFrance);
+		genRueGermaineTillionSW(raPorteDeFrance);
 		
-		// Rue Germaine Tillion ---------------------------------------------------------------------------------------
-		// N-E (out)
-		Road rRueGermaineTillionNE = new Road(this, 25, "rRueGermaineTillionNE");
-		rRueGermaineTillionNE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-8);
-		rRueGermaineTillionNE.setDirection(24);
-		rRueGermaineTillionNE.addPoint(new Point(10, 38));
-		roads.add(rRueGermaineTillionNE);
-		raPorteDeFrance.connectTo(rRueGermaineTillionNE, raPorteDeFrance.getLanes()[0].getLength()-8);
+		// D984F North S-E (out) and N-W (in)
+		Road rD984FSE = genD984FSE(raPorteDeFrance);
+		Road rD984FNW = genD984FNW(raPorteDeFrance);
 		
-		// S-W (in)
-		Road rRueGermaineTillionSW = new Road(this, 25, "rRueGermaineTillionSW");
-		rRueGermaineTillionSW.setDirection(218);
-		rRueGermaineTillionSW.addPoint(new Point(15,232));
-		rRueGermaineTillionSW.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-2,230);
-		roads.add(rRueGermaineTillionSW);
-		rRueGermaineTillionSW.connectTo(raPorteDeFrance, raPorteDeFrance.getLanes()[0].getLength()-2);
-		
-		// D984F North ------------------------------------------------------------------------------------------------
-		// S-E (out)
-		Road rD984FSE = new Road(this, 110, "rD984FSE");
-		rD984FSE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-17);
-		rD984FSE.setStartDirection(93);
-		rD984FSE.addPoint(new Point(4,113));
-		rD984FSE.addPoint(new Point(rD984FSE.getLength()-4,97));
-		roads.add(rD984FSE);
-		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLanes()[0].getLength()-18);
-		
-		// N-W (in)
-		Road rD984FNW = new Road(this, 109, "rD984FNW");
-		rD984FNW.setDirection(274);
-		rD984FNW.addPoint(new Point(5,293));
-		rD984FNW.addPoint(new Point(105,313));
-		rD984FNW.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-13,293);
-		
-		roads.add(rD984FNW);
-		rD984FNW.connectTo(raPorteDeFrance, raPorteDeFrance.getLanes()[0].getLength()-13);
-		
-		// D884 ------------------------------------------------------------------------------------------------------
-		// S-W (out)
-		Road rD884SW = new Road(this, 15, "rD884SW");
-		rD884SW.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-32);
-		rD884SW.setDirection(198);
-		rD884SW.addPoint(new Point(2, 218));
-		roads.add(rD884SW);
-		raPorteDeFrance.connectTo(rD884SW, raPorteDeFrance.getLanes()[0].getLength()-32);
-		
-		// N-E (in)
-		Road rD884NE = new Road(this, 15+45, "rD884NE");
-		rD884NE.setDirection(38);
-		rD884NE.addPoint(new Point(13+45,58));
-		rD884NE.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-26,38);
-		roads.add(rD884NE);
-		rD884NE.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-26);
+		// D884 S-W (out) and N-E (in)
+		genD884SW(raPorteDeFrance);
+		Road rD884NE = genD884NE(raPorteDeFrance);
 		
 		// SortieCERN -------------------------------------------------------------------------------------------------
 		// S-E (out)
@@ -1083,8 +1047,8 @@ public class Network {
 		rTunnelNW.connectFromiToj(rC5NE, rTunnelNW.getLength()-2, 10);
 		
 		// Network settings =================================================================================
-		rRueDeGeneveSE.setGenerateVehicules(1000);
-		rRueGermaineTillionSW.setGenerateVehicules(100);
+		//rRueDeGeneveSE.setGenerateVehicules(1000);
+		//rRueGermaineTillionSW.setGenerateVehicules(100);
 		rD884NE.setGenerateVehicules(50);
 		rSortieCERNNW.setGenerateVehicules(50);
 		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);

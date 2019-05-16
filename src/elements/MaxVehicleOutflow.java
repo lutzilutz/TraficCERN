@@ -6,8 +6,8 @@ import utils.Utils;
 
 public class MaxVehicleOutflow {
 	
-	private ArrayList<Road> roads = new ArrayList<Road>();
-	private int globalOutflow;
+	private ArrayList<Road> roads = new ArrayList<Road>(); // list of roads working together for the outflow
+	private int globalOutflow; // outflow in [vehicle/second]
 	private int counter = 0;
 	
 	public MaxVehicleOutflow(Road road, int globalOutflow) {
@@ -20,12 +20,7 @@ public class MaxVehicleOutflow {
 		roads.add(road);
 		road.useSingleOutflow(false);
 	}
-	public void addRoad(Road road1, Road road2) {
-		roads.add(road1);
-		road1.useSingleOutflow(false);
-		roads.add(road2);
-		road2.useSingleOutflow(false);
-	}
+	
 	public void tick() {
 		counter++;
 		

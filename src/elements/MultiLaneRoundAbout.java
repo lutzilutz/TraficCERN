@@ -17,13 +17,8 @@ public class MultiLaneRoundAbout {
 	
 	public MultiLaneRoundAbout(Network n, int nLanes, int length) {
 		this.n = n;
-		//int nCells = length;
 		lanes = new RoundAbout[nLanes];
 		for (int i=0; i<nLanes; ++i) {
-			/*nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
-			if (nCells > 0) {
-				lanes[i] = new RoundAbout(n, nCells);
-			}*/
 			lanes[i] = new RoundAbout(n, length, i);
 		}
 		
@@ -32,13 +27,8 @@ public class MultiLaneRoundAbout {
 	public MultiLaneRoundAbout(Network n, int nLanes, int length, String name) {
 		this.name = name;
 		this.n = n;
-		//int nCells = length;
 		lanes = new RoundAbout[nLanes];
 		for (int i=0; i<nLanes; ++i) {
-			/*nCells = (int) (length-i*2*Math.PI*this.n.getCellHeight()/this.n.getCellWidth());
-			if (nCells > 0) {
-				lanes[i] = new RoundAbout(n, nCells, name + (i+1));
-			}*/
 			lanes[i] = new RoundAbout(n, length, i);
 			lanes[i].setName(name + (i+1));
 		}
@@ -48,19 +38,13 @@ public class MultiLaneRoundAbout {
 	public void connectTo(Road R, int i) {
 		int raSize = this.getLanes()[0].getLength();
 		i = ((i % raSize)+raSize)%raSize;
-		//int i1 = i;
-		//int i2 = i-1;
 		this.getLanes()[0].getRoadCells().get(i).setOutCell(R.getRoadCells().get(0));
 		R.getRoadCells().get(0).setInCell(this.getLanes()[0].getRoadCells().get(i));
 		this.addExit(R.getName(), i);
 		R.addEnter(this.getName(), 0);
 		for (int j=1; j<this.getLanes().length; ++j) {
-			//i1 = ((i1 % raSize)+raSize)%raSize;
-			//i2 = ((i2 % raSize)+raSize)%raSize;
 			this.getLanes()[j].getRoadCells().get(i).setOutCell(this.getLanes()[j-1].getRoadCells().get(i));
 			this.getLanes()[j-1].getRoadCells().get(i).setInCell(this.getLanes()[j].getRoadCells().get(i));
-			//i1 = i2;
-			//i2 = i2-1;
 		}
 	}
 	
@@ -72,7 +56,6 @@ public class MultiLaneRoundAbout {
 			ride.removeLastConnection();
 			return;
 		} else if (n > 0) {
-			//int L = this.getLanes()[0].getLength();
 			int numOfLanes = this.getLanes().length;
 			int laneInt = 0;
 			int indexOfEnter = -1;
@@ -205,7 +188,7 @@ public class MultiLaneRoundAbout {
 		enters.add(new Connection(name, position));
 	}
 	
-	
+	// Getters & setters ====================================================================================
 	public RoundAbout[] getLanes() {
 		return lanes;
 	}
@@ -240,24 +223,16 @@ public class MultiLaneRoundAbout {
 			this.lanes[i].setDirection(direction);
 		}
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public ArrayList<Connection> getExits() {
 		return exits;
 	}
-
 	public ArrayList<Connection> getEnters() {
 		return enters;
 	}
-
-	
-	
-
 }
