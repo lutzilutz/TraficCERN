@@ -18,24 +18,13 @@ public class Utils {
 
 	public static PrintStream log;
 	public static PrintStream dataCounters;
-	public static PrintStream dataCountersAll;
-	public static PrintStream dataSegmentCounters;
-	public static PrintStream dataChecking;
 	public static PrintStream dataLeakyBuckets;
-	public static PrintStream dataLeakyBucketsAll;
-	public static PrintStream dataEnterExit;
-	public static PrintStream dataMeanTimeSpent;
-	public static PrintStream dataMeanTimeSpentAll_transit;
-	public static PrintStream dataMeanTimeSpentAll_cern;
+	public static PrintStream dataMeanTimeSpent_transit;
+	public static PrintStream dataMeanTimeSpent_cern;
 	public static String dataStrCounters = "";
-	public static String dataStrCountersAll = "";
-	public static String dataStrSegmentCounters = "";
 	public static String dataStrLeakyBuckets = "";
-	public static String dataStrLeakyBucketsAll = "";
-	public static String dataStrEnterExit = "";
-	public static String dataStrMeanTimeSpent = "";
-	public static String dataStrMeanTimeSpentAll_transit = "";
-	public static String dataStrMeanTimeSpentAll_cern = "";
+	public static String dataStrMeanTimeSpent_transit = "";
+	public static String dataStrMeanTimeSpent_cern = "";
 	public static String dataDir = "data";
 	private static Date date = new Date();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -63,54 +52,50 @@ public class Utils {
 		File directory = new File(dataDir);
 		File directorySim = new File(dataDirSim);
 		
-		if (! directory.exists()){
-			directory.mkdir();
-		}
-		
-		if (! directorySim.exists()){
-			directorySim.mkdir();
-		}
+		if (!directory.exists()) {directory.mkdir();}
+		if (!directorySim.exists()) {directorySim.mkdir();}
 		
 		initDataCounters();
 		initDataLeakyBuckets();
 		initDataMeanTimeSpent();
+		
 		Utils.logInfoln("Initialized simulation folder " + dateFormat.format(date) + "_" + Integer.toString(numberOfSimulations));
 	}
 	public static void initDataLeakyBuckets() {
 		try {
-			dataLeakyBucketsAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets_all.txt", false));
+			dataLeakyBuckets = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets.txt", false));
 		} catch (FileNotFoundException e) {
-			Utils.logErrorln("Couldn't init print stream of data_leakyBuckets_all.txt");
+			Utils.logErrorln("Couldn't init print stream of data_leakyBuckets.txt");
 			Utils.log(e);
 		}
-		dataLeakyBucketsAll.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
+		dataLeakyBuckets.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
 	}
 	public static void initDataCounters() {
 		try {
-			dataCountersAll = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters_all.txt", false));
+			dataCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters.txt", false));
 		} catch (FileNotFoundException e) {
-			Utils.logErrorln("Couldn't init print stream of data_counters_all.txt");
+			Utils.logErrorln("Couldn't init print stream of data_counters.txt");
 			Utils.log(e);
 		}
-		dataCountersAll.print("Number of vehicles per minute passing through counters ---\n");
-		dataCountersAll.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight EntranceELeft EntranceERight EntranceESum\n");
+		dataCounters.print("Number of vehicles per minute passing through counters ---\n");
+		dataCounters.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight EntranceELeft EntranceERight EntranceESum\n");
 	}
 	public static void initDataMeanTimeSpent() {
 		try {
-			dataMeanTimeSpentAll_transit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_transit.txt", false));
+			dataMeanTimeSpent_transit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_transit.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.logErrorln("Couldn't init print stream of data_mean_time_transit.txt");
 			Utils.log(e);
 		}
-		dataMeanTimeSpentAll_transit.print("Checking mean time spent on network in seconds (per hour)\n");
+		dataMeanTimeSpent_transit.print("Checking mean time spent on network in seconds (per hour)\n");
 		
 		try {
-			dataMeanTimeSpentAll_cern = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_cern.txt", false));
+			dataMeanTimeSpent_cern = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_cern.txt", false));
 		} catch (FileNotFoundException e) {
 			Utils.logErrorln("Couldn't init print stream of data_mean_time_cern.txt");
 			Utils.log(e);
 		}
-		dataMeanTimeSpentAll_cern.print("Checking mean time spent on network in seconds (per hour)\n");
+		dataMeanTimeSpent_cern.print("Checking mean time spent on network in seconds (per hour)\n");
 	}
 	public static void logErrorln(String text) {
 		logln("  ERROR    : " + text);
@@ -156,30 +141,30 @@ public class Utils {
 		System.out.print(text);
 	}
 	public static void writeDataCountersAll(String text) {
-		dataStrCountersAll = dataStrCountersAll + text;
+		dataStrCounters = dataStrCounters + text;
 	}
 	public static void saveDataCountersAll() {
-		dataCountersAll.print(dataStrCountersAll);
-		dataStrCountersAll = "";
+		dataCounters.print(dataStrCounters);
+		dataStrCounters = "";
 	}
 	public static void writeDataLeakyBucketsAll(String text) {
-		dataStrLeakyBucketsAll = dataStrLeakyBucketsAll + text;
+		dataStrLeakyBuckets = dataStrLeakyBuckets + text;
 	}
 	public static void saveDataLeakyBucketsAll() {
-		dataLeakyBucketsAll.print(dataStrLeakyBucketsAll);
-		dataStrLeakyBucketsAll = "";
+		dataLeakyBuckets.print(dataStrLeakyBuckets);
+		dataStrLeakyBuckets = "";
 	}
 	public static void writeDataMeanTimeSpentAllTransit(String text) {
-		dataStrMeanTimeSpentAll_transit = dataStrMeanTimeSpentAll_transit + text;
+		dataStrMeanTimeSpent_transit = dataStrMeanTimeSpent_transit + text;
 	}
 	public static void writeDataMeanTimeSpentAllCERN(String text) {
-		dataStrMeanTimeSpentAll_cern = dataStrMeanTimeSpentAll_cern + text;
+		dataStrMeanTimeSpent_cern = dataStrMeanTimeSpent_cern + text;
 	}
 	public static void saveDataMeanTimeSpentAll() {
-		dataMeanTimeSpentAll_transit.print(dataStrMeanTimeSpentAll_transit);
-		dataStrMeanTimeSpentAll_transit = "";
-		dataMeanTimeSpentAll_cern.print(dataStrMeanTimeSpentAll_cern);
-		dataStrMeanTimeSpentAll_cern = "";
+		dataMeanTimeSpent_transit.print(dataStrMeanTimeSpent_transit);
+		dataStrMeanTimeSpent_transit = "";
+		dataMeanTimeSpent_cern.print(dataStrMeanTimeSpent_cern);
+		dataStrMeanTimeSpent_cern = "";
 	}
 	public static String loadFileInsideJarAsString(String path) {
 		StringBuilder builder = new StringBuilder();
@@ -221,7 +206,7 @@ public class Utils {
 		try {
 			return Integer.parseInt(number);
 		} catch (NumberFormatException e) {
-			Utils.logErrorln("Couldn't parse integer in Utils.parseInt()");
+			Utils.logErrorln("Couldn't parse integer in Utils.parseInt(), string was \"" + number + "\"");
 			Utils.log(e);
 			return 0;
 		}

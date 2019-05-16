@@ -14,7 +14,7 @@ public class Vehicle {
 	
 	private int id;
 	private Cell cell;
-	private Cell nextPlace;
+	private Cell nextLocation;
 	private int speed = 1;
 	private boolean hasToLeave = false;
 	private boolean instantDestroy = false;
@@ -34,7 +34,7 @@ public class Vehicle {
 		id = idCounter;
 		idCounter++;
 		cell = null;
-		nextPlace = null;
+		nextLocation = null;
 		enteringTime = n.getSimulation().getSimState().getStep();
 		exitingTime = enteringTime;
 	}
@@ -44,21 +44,21 @@ public class Vehicle {
 			if (cell != null) {
 				cell.setVehicle(null);
 			}
-			if (nextPlace == null && !inBucket) {
+			if (nextLocation == null && !inBucket) {
 				Utils.logErrorln("nextPlace is null for this Vehicle (id:" + id + ")");
 			}
 			if (!inBucket) {
-				cell = nextPlace;
+				cell = nextLocation;
 				cell.setVehicle(this);
-				nextPlace = null;
+				nextLocation = null;
 			}
 		} else {
 			cell.setVehicle(null);
 			cell = null;
-			if (nextPlace != null) {
-				nextPlace.setVehicle(null);
+			if (nextLocation != null) {
+				nextLocation.setVehicle(null);
 			}
-			nextPlace = null;
+			nextLocation = null;
 			exitingTime = n.getSimulation().getSimState().getStep();
 			if (ride.size() != 0) {
 				if (ride.size() > 1) {
@@ -88,13 +88,11 @@ public class Vehicle {
 						DataManager.timeSpentTransit.add(exitingTime-enteringTime);
 					}
 				} else {
-					System.out.println("Ride of size 1 !!!");
+					Utils.logErrorln("Ride of size 1 in vhc #" + id);
 				}
 			} else {
-				System.out.println("Empty ride !!!!!");
+				Utils.logErrorln("Empty ride in vhc #" + id);
 			}
-			//DataManager.timeSpent.add(exitingTime-enteringTime);
-			//System.out.println(ride.size());
 		}
 	}
 	public int checkNextCells(int nCells) {
@@ -160,31 +158,23 @@ public class Vehicle {
 	
 	public void leaveNetwork() {
 		hasToLeave = true;
-		nextPlace = null;
+		nextLocation = null;
 	}
 	public void destroyIt() {
 		instantDestroy = true;
 	}
 	
 	public void stayHere() {
-		nextPlace = cell;
+		nextLocation = cell;
 	}
 	public void goToNextCell() {
-		nextPlace = cell.getNextCell();
+		nextLocation = cell.getNextCell();
 	}
 	public void goToOutCell( ) {
-		nextPlace = cell.getOutCell();
+		nextLocation = cell.getOutCell();
 		if (!ride.isEmpty()) {
 			if (!ride.get(idCurrentRide).getNextConnections().isEmpty()) {
 				currentRoadName = ride.get(idCurrentRide).getNextConnections().get(0).getName();
-			} else {
-				//System.out.println("------- " + currentRoadName + " ------------");
-				/*for (Ride r: ride) {
-					r.print();
-					System.out.println();
-				}*/
-				//System.out.println("-----------------------");
-				
 			}
 		}
 	}
@@ -279,8 +269,8 @@ public class Vehicle {
 		return n;
 	}
 	public void nextSpeed() {
-		int dc = this.distanceFromNextConnection();
-		int dv = this.distFromNextVehicle();
+		int distToNextConnection = this.distanceFromNextConnection();
+		int distToNextVhc = this.distFromNextVehicle();
 		
 		if (this.getCell() == null) {
 			this.speed = Math.min(this.speed+1, this.n.getMaxSpeed());
@@ -288,17 +278,13 @@ public class Vehicle {
 			this.speed = Math.min(this.speed+1, this.getCell().getMaxSpeed());
 		}
 		
-		if (dv >= 0) {
-			this.speed = Math.min(this.speed, dv);
+		if (distToNextVhc >= 0) {
+			this.speed = Math.min(this.speed, distToNextVhc);
 		}
-		if (dc >= 0) {
-			this.speed = Math.min(this.speed, dc);
+		if (distToNextConnection >= 0) {
+			this.speed = Math.min(this.speed, distToNextConnection);
 		}
-		/*if (this.speed > 1) {
-			if (Math.random() < 0.05) {
-				this.speed = Math.max(this.speed-1, 0);
-			}
-		}*/
+		
 		if (this.getCell() != null) {
 			if (this.getRide().get(idCurrentRide) != null && !this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
 				if (this.getCell().getPosition() == this.getRide().get(idCurrentRide).getNextConnections().get(0).getPosition()) {
@@ -367,10 +353,10 @@ public class Vehicle {
 		this.cell = cell;
 	}
 	public Cell getNextPlace() {
-		return this.nextPlace;
+		return this.nextLocation;
 	}
 	public void setNextPlace(Cell nextPlace) {
-		this.nextPlace = nextPlace;
+		this.nextLocation = nextPlace;
 	}
 	public int getSpeed() {
 		return speed;

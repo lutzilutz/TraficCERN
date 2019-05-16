@@ -15,7 +15,7 @@ public class VehicleCounter {
 	
 	private Network network;
 	private Road road;
-	private double x=0,y=0;
+	private double x=0, y=0;
 	private double flow = 0;
 	private static double flowCoefficient = 1/8.0;
 	private int counter = 0;

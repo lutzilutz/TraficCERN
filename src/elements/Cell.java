@@ -5,11 +5,11 @@ import java.util.ArrayList;
 public class Cell {
 	
 	// Simulation
-	private Cell inCell;
-	private Cell previousCell;
-	private Cell nextCell;
-	private Cell outCell;
-	private ArrayList<Cell> overlapedCells = new ArrayList<Cell>();
+	private Cell previousCell; // cell that was previous to this cell (same road)
+	private Cell nextCell; // cell that is the next cell (same road)
+	private Cell inCell; // cell coming inside this cell (other road)
+	private Cell outCell; // cell that goes out of this road (other road)
+	private ArrayList<Cell> overlapedCells = new ArrayList<Cell>(); // list of cells overlapping
 	private Vehicle vehicle;
 	private String roadName;
 	private int roadLength;
@@ -22,11 +22,11 @@ public class Cell {
 	private double x,y; // center of the Cell
 	private boolean isUnderground = false;
 	
-	public Cell(String name) {
-		this.roadName = name;
-		inCell = null;
+	public Cell(String roadName) {
+		this.roadName = roadName;
 		previousCell = null;
 		nextCell = null;
+		inCell = null;
 		outCell = null;
 		vehicle = null;
 	}
@@ -52,7 +52,7 @@ public class Cell {
 		return false;
 	}
 
-	// Getters & setters ------------------------------------------------------------------------------------
+	// Getters & setters ====================================================================================
 	public boolean isBlocked() {
 		return isBlocked;
 	}

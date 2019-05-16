@@ -21,6 +21,12 @@ public class DataManager {
 	public static double[][] inputMatrixEntrance = new double[24][9];
 	public static double[][] inputMatrixExit = new double[24][9];
 	
+	public static int[][] flowPerExit = new int[24][18];
+	
+	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>();
+	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>();
+	public static double meanTime = 0;
+
 	public static void initProbas() {
 		
 		for (int i=0; i<24; i++) {
@@ -100,10 +106,6 @@ public class DataManager {
 		}
 	}
 
-	public static int[][] flowPerExit = new int[24][18];
-
-	public static int randomValue = 0;
-
 	public static void initFlowPerExit() {
 		
 		for (int i=0; i<inputMatrixEntrance[0].length+inputMatrixExit[0].length; ++i) {
@@ -120,10 +122,6 @@ public class DataManager {
 	// ============================================================================================
 	// Time spent on network ======================================================================
 	// ============================================================================================
-
-	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>();
-	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>();
-	public static double meanTime = 0;
 
 	// Is roadName the last road of the ride r ?
 	public static boolean lastRoadIs(Ride r, String roadName) {
@@ -428,38 +426,6 @@ public class DataManager {
 		}
 
 		if (n.getN() == 0) {
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
-
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMin(simulator.getSimSettingsState().crEntreeB_phase2().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(1).setMax(simulator.getSimSettingsState().crEntreeB_phase2().getCurrentValue2());
-
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMin(simulator.getSimSettingsState().crEntreeB_phase3().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(2).setMax(simulator.getSimSettingsState().crEntreeB_phase3().getCurrentValue2());
-
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
-			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
-		}
-	}
-	public static void applyRidesToRoads(Simulator simulator) {
-
-		Network n = simulator.getSimState().getNetwork();
-
-		for (Road road: n.getRoads()) {
-			
-			for (int h=0 ; h<24 ; h++) {
-				float sum = 0;
-				if (n.getAllRides(road.getName()) != null) {
-
-					for (Ride ride: n.getAllRides(road.getName()).getNetworkRides()) {
-						sum += ride.getFlow().get(h);
-					}
-				}
-				road.setGenerateVehicules(h, h+1, sum);
-			}
-		}
-
-		if (n.getN() == 1) {
 			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMin(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue1());
 			n.getTrafficLightsSystems().get(0).getPhases().get(0).setMax(simulator.getSimSettingsState().crEntreeB_phase1().getCurrentValue2());
 

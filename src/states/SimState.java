@@ -90,16 +90,116 @@ public class SimState extends State {
 	// state of the writing phase : 0 before, 1 when begins ... , -1 if finished
 	private int finalDataWritingState = 0;
 	
-	public SimState(Simulator simulation) {
-		super(simulation);
+	public SimState(Simulator simulator) {
+		super(simulator);
 		
 		// Initialize UI and keyboard manager, and create empty network
-		this.uiManager = new UIManager(simulation);
+		this.uiManager = new UIManager(simulator);
 		this.keyManager = new KeyManager();
-		network = new Network(simulation, currentNetwork, 2);
+		network = new Network(simulator, currentNetwork, 2);
+		
+		initButtons();
+		
+	}
+	public void init() {
+		
+		// comput position of all cells of the network
+		NetworkComputing.computeCellsPosition(network);
+		
+		// Rendering background -----------------------------------------------------------------------------
+		background = new BufferedImage(simulator.getWidth(), simulator.getHeight(), BufferedImage.TYPE_INT_RGB);
+		networkDisplays = new BufferedImage[8];
+		hud = new BufferedImage(simulator.getWidth(), simulator.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		renderBG(network, networkDisplays);
+		
+		// Init output structures ---------------------------------------------------------------------------
+		leakyBucketsEVC_rD884NE = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRueDeGeneveSE = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRoutePauliSouthNELeft = new ExpVarCalculator(24*4-1);
+		leakyBucketsEVC_rRoutePauliSouthNERight = new ExpVarCalculator(24*4-1);
+		meanTimeSpentEVC_transit = new ExpVarCalculator(24);
+		meanTimeSpentEVC_cern = new ExpVarCalculator(24);
+		counter1AEVC = new ExpVarCalculator(24*60-1);
+		counter1BEVC = new ExpVarCalculator(24*60-1);
+		counter2AEVC = new ExpVarCalculator(24*60-1);
+		counter2BEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceBLeftEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceBRightEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceELeftEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceERightEVC = new ExpVarCalculator(24*60-1);
+		counterEntranceESumEVC = new ExpVarCalculator(24*60-1);
+		
+		// save time of current tick
+		lastTick = System.nanoTime();
+		
+	}
+	public void initButtons() {
+		
+		initTopButtons();
+		initBottomButtons();
+		
+	}
+	public void initBottomButtons() {
+
+		colorOn = new UITextSwitch(Assets.buttonXStart, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", Defaults.getDrawColors(), new ClickListener(){
+			@Override
+			public void onClick() {
+				colorOn.switchIt();
+				currentBackgroundID = (currentBackgroundID+4)%8;
+				currentDisplay = networkDisplays[currentBackgroundID];
+			}
+		});
+		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", Defaults.getDrawWire(), new ClickListener(){
+			@Override
+			public void onClick() {
+				wireOn.switchIt();
+				currentBackgroundID = (currentBackgroundID-currentBackgroundID%4)+(currentBackgroundID+2)%4;
+				currentDisplay = networkDisplays[currentBackgroundID];
+			}
+		});
+		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", Defaults.getDrawRoadID(), new ClickListener(){
+			@Override
+			public void onClick() {
+				idOn.switchIt();
+				currentBackgroundID = (currentBackgroundID-currentBackgroundID%2)+(currentBackgroundID+1)%2;
+				currentDisplay = networkDisplays[currentBackgroundID];
+			}
+		});
+		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", Defaults.getDrawCenters(), new ClickListener(){
+			@Override
+			public void onClick() {
+				ridesOn.switchIt();
+				Defaults.switchDrawRides();
+			}
+		});
+		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", Defaults.getDrawCenters(), new ClickListener(){
+			@Override
+			public void onClick() {
+				namesOn.switchIt();
+				Defaults.switchDrawNames();
+			}
+		});
+		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", Defaults.getDrawCenters(), new ClickListener(){
+			@Override
+			public void onClick() {
+				centersOn.switchIt();
+				Defaults.switchDrawCenters();
+			}
+		});
+		this.uiManager.addObject(colorOn);
+		this.uiManager.addObject(wireOn);
+		this.uiManager.addObject(idOn);
+		this.uiManager.addObject(ridesOn);
+		this.uiManager.addObject(namesOn);
+		this.uiManager.addObject(centersOn);
+	}
+	public void initTopButtons() {
 		
 		// "Controls" Buttons ===============================================================================
-		
+
 		stepByStep = new UITextButton(Assets.buttonXStart+(Assets.buttonSpacing+Assets.buttonW)*1, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Next step", new ClickListener(){
 			@Override
 			public void onClick() {
@@ -191,7 +291,7 @@ public class SimState extends State {
 		
 		// Exit buttons =====================================================================================
 		
-		this.uiManager.addObject(new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Exit", new ClickListener(){
+		this.uiManager.addObject(new UITextButton(simulator.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart, Assets.buttonW, Assets.buttonH, "Exit", new ClickListener(){
 			@Override
 			public void onClick() {
 				askExit = !askExit;
@@ -200,20 +300,20 @@ public class SimState extends State {
 			}
 		}));
 		
-		exitY = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
+		exitY = new UITextButton(simulator.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH+Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "Yes", new ClickListener(){
 			@Override
 			public void onClick() {
 				Utils.logWarningln("User ends simulation prematurely at step " + step);
 				Utils.initAllData(numberOfSimulations);
 				disableUIManager();
-				simulation.getMenuState().enableUIManager();
-				State.setState(simulation.getMenuState());
+				simulator.getMenuState().enableUIManager();
+				State.setState(simulator.getMenuState());
 			}
 		});
 		exitY.setVisible(false);
 		this.uiManager.addObject(exitY);
 		
-		exitN = new UITextButton(simulation.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH*2+2*Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "No", new ClickListener(){
+		exitN = new UITextButton(simulator.getWidth()-Assets.buttonW-Assets.buttonXStart, Assets.buttonYStart+Assets.buttonH*2+2*Assets.buttonSpacing+20, Assets.buttonW, Assets.buttonH, "No", new ClickListener(){
 			@Override
 			public void onClick() {
 				askExit = !askExit;
@@ -223,95 +323,6 @@ public class SimState extends State {
 		});
 		exitN.setVisible(false);
 		this.uiManager.addObject(exitN);
-		
-		// Bottom buttons ===================================================================================
-		
-		colorOn = new UITextSwitch(Assets.buttonXStart, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", Defaults.getDrawColors(), new ClickListener(){
-			@Override
-			public void onClick() {
-				colorOn.switchIt();
-				currentBackgroundID = (currentBackgroundID+4)%8;
-				currentDisplay = networkDisplays[currentBackgroundID];
-			}
-		});
-		wireOn = new UITextSwitch(Assets.buttonXStart+Assets.buttonW+Assets.buttonSpacing, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Wire ON", "Wire OFF", Defaults.getDrawWire(), new ClickListener(){
-			@Override
-			public void onClick() {
-				wireOn.switchIt();
-				currentBackgroundID = (currentBackgroundID-currentBackgroundID%4)+(currentBackgroundID+2)%4;
-				currentDisplay = networkDisplays[currentBackgroundID];
-			}
-		});
-		idOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*2, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "IDs ON", "IDs OFF", Defaults.getDrawRoadID(), new ClickListener(){
-			@Override
-			public void onClick() {
-				idOn.switchIt();
-				currentBackgroundID = (currentBackgroundID-currentBackgroundID%2)+(currentBackgroundID+1)%2;
-				currentDisplay = networkDisplays[currentBackgroundID];
-			}
-		});
-		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", Defaults.getDrawCenters(), new ClickListener(){
-			@Override
-			public void onClick() {
-				ridesOn.switchIt();
-				Defaults.switchDrawRides();
-			}
-		});
-		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", Defaults.getDrawCenters(), new ClickListener(){
-			@Override
-			public void onClick() {
-				namesOn.switchIt();
-				Defaults.switchDrawNames();
-			}
-		});
-		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulation.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", Defaults.getDrawCenters(), new ClickListener(){
-			@Override
-			public void onClick() {
-				centersOn.switchIt();
-				Defaults.switchDrawCenters();
-			}
-		});
-		this.uiManager.addObject(colorOn);
-		this.uiManager.addObject(wireOn);
-		this.uiManager.addObject(idOn);
-		this.uiManager.addObject(ridesOn);
-		this.uiManager.addObject(namesOn);
-		this.uiManager.addObject(centersOn);
-	}
-	public void init() {
-		
-		// comput position of all cells of the network
-		NetworkComputing.computeCellsPosition(network);
-		
-		// Rendering background -----------------------------------------------------------------------------
-		background = new BufferedImage(simulator.getWidth(), simulator.getHeight(), BufferedImage.TYPE_INT_RGB);
-		networkDisplays = new BufferedImage[8];
-		hud = new BufferedImage(simulator.getWidth(), simulator.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		renderBG(network, networkDisplays);
-		
-		// Init output structures ---------------------------------------------------------------------------
-		leakyBucketsEVC_rD884NE = new ExpVarCalculator(24*4-1);
-		leakyBucketsEVC_rRueDeGeneveSE = new ExpVarCalculator(24*4-1);
-		leakyBucketsEVC_rRueGermaineTillionSW = new ExpVarCalculator(24*4-1);
-		leakyBucketsEVC_rC5SW = new ExpVarCalculator(24*4-1);
-		leakyBucketsEVC_rRouteDeMeyrinSouthNW = new ExpVarCalculator(24*4-1);
-		leakyBucketsEVC_rRoutePauliSouthNELeft = new ExpVarCalculator(24*4-1);
-		leakyBucketsEVC_rRoutePauliSouthNERight = new ExpVarCalculator(24*4-1);
-		meanTimeSpentEVC_transit = new ExpVarCalculator(24);
-		meanTimeSpentEVC_cern = new ExpVarCalculator(24);
-		counter1AEVC = new ExpVarCalculator(24*60-1);
-		counter1BEVC = new ExpVarCalculator(24*60-1);
-		counter2AEVC = new ExpVarCalculator(24*60-1);
-		counter2BEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceBLeftEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceBRightEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceELeftEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceERightEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceESumEVC = new ExpVarCalculator(24*60-1);
-		
-		// save time of current tick
-		lastTick = System.nanoTime();
-		
 	}
 	public void renderBG(Network network, BufferedImage[] backgrounds) {
 		
@@ -494,34 +505,28 @@ public class SimState extends State {
 			// if user asked to exit simulation
 			if (askExit) {Text.drawString(g, "Are you sure ?", Assets.idleCol, simulator.getWidth()-(int) (0.5*Assets.buttonW)-Assets.buttonXStart, Assets.buttonYStart+50, true, Assets.normalFont);}
 			
-			// if simulation speed is set to maximum
-			if (simSpeed >= 5000) {
-				if (getStep() > 86000 && finalDataWritingState == 0) {
-					if (getSimulationID() == getNumberOfSimulations()) {
+			if (finalDataWritingState == 0 && getSimulationID() == getNumberOfSimulations()) {
+				// if simulation speed is set to maximum
+				if (simSpeed >= 5000) {
+					if (getStep() > 86000) {
 						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
-			}
-			// else if simulation speed is bigger than 2000
-			else if (simSpeed >= 2000) {
-				if (getStep() > 86300 && finalDataWritingState == 0) {
-					if (getSimulationID() == getNumberOfSimulations()) {
+				// else if simulation speed is bigger than 2000
+				else if (simSpeed >= 2000) {
+					if (getStep() > 86300) {
 						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
-			}
-			// else if simulation speed is bigger than 100
-			else if (simSpeed >= 100) {
-				if (getStep() > 86390 && finalDataWritingState == 0) {
-					if (getSimulationID() == getNumberOfSimulations()) {
+				// else if simulation speed is bigger than 100
+				else if (simSpeed >= 100) {
+					if (getStep() > 86390) {
 						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
-			}
-			// else simulation speed is below 100
-			else {
-				if (getStep() > 86399 && finalDataWritingState == 0) {
-					if (getSimulationID() == getNumberOfSimulations()) {
+				// else simulation speed is below 100
+				else {
+					if (getStep() > 86399) {
 						incrementWritingState(); // moment at which display "wait" message
 					}
 				}
