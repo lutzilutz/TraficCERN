@@ -10,18 +10,19 @@ public class Cell {
 	private Cell inCell; // cell coming inside this cell (other road)
 	private Cell outCell; // cell that goes out of this road (other road)
 	private ArrayList<Cell> overlapedCells = new ArrayList<Cell>(); // list of cells overlapping
-	private Vehicle vehicle;
-	private String roadName;
-	private int roadLength;
-	private int maxSpeed = 1;
-	private int position;
-	private boolean isInRoundAbout;
-	private boolean isBlocked;
+	private Vehicle vehicle; // vehicle in the cell
+	private String roadName; // name of the road in which the cell is
+	private int roadLength; // length of the road in which the cell is
+	private int maxSpeed = 1; // max speed of vehicles in the cell
+	private int position; // position of the cell in the road
+	private boolean isInRoundAbout; // if cell is in a roundabout: true, else false 
+	private boolean isBlocked; 
 	
 	// Display
 	private double x,y; // center of the Cell
 	private boolean isUnderground = false;
 	
+	// Constructor
 	public Cell(String roadName) {
 		this.roadName = roadName;
 		previousCell = null;
@@ -44,7 +45,11 @@ public class Cell {
 	}
 	
 	public boolean isAnOverlapedCellOccupied() {
+		
+		// for every overlaped cell of this cell...
 		for (Cell c: this.overlapedCells) {
+			
+			// ... if a vehicle is present: true, else false
 			if (c.getVehicle() != null) {
 				return true;
 			}

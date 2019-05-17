@@ -13,16 +13,16 @@ public class Road {
 	protected Network n;
 	
 	// Simulation
-	private String name;
-	private ArrayList<Connection> exits = new ArrayList<Connection>();
-	private ArrayList<Connection> enters = new ArrayList<Connection>();
+	private String name; // name of the road
+	private ArrayList<Connection> exits = new ArrayList<Connection>(); // list of roads (road name and position) on which this road is going
+	private ArrayList<Connection> enters = new ArrayList<Connection>(); // list of roads (road name and position) that go on this road
 	private int id; // Roads ID
-	private int length;
-	private int maxSpeed;
-	private ArrayList<Cell> roadCells = new ArrayList<Cell>();
-	private ArrayList<Float> flow = new ArrayList<Float>();
-	private boolean isTrafficLightRed = false;
-	private EnumSet<Direction> directions;
+	private int length; // number of cells that compose the road
+	private int maxSpeed; // max speed of a vehicle on the 
+	private ArrayList<Cell> roadCells = new ArrayList<Cell>(); // list of cells that compose the road
+	private ArrayList<Float> flow = new ArrayList<Float>(); 
+	private boolean isTrafficLightRed = false; // if there is a traffic light on road and is red: true
+	private EnumSet<Direction> directions; 
 	private ArrayList<Point> reorientations = new ArrayList<Point>();
 	private int maxOutflow = 0; // maximum outflow, in seconds between 2 vehicles
 	private int outflowCounter = 0; // outflow counter
@@ -30,12 +30,13 @@ public class Road {
 	private boolean isBlocked = false;
 	private boolean startOutflowCount = false;
 	private VehicleCounter vehicleCounter = null;
-	private ArrayList<Vehicle> leakyBucket = new ArrayList<Vehicle>();
+	private ArrayList<Vehicle> leakyBucket = new ArrayList<Vehicle>(); // number of vehicles waiting to enter this road
 	
 	// Display
 	private double x,y; // position in pixels from left upper corner
 	private int direction; // from 0 to 360 (north), 90 (east), 180 (south), 270 (west)
 	
+	// Constructors
 	public Road(Network n, int length) {
 		this.n = n;
 		this.length = length;
@@ -47,6 +48,8 @@ public class Road {
 		this.name = name;
 		initFields();
 	}
+	
+	
 	public void initFields() {
 		this.maxSpeed = n.getMaxSpeed();
 		id = idCounter;
@@ -71,6 +74,8 @@ public class Road {
 			flow.add(0f);
 		}
 	}
+	
+	
 	public void outflowTick() {
 		
 		if (useSingleOutflow) {
@@ -289,26 +294,47 @@ public class Road {
 		}
 	}
 	
+	// method that generate all rides that starts with this road (n connections max)
 	public void generateRides(int n) {
 		this.generateRidesAux(n, new Ride(this.getName()));
 	}
 	
 	public void generateRidesAux(int n, Ride ride) {
+		
+		// if there is not next connection
 		if (!ride.getNextConnections().isEmpty()) {
+			
+			// remove the last connections "go in" / "go out" (multi-lane roundabouts connections) 
 			this.removeLastGoInGoOutConnections(ride);
 		}
+		
+		
 		if(n==0) {
+			
+			// if n = 0 and if the road quit the network
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
+				
+				// the current ride is correct and can be saved
 				this.n.addARideToAllNetworkRides(ride.clone());
 			}
 			ride.removeLastConnection();
 			return;
+			
 		} else if (n > 0) {
+			
+			// if n > 0, for every exits of this road
 			for (Connection e: this.exits) {
+				
 				boolean canAdd = true;
+				
+				// for every roads in the network, check if the can be added to the current ride
 				for (Road r: this.n.getRoads()) {
+					
+					// if the road has the same name as the exit
 					if (e.getName() != null) {
 						if (e.getName().equals(r.getName())) {
+							
+							// if there is a next connection
 							if (!ride.getNextConnections().isEmpty()) {
 								for (Connection ent: this.getEnters()) {
 									
@@ -325,6 +351,8 @@ public class Road {
 									}
 								}
 							}
+							
+							// if the exit can be added to the ride, add the exit to the ride
 							if (canAdd) {
 								ride.addNextConnection(e.clone());
 								r.generateRidesAux(n-1, ride);
