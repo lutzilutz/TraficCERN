@@ -134,6 +134,7 @@ public class Network {
 		rD984FSE.addPoint(new Point(rD984FSE.getLength()-4,97));
 		roads.add(rD984FSE);
 		raPorteDeFrance.connectTo(rD984FSE, raPorteDeFrance.getLanes()[0].getLength()-18);
+		rD984FSE.setCounter(0.5, "counter 1A");
 		return rD984FSE;
 	}
 	public Road genD984FNW(MultiLaneRoundAbout raPorteDeFrance) {
@@ -144,6 +145,7 @@ public class Network {
 		rD984FNW.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-13,293);
 		roads.add(rD984FNW);
 		rD984FNW.connectTo(raPorteDeFrance, raPorteDeFrance.getLanes()[0].getLength()-13);
+		rD984FNW.setCounter(0.49, "counter 1B");
 		return rD984FNW;
 	}
 	public void genD884SW(MultiLaneRoundAbout raPorteDeFrance) {
@@ -186,6 +188,48 @@ public class Network {
 		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-20);
 		return rSortieCERNNW;
 	}
+	public void genD884CERN(Road rD884NE, Road rSortieCERNSE) {
+		Road rD884CERN = new Road(this, 26+20, "rD884CERN");
+		rD884CERN.setDirection(38);
+		rD884CERN.addPoint(new Point(8+20,90));
+		rD884CERN.addPoint(new Point(14+20,170));
+		rD884CERN.addPoint(new Point(20+20,150));
+		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 27*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
+		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 27*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
+		roads.add(rD884CERN);
+		rD884NE.getRoadCells().get(27).setOutCell(rD884CERN.getRoadCells().get(0));
+		rD884NE.addExit("rD884CERN", 27);
+		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
+		rD884CERN.addEnter("rD884NE", 0);
+		rD884CERN.setMaxOutflow(8);
+		rD884CERN.setCounter(0.5, "counter EntranceE left");
+		
+		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
+		outflowEntranceE.addRoad(rSortieCERNSE);
+		maxVehicleOutflows.add(outflowEntranceE);
+	}
+	public RoundAbout genLHC(Road rD984FSE, Road rD984FNW) {
+		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
+		raLHC.setDirection(0);
+		raLHC.setPositionFrom(rD984FSE, 5);
+		roundAbouts.add(raLHC);
+		rD984FSE.connectTo(raLHC, 5);
+		raLHC.connectTo(rD984FNW, 3);
+		return raLHC;
+	}
+	public Road genD984FSES(RoundAbout raLHC) {
+		Road rD984FSES = new Road(this, 92, "rD984FSES");
+		rD984FSES.setStartPositionFrom(raLHC, raLHC.getLength()-7);
+		rD984FSES.setStartDirection(129);
+		rD984FSES.addPoint(new Point(4,113));
+		roads.add(rD984FSES);
+		raLHC.connectTo(rD984FSES, raLHC.getLength()-7);
+		return rD984FSES;
+	}
+	/*public Road genD984FSES2(RoundAbout raLHC) {
+		
+		return rD984FSES;
+	}*/
 	public void createScenarioRAEntranceB() {
 		
 		// Porte de France
@@ -212,36 +256,13 @@ public class Network {
 		Road rSortieCERNNW = genSortieCERNNW(raPorteDeFrance);
 		
 		// D884CERN
-		Road rD884CERN = new Road(this, 26+20, "rD884CERN");
-		rD884CERN.setDirection(38);
-		rD884CERN.addPoint(new Point(8+20,90));
-		rD884CERN.addPoint(new Point(14+20,170));
-		rD884CERN.addPoint(new Point(20+20,150));
-		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 27*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
-		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 27*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
-		roads.add(rD884CERN);
-		rD884NE.getRoadCells().get(27).setOutCell(rD884CERN.getRoadCells().get(0));
-		rD884NE.addExit("rD884CERN", 27);
-		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
-		rD884CERN.addEnter("rD884NE", 0);
-		rD884CERN.setMaxOutflow(8);
+		genD884CERN(rD884NE, rSortieCERNSE);
 		
-		// LHC --------------------------------------------------------------------------------------------------------
-		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
-		raLHC.setDirection(0);
-		raLHC.setPositionFrom(rD984FSE, 5);
-		roundAbouts.add(raLHC);
-		rD984FSE.connectTo(raLHC, 5);
-		raLHC.connectTo(rD984FNW, 3);
+		// LHC
+		RoundAbout raLHC = genLHC(rD984FSE, rD984FNW);
 		
-		// D984F South ------------------------------------------------------------------------------------------------
-		// S-E (out)
-		Road rD984FSES = new Road(this, 92, "rD984FSES");
-		rD984FSES.setStartPositionFrom(raLHC, raLHC.getLength()-7);
-		rD984FSES.setStartDirection(129);
-		rD984FSES.addPoint(new Point(4,113));
-		roads.add(rD984FSES);
-		raLHC.connectTo(rD984FSES, raLHC.getLength()-7);
+		// D984F South S-E (out)
+		Road rD984FSES = genD984FSES(raLHC);
 		
 		Road rD984FSES2 = new Road(this, 47, "rD984FSES2");
 		rD984FSES2.setStartPositionFrom(rD984FSES, 45, 113, 1, (113+90));
@@ -530,11 +551,7 @@ public class Network {
 		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
 		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		
-		rD884CERN.setCounter(0.5, "counter EntranceE left");
 		
-		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
-		outflowEntranceE.addRoad(rSortieCERNSE);
-		maxVehicleOutflows.add(outflowEntranceE);
 		
 	}
 	
@@ -559,57 +576,18 @@ public class Network {
 		genD884SW(raPorteDeFrance);
 		Road rD884NE = genD884NE(raPorteDeFrance);
 		
-		// SortieCERN -------------------------------------------------------------------------------------------------
-		// S-E (out)
-		Road rSortieCERNSE = new Road(this, 15, "rSortieCERNSE");
-		rSortieCERNSE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-23);
-		rSortieCERNSE.setDirection(150);
-		rSortieCERNSE.addPoint(new Point(3,170));
-		rSortieCERNSE.addPoint(new Point(10,150));
-		roads.add(rSortieCERNSE);
-		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLanes()[0].getLength()-23);
-		rSortieCERNSE.setMaxOutflow(8);
-		
-		// N-W (in)
-		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
-		rSortieCERNNW.setDirection(330);
-		rSortieCERNNW.addPoint(new Point(5,350));
-		rSortieCERNNW.addPoint(new Point(12,5));
-		rSortieCERNNW.setEndPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-20,330);
-		roads.add(rSortieCERNNW);
-		rSortieCERNNW.connectTo(raPorteDeFrance,  raPorteDeFrance.getLanes()[0].getLength()-20);
+		// SortieCERN S-E (out) and N-W (in)
+		Road rSortieCERNSE = genSortieCERNSE(raPorteDeFrance);
+		Road rSortieCERNNW = genSortieCERNNW(raPorteDeFrance);
 		
 		// D884CERN
-		Road rD884CERN = new Road(this, 26+20, "rD884CERN");
-		rD884CERN.setDirection(38);
-		rD884CERN.addPoint(new Point(8+20,90));
-		rD884CERN.addPoint(new Point(14+20,170));
-		rD884CERN.addPoint(new Point(20+20,150));
-		rD884CERN.setX(rD884NE.getX()+getCellWidth()*(Math.cos(2*Math.PI*rD884NE.getDirection()/360.0) + 27*Math.sin(2*Math.PI*rD884NE.getDirection()/360.0)));
-		rD884CERN.setY(rD884NE.getY()+getCellWidth()*(Math.sin(2*Math.PI*rD884NE.getDirection()/360.0) - 27*Math.cos(2*Math.PI*rD884NE.getDirection()/360.0)));
-		roads.add(rD884CERN);
-		rD884NE.getRoadCells().get(27).setOutCell(rD884CERN.getRoadCells().get(0));
-		rD884NE.addExit("rD884CERN", 27);
-		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
-		rD884CERN.addEnter("rD884NE", 0);
-		rD884CERN.setMaxOutflow(8);
+		genD884CERN(rD884NE, rSortieCERNSE);
 		
-		// LHC --------------------------------------------------------------------------------------------------------
-		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
-		raLHC.setDirection(0);
-		raLHC.setPositionFrom(rD984FSE, 5);
-		roundAbouts.add(raLHC);
-		rD984FSE.connectTo(raLHC, 5);
-		raLHC.connectTo(rD984FNW, 3);
+		// LHC
+		RoundAbout raLHC = genLHC(rD984FSE, rD984FNW);
 		
-		// D984F South ------------------------------------------------------------------------------------------------
-		// S-E (out)
-		Road rD984FSES = new Road(this, 92, "rD984FSES");
-		rD984FSES.setStartPositionFrom(raLHC, raLHC.getLength()-7);
-		rD984FSES.setStartDirection(129);
-		rD984FSES.addPoint(new Point(4,113));
-		roads.add(rD984FSES);
-		raLHC.connectTo(rD984FSES, raLHC.getLength()-7);
+		// D984F South S-E (out)
+		Road rD984FSES = genD984FSES(raLHC);
 		
 		Road rD984FSES2 = new Road(this, 47, "rD984FSES2");
 		rD984FSES2.setStartPositionFrom(rD984FSES, 45, 113, 1, (113+90));
@@ -1066,23 +1044,12 @@ public class Network {
 		this.generateAllNetworkRides(50);
 		this.cleanAllNetworkRides(2);
 		
-		//printNames();
-		
-		rD984FSE.setCounter(0.5, "counter 1A");
-		rD984FNW.setCounter(0.49, "counter 1B");
-		
 		rD984FSES.setCounter(0.3, "counter 2A");
 		rD984FNWS.setCounter(0.702, "coutner 2B");
 		
 		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
 		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		
-		rSortieCERNSE.setCounter(0.5, "counter EntranceE right");
-		rD884CERN.setCounter(0.5, "counter EntranceE left");
-		
-		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
-		outflowEntranceE.addRoad(rSortieCERNSE);
-		maxVehicleOutflows.add(outflowEntranceE);
 		
 	}
 	public void initCERNArea() {
