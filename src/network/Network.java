@@ -677,6 +677,113 @@ public class Network {
 		rC5SW.setGenerateVehicules(50);
 		return rC5SW;
 	}
+	public Road genTunnelSE(Road rC5NE, Road rC5SW) {
+		Road rTunnelSE;
+		if (this.n == 0) {
+			rTunnelSE = new Road(this, 38, "rTunnelSE");
+			rTunnelSE.setStartPositionFrom(rC5SW, 23, 120, 0.4, 0);
+			rTunnelSE.addPoint(new Point(2, 180));
+			rTunnelSE.addPoint(new Point(21, 110));
+			rTunnelSE.addPoint(new Point(28, 185));
+			roads.add(rTunnelSE);
+			rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(2));
+		} else {
+			rTunnelSE = new Road(this, 35, "rTunnelSE");
+			rTunnelSE.setStartPositionFrom(rC5NE, 7, 120);
+			rTunnelSE.addPoint(new Point(2, 180));
+			rTunnelSE.addPoint(new Point(20, 110));
+			rTunnelSE.addPoint(new Point(27, 185));
+			roads.add(0,rTunnelSE);
+			rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
+		}
+		
+		rC5NE.addExit("rTunnelSE", 7);
+		rTunnelSE.addEnter("rC5NE", 2);
+		rTunnelSE.getRoadCells().get(0).setInCell(rC5NE.getRoadCells().get(7));
+		rTunnelSE.setUnderground(14, 16, true);
+		return rTunnelSE;
+	}
+	public Road genTunnelNW(Road rTunnelSE, Road rC5NE, Road rC5SW) {
+		Road rTunnelNW = new Road(this, 39, "rTunnelNW");
+		rTunnelNW.setDirection(5);
+		if (this.n == 0) {
+			rTunnelNW.addPoint(new Point(11, 290));
+			rTunnelNW.addPoint(new Point(18, 0));
+			rTunnelNW.addPoint(new Point(rTunnelNW.getRoadCells().size()-2, 300));
+			rTunnelNW.setX(rTunnelSE.getX()+9.15*cellWidth);
+			rTunnelNW.setY(rTunnelSE.getY()+32*cellWidth);
+			roads.add(rTunnelNW);
+			rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-2).setOutCell(rC5NE.getRoadCells().get(13));
+			rC5NE.getRoadCells().get(13).setInCell(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-2));
+			rTunnelNW.addExit(rC5NE.getName(), rTunnelNW.getLength()-2);
+			rTunnelNW.setMaxSpeed(1);
+		} else {
+			rTunnelNW.addPoint(new Point(9, 290));
+			rTunnelNW.addPoint(new Point(16, 0));
+			rTunnelNW.setX(rTunnelSE.getX()+9*cellWidth);
+			rTunnelNW.setY(rTunnelSE.getY()+29*cellWidth);
+			roads.add(0,rTunnelNW);
+			rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setOutCell(rC5NE.getRoadCells().get(13));
+			rTunnelNW.addExit(rC5NE.getName(), rTunnelNW.getLength()-1);
+		}
+		rC5NE.addEnter("rTunnelNW", 13);
+		rTunnelNW.setUnderground(17, 20, true);
+		rTunnelNW.setGenerateVehicules(40);
+		return rTunnelNW;
+	}
+	public void genLightPhases(Road rD984FSES, Road rD984FSES2, Road rD984FSES3, Road rRouteDeMeyrinNorthNW1, Road rRouteDeMeyrinNorthNW2, Road rRouteDeMeyrinNorthNW3, Road rRoutePauliSouthNELeft, Road rRoutePauliSouthNERight, Road rRoutePauliNorthNE) {
+		// Phase 1-----------------------------------------------------------------------------------------
+		Phase P1 = new Phase(this, 10, 15);
+		
+		P1.addConcernedRoad(rRouteDeMeyrinNorthNW1);
+		P1.addConcernedRoad(rRouteDeMeyrinNorthNW2);
+		P1.addConcernedRoad(rRouteDeMeyrinNorthNW3);
+		
+		P1.addRoadToCheck(rRouteDeMeyrinNorthNW1);
+		// Phase 2-----------------------------------------------------------------------------------------
+		Phase P2 = new Phase(this, 30, 40);
+		
+		P2.addConcernedRoad(rRouteDeMeyrinNorthNW2);
+		P2.addConcernedRoad(rRouteDeMeyrinNorthNW3);
+		P2.addConcernedRoad(rD984FSES);
+		P2.addConcernedRoad(rD984FSES2);
+		P2.addConcernedRoad(rD984FSES3);
+		
+		P2.addRoadToCheck(rRouteDeMeyrinNorthNW2);
+		P2.addRoadToCheck(rRouteDeMeyrinNorthNW3);
+		P2.addRoadToCheck(rD984FSES);
+		P2.addRoadToCheck(rD984FSES2);
+		
+		// Phase 3-----------------------------------------------------------------------------------------
+		Phase P3 = new Phase(this, 10, 15);
+		
+		P3.addConcernedRoad(rD984FSES3);
+		P3.addConcernedRoad(rRoutePauliSouthNELeft);
+		P3.addConcernedRoad(rRoutePauliSouthNERight);
+		
+		P3.addRoadToCheck(rD984FSES3);
+		P3.addRoadToCheck(rRoutePauliSouthNELeft);
+		P3.addRoadToCheck(rRoutePauliSouthNERight);
+		
+		// Phase 4-----------------------------------------------------------------------------------------
+		Phase P4 = new Phase(this, 10, 15);
+		
+		P4.addConcernedRoad(rRoutePauliNorthNE);
+		
+		P4.addRoadToCheck(rRoutePauliNorthNE);
+		
+		// CrossRoads Entree B TLS-------------------------------------------------------------------------
+		TrafficLightsSystem crEntreeBTLS = new TrafficLightsSystem();
+		crEntreeBTLS.addPhase(P1);
+		crEntreeBTLS.addPhase(P2);
+		crEntreeBTLS.addPhase(P3);
+		crEntreeBTLS.addPhase(P4);
+		
+		this.trafficLightsSystems.add(crEntreeBTLS);
+		crEntreeBTLS.setTrafficLightsRed();
+		rRouteDeMeyrinNorthNW1.setTrafficLightRed(true);
+		crEntreeBTLS.initializePhases();
+	}
 	public void createScenarioRAEntranceB() {
 		
 		// Porte de France
@@ -766,40 +873,13 @@ public class Network {
 		
 		// C5 N-E (out) and S-W (in)
 		Road rC5NE = genC5NE(raLHC);
-		genC5SW(raLHC);
+		Road rC5SW = genC5SW(raLHC);
 		
-		// Tunnel inter-site ------------------------------------------------------------------------------------------
-		// S-E
-		Road rTunnelSE = new Road(this, 35, "rTunnelSE");
-		rTunnelSE.setStartPositionFrom(rC5NE, 7, 120);
-		rTunnelSE.addPoint(new Point(2, 180));
-		rTunnelSE.addPoint(new Point(20, 110));
-		rTunnelSE.addPoint(new Point(27, 185));
-		roads.add(0,rTunnelSE);
-		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(0));
-		rC5NE.addExit("rTunnelSE", 7);
-		rTunnelSE.addEnter("rC5NE", 0);
-		rTunnelSE.getRoadCells().get(0).setPreviousCell(rC5NE.getRoadCells().get(7));
-		rTunnelSE.setUnderground(14, 16, true);
-		
-		// N-W
-		Road rTunnelNW = new Road(this, 39, "rTunnelNW");
-		rTunnelNW.setDirection(5);
-		rTunnelNW.addPoint(new Point(9, 290));
-		rTunnelNW.addPoint(new Point(16, 0));
-		rTunnelNW.setX(rTunnelSE.getX()+9*cellWidth);
-		rTunnelNW.setY(rTunnelSE.getY()+29*cellWidth);
-		roads.add(0,rTunnelNW);
-		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).setOutCell(rC5NE.getRoadCells().get(13));
-		rTunnelNW.addExit(rC5NE.getName(), rTunnelNW.getLength()-1);
-		rC5NE.addEnter("rTunnelNW", 13);
-		rTunnelNW.setUnderground(17, 20, true);
-		
-		rTunnelNW.setGenerateVehicules(40);
+		// Tunnel inter-site S-E and N-W
+		Road rTunnelSE = genTunnelSE(rC5NE, rC5SW);
+		genTunnelNW(rTunnelSE, rC5NE, rC5SW);
 		
 		raLHC.setMaxSpeed(1);
-		
-		
 		
 	}
 	
@@ -894,97 +974,13 @@ public class Network {
 		Road rC5NE = genC5NE(raLHC);
 		Road rC5SW = genC5SW(raLHC);
 		
-		// Tunnel inter-site ------------------------------------------------------------------------------------------
-		// S-E
-		Road rTunnelSE = new Road(this, 38, "rTunnelSE");
-		rTunnelSE.setStartPositionFrom(rC5SW, 23, 120, 0.4, 0);
-		rTunnelSE.addPoint(new Point(2, 180));
-		rTunnelSE.addPoint(new Point(21, 110));
-		rTunnelSE.addPoint(new Point(28, 185));
-		roads.add(rTunnelSE);
-		rC5NE.getRoadCells().get(7).setOutCell(rTunnelSE.getRoadCells().get(2));
-		rC5NE.addExit("rTunnelSE", 7);
-		rTunnelSE.addEnter("rC5NE", 2);
-		rTunnelSE.getRoadCells().get(0).setInCell(rC5NE.getRoadCells().get(7));
-		rTunnelSE.setUnderground(14, 16, true);
-		
-		// N-W
-		Road rTunnelNW = new Road(this, 39, "rTunnelNW");
-		rTunnelNW.setDirection(5);
-		rTunnelNW.addPoint(new Point(11, 290));
-		rTunnelNW.addPoint(new Point(18, 0));
-		rTunnelNW.addPoint(new Point(rTunnelNW.getRoadCells().size()-2, 300));
-		rTunnelNW.setX(rTunnelSE.getX()+9.15*cellWidth);
-		rTunnelNW.setY(rTunnelSE.getY()+32*cellWidth);
-		roads.add(rTunnelNW);
-		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-2).setOutCell(rC5NE.getRoadCells().get(13));
-		rC5NE.getRoadCells().get(13).setInCell(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-2));
-		rTunnelNW.addExit(rC5NE.getName(), rTunnelNW.getLength()-2);
-		rC5NE.addEnter("rTunnelNW", 13);
-		rTunnelNW.setUnderground(17, 20, true);
-		rTunnelNW.setMaxSpeed(1);
+		// Tunnel inter-site S-E and N-W
+		Road rTunnelSE = genTunnelSE(rC5NE, rC5SW);
+		Road rTunnelNW = genTunnelNW(rTunnelSE, rC5NE, rC5SW);
 		
 		// CrossRoadsPhases:
+		genLightPhases(rD984FSES, rD984FSES2, rD984FSES3, rRouteDeMeyrinNorthNW1, rRouteDeMeyrinNorthNW2, rRouteDeMeyrinNorthNW3, rRoutePauliSouthNELeft, rRoutePauliSouthNERight, rRoutePauliNorthNE);
 		
-		// Phase 1-----------------------------------------------------------------------------------------
-		Phase P1 = new Phase(this, 10, 15);
-		
-		P1.addConcernedRoad(rRouteDeMeyrinNorthNW1);
-		P1.addConcernedRoad(rRouteDeMeyrinNorthNW2);
-		P1.addConcernedRoad(rRouteDeMeyrinNorthNW3);
-		
-		P1.addRoadToCheck(rRouteDeMeyrinNorthNW1);
-		// Phase 2-----------------------------------------------------------------------------------------
-		Phase P2 = new Phase(this, 30, 40);
-		
-		P2.addConcernedRoad(rRouteDeMeyrinNorthNW2);
-		P2.addConcernedRoad(rRouteDeMeyrinNorthNW3);
-		P2.addConcernedRoad(rD984FSES);
-		P2.addConcernedRoad(rD984FSES2);
-		P2.addConcernedRoad(rD984FSES3);
-		
-		P2.addRoadToCheck(rRouteDeMeyrinNorthNW2);
-		P2.addRoadToCheck(rRouteDeMeyrinNorthNW3);
-		P2.addRoadToCheck(rD984FSES);
-		P2.addRoadToCheck(rD984FSES2);
-		
-		// Phase 3-----------------------------------------------------------------------------------------
-		Phase P3 = new Phase(this, 10, 15);
-		
-		P3.addConcernedRoad(rD984FSES3);
-		P3.addConcernedRoad(rRoutePauliSouthNELeft);
-		P3.addConcernedRoad(rRoutePauliSouthNERight);
-		
-		P3.addRoadToCheck(rD984FSES3);
-		P3.addRoadToCheck(rRoutePauliSouthNELeft);
-		P3.addRoadToCheck(rRoutePauliSouthNERight);
-		
-		// Phase 4-----------------------------------------------------------------------------------------
-		Phase P4 = new Phase(this, 10, 15);
-		
-		P4.addConcernedRoad(rRoutePauliNorthNE);
-		
-		P4.addRoadToCheck(rRoutePauliNorthNE);
-		
-		// CrossRoads Entree B TLS-------------------------------------------------------------------------
-		TrafficLightsSystem crEntreeBTLS = new TrafficLightsSystem();
-		crEntreeBTLS.addPhase(P1);
-		crEntreeBTLS.addPhase(P2);
-		crEntreeBTLS.addPhase(P3);
-		crEntreeBTLS.addPhase(P4);
-		
-		this.trafficLightsSystems.add(crEntreeBTLS);
-		crEntreeBTLS.setTrafficLightsRed();
-		rRouteDeMeyrinNorthNW1.setTrafficLightRed(true);
-		crEntreeBTLS.initializePhases();
-		
-		// Overlaped Cells:
-		
-		
-		
-		// Tunnel's overlaped cells + connections:
-		//rC5SW.getRoadCells().get(20).getOverlapedCells().add(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1));
-		//rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).getOverlapedCells().add(rC5SW.getRoadCells().get(20));
 		
 		rC5NE.getRoadCells().get(9).getOverlapedCells().add(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1));
 		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).getOverlapedCells().add(rC5NE.getRoadCells().get(9));
@@ -998,8 +994,6 @@ public class Network {
 		rC5SW.connectFromiToj(rTunnelSE, 21, 1);
 		rTunnelNW.connectFromiToj(rC5SW, rTunnelNW.getLength()-1, 21);
 		rTunnelNW.connectFromiToj(rC5NE, rTunnelNW.getLength()-2, 10);
-		
-		rTunnelNW.setGenerateVehicules(500);
 		
 	}
 	public void initCERNArea() {
