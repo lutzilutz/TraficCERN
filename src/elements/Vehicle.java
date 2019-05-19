@@ -88,7 +88,7 @@ public class Vehicle {
 						DataManager.timeSpentTransit.add(exitingTime-enteringTime);
 					}
 				} else {
-					Utils.logErrorln("Ride of size 1 in vhc #" + id);
+					// Ride of size 1
 				}
 			} else {
 				Utils.logErrorln("Empty ride in vhc #" + id);

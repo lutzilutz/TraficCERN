@@ -26,28 +26,28 @@ public class Network {
 	private static String[] titles;
 	private static String[] descriptions;
 	
-	private Simulator sim;
-	private int n;
-	private ArrayList<Road> roads = new ArrayList<Road>();
-	private ArrayList<MultiLaneRoundAbout> multiLaneRoundAbouts = new ArrayList<MultiLaneRoundAbout>();
-	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>();
-	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>();
-	private ArrayList<TrafficLightsSystem> trafficLightsSystems = new ArrayList<TrafficLightsSystem>();
-	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>();
-	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-	private ArrayList<MaxVehicleOutflow> maxVehicleOutflows = new ArrayList<MaxVehicleOutflow>();
-	private int numberOfVehicles = 0;
-	private int cellWidth=10, cellHeight=cellWidth;
+	private Simulator sim; // link to the simulator
+	private int n; // id of the current Network
+	private ArrayList<Road> roads = new ArrayList<Road>(); // list of all roads
+	private ArrayList<MultiLaneRoundAbout> multiLaneRoundAbouts = new ArrayList<MultiLaneRoundAbout>(); // list of all multilane round-abouts
+	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>(); // list of all round-abouts
+	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>(); // list of all cross-roads
+	private ArrayList<TrafficLightsSystem> trafficLightsSystems = new ArrayList<TrafficLightsSystem>(); // list of all traffic lights
+	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>(); // list of all rides
+	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>(); // list of all vehicles
+	private ArrayList<MaxVehicleOutflow> maxVehicleOutflows = new ArrayList<MaxVehicleOutflow>(); // list of all maximum outflow
+	private int numberOfVehicles = 0; // number of vehicles in the network
+	private int cellWidth=10, cellHeight=cellWidth; // cells width and height
 	
-	private ArrayList<Polygon> zones = new ArrayList<Polygon>();
+	private ArrayList<Polygon> zones = new ArrayList<Polygon>(); // visual area of the CERN
 	
 	private double xOffset=0, yOffset=0; // offset of the network on screen
-	private double xDefaultOffset=0, yDefaultOffset=0;
-	private double rotation=0;
+	private double xDefaultOffset=0, yDefaultOffset=0; // default offset values
+	private double rotation=0; // rotation of the network on screen
 	
-	private int maxSpeed = 2;
+	private int maxSpeed = 2; // maximum speed of vehicles
 	
-	public int artificiallyDestroyedVehicles = 0;
+	public int artificiallyDestroyedVehicles = 0; // count of all artifically destroyed vehicles
 	
 	public Network(Simulator sim, int n, int size) {
 		this.setCellWidth((int) (Math.pow(2, 1+size)));

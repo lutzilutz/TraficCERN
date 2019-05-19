@@ -1,6 +1,8 @@
 package main;
 
 import network.NetworkComputing;
+import states.SimState;
+import states.State;
 import utils.Utils;
 
 public class Main {
@@ -15,7 +17,9 @@ public class Main {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
 				if (!NetworkComputing.writtenFinalData) {
-					Utils.logWarningln("User ends simulation prematurely at step " + simulator.getSimState().getStep());
+					if (State.getState() instanceof SimState) {
+						Utils.logWarningln("User ends simulation prematurely at step " + simulator.getSimState().getStep());
+					}
 				}
 				Utils.logln("Closed ===============================================================");
 			}
