@@ -73,8 +73,10 @@ public class Network {
 			break;
 		}
 		
-		this.generateAllNetworkRides(50);
-		this.cleanAllNetworkRides(2);
+		if (n==0 || n==1) {
+			this.generateAllNetworkRides(50);
+			this.cleanAllNetworkRides(2);
+		}
 		
 		titles = new String[2];
 		titles[0] = "CERN network";
@@ -83,6 +85,215 @@ public class Network {
 		descriptions = new String[2];
 		descriptions[0] = "Actual network arount the CERN, multi lanes";
 		descriptions[1] = "Entrance B crossroad replaced by round-about";
+	}
+	public void createRealNetworkMulti() {
+		
+		// Porte de France
+		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
+		
+		// Rue de Genève N-W (out) and S-E (in)
+		genRueDeGeneveNW(raPorteDeFrance);
+		genRueDeGeneveSE(raPorteDeFrance);
+		
+		// Rue Germaine Tillion N-E (out) and S-W (in)
+		genRueGermaineTillionNE(raPorteDeFrance);
+		genRueGermaineTillionSW(raPorteDeFrance);
+		
+		// D984F North S-E (out) and N-W (in)
+		Road rD984FSE = genD984FSE(raPorteDeFrance);
+		Road rD984FNW = genD984FNW(raPorteDeFrance);
+		
+		// D884 S-W (out) and N-E (in)
+		genD884SW(raPorteDeFrance);
+		Road rD884NE = genD884NE(raPorteDeFrance);
+		
+		// SortieCERN S-E (out) and N-W (in)
+		Road rSortieCERNSE = genSortieCERNSE(raPorteDeFrance);
+		genSortieCERNNW(raPorteDeFrance);
+		
+		// D884CERN
+		genD884CERN(rD884NE, rSortieCERNSE);
+		
+		// LHC
+		RoundAbout raLHC = genLHC(rD984FSE, rD984FNW);
+		
+		// D984F South S-E (out), 3 lanes
+		Road rD984FSES = genD984FSES(raLHC);
+		Road rD984FSES2 = genD984FSES2(rD984FSES);
+		Road rD984FSES3 = genD984FSES3_Scenario0(rD984FSES2);
+		
+		// N-W (in)
+		Road rD984FNWS = genD984FNWS(raLHC, null);
+		Road rD984FNWS2 = genD984FNWS2(rD984FNWS, null);
+		
+		// CrossRoad middle roads W -> E
+		Road rWE1 = genWE1(rD984FSES);
+		Road rWE2 = genWE2(rD984FSES2, rWE1);
+		
+		// Route de Meyrin NORTH (SE)	
+		Road rRouteDeMeyrinNorthSE1 = genRouteDeMeyrinNorthSE1(rD984FSES2, rWE1, null);	
+		Road rRouteDeMeyrinNorthSE2 = genRouteDeMeyrinNorthSE2(rD984FSES2, rRouteDeMeyrinNorthSE1, rWE2, null);
+		Road rRouteDeMeyrinNorthSE1_2 = genRouteDeMeyrinNorthSE1_2(rRouteDeMeyrinNorthSE2, rD984FSES2);
+		
+		// RA entree A
+		MultiLaneRoundAbout raEntreeA = genRaEntreeA(rRouteDeMeyrinNorthSE1_2, rRouteDeMeyrinNorthSE2);
+		
+		Road rRouteDeMeyrinNorthNW1 = genRouteDeMeyrinNorthNW1(raEntreeA, null);
+		Road rRouteDeMeyrinNorthNW2 = genRouteDeMeyrinNorthNW2(rRouteDeMeyrinNorthNW1, null);
+		Road rRouteDeMeyrinNorthNW3 = genRouteDeMeyrinNorthNW3(rRouteDeMeyrinNorthNW2, null);
+		genRouteDeMeyrinNorthNW1_2(rRouteDeMeyrinNorthNW1, raEntreeA);
+		
+		// CrossRoad middle roads E -> W
+		Road rEW1 = genEW1(rRouteDeMeyrinNorthNW3, rD984FNWS2);
+		Road rEW2 = genEW2(rRouteDeMeyrinNorthNW2, rD984FNWS2, rEW1);
+		
+		// Route Pauli North 
+		Road rRoutePauliNorthNE = genRoutePauliNorthNE(rEW1, null);
+		Road rRoutePauliNorthSW = genRoutePauliNorthSW(rRoutePauliNorthNE);
+		
+		// Route Pauli South 
+		Road rRoutePauliSouthNERight = genRoutePauliSouthNERight(rWE2, null);
+		Road rRoutePauliSouthNELeft = genRoutePauliSouthNELeft(rRoutePauliSouthNERight, null);
+		Road rRoutePauliSouthSW = genRoutePauliSouthSW(rRoutePauliSouthNELeft, null);
+
+		// Cross-road entrance B
+		genCrossRoadEntranceB(rRoutePauliSouthNERight, rRoutePauliNorthNE, rRoutePauliNorthSW, rRoutePauliSouthSW, rEW1, rD984FNWS2, rWE1, rRouteDeMeyrinNorthSE1, rRoutePauliSouthNELeft, rEW2, rRouteDeMeyrinNorthSE2, rD984FSES3, rRouteDeMeyrinNorthNW1, rWE2);
+		
+		// Bell
+		genRouteBellSW(raEntreeA);
+		genRouteBellNE(raEntreeA);
+		genRouteBellNERight(raEntreeA);
+		
+		// Route de Meyrin South
+		genRouteDeMeyrinSouthSE(raEntreeA);
+		genRouteDeMeyrinSouthNW(raEntreeA);
+		
+		// Chemin de Maisonnex
+		genCheminMaisonnexN(raEntreeA);
+		genCheminMaisonnexS(raEntreeA);
+		
+		// C5 N-E (out) and S-W (in)
+		Road rC5NE = genC5NE(raLHC);
+		Road rC5SW = genC5SW(raLHC);
+		
+		// Tunnel inter-site S-E and N-W
+		Road rTunnelSE = genTunnelSE(rC5NE, rC5SW);
+		Road rTunnelNW = genTunnelNW(rTunnelSE, rC5NE, rC5SW);
+		
+		// CrossRoadsPhases:
+		genLightPhases(rD984FSES, rD984FSES2, rD984FSES3, rRouteDeMeyrinNorthNW1, rRouteDeMeyrinNorthNW2, rRouteDeMeyrinNorthNW3, rRoutePauliSouthNELeft, rRoutePauliSouthNERight, rRoutePauliNorthNE);
+		
+		
+		rC5NE.getRoadCells().get(9).getOverlapedCells().add(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1));
+		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).getOverlapedCells().add(rC5NE.getRoadCells().get(9));
+		
+		rC5NE.getRoadCells().get(7).getOverlapedCells().add(rTunnelSE.getRoadCells().get(1));
+		rTunnelSE.getRoadCells().get(1).getOverlapedCells().add(rC5NE.getRoadCells().get(7));
+		
+		rC5SW.getRoadCells().get(22).getOverlapedCells().add(rTunnelSE.getRoadCells().get(0));
+		rTunnelSE.getRoadCells().get(0).getOverlapedCells().add(rC5SW.getRoadCells().get(22));
+				
+		rC5SW.connectFromiToj(rTunnelSE, 21, 1);
+		rTunnelNW.connectFromiToj(rC5SW, rTunnelNW.getLength()-1, 21);
+		rTunnelNW.connectFromiToj(rC5NE, rTunnelNW.getLength()-2, 10);
+		
+	}
+	public void createScenarioRAEntranceB() {
+		
+		// Porte de France
+		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
+		
+		// Rue de Genève N-W (out) and S-E (in)
+		genRueDeGeneveNW(raPorteDeFrance);
+		genRueDeGeneveSE(raPorteDeFrance);
+		
+		// Rue Germaine Tillion N-E (out) and S-W (in)
+		genRueGermaineTillionNE(raPorteDeFrance);
+		genRueGermaineTillionSW(raPorteDeFrance);
+		
+		// D984F North S-E (out) and N-W (in)
+		Road rD984FSE = genD984FSE(raPorteDeFrance);
+		Road rD984FNW = genD984FNW(raPorteDeFrance);
+		
+		// D884 S-W (out) and N-E (in)
+		genD884SW(raPorteDeFrance);
+		Road rD884NE = genD884NE(raPorteDeFrance);
+		
+		// SortieCERN S-E (out) and N-W (in)
+		Road rSortieCERNSE = genSortieCERNSE(raPorteDeFrance);
+		genSortieCERNNW(raPorteDeFrance);
+		
+		// D884CERN
+		genD884CERN(rD884NE, rSortieCERNSE);
+		
+		// LHC
+		RoundAbout raLHC = genLHC(rD984FSE, rD984FNW);
+		
+		// D984F South S-E (out), 3 lanes
+		Road rD984FSES = genD984FSES(raLHC);
+		Road rD984FSES2 = genD984FSES2(rD984FSES);
+		Road rD984FSES3 = genD984FSES3_Scenario1(rD984FSES2);
+		
+		// Entrance B
+		MultiLaneRoundAbout raEntreeB = genRaEntreeB(rD984FSES,rD984FSES2,rD984FSES3);
+		
+		// D984F South N-W (in), 2 lanes
+		Road rD984FNWS = genD984FNWS(raLHC, raEntreeB);
+		genD984FNWS2(rD984FNWS, raEntreeB);
+		
+		// CrossRoad middle roads W -> E
+		Road rWE1 = genWE1(rD984FSES);
+		Road rWE2 = genWE2(rD984FSES2, rWE1);
+		
+		// Route de Meyrin NORTH (SE)
+		Road rRouteDeMeyrinNorthSE1 = genRouteDeMeyrinNorthSE1(rD984FSES2, rWE1, raEntreeB);
+		Road rRouteDeMeyrinNorthSE2 = genRouteDeMeyrinNorthSE2(rD984FSES2, rRouteDeMeyrinNorthSE1, rWE2, raEntreeB);
+		Road rRouteDeMeyrinNorthSE1_2 = genRouteDeMeyrinNorthSE1_2(rRouteDeMeyrinNorthSE2, rD984FSES2);
+		
+		// RA entrance A
+		MultiLaneRoundAbout raEntreeA = genRaEntreeA(rRouteDeMeyrinNorthSE1_2, rRouteDeMeyrinNorthSE2);
+		
+		Road rRouteDeMeyrinNorthNW1 = genRouteDeMeyrinNorthNW1(raEntreeA, raEntreeB);
+		Road rRouteDeMeyrinNorthNW2 = genRouteDeMeyrinNorthNW2(rRouteDeMeyrinNorthNW1, raEntreeB);
+		Road rRouteDeMeyrinNorthNW3 = genRouteDeMeyrinNorthNW3(rRouteDeMeyrinNorthNW2, raEntreeB);
+		genRouteDeMeyrinNorthNW1_2(rRouteDeMeyrinNorthNW1, raEntreeA);
+		
+		// CrossRoad middle roads E -> W
+		Road rEW1 = genEW1(rRouteDeMeyrinNorthNW3, null);
+		genEW2(rRouteDeMeyrinNorthNW2, null, rEW1);
+		
+		// Route Pauli North 
+		Road rRoutePauliNorthNE = genRoutePauliNorthNE(rEW1, raEntreeB);
+		genRoutePauliNorthSW(rRoutePauliNorthNE);
+		
+		// Route Pauli South 
+		Road rRoutePauliSouthNERight = genRoutePauliSouthNERight(rWE2, raEntreeB);
+		Road rRoutePauliSouthNELeft = genRoutePauliSouthNELeft(rRoutePauliSouthNERight, raEntreeB);
+		genRoutePauliSouthSW(rRoutePauliSouthNELeft, raEntreeB);
+		
+		// Bell
+		genRouteBellSW(raEntreeA);
+		genRouteBellNE(raEntreeA);
+		genRouteBellNERight(raEntreeA);
+		
+		// Route de Meyrin South
+		genRouteDeMeyrinSouthSE(raEntreeA);
+		genRouteDeMeyrinSouthNW(raEntreeA);
+		
+		// Chemin de Maisonnex
+		genCheminMaisonnexN(raEntreeA);
+		genCheminMaisonnexS(raEntreeA);
+		
+		// C5 N-E (out) and S-W (in)
+		Road rC5NE = genC5NE(raLHC);
+		Road rC5SW = genC5SW(raLHC);
+		
+		// Tunnel inter-site S-E and N-W
+		Road rTunnelSE = genTunnelSE(rC5NE, rC5SW);
+		genTunnelNW(rTunnelSE, rC5NE, rC5SW);
+		
+		raLHC.setMaxSpeed(1);
+		
 	}
 	public MultiLaneRoundAbout genPorteDeFrance() {
 		MultiLaneRoundAbout raPorteDeFrance = new MultiLaneRoundAbout(this, 3, 48, "raPorteDeFrance");
@@ -783,218 +994,6 @@ public class Network {
 		crEntreeBTLS.setTrafficLightsRed();
 		rRouteDeMeyrinNorthNW1.setTrafficLightRed(true);
 		crEntreeBTLS.initializePhases();
-	}
-	public void createScenarioRAEntranceB() {
-		
-		// Porte de France
-		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
-		
-		// Rue de Genève N-W (out) and S-E (in)
-		genRueDeGeneveNW(raPorteDeFrance);
-		genRueDeGeneveSE(raPorteDeFrance);
-		
-		// Rue Germaine Tillion N-E (out) and S-W (in)
-		genRueGermaineTillionNE(raPorteDeFrance);
-		genRueGermaineTillionSW(raPorteDeFrance);
-		
-		// D984F North S-E (out) and N-W (in)
-		Road rD984FSE = genD984FSE(raPorteDeFrance);
-		Road rD984FNW = genD984FNW(raPorteDeFrance);
-		
-		// D884 S-W (out) and N-E (in)
-		genD884SW(raPorteDeFrance);
-		Road rD884NE = genD884NE(raPorteDeFrance);
-		
-		// SortieCERN S-E (out) and N-W (in)
-		Road rSortieCERNSE = genSortieCERNSE(raPorteDeFrance);
-		genSortieCERNNW(raPorteDeFrance);
-		
-		// D884CERN
-		genD884CERN(rD884NE, rSortieCERNSE);
-		
-		// LHC
-		RoundAbout raLHC = genLHC(rD984FSE, rD984FNW);
-		
-		// D984F South S-E (out), 3 lanes
-		Road rD984FSES = genD984FSES(raLHC);
-		Road rD984FSES2 = genD984FSES2(rD984FSES);
-		Road rD984FSES3 = genD984FSES3_Scenario1(rD984FSES2);
-		
-		// Entrance B
-		MultiLaneRoundAbout raEntreeB = genRaEntreeB(rD984FSES,rD984FSES2,rD984FSES3);
-		
-		// D984F South N-W (in), 2 lanes
-		Road rD984FNWS = genD984FNWS(raLHC, raEntreeB);
-		genD984FNWS2(rD984FNWS, raEntreeB);
-		
-		// CrossRoad middle roads W -> E:
-		Road rWE1 = genWE1(rD984FSES);
-		Road rWE2 = genWE2(rD984FSES2, rWE1);
-		
-		// Route de Meyrin NORTH (SE)
-		Road rRouteDeMeyrinNorthSE1 = genRouteDeMeyrinNorthSE1(rD984FSES2, rWE1, raEntreeB);
-		Road rRouteDeMeyrinNorthSE2 = genRouteDeMeyrinNorthSE2(rD984FSES2, rRouteDeMeyrinNorthSE1, rWE2, raEntreeB);
-		Road rRouteDeMeyrinNorthSE1_2 = genRouteDeMeyrinNorthSE1_2(rRouteDeMeyrinNorthSE2, rD984FSES2);
-		
-		// RA entrance A
-		MultiLaneRoundAbout raEntreeA = genRaEntreeA(rRouteDeMeyrinNorthSE1_2, rRouteDeMeyrinNorthSE2);
-		
-		Road rRouteDeMeyrinNorthNW1 = genRouteDeMeyrinNorthNW1(raEntreeA, raEntreeB);
-		Road rRouteDeMeyrinNorthNW2 = genRouteDeMeyrinNorthNW2(rRouteDeMeyrinNorthNW1, raEntreeB);
-		Road rRouteDeMeyrinNorthNW3 = genRouteDeMeyrinNorthNW3(rRouteDeMeyrinNorthNW2, raEntreeB);
-		genRouteDeMeyrinNorthNW1_2(rRouteDeMeyrinNorthNW1, raEntreeA);
-		
-		// CrossRoad middle roads E -> W:
-
-		Road rEW1 = genEW1(rRouteDeMeyrinNorthNW3, null);
-		genEW2(rRouteDeMeyrinNorthNW2, null, rEW1);
-		
-		// Route Pauli North 
-		Road rRoutePauliNorthNE = genRoutePauliNorthNE(rEW1, raEntreeB);
-		genRoutePauliNorthSW(rRoutePauliNorthNE);
-		
-		// Route Pauli South 
-		Road rRoutePauliSouthNERight = genRoutePauliSouthNERight(rWE2, raEntreeB);
-		Road rRoutePauliSouthNELeft = genRoutePauliSouthNELeft(rRoutePauliSouthNERight, raEntreeB);
-		genRoutePauliSouthSW(rRoutePauliSouthNELeft, raEntreeB);
-		
-		// Bell
-		genRouteBellSW(raEntreeA);
-		genRouteBellNE(raEntreeA);
-		genRouteBellNERight(raEntreeA);
-		
-		// Route de Meyrin South
-		genRouteDeMeyrinSouthSE(raEntreeA);
-		genRouteDeMeyrinSouthNW(raEntreeA);
-		
-		// Chemin de Maisonnex
-		genCheminMaisonnexN(raEntreeA);
-		genCheminMaisonnexS(raEntreeA);
-		
-		// C5 N-E (out) and S-W (in)
-		Road rC5NE = genC5NE(raLHC);
-		Road rC5SW = genC5SW(raLHC);
-		
-		// Tunnel inter-site S-E and N-W
-		Road rTunnelSE = genTunnelSE(rC5NE, rC5SW);
-		genTunnelNW(rTunnelSE, rC5NE, rC5SW);
-		
-		raLHC.setMaxSpeed(1);
-		
-	}
-	
-	public void createRealNetworkMulti() {
-		
-		// Porte de France
-		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
-		
-		// Rue de Genève N-W (out) and S-E (in)
-		genRueDeGeneveNW(raPorteDeFrance);
-		genRueDeGeneveSE(raPorteDeFrance);
-		
-		// Rue Germaine Tillion N-E (out) and S-W (in)
-		genRueGermaineTillionNE(raPorteDeFrance);
-		genRueGermaineTillionSW(raPorteDeFrance);
-		
-		// D984F North S-E (out) and N-W (in)
-		Road rD984FSE = genD984FSE(raPorteDeFrance);
-		Road rD984FNW = genD984FNW(raPorteDeFrance);
-		
-		// D884 S-W (out) and N-E (in)
-		genD884SW(raPorteDeFrance);
-		Road rD884NE = genD884NE(raPorteDeFrance);
-		
-		// SortieCERN S-E (out) and N-W (in)
-		Road rSortieCERNSE = genSortieCERNSE(raPorteDeFrance);
-		genSortieCERNNW(raPorteDeFrance);
-		
-		// D884CERN
-		genD884CERN(rD884NE, rSortieCERNSE);
-		
-		// LHC
-		RoundAbout raLHC = genLHC(rD984FSE, rD984FNW);
-		
-		// D984F South S-E (out), 3 lanes
-		Road rD984FSES = genD984FSES(raLHC);
-		Road rD984FSES2 = genD984FSES2(rD984FSES);
-		Road rD984FSES3 = genD984FSES3_Scenario0(rD984FSES2);
-		
-		// N-W (in)
-		Road rD984FNWS = genD984FNWS(raLHC, null);
-		Road rD984FNWS2 = genD984FNWS2(rD984FNWS, null);
-		
-		// CrossRoad middle roads W -> E
-		Road rWE1 = genWE1(rD984FSES);
-		Road rWE2 = genWE2(rD984FSES2, rWE1);
-		
-		// Route de Meyrin NORTH (SE) ---------------------------------------------------------------------------------------		
-		Road rRouteDeMeyrinNorthSE1 = genRouteDeMeyrinNorthSE1(rD984FSES2, rWE1, null);	
-		Road rRouteDeMeyrinNorthSE2 = genRouteDeMeyrinNorthSE2(rD984FSES2, rRouteDeMeyrinNorthSE1, rWE2, null);
-		Road rRouteDeMeyrinNorthSE1_2 = genRouteDeMeyrinNorthSE1_2(rRouteDeMeyrinNorthSE2, rD984FSES2);
-		
-		// RA entree A ------------------------------------------------------------------------------------------------
-		MultiLaneRoundAbout raEntreeA = genRaEntreeA(rRouteDeMeyrinNorthSE1_2, rRouteDeMeyrinNorthSE2);
-		
-		Road rRouteDeMeyrinNorthNW1 = genRouteDeMeyrinNorthNW1(raEntreeA, null);
-		Road rRouteDeMeyrinNorthNW2 = genRouteDeMeyrinNorthNW2(rRouteDeMeyrinNorthNW1, null);
-		Road rRouteDeMeyrinNorthNW3 = genRouteDeMeyrinNorthNW3(rRouteDeMeyrinNorthNW2, null);
-		genRouteDeMeyrinNorthNW1_2(rRouteDeMeyrinNorthNW1, raEntreeA);
-		
-		// CrossRoad middle roads E -> W:
-
-		Road rEW1 = genEW1(rRouteDeMeyrinNorthNW3, rD984FNWS2);
-		Road rEW2 = genEW2(rRouteDeMeyrinNorthNW2, rD984FNWS2, rEW1);
-		
-		// Route Pauli North 
-		Road rRoutePauliNorthNE = genRoutePauliNorthNE(rEW1, null);
-		Road rRoutePauliNorthSW = genRoutePauliNorthSW(rRoutePauliNorthNE);
-		
-		// Route Pauli South 
-		Road rRoutePauliSouthNERight = genRoutePauliSouthNERight(rWE2, null);
-		Road rRoutePauliSouthNELeft = genRoutePauliSouthNELeft(rRoutePauliSouthNERight, null);
-		Road rRoutePauliSouthSW = genRoutePauliSouthSW(rRoutePauliSouthNELeft, null);
-
-		// Cross-road entrance B
-		genCrossRoadEntranceB(rRoutePauliSouthNERight, rRoutePauliNorthNE, rRoutePauliNorthSW, rRoutePauliSouthSW, rEW1, rD984FNWS2, rWE1, rRouteDeMeyrinNorthSE1, rRoutePauliSouthNELeft, rEW2, rRouteDeMeyrinNorthSE2, rD984FSES3, rRouteDeMeyrinNorthNW1, rWE2);
-		
-		// Bell
-		genRouteBellSW(raEntreeA);
-		genRouteBellNE(raEntreeA);
-		genRouteBellNERight(raEntreeA);
-		
-		// Route de Meyrin South
-		genRouteDeMeyrinSouthSE(raEntreeA);
-		genRouteDeMeyrinSouthNW(raEntreeA);
-		
-		// Chemin de Maisonnex
-		genCheminMaisonnexN(raEntreeA);
-		genCheminMaisonnexS(raEntreeA);
-		
-		// C5 N-E (out) and S-W (in)
-		Road rC5NE = genC5NE(raLHC);
-		Road rC5SW = genC5SW(raLHC);
-		
-		// Tunnel inter-site S-E and N-W
-		Road rTunnelSE = genTunnelSE(rC5NE, rC5SW);
-		Road rTunnelNW = genTunnelNW(rTunnelSE, rC5NE, rC5SW);
-		
-		// CrossRoadsPhases:
-		genLightPhases(rD984FSES, rD984FSES2, rD984FSES3, rRouteDeMeyrinNorthNW1, rRouteDeMeyrinNorthNW2, rRouteDeMeyrinNorthNW3, rRoutePauliSouthNELeft, rRoutePauliSouthNERight, rRoutePauliNorthNE);
-		
-		
-		rC5NE.getRoadCells().get(9).getOverlapedCells().add(rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1));
-		rTunnelNW.getRoadCells().get(rTunnelNW.getLength()-1).getOverlapedCells().add(rC5NE.getRoadCells().get(9));
-		
-		rC5NE.getRoadCells().get(7).getOverlapedCells().add(rTunnelSE.getRoadCells().get(1));
-		rTunnelSE.getRoadCells().get(1).getOverlapedCells().add(rC5NE.getRoadCells().get(7));
-		
-		rC5SW.getRoadCells().get(22).getOverlapedCells().add(rTunnelSE.getRoadCells().get(0));
-		rTunnelSE.getRoadCells().get(0).getOverlapedCells().add(rC5SW.getRoadCells().get(22));
-				
-		rC5SW.connectFromiToj(rTunnelSE, 21, 1);
-		rTunnelNW.connectFromiToj(rC5SW, rTunnelNW.getLength()-1, 21);
-		rTunnelNW.connectFromiToj(rC5NE, rTunnelNW.getLength()-2, 10);
-		
 	}
 	public void initCERNArea() {
 		Polygon tmp = new Polygon();
