@@ -73,6 +73,9 @@ public class Network {
 			break;
 		}
 		
+		this.generateAllNetworkRides(50);
+		this.cleanAllNetworkRides(2);
+		
 		titles = new String[2];
 		titles[0] = "CERN network";
 		titles[1] = "Scenario 1";
@@ -225,6 +228,9 @@ public class Network {
 		rD984FSES.addPoint(new Point(4,113));
 		roads.add(rD984FSES);
 		raLHC.connectTo(rD984FSES, raLHC.getLength()-7);
+		
+		rD984FSES.setCounter(0.3, "counter 2A");
+		
 		return rD984FSES;
 	}
 	public Road genD984FSES2(Road rD984FSES) {
@@ -265,6 +271,7 @@ public class Network {
 		} else if (this.n == 1) {
 			raEntreeB.connectTo(rD984FNWS, 2);
 		}
+		rD984FNWS.setCounter(0.702, "coutner 2B");
 		return rD984FNWS;
 	}
 	public MultiLaneRoundAbout genRaEntreeB(Road rD984FSES, Road rD984FSES2, Road rD984FSES3) {
@@ -479,6 +486,8 @@ public class Network {
 		} else if (this.n == 1) {
 			rRoutePauliSouthNERight.connectTo(raEntreeB, 8);
 		}
+		rRoutePauliSouthNERight.setGenerateVehicules(50);
+		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		return rRoutePauliSouthNERight;
 	}
 	public Road genRoutePauliSouthNELeft(Road rRoutePauliSouthNERight, MultiLaneRoundAbout raEntreeB) {
@@ -490,6 +499,8 @@ public class Network {
 		} else if (this.n == 1) {
 			rRoutePauliSouthNELeft.connectTo(raEntreeB, 7);
 		}
+		rRoutePauliSouthNELeft.setGenerateVehicules(50);
+		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
 		return rRoutePauliSouthNELeft;
 	}
 	public Road genRoutePauliSouthSW(Road rRoutePauliSouthNELeft, MultiLaneRoundAbout raEntreeB) {
@@ -627,7 +638,45 @@ public class Network {
 		roads.add(rRouteDeMeyrinSouthSE);
 		raEntreeA.connectTo(rRouteDeMeyrinSouthSE, 10);
 	}
-	
+	public void genRouteDeMeyrinSouthNW(MultiLaneRoundAbout raEntreeA) {
+		Road rRouteDeMeyrinSouthNW = new Road(this, 20, "rRouteDeMeyrinSouthNW");
+		rRouteDeMeyrinSouthNW.setDirection(293);
+		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-4,293);
+		roads.add(rRouteDeMeyrinSouthNW);
+		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-4);
+		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
+	}
+	public void genCheminMaisonnexN(MultiLaneRoundAbout raEntreeA) {
+		Road rCheminMaisonnexN = new Road(this, 2, "rCheminMaisonnexN");
+		rCheminMaisonnexN.setStartPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-1);
+		rCheminMaisonnexN.setStartDirection(15);
+		roads.add(rCheminMaisonnexN);
+		raEntreeA.connectTo(rCheminMaisonnexN, raEntreeA.getLanes()[0].getLength()-1);
+	}
+	public void genCheminMaisonnexS(MultiLaneRoundAbout raEntreeA) {
+		Road rCheminMaisonnexS = new Road(this, 2, "rCheminMaisonnexS");
+		rCheminMaisonnexS.setDirection(195);
+		rCheminMaisonnexS.setEndPositionFrom(raEntreeA.getLanes()[0], 0,195);
+		roads.add(rCheminMaisonnexS);
+		rCheminMaisonnexS.connectTo(raEntreeA, 0);
+	}
+	public Road genC5NE(RoundAbout raLHC) {
+		Road rC5NE = new Road(this, 30, "rC5NE");
+		rC5NE.setStartPositionFrom(raLHC, raLHC.getLength()-2);
+		rC5NE.setStartDirection(30);
+		roads.add(rC5NE);
+		raLHC.connectTo(rC5NE, raLHC.getLength()-2);
+		return rC5NE;
+	}
+	public Road genC5SW(RoundAbout raLHC) {
+		Road rC5SW = new Road(this, 30, "rC5SW");
+		rC5SW.setDirection(210);
+		rC5SW.setEndPositionFrom(raLHC, raLHC.getLength()-1,293);
+		roads.add(rC5SW);
+		rC5SW.connectTo(raLHC, raLHC.getLength()-1);
+		rC5SW.setGenerateVehicules(50);
+		return rC5SW;
+	}
 	public void createScenarioRAEntranceB() {
 		
 		// Porte de France
@@ -691,16 +740,16 @@ public class Network {
 		// CrossRoad middle roads E -> W:
 
 		Road rEW1 = genEW1(rRouteDeMeyrinNorthNW3, null);
-		Road rEW2 = genEW2(rRouteDeMeyrinNorthNW2, null, rEW1);
+		genEW2(rRouteDeMeyrinNorthNW2, null, rEW1);
 		
 		// Route Pauli North 
 		Road rRoutePauliNorthNE = genRoutePauliNorthNE(rEW1, raEntreeB);
-		Road rRoutePauliNorthSW = genRoutePauliNorthSW(rRoutePauliNorthNE);
+		genRoutePauliNorthSW(rRoutePauliNorthNE);
 		
 		// Route Pauli South 
 		Road rRoutePauliSouthNERight = genRoutePauliSouthNERight(rWE2, raEntreeB);
 		Road rRoutePauliSouthNELeft = genRoutePauliSouthNELeft(rRoutePauliSouthNERight, raEntreeB);
-		Road rRoutePauliSouthSW = genRoutePauliSouthSW(rRoutePauliSouthNELeft, raEntreeB);
+		genRoutePauliSouthSW(rRoutePauliSouthNELeft, raEntreeB);
 		
 		// Bell
 		genRouteBellSW(raEntreeA);
@@ -709,40 +758,15 @@ public class Network {
 		
 		// Route de Meyrin South
 		genRouteDeMeyrinSouthSE(raEntreeA);
+		genRouteDeMeyrinSouthNW(raEntreeA);
 		
-		Road rRouteDeMeyrinSouthNW = new Road(this, 20, "rRouteDeMeyrinSouthNW");
-		rRouteDeMeyrinSouthNW.setDirection(293);
-		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-4,293);
-		roads.add(rRouteDeMeyrinSouthNW);
-		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-4);
+		// Chemin de Maisonnex
+		genCheminMaisonnexN(raEntreeA);
+		genCheminMaisonnexS(raEntreeA);
 		
-		// Chemin de Maisonnex ----------------------------------------------------------------------------------------
-		Road rCheminMaisonnexN = new Road(this, 2, "rCheminMaisonnexN");
-		rCheminMaisonnexN.setStartPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-1);
-		rCheminMaisonnexN.setStartDirection(15);
-		roads.add(rCheminMaisonnexN);
-		raEntreeA.connectTo(rCheminMaisonnexN, raEntreeA.getLanes()[0].getLength()-1);
-		
-		Road rCheminMaisonnexS = new Road(this, 2, "rCheminMaisonnexS");
-		rCheminMaisonnexS.setDirection(195);
-		rCheminMaisonnexS.setEndPositionFrom(raEntreeA.getLanes()[0], 0,195);
-		roads.add(rCheminMaisonnexS);
-		rCheminMaisonnexS.connectTo(raEntreeA, 0);
-		
-		// C5 ---------------------------------------------------------------------------------------------------------
-		// N-E (out)
-		Road rC5NE = new Road(this, 30, "rC5NE");
-		rC5NE.setStartPositionFrom(raLHC, raLHC.getLength()-2);
-		rC5NE.setStartDirection(30);
-		roads.add(rC5NE);
-		raLHC.connectTo(rC5NE, raLHC.getLength()-2);
-		
-		// S-W (in)
-		Road rC5SW = new Road(this, 30, "rC5SW");
-		rC5SW.setDirection(210);
-		rC5SW.setEndPositionFrom(raLHC, raLHC.getLength()-1,293);
-		roads.add(rC5SW);
-		rC5SW.connectTo(raLHC, raLHC.getLength()-1);
+		// C5 N-E (out) and S-W (in)
+		Road rC5NE = genC5NE(raLHC);
+		genC5SW(raLHC);
 		
 		// Tunnel inter-site ------------------------------------------------------------------------------------------
 		// S-E
@@ -771,31 +795,12 @@ public class Network {
 		rC5NE.addEnter("rTunnelNW", 13);
 		rTunnelNW.setUnderground(17, 20, true);
 		
-		// Network settings =================================================================================
-		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
-		rC5SW.setGenerateVehicules(50);
 		rTunnelNW.setGenerateVehicules(40);
-		//rRouteBellNE.setGenerateVehicules(50);
-		//rRoutePauliSouthSW.setGenerateVehicules(50);
-		rRoutePauliSouthNELeft.setGenerateVehicules(50);
-		rRoutePauliSouthNERight.setGenerateVehicules(50);
-		//rD984FNWS2.setGenerateVehicules(50);
 		
 		raLHC.setMaxSpeed(1);
 		
-		this.generateAllNetworkRides(50);
-		this.cleanAllNetworkRides(2);
 		
-		//printNames();
 		
-		rD984FSE.setCounter(0.5, "counter 1A");
-		rD984FNW.setCounter(0.49, "counter 1B");
-		
-		rD984FSES.setCounter(0.3, "counter 2A");
-		rD984FNWS.setCounter(0.702, "coutner 2B");
-
-		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
-		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 	}
 	
 	public void createRealNetworkMulti() {
@@ -879,40 +884,15 @@ public class Network {
 		
 		// Route de Meyrin South
 		genRouteDeMeyrinSouthSE(raEntreeA);
+		genRouteDeMeyrinSouthNW(raEntreeA);
 		
-		Road rRouteDeMeyrinSouthNW = new Road(this, 20, "rRouteDeMeyrinSouthNW");
-		rRouteDeMeyrinSouthNW.setDirection(293);
-		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-4,293);
-		roads.add(rRouteDeMeyrinSouthNW);
-		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-4);
+		// Chemin de Maisonnex
+		genCheminMaisonnexN(raEntreeA);
+		genCheminMaisonnexS(raEntreeA);
 		
-		// Chemin de Maisonnex ----------------------------------------------------------------------------------------
-		Road rCheminMaisonnexN = new Road(this, 2, "rCheminMaisonnexN");
-		rCheminMaisonnexN.setStartPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-1);
-		rCheminMaisonnexN.setStartDirection(15);
-		roads.add(rCheminMaisonnexN);
-		raEntreeA.connectTo(rCheminMaisonnexN, raEntreeA.getLanes()[0].getLength()-1);
-		
-		Road rCheminMaisonnexS = new Road(this, 2, "rCheminMaisonnexS");
-		rCheminMaisonnexS.setDirection(195);
-		rCheminMaisonnexS.setEndPositionFrom(raEntreeA.getLanes()[0], 0,195);
-		roads.add(rCheminMaisonnexS);
-		rCheminMaisonnexS.connectTo(raEntreeA, 0);
-		
-		// C5 ---------------------------------------------------------------------------------------------------------
-		// N-E (out)
-		Road rC5NE = new Road(this, 30, "rC5NE");
-		rC5NE.setStartPositionFrom(raLHC, raLHC.getLength()-2);
-		rC5NE.setStartDirection(30);
-		roads.add(rC5NE);
-		raLHC.connectTo(rC5NE, raLHC.getLength()-2);
-		
-		// S-W (in)
-		Road rC5SW = new Road(this, 30, "rC5SW");
-		rC5SW.setDirection(210);
-		rC5SW.setEndPositionFrom(raLHC, raLHC.getLength()-1,293);
-		roads.add(rC5SW);
-		rC5SW.connectTo(raLHC, raLHC.getLength()-1);
+		// C5 N-E (out) and S-W (in)
+		Road rC5NE = genC5NE(raLHC);
+		Road rC5SW = genC5SW(raLHC);
 		
 		// Tunnel inter-site ------------------------------------------------------------------------------------------
 		// S-E
@@ -1019,27 +999,7 @@ public class Network {
 		rTunnelNW.connectFromiToj(rC5SW, rTunnelNW.getLength()-1, 21);
 		rTunnelNW.connectFromiToj(rC5NE, rTunnelNW.getLength()-2, 10);
 		
-		// Network settings =================================================================================
-		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
-		rC5SW.setGenerateVehicules(50);
 		rTunnelNW.setGenerateVehicules(500);
-		//rRouteBellNE.setGenerateVehicules(50);
-		//rRoutePauliSouthSW.setGenerateVehicules(50);
-		rRoutePauliSouthNELeft.setGenerateVehicules(50);
-		rRoutePauliSouthNERight.setGenerateVehicules(50);
-		//rD984FNWS2.setGenerateVehicules(50);
-		
-		//raLHC.setMaxSpeed(1);
-		
-		this.generateAllNetworkRides(50);
-		this.cleanAllNetworkRides(2);
-		
-		rD984FSES.setCounter(0.3, "counter 2A");
-		rD984FNWS.setCounter(0.702, "coutner 2B");
-		
-		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
-		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
-		
 		
 	}
 	public void initCERNArea() {
