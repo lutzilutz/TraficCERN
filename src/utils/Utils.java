@@ -42,7 +42,7 @@ public class Utils {
 		Date date = new Date();
 		
 		Utils.logln("Started at " + dateFormat.format(date) + " =======================================");
-		Utils.logln("Initialization ---------------------------------------------");
+		Utils.logln("Initialization -------------------------------------------------------");
 	}
 	// initialize all data output streams for N simulations (folder /data/XXXXXXXX_XXXXXX_NN.txt
 	public static void initAllData(int numberOfSimulations) {

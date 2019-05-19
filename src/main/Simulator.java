@@ -78,7 +78,7 @@ public class Simulator implements Runnable {
 		State.setState(menuState);
 		
 		// log the end of the initialization
-		Utils.logln("Running ----------------------------------------------------");
+		Utils.logln("Running --------------------------------------------------------------");
 		
 	}
 	private void tick(int n) {
