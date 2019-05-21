@@ -13,16 +13,16 @@ import network.NetworkRendering;
 
 public class VehicleCounter {
 	
-	private Network network;
-	private Road road;
-	private double x=0, y=0;
-	private double flow = 0;
-	private static double flowCoefficient = 1/8.0;
-	private int counter = 0;
-	private boolean hasVehicle = false;
-	private double location;
-	private String name;
+	private Network network; // link to the current network
+	private Road road; // link to the current road
+	private double flow = 0; // flow of the counter
+	private static double flowCoefficient = 1/8.0; // coefficient representing impact of previous flows
+	private int counter = 0; // actual counter
+	private boolean hasVehicle = false; // if the counter has a vehicle on it
+	private double location; // location of counter on the road, 0 is start of the road, 1 is the end
+	private String name; // name of the counter
 	
+	// Constructor
 	public VehicleCounter(Network network, Road road, double location, String name) {
 		this.network = network;
 		this.road = road;
@@ -30,6 +30,7 @@ public class VehicleCounter {
 		this.name = name;
 	}
 
+	// Compute a step of the counter
 	public void computeCounter() {
 		if (vehicleComingToCounter()) {
 			if (!hasVehicle) {
@@ -40,15 +41,21 @@ public class VehicleCounter {
 			hasVehicle = false;
 		}
 	}
+	
+	// True if a vehicle will be on counter at next step
 	public boolean vehicleComingToCounter() {
 		boolean vehicleOnCell = (road.getRoadCells().get((int) (location*road.getLength())).getVehicle() != null);
 		boolean vehicleOnPreviousCellSpeed2 = (road.getRoadCells().get((int) (location*road.getLength() - 1)).getVehicle() != null && road.getRoadCells().get((int) (location*road.getLength() - 1)).getVehicle().getSpeed()==2);
 		return vehicleOnCell || vehicleOnPreviousCellSpeed2;
 	}
+	
+	// Compute the new flow of the counter
 	public void computeFlow() {
 		flow = flowCoefficient * flow + (1-flowCoefficient) * counter;
 		counter = 0;
 	}
+	
+	// Render method
 	public void render(Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-NetworkRendering.bounds.x, -NetworkRendering.bounds.y);
@@ -62,9 +69,9 @@ public class VehicleCounter {
 		int y = (int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getY() - 3*network.getCellWidth()*3*Math.sin(-2*Math.PI*road.getReorientations().get(1).getY()/360.0));
 		
 		Text.drawString(gg, name, Color.yellow, x, y, true, Assets.normalBoldFont);
-		Text.drawString(gg, df.format(getFlow()) + " / min", Color.yellow, x, y+15, true, Assets.normalBoldFont);
-		
+		Text.drawString(gg, df.format(getFlow()) + " / min", Color.yellow, x, y+15, true, Assets.normalBoldFont);	
 	}
+	
 	// Getters & setters ====================================================================================
 	public int getCounter() {
 		return counter;
@@ -77,11 +84,5 @@ public class VehicleCounter {
 	}
 	public void incrementCounter() {
 		counter++;
-	}
-	public double getX() {
-		return x;
-	}
-	public double getY() {
-		return y;
 	}
 }

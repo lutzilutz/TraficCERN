@@ -65,7 +65,7 @@ public class Network {
 		switch (n) {
 		case 0:
 			Utils.logln("(current scenario) ... ");
-			createRealNetworkMulti();
+			createCurrentNetwork();
 			break;
 		case 1:
 			Utils.logln("(scenario RA entrance B) ... ");
@@ -86,7 +86,7 @@ public class Network {
 		descriptions[0] = "Actual network arount the CERN, multi lanes";
 		descriptions[1] = "Entrance B crossroad replaced by round-about";
 	}
-	public void createRealNetworkMulti() {
+	private void createCurrentNetwork() {
 		
 		// Porte de France
 		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
@@ -198,7 +198,7 @@ public class Network {
 		rTunnelNW.connectFromiToj(rC5NE, rTunnelNW.getLength()-2, 10);
 		
 	}
-	public void createScenarioRAEntranceB() {
+	private void createScenarioRAEntranceB() {
 		
 		// Porte de France
 		MultiLaneRoundAbout raPorteDeFrance = genPorteDeFrance();
@@ -995,7 +995,7 @@ public class Network {
 		rRouteDeMeyrinNorthNW1.setTrafficLightRed(true);
 		crEntreeBTLS.initializePhases();
 	}
-	public void initCERNArea() {
+	private void initCERNArea() {
 		Polygon tmp = new Polygon();
 		tmp.npoints = 4;
 		tmp.xpoints[0] = 13*cellWidth;

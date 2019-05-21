@@ -49,6 +49,7 @@ public class Assets {
 	public static ArrayList<String> inputDataEntrance;
 	public static ArrayList<String> inputDataExit;
 	
+	// Initialize all assets (load from files into matrices and images)
 	public static void init() {
 		
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/resources/img/buttons_spritesheet.png"));

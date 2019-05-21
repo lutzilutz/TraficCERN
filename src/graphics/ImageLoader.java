@@ -7,9 +7,9 @@ import javax.imageio.ImageIO;
 
 import utils.Utils;
 
-
 public class ImageLoader {
 
+	// Load image from "path" to a BufferedImage object
 	public static BufferedImage loadImage(String path) {
 		
 		// log the loading of the image

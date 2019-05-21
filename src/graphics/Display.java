@@ -12,6 +12,7 @@ public class Display {
 	private String title; // title of the window
 	private int width, height; // size of the window in pixels
 	
+	// Constructor
 	public Display(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
@@ -20,6 +21,7 @@ public class Display {
 		createDisplay();
 	}
 	
+	// Initialize the display
 	private void createDisplay() {
 		
 		// initialize the JFrame object

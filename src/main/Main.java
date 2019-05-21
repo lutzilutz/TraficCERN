@@ -7,6 +7,7 @@ import utils.Utils;
 
 public class Main {
 
+	// Main method being the first one to be called
 	public static void main(String[] args) {
 		
 		// instantiate the Simulator object (the software in itself)

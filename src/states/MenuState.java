@@ -153,7 +153,7 @@ public class MenuState extends State {
 		simulator.getSimState().setNumberOfSimulations(nOfSimulations.getCurrentValue());
 		
 		// apply the input data to the simulation
-		DataManager.applyDataProba(simulator);
+		DataManager.applyData(simulator);
 		
 		// enable UIManager for the next state, switch state
 		simulator.getSimSettingsState().enableUIManager();

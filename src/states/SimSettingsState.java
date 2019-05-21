@@ -86,7 +86,7 @@ public class SimSettingsState extends State {
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				Utils.initAllData(simulator.getSimState().getNumberOfSimulations());
-				DataManager.applyDataProba(simulator);
+				DataManager.applyData(simulator);
 				simulator.getSimState().enableUIManager();
 				State.setState(simulator.getSimState());
 			}

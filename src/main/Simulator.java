@@ -41,6 +41,7 @@ public class Simulator implements Runnable {
 	private SimSettingsState simSettingsState; // state of the program when it's on the settings menu
 	private SimState simState; // state of the program when it runs simulations
 	
+	// Constructor
 	public Simulator(String title, int width, int height) {
 		this.title = title;
 		this.width = width;
@@ -54,6 +55,7 @@ public class Simulator implements Runnable {
 		this.keyManager = new KeyManager();
 	}
 	
+	// Initialize the windows, the states, and the user interface managers
 	private void init() {
 		
 		// init the log output and all the assets
@@ -81,6 +83,8 @@ public class Simulator implements Runnable {
 		Utils.logln("Running --------------------------------------------------------------");
 		
 	}
+	
+	// Tick method, ticks 1 time no matter the value of "n"
 	private void tick(int n) {
 		
 		// tick the current state it it exists
@@ -92,6 +96,8 @@ public class Simulator implements Runnable {
 		keyManager.tick();
 		
 	}
+	
+	// Render method, create the environment and render the actual state if exists
 	private void render() {
 		
 		// prepare the buffer strategy with value 3 (see official documentation)
@@ -120,6 +126,8 @@ public class Simulator implements Runnable {
 		g.dispose();
 		
 	}
+	
+	// Run method, called when the thread start()
 	@Override
 	public void run() {
 		
@@ -163,6 +171,8 @@ public class Simulator implements Runnable {
 		// stop the program
 		stop();
 	}
+	
+	// Start method, first one to be called for the current thread
 	public synchronized void start() {
 		
 		// if already running, exit method
@@ -175,6 +185,8 @@ public class Simulator implements Runnable {
 		thread = new Thread(this);
 		thread.start();
 	}
+	
+	// Stop method, stop the current thread
 	public synchronized void stop() {
 		
 		// thread has already been stopped

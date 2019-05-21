@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import utils.Utils;
 
 public class ExpVarCalculator { 
-	private ArrayList<Long> values;
-	private ArrayList<Long> valuesSquared;
-	private ArrayList<Integer> tempValues;
-	private int n = 0;
+	private ArrayList<Long> values; // list of values to be computed
+	private ArrayList<Long> valuesSquared; // list of values*values to be computed
+	private ArrayList<Integer> tempValues; // temporary values before being added to "values" and "valuesSquared"
+	private int n = 0; //
 	private int size;
 	
+	// Constructor
 	public ExpVarCalculator(int n) {
 		size = n;
 		values = new ArrayList<Long>();
@@ -22,6 +23,7 @@ public class ExpVarCalculator {
 		}
 	}
 	
+	// Custom println() method
 	public void println() {
 		for(long xi : values) {
 			System.out.print(xi + "\t");
@@ -32,17 +34,23 @@ public class ExpVarCalculator {
 		}
 		System.out.println("");
 	}
-	public void addTemp(Integer i) {
+	
+	// Add values "tempValue" to "tempValues"
+	public void addTemp(Integer tempValue) {
 		if (tempValues.size() < this.size) {
-			tempValues.add(i);
+			tempValues.add(tempValue);
 		} else {
 			Utils.logErrorln("Can't add another number to EVC (size mismatch in addTemp), expected " + size + ", got " + tempValues.size());
 		}
 	}
+	
+	// Save the actual temporary values
 	public void saveTemp() {
 		add(tempValues);
 		tempValues = new ArrayList<Integer>();
 	}
+	
+	// Add the temporary values to the "values" and "valuesSquared"
 	private void add(ArrayList<Integer> A) {
 		if (A.size() == this.size) {
 			n++;
@@ -55,6 +63,8 @@ public class ExpVarCalculator {
 			Utils.logErrorln("Wrong size in EVC (expected " + size + ", got " + A.size() + ")");
 		}
 	}
+	
+	// Return expected value of "values"
 	public ArrayList<Float> getEsperance() {
 		ArrayList<Float> esp = new ArrayList<Float>();
 		for (int i=0; i<size; ++i) {
@@ -63,6 +73,7 @@ public class ExpVarCalculator {
 		return esp;
 	}
 	
+	// Return variance of "values"
 	public ArrayList<Float> getVariance() {
 		ArrayList<Float> var = new ArrayList<Float>();
 		for (int i=0; i<size; ++i) {
@@ -71,6 +82,7 @@ public class ExpVarCalculator {
 		return var;
 	}
 	
+	// Return standard deviation of "values"
 	public ArrayList<Float> getEcartType() {
 		ArrayList<Float> var = getVariance();
 		ArrayList<Float> ecartType = new ArrayList<Float>();

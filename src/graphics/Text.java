@@ -7,6 +7,7 @@ import java.awt.Graphics;
 
 public class Text {
 	
+	// Render method to draw the string
 	public static void drawString(Graphics g, String text, Color c, int xPos, int yPos, boolean center, Font font) {
 		
 		// set color and font to use

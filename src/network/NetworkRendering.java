@@ -27,8 +27,8 @@ public class NetworkRendering {
 	public static Rectangle bounds = new Rectangle(0,0,300,300);
 	public static ArrayList<Polygon> zone = new ArrayList<Polygon>();
 	
-	// One-time operations ##########################################################################################################################
-	// ##############################################################################################################################################
+	// One-time operations ##################################################################################
+	// ######################################################################################################
 	
 	// Render (compute) all background images
 	public static BufferedImage[] renderAllBGs(Network n, BufferedImage[] backgrounds) {
@@ -321,8 +321,8 @@ public class NetworkRendering {
 		g.fillRect(Assets.buttonXStart+Assets.buttonW*6+Assets.buttonSpacing*5-1, n.getSimulation().getHeight()-Assets.buttonH-20-15, 2, 12);
 	}
 	
-	// Every-frame operations #######################################################################################################################
-	// ##############################################################################################################################################
+	// Every-frame operations ###############################################################################
+	// ######################################################################################################
 		
 	public static void render(Network network, Graphics g) {
 		renderVehicles(network, g);

@@ -7,13 +7,15 @@ import elements.Ride;
 
 public class AllNetworkRides {
 
-	private String roadName;
-	private ArrayList<Ride> networkRides = new ArrayList<Ride>();
+	private String roadName; // name of the starting road for all the rides
+	private ArrayList<Ride> networkRides = new ArrayList<Ride>(); // list of rides starting at "roadName"
 	
+	// Constructor
 	public AllNetworkRides(String name) {
 		this.roadName = name;
 	}
 	
+	// Custom print method
 	public void print() {
 		System.out.println("Initial road: " + this.roadName);
 		for (Ride ride: networkRides) {
@@ -21,11 +23,12 @@ public class AllNetworkRides {
 			for (Connection e: ride.getNextConnections()) {
 				System.out.print(" => ");
 				e.print();
-				
 			}
 			System.out.println("");
 		}
 	}
+	
+	// Add the "r" ride to the list of rides
 	public void addRide(Ride r) {
 		networkRides.add(r);
 	}

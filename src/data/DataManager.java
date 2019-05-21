@@ -15,73 +15,92 @@ import utils.Utils;
 
 public class DataManager {
 
-	//private static int numberOfSameRide = 0;
-
-	public static double[][][] probas = new double[24][9][9];
-	public static double[][] inputMatrixEntrance = new double[24][9];
-	public static double[][] inputMatrixExit = new double[24][9];
+	public static double[][][] probas = new double[24][9][9]; // for each hour, probability to generate vehicle from an entrance to an exit
+	public static double[][] inputMatrixEntrance = new double[24][9]; // for each hour, quantity of vehicles to generate at an entrance
+	public static double[][] inputMatrixExit = new double[24][9]; // for each hour, quantity of vehicles that should exit at an exit
 	
-	public static int[][] flowPerExit = new int[24][18];
+	public static int[][] flowPerExit = new int[24][18]; // for each hour, ...
 	
-	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>();
-	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>();
-	public static double meanTime = 0;
+	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>(); // list of all individual ride time, for transit only
+	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>(); // list of all individual ride time, for CERN employees only
+	public static double meanTime = 0; // expected value on the ride time
 
+	// Initialize the probability matrix with the input matrices (entrance and exit)
 	public static void initProbas() {
 		
+		// Saving input data for entrances ------------------------------------------------------------------
+		// for every hour of the day
 		for (int i=0; i<24; i++) {
+			// split the string with spaces
 			String[] line = Assets.inputDataEntrance.get(i).split("\\s+");
+			// length should be 9
 			if (line.length == 9) {
+				// for every part of the string
 				for (int j=0; j<line.length; j++) {
+					// try to parse the string to an integer
 					int tmpValue = Utils.parseInt(line[j]);
+					// the integer should be positive or null
 					if (tmpValue >= 0) {
+						// save the value inside matrix
 						inputMatrixEntrance[i][j] = tmpValue;
-					} else {
+					} else { // else, negative value !
 						Utils.logWarningln("Negative value in inputData_entrance.txt at line " + i + " col " + j);
 					}
 				}
-			} else {
+			} else { // else, not the right number of elements on the line
 				Utils.logWarningln("Line of size not 9 in inputData_entrance.txt at line " + i);
 			}
 		}
+		
+		// Saving input data for exits ----------------------------------------------------------------------
+		// for every hour of the day
 		for (int i=0; i<24; i++) {
+			// split the string with spaces
 			String[] line = Assets.inputDataExit.get(i).split("\\s+");
+			// length should be 9
 			if (line.length == 9) {
+				// for every part of the string
 				for (int j=0; j<line.length; j++) {
+					// try to parse the string to an integer
 					int tmpValue = Utils.parseInt(line[j]);
+					// the integer should be positive or null
 					if (tmpValue >= 0) {
+						// save the value inside matrix
 						inputMatrixExit[i][j] = tmpValue;
-					} else {
+					} else { // else, negative value !
 						Utils.logWarningln("Negative value in inputData_exit.txt at line " + i + " col " + j);
 					}
 				}
-			} else {
+			} else { // else, not the right number of elements on the line
 				Utils.logWarningln("Line of size not 9 in inputData_exit.txt at line " + i);
 			}
 		}
 		
+		// loop on all i,j elements of the matrix
 		for (int i=0; i<inputMatrixExit.length; ++i) {
 			for (int j=0; j<inputMatrixExit[i].length; ++j) {
+				// if value is 0, then switch to 1 to avoid errors
 				if (inputMatrixExit[i][j]==0) {
 					inputMatrixExit[i][j]=1;
-				} else {
+				} else { // else, magnify the value by a million
 					inputMatrixExit[i][j] *= 1000000;
 				}
 			}
 		}
-
+		
+		// loop on all i,j elements of the matrix
 		for (int i=0; i<inputMatrixEntrance.length; ++i) {
 			for (int j=0; j<inputMatrixEntrance[i].length; ++j) {
+				// if value is 0, then switch to 1 to avoid errors
 				if (inputMatrixEntrance[i][j]==0) {
 					inputMatrixEntrance[i][j]=1;
-				} else {
+				} else { // else, magnify the value by a million
 					inputMatrixEntrance[i][j] *= 1000000;
 				}
 			}
 		}
 
-
-		boolean[][] liensMN =
+		boolean[][] liensMN = // matrix describing if vehicles can go from an entrance to an exit
 			{		//	G 		H		I		J		K		D2		L1		L3		L4
 					{	false,	true,	true,	true,	true,	false,	true,	true,	true	},	// A
 					{	true, 	false, 	true,	true,	true,	false,	true, 	true,	true	},	// B
@@ -94,18 +113,23 @@ public class DataManager {
 					{	true, 	true,	true,	false,	true,	false,	false,	false,	false	}	// F
 			};
 
+		// initialize the OriginDestinationCalculator
 		OriginDestinationCalculator odc = new OriginDestinationCalculator(inputMatrixEntrance, inputMatrixExit, liensMN);
 
+		// compute the probabilities
 		odc.computation();
+		// loop on all elements of the calculator
 		for (int in=0; in<odc.getProbas().length; ++in) {
 			for (int out=0; out<odc.getProbas()[in].length; ++out) {
 				for (int k=0; k<odc.getProbas()[in][out].length; ++k) {
+					// save probability inside the calculator
 					probas[k][out][in]=odc.getProbas()[in][out][k];
 				}
 			}
 		}
 	}
 
+	// Initialize the flow per exit with the input matrices
 	public static void initFlowPerExit() {
 		
 		for (int i=0; i<inputMatrixEntrance[0].length+inputMatrixExit[0].length; ++i) {
@@ -119,10 +143,6 @@ public class DataManager {
 		}
 	}
 
-	// ============================================================================================
-	// Time spent on network ======================================================================
-	// ============================================================================================
-
 	// Is roadName the last road of the ride r ?
 	public static boolean lastRoadIs(Ride r, String roadName) {
 		if (r.getNextConnections().size()>0) {
@@ -135,13 +155,15 @@ public class DataManager {
 			return false;
 		}
 	}
-	public static void applyDataProba(Simulator simulator) {
+	
+	// Apply data to the simulator (rides, roads)
+	public static void applyData(Simulator simulator) {
 
 		Utils.logInfo("Applying data (proba) to Network ... ");
 		initProbas();
 		initFlowPerExit();
-		applyDataToRidesProba(simulator);
-		applyDataToRoadsProba(simulator);
+		applyDataToRides(simulator);
+		applyDataToRoads(simulator);
 		for (Road road: simulator.getSimState().getNetwork().getRoads()) {
 			if (road.getName().equals("rSortieCERNSE") || road.getName().equals("rD884CERN") || road.getName().equals("rRoutePauliSouthSW") || road.getName().equals("rRouteBellSW")) {
 				road.setMaxOutflow(simulator.getSimSettingsState().timePerVhcEntrance().getCurrentValue());
@@ -153,7 +175,9 @@ public class DataManager {
 		
 		Utils.logln("done");
 	}
-	public static void applyDataToRidesProba(Simulator simulator) {
+	
+	// Apply the data to the rides
+	public static void applyDataToRides(Simulator simulator) {
 
 		Network n = simulator.getSimState().getNetwork();
 
@@ -175,13 +199,13 @@ public class DataManager {
 			else if (lastRoadIs(r, "rD884CERN")) {saveFlowIntoRide(r, 0, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 0, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 0, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 0, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 0, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 0, 8);}
 
 			else {r.setFlow(0);}
@@ -199,13 +223,13 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 1, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 1, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 1, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 1, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 1, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 1, 8);}
 
 			else {r.setFlow(0);}
@@ -223,13 +247,13 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 2, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 2, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 2, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 2, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 2, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 2, 8);}
 
 			else {r.setFlow(0);}
@@ -246,13 +270,13 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 3, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 3, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 3, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 3, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 3, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 3, 8);}
 
 			else {r.setFlow(0);}
@@ -269,13 +293,13 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 4, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 4, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 4, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 4, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 4, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 4, 8);}
 
 			else {r.setFlow(0);}
@@ -292,23 +316,23 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 5, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 5, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 5, 5);}
 
 			else {r.setFlow(0);}
 		}
 		// From E1 (right) ==================================================================================
 		for (Ride r: n.getAllRides("rRoutePauliSouthNERight").getNetworkRides()) {
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 5, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 5, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 5, 8);}
 
 			else {r.setFlow(0);}
 		}
-		// From E3 ===========================================================================================
+		// From E3 ==========================================================================================
 		for (Ride r: n.getAllRides("rRouteDeMeyrinSouthNW").getNetworkRides()) {
 			// To G -----------------------------------------------------------------------------------------
 			if (lastRoadIs(r, "rD884SW")) {saveFlowIntoRide(r, 6, 0);}
@@ -320,18 +344,18 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 6, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 6, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 6, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 6, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 6, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 6, 8);}
 
 			else {r.setFlow(0);}
 		}
-		// From E4 ===========================================================================================
+		// From E4 ==========================================================================================
 		for (Ride r: n.getAllRides("rRouteBellNE").getNetworkRides()) {
 			// To G -----------------------------------------------------------------------------------------
 			if (lastRoadIs(r, "rD884SW")) {saveFlowIntoRide(r, 7, 0);}
@@ -343,13 +367,13 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 7, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 7, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 7, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 7, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 7, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 7, 8);}
 
 			else {r.setFlow(0);}
@@ -366,26 +390,29 @@ public class DataManager {
 			else if (lastRoadIs(r, "rSortieCERNSE")) {saveFlowIntoRide(r, 8, 3);}
 			// To K -----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rC5NE")) {saveFlowIntoRide(r, 8, 4);}
-			// To K2 -----------------------------------------------------------------------------------------
+			// To K2 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rTunnelSE")) {saveFlowIntoRide(r, 8, 5);}
-			// To L1 -----------------------------------------------------------------------------------------
+			// To L1 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRoutePauliSouthSW")) {saveFlowIntoRide(r, 8, 6);}
-			// To L3 -----------------------------------------------------------------------------------------
+			// To L3 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteDeMeyrinSouthSE")) {saveFlowIntoRide(r, 8, 7);}
-			// To L4 -----------------------------------------------------------------------------------------
+			// To L4 ----------------------------------------------------------------------------------------
 			else if (lastRoadIs(r, "rRouteBellSW")) {saveFlowIntoRide(r, 8, 8);}
 
 			else {r.setFlow(0);}
 		}
 
 	}
-	// in : entering road index in probas ; out : exiting road index in probas
+	
+	// Apply the flow into rides (in : entering road index in probas ; out : exiting road index in probas)
 	public static void saveFlowIntoRide(Ride r, int in, int out) {
 		for (int i=0; i<24; i++) {
 			
 			r.setFlow(i, i+1, (float) (Defaults.getGlobalFlowMultiplier()*probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
 		}
 	}
+	
+	// Apply the flow into roads with the input matrix
 	public static void saveFlowIntoRoad(Road road, int index, int specialCase) {
 		for (int i=0; i<24; i++) {
 			
@@ -405,7 +432,9 @@ public class DataManager {
 			}
 		}
 	}
-	public static void applyDataToRoadsProba(Simulator simulator) {
+	
+	// Apply the data to the roads
+	public static void applyDataToRoads(Simulator simulator) {
 
 		Network n = simulator.getSimState().getNetwork();
 		for (Road road: n.getRoads()) {
@@ -439,6 +468,8 @@ public class DataManager {
 			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
 		}
 	}
+	
+	// Return the number of rides going from "start" to "end" roads
 	public static int numberOfSameRides(Simulator sim, String start, String end) {
 		Network n = sim.getSimState().getNetwork();
 		int count = 1;
