@@ -21,7 +21,6 @@ public class SimSettingsState extends State {
 	private UIManager uiManager;
 	private Network network;
 	
-	private int xStart = 320, yStart = 150; // x and y position of top left corner of buttons
 	private int buttonYMargin = 5; // vertical margin between buttons
 	private int buttonXMargin = 15; // horizontal margin between buttons
 	private boolean isLeftPressed = false; // if user have left mouse button pressed
@@ -42,7 +41,7 @@ public class SimSettingsState extends State {
 		this.network = simulator.getSimState().getNetwork();
 		
 		// control duration button
-		timePerVhcEntrance = new UISlider(simulator, xStart, yStart+1*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Control duration of 1 vehicle at entrances", 30, Defaults.getControlDuration(), false, new ClickListener(){
+		timePerVhcEntrance = new UISlider(simulator, Assets.menuXStart, Assets.menuYStart+1*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Control duration", 30, Defaults.getControlDuration(), false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -52,7 +51,7 @@ public class SimSettingsState extends State {
 		
 		// Light phases duration ============================================================================
 		
-		crEntreeB_phase1 = new UISliderDouble(simulator, xStart, yStart+3*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 1", 60, Defaults.getLightPhaseDuration()[0], Defaults.getLightPhaseDuration()[1], false, new ClickListener(){
+		crEntreeB_phase1 = new UISliderDouble(simulator, Assets.menuXStart, Assets.menuYStart+3*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 1", 60, Defaults.getLightPhaseDuration()[0], Defaults.getLightPhaseDuration()[1], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -60,7 +59,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(crEntreeB_phase1);
 		
-		crEntreeB_phase2 = new UISliderDouble(simulator, xStart, yStart+4*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 2", 60, Defaults.getLightPhaseDuration()[2], Defaults.getLightPhaseDuration()[3], false, new ClickListener(){
+		crEntreeB_phase2 = new UISliderDouble(simulator, Assets.menuXStart, Assets.menuYStart+4*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 2", 60, Defaults.getLightPhaseDuration()[2], Defaults.getLightPhaseDuration()[3], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -68,7 +67,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(crEntreeB_phase2);
 		
-		crEntreeB_phase3 = new UISliderDouble(simulator, xStart, yStart+5*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 3", 60, Defaults.getLightPhaseDuration()[4], Defaults.getLightPhaseDuration()[5], false, new ClickListener(){
+		crEntreeB_phase3 = new UISliderDouble(simulator, Assets.menuXStart, Assets.menuYStart+5*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 3", 60, Defaults.getLightPhaseDuration()[4], Defaults.getLightPhaseDuration()[5], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -76,7 +75,7 @@ public class SimSettingsState extends State {
 		});
 		this.uiManager.addObject(crEntreeB_phase3);
 		
-		crEntreeB_phase4 = new UISliderDouble(simulator, xStart, yStart+6*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 4", 60, Defaults.getLightPhaseDuration()[6], Defaults.getLightPhaseDuration()[7], false, new ClickListener(){
+		crEntreeB_phase4 = new UISliderDouble(simulator, Assets.menuXStart, Assets.menuYStart+6*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Duration phase 4", 60, Defaults.getLightPhaseDuration()[6], Defaults.getLightPhaseDuration()[7], false, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -135,8 +134,7 @@ public class SimSettingsState extends State {
 		g.setColor(Assets.bgCol);
 		g.fillRect(0, 0, simulator.getWidth(), simulator.getHeight());
 		Text.drawString(g, simulator.getVersionID(), Assets.idleCol, 10, simulator.getHeight()-10, false, Assets.normalFont);
-		Text.drawString(g, "Simulation settings", Assets.idleCol, simulator.getWidth()/2+150, 50, true, Assets.largeFont);
-		Text.drawString(g, "general settings", Assets.idleCol, simulator.getWidth()/2+150, 85, true, Assets.largeFont);
+		Text.drawString(g, "Simulation settings", Assets.idleCol, simulator.getWidth() / 2, 100, true, Assets.largeFont);
 		this.uiManager.render(g);
 		
 		if (loading) {
