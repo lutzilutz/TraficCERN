@@ -28,6 +28,7 @@ public class Vehicle {
 	
 	private int enteringTime = 0;
 	private int exitingTime = 0;
+	private int distance = 0;
 	
 	public Vehicle(Network n) {
 		this.n = n;
@@ -74,18 +75,21 @@ public class Vehicle {
 							|| firstRoad.equals("rRouteBellNELeft")
 							|| firstRoad.equals("rRouteBellNERight")) {
 						DataManager.timeSpentCERN.add(exitingTime-enteringTime);
+						DataManager.distanceTravelledCERN.add(distance);
 					} else if ((firstRoad.equals("rD884NE")
 							|| firstRoad.equals("rRueDeGeneveSE")
 							|| firstRoad.equals("rRueGermaineTillionSW")
 							|| firstRoad.equals("rC5SW"))
 							&& (currentRoadName.equals("rRouteDeMeyrinSouthSE"))) {
 						DataManager.timeSpentTransit.add(exitingTime-enteringTime);
+						DataManager.distanceTravelledTransit.add(distance);
 					} else if ((currentRoadName.equals("rD884SW")
 							|| currentRoadName.equals("rRueDeGeneveNW")
 							|| currentRoadName.equals("rRueGermaineTillionNE")
 							|| currentRoadName.equals("rC5NE"))
 							&& (firstRoad.equals("rRouteDeMeyrinSouthNW"))) {
 						DataManager.timeSpentTransit.add(exitingTime-enteringTime);
+						DataManager.distanceTravelledTransit.add(distance);
 					}
 				} else {
 					// Ride of size 1
@@ -169,6 +173,7 @@ public class Vehicle {
 	}
 	public void goToNextCell() {
 		nextLocation = cell.getNextCell();
+		distance++;
 	}
 	public void goToOutCell( ) {
 		nextLocation = cell.getOutCell();
@@ -177,6 +182,24 @@ public class Vehicle {
 				currentRoadName = ride.get(idCurrentRide).getNextConnections().get(0).getName();
 			}
 		}
+		distance++;
+	}
+	public void goToXthNextCell(int x) {
+		Cell ci = this.getCell();
+		for (int iter=0; iter < x; ++iter) {
+			if (ci.getNextCell() != null) {
+				if (ci.getNextCell().getVehicle() != null || ci.getNextCell().isAnOverlapedCellOccupied() || (ci.isInRoundAbout() && !this.checkInCell(ci.getNextCell()))) {
+					this.setSpeed(iter);
+					break;
+				}
+				ci = ci.getNextCell();
+				distance++;
+			} else {
+				this.setSpeed(iter);
+				break;
+			}
+		}
+		this.setNextPlace(ci);
 	}
 	public void accelerate() {
 		++speed;
@@ -198,22 +221,6 @@ public class Vehicle {
 		if (!this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
 			this.getRide().get(idCurrentRide).getNextConnections().remove(0);
 		}
-	}
-	public void goToXthNextCell(int x) {
-		Cell ci = this.getCell();
-		for (int iter=0; iter < x; ++iter) {
-			if (ci.getNextCell() != null) {
-				if (ci.getNextCell().getVehicle() != null || ci.getNextCell().isAnOverlapedCellOccupied() || (ci.isInRoundAbout() && !this.checkInCell(ci.getNextCell()))) {
-					this.setSpeed(iter);
-					break;
-				}
-				ci = ci.getNextCell();
-			} else {
-				this.setSpeed(iter);
-				break;
-			}
-		}
-		this.setNextPlace(ci);
 	}
 	public int distanceFromNextConnection() {
 		int i = -1;
@@ -298,6 +305,9 @@ public class Vehicle {
 	}
 	
 	// Getters & setters ====================================================================================
+	public int getDistance() {
+		return this.distance;
+	}
 	public boolean isDestination(String destination) {
 		return this.getRide().get(this.getIdCurrentRide()).getNextConnections().get(this.getRide().get(this.getIdCurrentRide()).getNextConnections().size()-1).getName().equals(destination);
 	}

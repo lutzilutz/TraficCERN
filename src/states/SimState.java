@@ -75,6 +75,8 @@ public class SimState extends State {
 	// ExpVarCalculator for all mean times
 	private ExpVarCalculator meanTimeSpentEVC_transit;
 	private ExpVarCalculator meanTimeSpentEVC_cern;
+	private ExpVarCalculator distanceTravelledEVC_transit;
+	private ExpVarCalculator distanceTravelledEVC_cern;
 	
 	// ExpVarCalculator for all counters
 	private ExpVarCalculator counter1AEVC;
@@ -122,6 +124,8 @@ public class SimState extends State {
 		leakyBucketsEVC_rRoutePauliSouthNERight = new ExpVarCalculator(24*4-1);
 		meanTimeSpentEVC_transit = new ExpVarCalculator(24);
 		meanTimeSpentEVC_cern = new ExpVarCalculator(24);
+		distanceTravelledEVC_transit = new ExpVarCalculator(24);
+		distanceTravelledEVC_cern = new ExpVarCalculator(24);
 		counter1AEVC = new ExpVarCalculator(24*60-1);
 		counter1BEVC = new ExpVarCalculator(24*60-1);
 		counter2AEVC = new ExpVarCalculator(24*60-1);
@@ -612,6 +616,12 @@ public class SimState extends State {
 	}
 	public ExpVarCalculator getMeanTimeSpentCERN() {
 		return this.meanTimeSpentEVC_cern;
+	}
+	public ExpVarCalculator getDistanceTravelledTransit() {
+		return this.distanceTravelledEVC_transit;
+	}
+	public ExpVarCalculator getDistanceTravelledCERN() {
+		return this.distanceTravelledEVC_cern;
 	}
 	public ExpVarCalculator getCounter1A() {
 		return this.counter1AEVC;

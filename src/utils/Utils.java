@@ -88,6 +88,7 @@ public class Utils {
 			Utils.log(e);
 		}
 		dataMeanTimeSpent_transit.print("Checking mean time spent on network in seconds (per hour)\n");
+		dataMeanTimeSpent_transit.print("mean-time mean | mean-time standard dev | distance mean | distance standard dev\n");
 		
 		try {
 			dataMeanTimeSpent_cern = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_cern.txt", false));
@@ -96,6 +97,7 @@ public class Utils {
 			Utils.log(e);
 		}
 		dataMeanTimeSpent_cern.print("Checking mean time spent on network in seconds (per hour)\n");
+		dataMeanTimeSpent_transit.print("mean-time mean | mean-time standard dev | distance mean | distance standard dev\n");
 	}
 	public static void logErrorln(String text) {
 		logln("  ERROR    : " + text);

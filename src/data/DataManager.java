@@ -25,6 +25,9 @@ public class DataManager {
 	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>(); // list of all individual ride time, for transit only
 	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>(); // list of all individual ride time, for CERN employees only
 	public static double meanTime = 0; // expected value on the ride time
+	
+	public static ArrayList<Integer> distanceTravelledTransit = new ArrayList<Integer>();
+	public static ArrayList<Integer> distanceTravelledCERN = new ArrayList<Integer>();
 
 	// Initialize the probability matrix with the input matrices (entrance and exit)
 	public static void initProbas() {

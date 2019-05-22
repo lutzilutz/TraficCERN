@@ -140,6 +140,7 @@ public class NetworkComputing {
 		while (iter.hasNext()) {
 			Vehicle vec = iter.next();
 			if (vec.hasToLeave()) {
+				
 				iter.remove();
 				n.increaseNumberOfVehicles(-1);
 			}
@@ -296,9 +297,7 @@ public class NetworkComputing {
 		}
 		
 		for (MaxVehicleOutflow maxVhcOutflow: n.getMaxVehicleOutflows()) {
-			
 			maxVhcOutflow.tick();
-			
 		}
 		
 		for (CrossRoad cr: n.getCrossRoads()) {
@@ -530,9 +529,13 @@ public class NetworkComputing {
 		
 		for (int i=0 ; i<24 ; i++) {
 			Utils.writeDataMeanTimeSpentAllTransit(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentTransit().getEsperance().get(i)) + " ");
-			Utils.writeDataMeanTimeSpentAllTransit(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentTransit().getEcartType().get(i)) + "\n");
+			Utils.writeDataMeanTimeSpentAllTransit(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentTransit().getEcartType().get(i)) + " ");
+			Utils.writeDataMeanTimeSpentAllTransit(Float.toString(n.getSimulation().getSimState().getDistanceTravelledTransit().getEsperance().get(i)) + " ");
+			Utils.writeDataMeanTimeSpentAllTransit(Float.toString(n.getSimulation().getSimState().getDistanceTravelledTransit().getEcartType().get(i)) + "\n");
 			Utils.writeDataMeanTimeSpentAllCERN(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentCERN().getEsperance().get(i)) + " ");
-			Utils.writeDataMeanTimeSpentAllCERN(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentCERN().getEcartType().get(i)) + "\n");
+			Utils.writeDataMeanTimeSpentAllCERN(Float.toString(n.getSimulation().getSimState().getMeanTimeSpentCERN().getEcartType().get(i)) + " ");
+			Utils.writeDataMeanTimeSpentAllCERN(Float.toString(n.getSimulation().getSimState().getDistanceTravelledCERN().getEsperance().get(i)) + " ");
+			Utils.writeDataMeanTimeSpentAllCERN(Float.toString(n.getSimulation().getSimState().getDistanceTravelledCERN().getEcartType().get(i)) + "\n");
 		}
 		
 		Utils.saveDataMeanTimeSpentAll();
@@ -578,6 +581,8 @@ public class NetworkComputing {
 		
 		n.getSimulation().getSimState().getMeanTimeSpentTransit().saveTemp();
 		n.getSimulation().getSimState().getMeanTimeSpentCERN().saveTemp();
+		n.getSimulation().getSimState().getDistanceTravelledTransit().saveTemp();
+		n.getSimulation().getSimState().getDistanceTravelledCERN().saveTemp();
 		
 		n.getSimulation().getSimState().getCounter1A().saveTemp();
 		n.getSimulation().getSimState().getCounter1B().saveTemp();
@@ -608,6 +613,21 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getMeanTimeSpentCERN().addTemp((int) meanTimeLastHourCERN);
 		DataManager.timeSpentCERN = new ArrayList<Integer>();
 		
+		double distanceLastHourTransit = 0;
+		for (Integer i: DataManager.distanceTravelledTransit) {
+			distanceLastHourTransit += i;
+		}
+		distanceLastHourTransit = distanceLastHourTransit / (double) (DataManager.distanceTravelledTransit.size());
+		n.getSimulation().getSimState().getDistanceTravelledTransit().addTemp((int) distanceLastHourTransit);
+		DataManager.distanceTravelledTransit = new ArrayList<Integer>();
+		
+		double distanceLastHourCERN = 0;
+		for (Integer i: DataManager.distanceTravelledCERN) {
+			distanceLastHourCERN += i;
+		}
+		distanceLastHourCERN = distanceLastHourCERN / (double) (DataManager.distanceTravelledCERN.size());
+		n.getSimulation().getSimState().getDistanceTravelledCERN().addTemp((int) distanceLastHourCERN);
+		DataManager.distanceTravelledCERN = new ArrayList<Integer>();
 	}
 	// Write data every 15 minutes into output
 	public static void writeData15Minutes(Network n) {
