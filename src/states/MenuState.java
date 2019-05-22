@@ -1,4 +1,5 @@
 package states;
+import java.awt.Color;
 import java.awt.Graphics;
 
 import data.DataManager;
@@ -16,6 +17,7 @@ import utils.Defaults;
 public class MenuState extends State {
 	
 	private UIManager uiManager;
+	private Network network;
 	
 	private int xStart = 180, yStart = 200; // x and y position of top left corner of buttons
 	private int buttonYMargin = 20; // margin between buttons
@@ -26,9 +28,12 @@ public class MenuState extends State {
 	private UISlider sizeOfNetwork, globalMultiplier, nOfSimulations, repartition_E_tunnel;
 	private UITextSwitch minMaxTransfer;
 	
+	private boolean loading = false;
+	
 	public MenuState(Simulator simulator) {
 		super(simulator);
 		this.uiManager = new UIManager(simulator); // initialize the user interface manager
+		this.network = simulator.getSimState().getNetwork();
 		
 		// Network selection buttons ========================================================================
 		
@@ -142,9 +147,20 @@ public class MenuState extends State {
 		
 		// render the UIManager with the current graphical element
 		this.uiManager.render(g);
+		
+		if (loading) {
+			g.setColor(Assets.bgAlphaCol);
+			g.fillRect(0, 0, 1000, 700);
+			g.setColor(Color.white);
+			Text.drawString(g, "Please wait, processing ...", Color.white, network.getSimulation().getWidth()/2, network.getSimulation().getHeight()/2, true, Assets.largeFont);
+		}
 	}
 	// launch the simulation #nSimulation, with the number of simulations to compute together
 	public void launchSimulation(int scenarioID, int numberOfSimulations) {
+		
+		if (scenarioID != 2) {
+			loading = true;
+		}
 		
 		// prevents user to continue clicking after state change
 		disableUIManager();

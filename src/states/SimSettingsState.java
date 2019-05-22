@@ -1,10 +1,12 @@
 package states;
+import java.awt.Color;
 import java.awt.Graphics;
 
 import data.DataManager;
 import graphics.Assets;
 import graphics.Text;
 import main.Simulator;
+import network.Network;
 import ui.ClickListener;
 import ui.UIManager;
 import ui.UISlider;
@@ -17,6 +19,7 @@ public class SimSettingsState extends State {
 	
 	// UI manager
 	private UIManager uiManager;
+	private Network network;
 	
 	private int xStart = 320, yStart = 150; // x and y position of top left corner of buttons
 	private int buttonYMargin = 5; // vertical margin between buttons
@@ -31,9 +34,12 @@ public class SimSettingsState extends State {
 	private UISliderDouble crEntreeB_phase4;
 	private UITextButton run, back;
 	
+	private boolean loading = false;
+	
 	public SimSettingsState(Simulator simulator) {
 		super(simulator);
 		this.uiManager = new UIManager(simulator);
+		this.network = simulator.getSimState().getNetwork();
 		
 		// control duration button
 		timePerVhcEntrance = new UISlider(simulator, xStart, yStart+1*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Control duration of 1 vehicle at entrances", 30, Defaults.getControlDuration(), false, new ClickListener(){
@@ -83,6 +89,7 @@ public class SimSettingsState extends State {
 		run = new UITextButton((simulator.getWidth()-0*Assets.menuButtonW)/2 + buttonXMargin/2, simulator.getHeight()-60, Assets.menuButtonW, Assets.menuButtonH, "Run", new ClickListener(){
 			@Override
 			public void onClick() {
+				loading = true;
 				// prevents user to continue clicking after state change
 				disableUIManager();
 				Utils.initAllData(simulator.getSimState().getNumberOfSimulations());
@@ -129,6 +136,12 @@ public class SimSettingsState extends State {
 		Text.drawString(g, "general settings", Assets.idleCol, simulator.getWidth()/2+150, 85, true, Assets.largeFont);
 		this.uiManager.render(g);
 		
+		if (loading) {
+			g.setColor(Assets.bgAlphaCol);
+			g.fillRect(0, 0, 1000, 700);
+			g.setColor(Color.white);
+			Text.drawString(g, "Please wait, processing ...", Color.white, network.getSimulation().getWidth()/2, network.getSimulation().getHeight()/2, true, Assets.largeFont);
+		}
 	}
 	
 	// Getters & setters ====================================================================================
