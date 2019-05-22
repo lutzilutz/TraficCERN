@@ -102,6 +102,9 @@ public class MenuState extends State {
 		}));
 	}
 	public void tick(int n) {
+
+		// sim settings aren't loading anymore
+		simulator.getSimSettingsState().setLoading(false);
 		
 		// tick the UIManager
 		this.uiManager.tick();
@@ -191,5 +194,8 @@ public class MenuState extends State {
 	}
 	public void enableUIManager() {
 		simulator.getMouseManager().setUIManager(this.uiManager);
+	}
+	public void setLoading(boolean loading) {
+		this.loading = loading;
 	}
 }
