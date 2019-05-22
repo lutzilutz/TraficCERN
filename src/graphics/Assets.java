@@ -48,6 +48,7 @@ public class Assets {
 	// Text files input data
 	public static ArrayList<String> inputDataEntrance;
 	public static ArrayList<String> inputDataExit;
+	public static ArrayList<String> inputDataReports;
 	
 	// Initialize all assets (load from files into matrices and images)
 	public static void init() {
@@ -81,6 +82,10 @@ public class Assets {
 		inputDataExit = Utils.loadFileOutsideJarAsString("inputData_exit.txt");
 		if (inputDataExit.size() != 24) {
 			Utils.logWarningln("File inputData_exit.txt has " + inputDataExit.size() + " lines, should have 24 lines (id est 24 hours)");
+		}
+		inputDataReports = Utils.loadFileOutsideJarAsString("inputData_reports.txt");
+		if (inputDataReports.size() != 2) {
+			Utils.logWarningln("File inputData_reports.txt has " + inputDataReports.size() + " lines, should have 2 lines (id est for entrances B and A)");
 		}
 	}
 	

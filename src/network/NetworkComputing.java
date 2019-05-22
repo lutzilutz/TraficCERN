@@ -154,8 +154,8 @@ public class NetworkComputing {
 		// Entrance B to E ----------------------------------------------------------------------------------
 		if (lastConnection.equals("rRoutePauliSouthSW")) {
 			
-			if (Defaults.getTransferScenario()==1) {percentage = 0.3;}
-			else if (Defaults.getTransferScenario()==2) {percentage = 0.7;}
+			if (Defaults.getTransferScenario()==1) {percentage = DataManager.inputMatrixReports[0][0]/100.0;}
+			else if (Defaults.getTransferScenario()==2) {percentage = DataManager.inputMatrixReports[0][1]/100.0;}
 			
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {
@@ -221,8 +221,8 @@ public class NetworkComputing {
 		// Entrance A to E ----------------------------------------------------------------------------------
 		else if (lastConnection.equals("rRouteBellSW")) {
 			
-			if (Defaults.getTransferScenario()==1) {percentage = 0.2;}
-			else if (Defaults.getTransferScenario()==2) {percentage = 0.5;}
+			if (Defaults.getTransferScenario()==1) {percentage = DataManager.inputMatrixReports[1][0]/100.0;}
+			else if (Defaults.getTransferScenario()==2) {percentage = DataManager.inputMatrixReports[1][1]/100.0;}
 			
 			for (AllNetworkRides anr: n.getAllNetworkRides()) {
 				for (Ride r: anr.getNetworkRides()) {

@@ -18,6 +18,7 @@ public class DataManager {
 	public static double[][][] probas = new double[24][9][9]; // for each hour, probability to generate vehicle from an entrance to an exit
 	public static double[][] inputMatrixEntrance = new double[24][9]; // for each hour, quantity of vehicles to generate at an entrance
 	public static double[][] inputMatrixExit = new double[24][9]; // for each hour, quantity of vehicles that should exit at an exit
+	public static int[][] inputMatrixReports = new int[2][2]; // percentage of vehicles to be transfered from entrance B or A to entrance E and tunnel
 	
 	public static int[][] flowPerExit = new int[24][18]; // for each hour, ...
 	
@@ -142,26 +143,41 @@ public class DataManager {
 			}
 		}
 	}
-
-	// Is roadName the last road of the ride r ?
-	public static boolean lastRoadIs(Ride r, String roadName) {
-		if (r.getNextConnections().size()>0) {
-			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
-				return true;
-			} else {
-				return false;
+	
+	public static void initTransfers() {
+		// Saving input data for transfers ------------------------------------------------------------------
+		// for each entrance (1st line is entrance B, 2nd line is entrance A)
+		for (int i=0; i<2; i++) {
+			// split the string with spaces
+			String[] line = Assets.inputDataReports.get(i).split("\\s+");
+			// length should be 9
+			if (line.length == 2) {
+				// for every part of the string
+				for (int j=0; j<line.length; j++) {
+					// try to parse the string to an integer
+					int tmpValue = Utils.parseInt(line[j]);
+					// the integer should be positive or null
+					if (tmpValue >= 0 && tmpValue <= 100) {
+						// save the value inside matrix
+						inputMatrixReports[i][j] = tmpValue;
+					} else if (tmpValue < 0) { // else if negative value
+						Utils.logWarningln("Negative value in inputData_reports.txt at line " + i + " col " + j);
+					} else if (tmpValue > 100) { // else if bigger than 100%
+						Utils.logWarningln("Percentage bigger than 100% in inputData_reports.txt at line " + i + " col " + j);
+					}
+				}
+			} else { // else, not the right number of elements on the line
+				Utils.logWarningln("Line of size not 2 in inputData_reports.txt at line " + i);
 			}
-		} else {
-			return false;
 		}
 	}
-	
 	// Apply data to the simulator (rides, roads)
 	public static void applyData(Simulator simulator) {
 
 		Utils.logInfo("Applying data (proba) to Network ... ");
 		initProbas();
 		initFlowPerExit();
+		initTransfers();
 		applyDataToRides(simulator);
 		applyDataToRoads(simulator);
 		for (Road road: simulator.getSimState().getNetwork().getRoads()) {
@@ -466,6 +482,19 @@ public class DataManager {
 
 			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMin(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue1());
 			n.getTrafficLightsSystems().get(0).getPhases().get(3).setMax(simulator.getSimSettingsState().crEntreeB_phase4().getCurrentValue2());
+		}
+	}
+	
+	// Is roadName the last road of the ride r ?
+	public static boolean lastRoadIs(Ride r, String roadName) {
+		if (r.getNextConnections().size()>0) {
+			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 	

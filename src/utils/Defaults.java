@@ -71,22 +71,25 @@ public class Defaults {
 	public static double getGlobalFlowMultiplier() {
 		return globalFlowMultiplier;
 	}
+	public static void setGlobalFlowMultiplier(double newMultiplier) {
+		globalFlowMultiplier = newMultiplier;
+	}
 	public static int getTransferScenario() {
 		return transferScenario;
 	}
+	public static void setTransferScenario(int newScenario) {
+		transferScenario = newScenario;
+	}
 	public static int getRepartitionETunnel() {
 		return repartitionETunnel;
+	}
+	public static void setRepartitionETunnel(int i) {
+		repartitionETunnel = i;
 	}
 	public static int getControlDuration() {
 		return controlDuration;
 	}
 	public static int[] getLightPhaseDuration() {
 		return lightPhaseDuration;
-	}
-	public static void setGlobalFlowMultiplier(double newMultiplier) {
-		globalFlowMultiplier = newMultiplier;
-	}
-	public static void setTransferScenario(int newScenario) {
-		transferScenario = newScenario;
 	}
 }

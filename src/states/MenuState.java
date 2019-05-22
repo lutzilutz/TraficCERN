@@ -80,7 +80,7 @@ public class MenuState extends State {
 			}
 		});
 		this.uiManager.addObject(minMaxTransfer);
-		repartition_E_tunnel = new UISlider(simulator, xStart, yStart+7*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Transfer E-tunnel", 100, 1, Defaults.getRepartitionETunnel(), true, new ClickListener(){
+		repartition_E_tunnel = new UISlider(simulator, xStart, yStart+7*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Transfer E-tunnel", 100, 0, Defaults.getRepartitionETunnel(), true, new ClickListener(){
 			@Override
 			public void onClick() {
 				
@@ -110,6 +110,9 @@ public class MenuState extends State {
 		
 		// update the global flow multiplier to the button
 		Defaults.setGlobalFlowMultiplier((float) (globalMultiplier.getCurrentValue()+100) / 100.0);
+		
+		// update the repartition of transfers between entrance E and tunnel
+		Defaults.setRepartitionETunnel(repartition_E_tunnel.getCurrentValue());
 	}
 	public void tick() {
 		
