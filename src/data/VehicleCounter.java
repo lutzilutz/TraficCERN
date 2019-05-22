@@ -3,6 +3,7 @@ package data;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.text.DecimalFormat;
 
 import elements.Road;
@@ -61,12 +62,21 @@ public class VehicleCounter {
 		gg.translate(-NetworkRendering.bounds.x, -NetworkRendering.bounds.y);
 		gg.setColor(Color.yellow);
 		DecimalFormat df = new DecimalFormat("##0.00");
-		gg.drawLine((int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getX() + 2*network.getCellWidth()*3*Math.cos(-2*Math.PI*road.getReorientations().get(1).getY()/360.0)),
-					(int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getY() - 2*network.getCellWidth()*3*Math.sin(-2*Math.PI*road.getReorientations().get(1).getY()/360.0)),
-					(int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getX() + 0*network.getCellWidth()*3*Math.cos(-2*Math.PI*road.getReorientations().get(1).getY()/360.0)),
-					(int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getY() - 0*network.getCellWidth()*3*Math.sin(-2*Math.PI*road.getReorientations().get(1).getY()/360.0)));
-		int x = (int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getX() + 2*network.getCellWidth()*3*Math.cos(-2*Math.PI*road.getReorientations().get(1).getY()/360.0));
-		int y = (int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getY() - 3*network.getCellWidth()*3*Math.sin(-2*Math.PI*road.getReorientations().get(1).getY()/360.0));
+		
+		int lastReorientation = 0;
+		for (int i=0; i<road.getReorientations().size(); i++) {
+			if ((int) (getLocation()*road.getLength()) < road.getReorientations().get(i).getX()) {
+				lastReorientation = i;
+			}
+		}
+		
+		gg.drawLine((int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getX() + 2*network.getCellWidth()*3*Math.cos(-2*Math.PI*road.getReorientations().get(lastReorientation).getY()/360.0)),
+				(int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getY() - 2*network.getCellWidth()*3*Math.sin(-2*Math.PI*road.getReorientations().get(lastReorientation).getY()/360.0)),
+				(int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getX() + 0*network.getCellWidth()*3*Math.cos(-2*Math.PI*road.getReorientations().get(lastReorientation).getY()/360.0)),
+				(int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getY() - 0*network.getCellWidth()*3*Math.sin(-2*Math.PI*road.getReorientations().get(lastReorientation).getY()/360.0)));
+		
+		int x = (int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getX() + 2*network.getCellWidth()*3*Math.cos(-2*Math.PI*road.getReorientations().get(lastReorientation).getY()/360.0));
+		int y = (int) (road.getRoadCells().get((int) (getLocation()*road.getLength())).getY() - 3*network.getCellWidth()*3*Math.sin(-2*Math.PI*road.getReorientations().get(lastReorientation).getY()/360.0));
 		
 		Text.drawString(gg, name, Color.yellow, x, y, true, Assets.normalBoldFont);
 		Text.drawString(gg, df.format(getFlow()) + " / min", Color.yellow, x, y+15, true, Assets.normalBoldFont);	

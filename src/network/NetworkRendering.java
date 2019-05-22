@@ -332,7 +332,7 @@ public class NetworkRendering {
 		if (Defaults.getDrawCenters()) {
 			renderElementCenter(network, g);
 		}
-		//renderCounters(network, g);
+		renderCounters(network, g);
 		renderLeakyBuckets(network, g);
 	}
 	public static void renderVehicles(Network n, Graphics g) {
