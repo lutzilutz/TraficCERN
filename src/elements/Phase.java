@@ -23,7 +23,7 @@ public class Phase {
 		}
 	}
 	
-	public boolean tBetweenMinAndMax() {
+	private boolean tBetweenMinAndMax() {
 		if (t <= this.tMax && t >= this.tMin) {
 			return true;
 		} else {
@@ -39,7 +39,7 @@ public class Phase {
 		t = 0;
 	}
 	
-	public boolean noVehiclesWaiting() {
+	private boolean noVehiclesWaiting() {
 		for (Road r: this.roadsToCheck) {
 			for (int i=0; i<this.n.getMaxSpeed(); ++i) {
 				if (r.getRoadCells().get(r.getLength()-1-i) != null && r.getRoadCells().get(r.getLength()-1-i).getVehicle() != null) {
@@ -89,13 +89,6 @@ public class Phase {
 		this.concernedRoads.add(r);
 	}
 	
-	public void clearRoadsToCheck() {
-		this.roadsToCheck.clear();
-	}
-	
-	public void clearConcernedRoad() {
-		this.concernedRoads.clear();
-	}
 	// Getters & setters ------------------------------------------------------------------------------------
 	public void setMin(int tMin) {
 		this.tMin = tMin;
@@ -106,17 +99,5 @@ public class Phase {
 
 	public int gettMin() {
 		return tMin;
-	}
-
-	public void settMin(int tMin) {
-		this.tMin = tMin;
-	}
-
-	public int gettMax() {
-		return tMax;
-	}
-
-	public void settMax(int tMax) {
-		this.tMax = tMax;
 	}
 }

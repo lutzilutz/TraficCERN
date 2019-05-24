@@ -19,17 +19,10 @@ public class Ride implements Cloneable {
 		this.roadName = "" ;
 		initFields();
 	}
-	public void initFields() {
+	private void initFields() {
 		for (int i=0; i<24 ; i++) {
 			flow.add(0f);
 		}
-	}
-	public void print() {
-		System.out.print("Ride: ");
-		for (Connection c: nextConnections) {
-			c.print();
-		}
-		System.out.println();
 	}
 	
 	public void addNextConnection(Connection c) {
@@ -54,11 +47,6 @@ public class Ride implements Cloneable {
 	}
 	
 	// Getters & setters ====================================================================================
-	public void ratioFlow(float value) {
-		for (int i = 0 ; i<24 ; i++) {
-			flow.set(i, flow.get(i)*value);
-		}
-	}
 	public void setFlow(float value) {
 		for (int i = 0 ; i<24 ; i++) {
 			flow.set(i, value);

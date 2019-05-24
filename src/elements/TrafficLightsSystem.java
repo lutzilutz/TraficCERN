@@ -4,21 +4,20 @@ import java.util.ArrayList;
 
 public class TrafficLightsSystem {
 	private ArrayList<Phase> allPhases = new ArrayList<Phase>();
-	public boolean interPhase = false;
+	private boolean interPhase = false;
 	private int t=0;
-	public int interPhaseDuration = 10;
+	private int interPhaseDuration = 10;
 	private int currentPhaseIndex=0;
 	
-	public void incrementIndex() {
+	private void incrementIndex() {
 		currentPhaseIndex = (currentPhaseIndex+1)%(allPhases.size());
 	}
 	
-	
-	public void tReset() {
+	private void tReset() {
 		t = 0;
 	}
 	
-	public void tIncrementation() {
+	private void tIncrementation() {
 		t = t+1;
 	}
 	
@@ -72,9 +71,6 @@ public class TrafficLightsSystem {
 		this.allPhases.add(p);
 	}
 	
-	public void clearPhases() {
-		this.allPhases.clear();
-	}
 	// Getters & setters ------------------------------------------------------------------------------------
 	public Phase getCurrentPhase() {
 		return this.allPhases.get(currentPhaseIndex);

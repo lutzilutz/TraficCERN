@@ -196,7 +196,7 @@ public class MenuState extends State {
 
 	// launch the simulation #nSimulation, with the number of simulations to compute
 	// together
-	public void launchSimulation(int scenarioID, int numberOfSimulations) {
+	private void launchSimulation(int scenarioID, int numberOfSimulations) {
 
 		if (scenarioID != 2) {
 			loading = true;
@@ -230,7 +230,7 @@ public class MenuState extends State {
 		return this.uiManager;
 	}
 
-	public void disableUIManager() {
+	private void disableUIManager() {
 		simulator.getMouseManager().setUIManager(null);
 	}
 

@@ -78,9 +78,6 @@ public class UIImageButton extends UIObject {
 		this.isVisible = isVisible;
 		this.isActivable = isVisible;
 	}
-	public void switchActivable() {
-		isActivable = !isActivable;
-	}
 	public void setActivable(boolean isActivable) {
 		this.isActivable = isActivable;
 	}

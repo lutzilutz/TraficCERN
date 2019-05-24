@@ -15,15 +15,6 @@ public class MultiLaneRoundAbout {
 	private double x=0,y=0;
 	private int direction=0;
 	
-	public MultiLaneRoundAbout(Network n, int nLanes, int length) {
-		this.n = n;
-		lanes = new RoundAbout[nLanes];
-		for (int i=0; i<nLanes; ++i) {
-			lanes[i] = new RoundAbout(n, length, i);
-		}
-		
-	}
-	
 	public MultiLaneRoundAbout(Network n, int nLanes, int length, String name) {
 		this.name = name;
 		this.n = n;
@@ -174,14 +165,14 @@ public class MultiLaneRoundAbout {
 		}
 	}
 	
-	public void removeLastGoInGoOutConnections(Ride ride) {
+	private void removeLastGoInGoOutConnections(Ride ride) {
 
 		while (ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals("GO IN") || ride.getNextConnections().get(ride.getNextConnections().size()-1).getName().equals("GO OUT")) {
 			ride.getNextConnections().remove(ride.getNextConnections().size()-1);
 		}
 	}
 	
-	public void addExit(String name, int position) {
+	private void addExit(String name, int position) {
 		exits.add(new Connection(name, position));
 	}
 	public void addEnter(String name, int position) {

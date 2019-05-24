@@ -85,7 +85,7 @@ public class NetworkComputing {
 		Utils.logTime();
 	}
 	// Corrects bounds of the network image
-	public static void correctBounds(double x, double y) {
+	private static void correctBounds(double x, double y) {
 		if (x<NetworkRendering.bounds.x) {
 			NetworkRendering.bounds.width += NetworkRendering.bounds.x - x ;//+ margin;
 			NetworkRendering.bounds.x = (int) x-margin;
@@ -105,7 +105,7 @@ public class NetworkComputing {
 	// ######################################################################################################
 	
 	// Updates vehicle counter of roads
-	public static void computeFlows(Network n) {
+	private static void computeFlows(Network n) {
 		for (Road r: n.getRoads()) {
 			if (r.getVehicleCounter() != null) {
 				r.getVehicleCounter().computeFlow();
@@ -146,7 +146,7 @@ public class NetworkComputing {
 			}
 		}
 	}
-	public static ArrayList<Ride> applyTransfers(Network n, ArrayList<Ride> rides) {
+	private static ArrayList<Ride> applyTransfers(Network n, ArrayList<Ride> rides) {
 		String firstConnection = rides.get(0).getRoadName();
 		String lastConnection = rides.get(0).getNextConnections().get(rides.get(0).getNextConnections().size()-1).getName();
 		ArrayList<Ride> newRides = new ArrayList<Ride>();
@@ -475,7 +475,7 @@ public class NetworkComputing {
 	}
 	
 	// Change aspect of vehicle based on its ride
-	public static void chooseAspect(Vehicle v) {
+	private static void chooseAspect(Vehicle v) {
 		
 		if (v.isSource("rD884NE")) {v.setSrcColor(Assets.vhcFranceCol1);}
 		else if (v.isSource("rRueDeGeneveSE")) {v.setSrcColor(Assets.vhcFranceCol2);}
@@ -501,7 +501,7 @@ public class NetworkComputing {
 	}
 	
 	// Write data at the end of N simulations
-	public static void writeFinalData(Network n) {
+	private static void writeFinalData(Network n) {
 		Utils.logInfo("Writing output data into files ... ");
 		n.getSimulation().getSimState().incrementWritingState();
 		// Leaky buckets --------------------------------------------------------------------------
@@ -570,7 +570,7 @@ public class NetworkComputing {
 		Utils.logln("done");
 	}
 	// Write data at the end of a simulation
-	public static void writeData24Hours(Network n) {
+	private static void writeData24Hours(Network n) {
 		n.getSimulation().getSimState().getLBrD884NE().saveTemp();
 		n.getSimulation().getSimState().getLBrRueDeGeneveSE().saveTemp();
 		n.getSimulation().getSimState().getLBrRueGermaineTillionSW().saveTemp();
@@ -595,7 +595,7 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getCounterEntranceESum().saveTemp();
 	}
 	// Write data every hour
-	public static void writeDataHours(Network n) {
+	private static void writeDataHours(Network n) {
 			
 		double meanTimeLastHourTransit = 0;
 		for (Integer i: DataManager.timeSpentTransit) {
@@ -630,7 +630,7 @@ public class NetworkComputing {
 		DataManager.distanceTravelledCERN = new ArrayList<Integer>();
 	}
 	// Write data every 15 minutes into output
-	public static void writeData15Minutes(Network n) {
+	private static void writeData15Minutes(Network n) {
 		
 		n.getSimulation().getSimState().getLBrD884NE().addTemp(n.selectARoad("rD884NE").getLeakyBucket().size());
 		n.getSimulation().getSimState().getLBrRueDeGeneveSE().addTemp(n.selectARoad("rRueDeGeneveSE").getLeakyBucket().size());
@@ -646,7 +646,7 @@ public class NetworkComputing {
 		
 	}
 	// Write data every minute into output
-	public static void writeDataMinutes(Network n) {
+	private static void writeDataMinutes(Network n) {
 		n.getSimulation().getSimState().getCounter1A().addTemp(n.selectARoad("rD984FSE").getVehicleCounter().getCounter());
 		n.getSimulation().getSimState().getCounter1B().addTemp(n.selectARoad("rD984FNW").getVehicleCounter().getCounter());
 		n.getSimulation().getSimState().getCounter2A().addTemp(n.selectARoad("rD984FSES").getVehicleCounter().getCounter());
@@ -656,8 +656,5 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getCounterEntranceELeft().addTemp(n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
 		n.getSimulation().getSimState().getCounterEntranceERight().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter());
 		n.getSimulation().getSimState().getCounterEntranceESum().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter() + n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
-	}
-	public static void clearVehicles(Network n) {
-		n.restart();
 	}
 }

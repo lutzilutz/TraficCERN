@@ -43,7 +43,7 @@ public class VehicleCounter {
 	}
 	
 	// True if a vehicle will be on counter at next step
-	public boolean vehicleComingToCounter() {
+	private boolean vehicleComingToCounter() {
 		boolean vehicleOnCell = (road.getRoadCells().get((int) (location*road.getLength())).getVehicle() != null);
 		boolean vehicleOnPreviousCellSpeed2 = (road.getRoadCells().get((int) (location*road.getLength() - 1)).getVehicle() != null && road.getRoadCells().get((int) (location*road.getLength() - 1)).getVehicle().getSpeed()==2);
 		return vehicleOnCell || vehicleOnPreviousCellSpeed2;
@@ -80,6 +80,9 @@ public class VehicleCounter {
 		Text.drawString(gg, name, Color.yellow, x, y, true, Assets.normalBoldFont);
 		Text.drawString(gg, df.format(getFlow()) + " / min", Color.yellow, x, y+15, true, Assets.normalBoldFont);	
 	}
+	private void incrementCounter() {
+		counter++;
+	}
 	
 	// Getters & setters ====================================================================================
 	public int getCounter() {
@@ -90,8 +93,5 @@ public class VehicleCounter {
 	}
 	public double getLocation() {
 		return location;
-	}
-	public void incrementCounter() {
-		counter++;
 	}
 }

@@ -295,7 +295,7 @@ public class Network {
 		raLHC.setMaxSpeed(1);
 		
 	}
-	public MultiLaneRoundAbout genPorteDeFrance() {
+	private MultiLaneRoundAbout genPorteDeFrance() {
 		MultiLaneRoundAbout raPorteDeFrance = new MultiLaneRoundAbout(this, 3, 48, "raPorteDeFrance");
 		raPorteDeFrance.setX(0);
 		raPorteDeFrance.setY(0);
@@ -306,7 +306,7 @@ public class Network {
 		}
 		return raPorteDeFrance;
 	}
-	public void genRueDeGeneveNW(MultiLaneRoundAbout raPorteDeFrance) {
+	private void genRueDeGeneveNW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueDeGeneveNW = new Road(this, 15, "rRueDeGeneveNW");
 		rRueDeGeneveNW.setStartPositionFrom(raPorteDeFrance.getLanes()[0], 7);
 		rRueDeGeneveNW.setDirection(271);
@@ -314,7 +314,7 @@ public class Network {
 		roads.add(rRueDeGeneveNW);
 		raPorteDeFrance.connectTo(rRueDeGeneveNW, 7);
 	}
-	public void genRueDeGeneveSE(MultiLaneRoundAbout raPorteDeFrance) {
+	private void genRueDeGeneveSE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueDeGeneveSE = new Road(this, 15, "rRueDeGeneveSE");
 		rRueDeGeneveSE.setDirection(111);
 		rRueDeGeneveSE.addPoint(new Point(11, 131));
@@ -323,7 +323,7 @@ public class Network {
 		rRueDeGeneveSE.connectTo(raPorteDeFrance, 11);
 		rRueDeGeneveSE.setGenerateVehicules(200);
 	}
-	public void genRueGermaineTillionNE(MultiLaneRoundAbout raPorteDeFrance) {
+	private void genRueGermaineTillionNE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueGermaineTillionNE = new Road(this, 25, "rRueGermaineTillionNE");
 		rRueGermaineTillionNE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-8);
 		rRueGermaineTillionNE.setDirection(24);
@@ -331,7 +331,7 @@ public class Network {
 		roads.add(rRueGermaineTillionNE);
 		raPorteDeFrance.connectTo(rRueGermaineTillionNE, raPorteDeFrance.getLanes()[0].getLength()-8);
 	}
-	public void genRueGermaineTillionSW(MultiLaneRoundAbout raPorteDeFrance) {
+	private void genRueGermaineTillionSW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rRueGermaineTillionSW = new Road(this, 25, "rRueGermaineTillionSW");
 		rRueGermaineTillionSW.setDirection(218);
 		rRueGermaineTillionSW.addPoint(new Point(15,232));
@@ -340,7 +340,7 @@ public class Network {
 		rRueGermaineTillionSW.connectTo(raPorteDeFrance, raPorteDeFrance.getLanes()[0].getLength()-2);
 		rRueGermaineTillionSW.setGenerateVehicules(100);
 	}
-	public Road genD984FSE(MultiLaneRoundAbout raPorteDeFrance) {
+	private Road genD984FSE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD984FSE = new Road(this, 110, "rD984FSE");
 		rD984FSE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-17);
 		rD984FSE.setStartDirection(93);
@@ -351,7 +351,7 @@ public class Network {
 		rD984FSE.setCounter(0.5, "counter 1A");
 		return rD984FSE;
 	}
-	public Road genD984FNW(MultiLaneRoundAbout raPorteDeFrance) {
+	private Road genD984FNW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD984FNW = new Road(this, 109, "rD984FNW");
 		rD984FNW.setDirection(274);
 		rD984FNW.addPoint(new Point(5,293));
@@ -362,7 +362,7 @@ public class Network {
 		rD984FNW.setCounter(0.49, "counter 1B");
 		return rD984FNW;
 	}
-	public void genD884SW(MultiLaneRoundAbout raPorteDeFrance) {
+	private void genD884SW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD884SW = new Road(this, 15, "rD884SW");
 		rD884SW.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-32);
 		rD884SW.setDirection(198);
@@ -370,7 +370,7 @@ public class Network {
 		roads.add(rD884SW);
 		raPorteDeFrance.connectTo(rD884SW, raPorteDeFrance.getLanes()[0].getLength()-32);
 	}
-	public Road genD884NE(MultiLaneRoundAbout raPorteDeFrance) {
+	private Road genD884NE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rD884NE = new Road(this, 15+45, "rD884NE");
 		rD884NE.setDirection(38);
 		rD884NE.addPoint(new Point(13+45,58));
@@ -380,7 +380,7 @@ public class Network {
 		rD884NE.setGenerateVehicules(50);
 		return rD884NE;
 	}
-	public Road genSortieCERNSE(MultiLaneRoundAbout raPorteDeFrance) {
+	private Road genSortieCERNSE(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rSortieCERNSE = new Road(this, 15, "rSortieCERNSE");
 		rSortieCERNSE.setStartPositionFrom(raPorteDeFrance.getLanes()[0], raPorteDeFrance.getLanes()[0].getLength()-23);
 		rSortieCERNSE.setDirection(150);
@@ -392,7 +392,7 @@ public class Network {
 		rSortieCERNSE.setCounter(0.5, "counter EntranceE right");
 		return rSortieCERNSE;
 	}
-	public Road genSortieCERNNW(MultiLaneRoundAbout raPorteDeFrance) {
+	private Road genSortieCERNNW(MultiLaneRoundAbout raPorteDeFrance) {
 		Road rSortieCERNNW = new Road(this, 15, "rSortieCERNNW");
 		rSortieCERNNW.setDirection(330);
 		rSortieCERNNW.addPoint(new Point(5,350));
@@ -403,7 +403,7 @@ public class Network {
 		rSortieCERNNW.setGenerateVehicules(50);
 		return rSortieCERNNW;
 	}
-	public void genD884CERN(Road rD884NE, Road rSortieCERNSE) {
+	private void genD884CERN(Road rD884NE, Road rSortieCERNSE) {
 		Road rD884CERN = new Road(this, 26+20, "rD884CERN");
 		rD884CERN.setDirection(38);
 		rD884CERN.addPoint(new Point(8+20,90));
@@ -423,7 +423,7 @@ public class Network {
 		outflowEntranceE.addRoad(rSortieCERNSE);
 		maxVehicleOutflows.add(outflowEntranceE);
 	}
-	public RoundAbout genLHC(Road rD984FSE, Road rD984FNW) {
+	private RoundAbout genLHC(Road rD984FSE, Road rD984FNW) {
 		RoundAbout raLHC = new RoundAbout(this, 17, "raLHC");
 		raLHC.setDirection(0);
 		raLHC.setPositionFrom(rD984FSE, 5);
@@ -432,7 +432,7 @@ public class Network {
 		raLHC.connectTo(rD984FNW, 3);
 		return raLHC;
 	}
-	public Road genD984FSES(RoundAbout raLHC) {
+	private Road genD984FSES(RoundAbout raLHC) {
 		Road rD984FSES = new Road(this, 92, "rD984FSES");
 		rD984FSES.setStartPositionFrom(raLHC, raLHC.getLength()-7);
 		rD984FSES.setStartDirection(129);
@@ -444,7 +444,7 @@ public class Network {
 		
 		return rD984FSES;
 	}
-	public Road genD984FSES2(Road rD984FSES) {
+	private Road genD984FSES2(Road rD984FSES) {
 		Road rD984FSES2 = new Road(this, 47, "rD984FSES2");
 		rD984FSES2.setStartPositionFrom(rD984FSES, 45, 113, 1, (113+90));
 		
@@ -454,7 +454,7 @@ public class Network {
 		roads.add(rD984FSES2);
 		return rD984FSES2;
 	}
-	public Road genD984FSES3_Scenario0(Road rD984FSES2) {
+	private Road genD984FSES3_Scenario0(Road rD984FSES2) {
 		Road rD984FSES3 = new Road(this, 46, "rD984FSES3");
 		rD984FSES3.setStartPositionFrom(rD984FSES2, 1, 113, 1, (113+90));
 		for (int i=0; i<2; ++i) {
@@ -463,14 +463,14 @@ public class Network {
 		roads.add(rD984FSES3);
 		return rD984FSES3;
 	}
-	public Road genD984FSES3_Scenario1(Road rD984FSES2) {
+	private Road genD984FSES3_Scenario1(Road rD984FSES2) {
 		Road rD984FSES3 = new Road(this, 46, "rD984FSES3");
 		rD984FSES3.setStartPositionFrom(rD984FSES2, 1, 113, 1, (113+90));
 		rD984FSES2.connectFromiTo(rD984FSES3, 0);
 		roads.add(rD984FSES3);
 		return rD984FSES3;
 	}
-	public Road genD984FNWS(RoundAbout raLHC, MultiLaneRoundAbout raEntreeB) {
+	private Road genD984FNWS(RoundAbout raLHC, MultiLaneRoundAbout raEntreeB) {
 		Road rD984FNWS = new Road(this, 91, "rD984FNWS");
 		rD984FNWS.setDirection(293);
 		rD984FNWS.addPoint(new Point(rD984FNWS.getLength()-5,313));
@@ -485,7 +485,7 @@ public class Network {
 		rD984FNWS.setCounter(0.702, "coutner 2B");
 		return rD984FNWS;
 	}
-	public MultiLaneRoundAbout genRaEntreeB(Road rD984FSES, Road rD984FSES2, Road rD984FSES3) {
+	private MultiLaneRoundAbout genRaEntreeB(Road rD984FSES, Road rD984FSES2, Road rD984FSES3) {
 		MultiLaneRoundAbout raEntreeB = new MultiLaneRoundAbout(this, 2, 16, "raEntreeB");
 		raEntreeB.getLanes()[0].setStartPositionFrom(rD984FSES, rD984FSES.getLength()-1, 0, 4, rD984FSES.getDirection());
 		raEntreeB.setDirection(0);
@@ -500,7 +500,7 @@ public class Network {
 		rD984FSES3.connectTo(raEntreeB, 5);
 		return raEntreeB;
 	}
-	public Road genD984FNWS2(Road rD984FNWS, MultiLaneRoundAbout raEntreeB) {
+	private Road genD984FNWS2(Road rD984FNWS, MultiLaneRoundAbout raEntreeB) {
 		Road rD984FNWS2 = new Road(this, 46, "rD984FNWS2");
 		rD984FNWS2.setDirection(293);
 		rD984FNWS2.setStartPositionFrom(rD984FNWS, 0, 293, 1, 293-270); // 293+90 == 293-270
@@ -515,7 +515,7 @@ public class Network {
 		roads.add(rD984FNWS2);
 		return rD984FNWS2;
 	}
-	public Road genWE1(Road rD984FSES) {
+	private Road genWE1(Road rD984FSES) {
 		Road rWE1 = new Road(this, 5, "rWE1");
 		rWE1.setStartPositionFrom(rD984FSES, rD984FSES.getLength()-1, rD984FSES.getDirection(), 1, rD984FSES.getDirection());
 		rWE1.setDirection(rWE1.getDirection()-10);
@@ -529,7 +529,7 @@ public class Network {
 		}
 		return rWE1;
 	}
-	public Road genWE2(Road rD984FSES2, Road rWE1) {
+	private Road genWE2(Road rD984FSES2, Road rWE1) {
 		Road rWE2 = new Road(this, 5, "rWE2");
 		rWE2.setStartPositionFrom(rD984FSES2, rD984FSES2.getLength()-1, rD984FSES2.getDirection(), 1, rD984FSES2.getDirection());
 		rWE2.setDirection(rWE1.getDirection());
@@ -541,7 +541,7 @@ public class Network {
 		}
 		return rWE2;
 	}
-	public Road genRouteDeMeyrinNorthSE1(Road rD984FSES2, Road rWE1, MultiLaneRoundAbout raEntreeB) {
+	private Road genRouteDeMeyrinNorthSE1(Road rD984FSES2, Road rWE1, MultiLaneRoundAbout raEntreeB) {
 		Road rRouteDeMeyrinNorthSE1 = new Road(this, 7, "rRouteDeMeyrinNorthSE1");
 		rRouteDeMeyrinNorthSE1.setStartPositionFrom(rWE1, rWE1.getLength()-1, rWE1.getDirection(), 1, rWE1.getDirection());
 		rRouteDeMeyrinNorthSE1.setDirection(rD984FSES2.getDirection());
@@ -553,7 +553,7 @@ public class Network {
 		}
 		return rRouteDeMeyrinNorthSE1;
 	}
-	public Road genRouteDeMeyrinNorthSE2(Road rD984FSES2, Road rRouteDeMeyrinNorthSE1, Road rWE2, MultiLaneRoundAbout raEntreeB) {
+	private Road genRouteDeMeyrinNorthSE2(Road rD984FSES2, Road rRouteDeMeyrinNorthSE1, Road rWE2, MultiLaneRoundAbout raEntreeB) {
 		Road rRouteDeMeyrinNorthSE2 = new Road(this, 46, "rRouteDeMeyrinNorthSE2");
 		rRouteDeMeyrinNorthSE2.setStartPositionFrom(rWE2, rWE2.getLength()-1, rWE2.getDirection(), 1, rWE2.getDirection());
 		rRouteDeMeyrinNorthSE2.setDirection(rD984FSES2.getDirection());
@@ -568,7 +568,7 @@ public class Network {
 		rRouteDeMeyrinNorthSE2.addPoint(new Point(19, rRouteDeMeyrinNorthSE2.getDirection()));
 		return rRouteDeMeyrinNorthSE2;
 	}
-	public Road genRouteDeMeyrinNorthSE1_2(Road rRouteDeMeyrinNorthSE2, Road rD984FSES2) {
+	private Road genRouteDeMeyrinNorthSE1_2(Road rRouteDeMeyrinNorthSE2, Road rD984FSES2) {
 		Road rRouteDeMeyrinNorthSE1_2 = new Road(this, 13, "rRouteDeMeyrinNorthSE1_2");
 		rRouteDeMeyrinNorthSE1_2.setStartPositionFrom(rRouteDeMeyrinNorthSE2, 33, rRouteDeMeyrinNorthSE2.getDirection(), 1, rRouteDeMeyrinNorthSE2.getDirection()-90);
 		rRouteDeMeyrinNorthSE1_2.setDirection(rD984FSES2.getDirection());
@@ -582,7 +582,7 @@ public class Network {
 		}
 		return rRouteDeMeyrinNorthSE1_2;
 	}
-	public MultiLaneRoundAbout genRaEntreeA(Road rRouteDeMeyrinNorthSE1_2, Road rRouteDeMeyrinNorthSE2) {
+	private MultiLaneRoundAbout genRaEntreeA(Road rRouteDeMeyrinNorthSE1_2, Road rRouteDeMeyrinNorthSE2) {
 		MultiLaneRoundAbout raEntreeA = new MultiLaneRoundAbout(this, 1, 16, "raEntreeA");
 		raEntreeA.setDirection(0);
 		raEntreeA.getLanes()[0].setPositionFrom(rRouteDeMeyrinNorthSE1_2, 4);
@@ -596,7 +596,7 @@ public class Network {
 		rRouteDeMeyrinNorthSE2.connectTo(raEntreeA, 5);
 		return raEntreeA;
 	}
-	public Road genRouteDeMeyrinNorthNW1(MultiLaneRoundAbout raEntreeA, MultiLaneRoundAbout raEntreeB) {
+	private Road genRouteDeMeyrinNorthNW1(MultiLaneRoundAbout raEntreeA, MultiLaneRoundAbout raEntreeB) {
 		Road rRouteDeMeyrinNorthNW1 = new Road(this, 46, "rRouteDeMeyrinNorthNW1");
 		rRouteDeMeyrinNorthNW1.setStartPositionFrom(raEntreeA.getLanes()[0], 1);
 		rRouteDeMeyrinNorthNW1.setDirection(293);
@@ -609,7 +609,7 @@ public class Network {
 		}
 		return rRouteDeMeyrinNorthNW1;
 	}
-	public Road genRouteDeMeyrinNorthNW2(Road rRouteDeMeyrinNorthNW1, MultiLaneRoundAbout raEntreeB) {
+	private Road genRouteDeMeyrinNorthNW2(Road rRouteDeMeyrinNorthNW1, MultiLaneRoundAbout raEntreeB) {
 		Road rRouteDeMeyrinNorthNW2 = new Road(this, 8, "rRouteDeMeyrinNorthNW2");
 		rRouteDeMeyrinNorthNW2.setStartPositionFrom(rRouteDeMeyrinNorthNW1, 38, 293, 1, 293-270);
 		rRouteDeMeyrinNorthNW2.setDirection(293);
@@ -621,7 +621,7 @@ public class Network {
 		}
 		return rRouteDeMeyrinNorthNW2;
 	}
-	public Road genRouteDeMeyrinNorthNW3(Road rRouteDeMeyrinNorthNW2, MultiLaneRoundAbout raEntreeB) {
+	private Road genRouteDeMeyrinNorthNW3(Road rRouteDeMeyrinNorthNW2, MultiLaneRoundAbout raEntreeB) {
 		Road rRouteDeMeyrinNorthNW3 = new Road(this, 7, "rRouteDeMeyrinNorthNW3");
 		rRouteDeMeyrinNorthNW3.setStartPositionFrom(rRouteDeMeyrinNorthNW2, 1, 293, 1, 293-270);
 		rRouteDeMeyrinNorthNW3.setDirection(293);
@@ -633,7 +633,7 @@ public class Network {
 		}
 		return rRouteDeMeyrinNorthNW3;
 	}
-	public void genRouteDeMeyrinNorthNW1_2(Road rRouteDeMeyrinNorthNW1, MultiLaneRoundAbout raEntreeA) {
+	private void genRouteDeMeyrinNorthNW1_2(Road rRouteDeMeyrinNorthNW1, MultiLaneRoundAbout raEntreeA) {
 		Road rRouteDeMeyrinNorthNW1_2 = new Road(this, 11, "rRouteDeMeyrinNorthNW1_2");
 		rRouteDeMeyrinNorthNW1_2.setStartPositionFrom(raEntreeA.getLanes()[0], 2);
 		rRouteDeMeyrinNorthNW1_2.setDirection(293);
@@ -641,7 +641,7 @@ public class Network {
 		raEntreeA.connectTo(rRouteDeMeyrinNorthNW1_2, 2);
 		roads.add(rRouteDeMeyrinNorthNW1_2);
 	}
-	public Road genEW1(Road rRouteDeMeyrinNorthNW3, Road rD984FNWS2) {
+	private Road genEW1(Road rRouteDeMeyrinNorthNW3, Road rD984FNWS2) {
 		Road rEW1 = new Road(this, 6, "rEW1");
 		rEW1.setStartPositionFrom(rRouteDeMeyrinNorthNW3, rRouteDeMeyrinNorthNW3.getLength()-1, rRouteDeMeyrinNorthNW3.getDirection(), 1, rRouteDeMeyrinNorthNW3.getDirection());
 		rEW1.setDirection(rEW1.getDirection()-13);
@@ -654,7 +654,7 @@ public class Network {
 		}
 		return rEW1;
 	}
-	public Road genEW2(Road rRouteDeMeyrinNorthNW2, Road rD984FNWS, Road rEW1) {
+	private Road genEW2(Road rRouteDeMeyrinNorthNW2, Road rD984FNWS, Road rEW1) {
 		Road rEW2 = new Road(this, 6, "rEW2");
 		rEW2.setStartPositionFrom(rRouteDeMeyrinNorthNW2, rRouteDeMeyrinNorthNW2.getLength()-1, rRouteDeMeyrinNorthNW2.getDirection(), 1, rRouteDeMeyrinNorthNW2.getDirection());
 		rEW2.setDirection(rEW1.getDirection());
@@ -665,7 +665,7 @@ public class Network {
 		}
 		return rEW2;
 	}
-	public Road genRoutePauliNorthNE(Road rEW1, MultiLaneRoundAbout raEntreeB) {
+	private Road genRoutePauliNorthNE(Road rEW1, MultiLaneRoundAbout raEntreeB) {
 		Road rRoutePauliNorthNE = new Road(this, 5, "rRoutePauliNorthNE");
 		if (this.n == 0) {
 			rRoutePauliNorthNE.setStartPositionFrom(rEW1, 2, 15, 2, 15);
@@ -681,14 +681,14 @@ public class Network {
 		roads.add(rRoutePauliNorthNE);
 		return rRoutePauliNorthNE;
 	}
-	public Road genRoutePauliNorthSW(Road rRoutePauliNorthNE) {
+	private Road genRoutePauliNorthSW(Road rRoutePauliNorthNE) {
 		Road rRoutePauliNorthSW = new Road(this, 6, "rRoutePauliNorthSW");
 		rRoutePauliNorthSW.setStartPositionFrom(rRoutePauliNorthNE, 5, 225, 1.5, 315);
 		rRoutePauliNorthSW.addPoint(new Point(3, 195));
 		roads.add(rRoutePauliNorthSW);
 		return rRoutePauliNorthSW;
 	}
-	public Road genRoutePauliSouthNERight(Road rWE2, MultiLaneRoundAbout raEntreeB) {
+	private Road genRoutePauliSouthNERight(Road rWE2, MultiLaneRoundAbout raEntreeB) {
 		Road rRoutePauliSouthNERight = new Road(this, 3, "rRoutePauliSouthNERight");
 		rRoutePauliSouthNERight.setStartPositionFrom(rWE2, 4, rWE2.getDirection()-90, 5, rWE2.getDirection()+90);
 		roads.add(rRoutePauliSouthNERight);
@@ -701,7 +701,7 @@ public class Network {
 		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		return rRoutePauliSouthNERight;
 	}
-	public Road genRoutePauliSouthNELeft(Road rRoutePauliSouthNERight, MultiLaneRoundAbout raEntreeB) {
+	private Road genRoutePauliSouthNELeft(Road rRoutePauliSouthNERight, MultiLaneRoundAbout raEntreeB) {
 		Road rRoutePauliSouthNELeft = new Road(this, 3, "rRoutePauliSouthNELeft");
 		rRoutePauliSouthNELeft.setStartPositionFrom(rRoutePauliSouthNERight, 0, rRoutePauliSouthNERight.getDirection(), 1, rRoutePauliSouthNERight.getDirection()-90);
 		roads.add(rRoutePauliSouthNELeft);
@@ -714,7 +714,7 @@ public class Network {
 		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
 		return rRoutePauliSouthNELeft;
 	}
-	public Road genRoutePauliSouthSW(Road rRoutePauliSouthNELeft, MultiLaneRoundAbout raEntreeB) {
+	private Road genRoutePauliSouthSW(Road rRoutePauliSouthNELeft, MultiLaneRoundAbout raEntreeB) {
 		Road rRoutePauliSouthSW = new Road(this, 3, "rRoutePauliSouthSW");
 		rRoutePauliSouthSW.setStartPositionFrom(rRoutePauliSouthNELeft, 3, rRoutePauliSouthNELeft.getDirection()+180, 1.5, rRoutePauliSouthNELeft.getDirection()-90);
 		roads.add(rRoutePauliSouthSW);
@@ -724,7 +724,7 @@ public class Network {
 		}
 		return rRoutePauliSouthSW;
 	}
-	public void genCrossRoadEntranceB(Road rRoutePauliSouthNERight, Road rRoutePauliNorthNE, Road rRoutePauliNorthSW, Road rRoutePauliSouthSW, Road rEW1, Road rD984FNWS2, Road rWE1, Road rRouteDeMeyrinNorthSE1, Road rRoutePauliSouthNELeft, Road rEW2, Road rRouteDeMeyrinNorthSE2, Road rD984FSES3, Road rRouteDeMeyrinNorthNW1, Road rWE2) {
+	private void genCrossRoadEntranceB(Road rRoutePauliSouthNERight, Road rRoutePauliNorthNE, Road rRoutePauliNorthSW, Road rRoutePauliSouthSW, Road rEW1, Road rD984FNWS2, Road rWE1, Road rRouteDeMeyrinNorthSE1, Road rRoutePauliSouthNELeft, Road rEW2, Road rRouteDeMeyrinNorthSE2, Road rD984FSES3, Road rRouteDeMeyrinNorthNW1, Road rWE2) {
 		
 		// CrossRoad middle roads S -> N
 		Road rSN = new Road(this, 8, "rSN");
@@ -818,14 +818,14 @@ public class Network {
 		rNS.getRoadCells().get(6).getOverlapedCells().add(rWE2.getRoadCells().get(1));
 		rWE2.getRoadCells().get(1).getOverlapedCells().add(rNS.getRoadCells().get(6));
 	}
-	public void genRouteBellSW(MultiLaneRoundAbout raEntreeA) {
+	private void genRouteBellSW(MultiLaneRoundAbout raEntreeA) {
 		Road rRouteBellSW = new Road(this, 3, "rRouteBellSW");
 		rRouteBellSW.setStartPositionFrom(raEntreeA.getLanes()[0], 6);
 		rRouteBellSW.setDirection(200);
 		raEntreeA.connectTo(rRouteBellSW, 6);
 		roads.add(rRouteBellSW);
 	}
-	public void genRouteBellNE(MultiLaneRoundAbout raEntreeA) {
+	private void genRouteBellNE(MultiLaneRoundAbout raEntreeA) {
 		Road rRouteBellNE = new Road(this, 3, "rRouteBellNE");
 		rRouteBellNE.setEndPositionFrom(raEntreeA.getLanes()[0], 7);
 		rRouteBellNE.setX(rRouteBellNE.getX()+this.getCellHeight());
@@ -834,14 +834,14 @@ public class Network {
 		roads.add(rRouteBellNE);
 		rRouteBellNE.setGenerateVehicules(50);
 	}
-	public void genRouteBellNERight(MultiLaneRoundAbout raEntreeA) {
+	private void genRouteBellNERight(MultiLaneRoundAbout raEntreeA) {
 		Road rRouteBellNERight = new Road(this, 3, "rRouteBellNERight");
 		rRouteBellNERight.setEndPositionFrom(raEntreeA.getLanes()[0], 8);
 		rRouteBellNERight.setDirection(0);
 		rRouteBellNERight.connectTo(raEntreeA, 8);
 		roads.add(rRouteBellNERight);
 	}
-	public void genRouteDeMeyrinSouthSE(MultiLaneRoundAbout raEntreeA) {
+	private void genRouteDeMeyrinSouthSE(MultiLaneRoundAbout raEntreeA) {
 		Road rRouteDeMeyrinSouthSE = new Road(this, 20, "rRouteDeMeyrinSouthSE");
 		rRouteDeMeyrinSouthSE.setStartPositionFrom(raEntreeA.getLanes()[0], 10);
 		rRouteDeMeyrinSouthSE.setStartDirection(100);
@@ -849,7 +849,7 @@ public class Network {
 		roads.add(rRouteDeMeyrinSouthSE);
 		raEntreeA.connectTo(rRouteDeMeyrinSouthSE, 10);
 	}
-	public void genRouteDeMeyrinSouthNW(MultiLaneRoundAbout raEntreeA) {
+	private void genRouteDeMeyrinSouthNW(MultiLaneRoundAbout raEntreeA) {
 		Road rRouteDeMeyrinSouthNW = new Road(this, 20, "rRouteDeMeyrinSouthNW");
 		rRouteDeMeyrinSouthNW.setDirection(293);
 		rRouteDeMeyrinSouthNW.setEndPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-4,293);
@@ -857,21 +857,21 @@ public class Network {
 		rRouteDeMeyrinSouthNW.connectTo(raEntreeA, raEntreeA.getLanes()[0].getLength()-4);
 		rRouteDeMeyrinSouthNW.setGenerateVehicules(50);
 	}
-	public void genCheminMaisonnexN(MultiLaneRoundAbout raEntreeA) {
+	private void genCheminMaisonnexN(MultiLaneRoundAbout raEntreeA) {
 		Road rCheminMaisonnexN = new Road(this, 2, "rCheminMaisonnexN");
 		rCheminMaisonnexN.setStartPositionFrom(raEntreeA.getLanes()[0], raEntreeA.getLanes()[0].getLength()-1);
 		rCheminMaisonnexN.setStartDirection(15);
 		roads.add(rCheminMaisonnexN);
 		raEntreeA.connectTo(rCheminMaisonnexN, raEntreeA.getLanes()[0].getLength()-1);
 	}
-	public void genCheminMaisonnexS(MultiLaneRoundAbout raEntreeA) {
+	private void genCheminMaisonnexS(MultiLaneRoundAbout raEntreeA) {
 		Road rCheminMaisonnexS = new Road(this, 2, "rCheminMaisonnexS");
 		rCheminMaisonnexS.setDirection(195);
 		rCheminMaisonnexS.setEndPositionFrom(raEntreeA.getLanes()[0], 0,195);
 		roads.add(rCheminMaisonnexS);
 		rCheminMaisonnexS.connectTo(raEntreeA, 0);
 	}
-	public Road genC5NE(RoundAbout raLHC) {
+	private Road genC5NE(RoundAbout raLHC) {
 		Road rC5NE = new Road(this, 30, "rC5NE");
 		rC5NE.setStartPositionFrom(raLHC, raLHC.getLength()-2);
 		rC5NE.setStartDirection(30);
@@ -879,7 +879,7 @@ public class Network {
 		raLHC.connectTo(rC5NE, raLHC.getLength()-2);
 		return rC5NE;
 	}
-	public Road genC5SW(RoundAbout raLHC) {
+	private Road genC5SW(RoundAbout raLHC) {
 		Road rC5SW = new Road(this, 30, "rC5SW");
 		rC5SW.setDirection(210);
 		rC5SW.setEndPositionFrom(raLHC, raLHC.getLength()-1,293);
@@ -888,7 +888,7 @@ public class Network {
 		rC5SW.setGenerateVehicules(50);
 		return rC5SW;
 	}
-	public Road genTunnelSE(Road rC5NE, Road rC5SW) {
+	private Road genTunnelSE(Road rC5NE, Road rC5SW) {
 		Road rTunnelSE;
 		if (this.n == 0) {
 			rTunnelSE = new Road(this, 38, "rTunnelSE");
@@ -914,7 +914,7 @@ public class Network {
 		rTunnelSE.setUnderground(14, 16, true);
 		return rTunnelSE;
 	}
-	public Road genTunnelNW(Road rTunnelSE, Road rC5NE, Road rC5SW) {
+	private Road genTunnelNW(Road rTunnelSE, Road rC5NE, Road rC5SW) {
 		Road rTunnelNW = new Road(this, 39, "rTunnelNW");
 		rTunnelNW.setDirection(5);
 		if (this.n == 0) {
@@ -942,7 +942,7 @@ public class Network {
 		rTunnelNW.setGenerateVehicules(40);
 		return rTunnelNW;
 	}
-	public void genLightPhases(Road rD984FSES, Road rD984FSES2, Road rD984FSES3, Road rRouteDeMeyrinNorthNW1, Road rRouteDeMeyrinNorthNW2, Road rRouteDeMeyrinNorthNW3, Road rRoutePauliSouthNELeft, Road rRoutePauliSouthNERight, Road rRoutePauliNorthNE) {
+	private void genLightPhases(Road rD984FSES, Road rD984FSES2, Road rD984FSES3, Road rRouteDeMeyrinNorthNW1, Road rRouteDeMeyrinNorthNW2, Road rRouteDeMeyrinNorthNW3, Road rRoutePauliSouthNELeft, Road rRoutePauliSouthNERight, Road rRoutePauliNorthNE) {
 		// Phase 1-----------------------------------------------------------------------------------------
 		Phase P1 = new Phase(this, 10, 15);
 		
@@ -1023,63 +1023,6 @@ public class Network {
 		Polygon tmp2 = new Polygon(tmpX, tmpY, 5);
 		zones.add(tmp2);
 	}
-	public void printNames() {
-		System.out.println("====== Road names: ======");
-		for (Road r: this.roads) {
-			System.out.println("");
-			System.out.println(r.getName());
-			System.out.print("Exits: ");
-			for (Connection e: r.getExits()) {
-				e.print();
-			}
-			System.out.println("");
-			System.out.print("Enters: ");
-			for (Connection e: r.getEnters()) {
-				e.print();
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-		
-		System.out.println("====== Roundabout names: ======");
-		for (RoundAbout ra: this.roundAbouts) {
-			System.out.println("");
-			System.out.println(ra.getName());
-			System.out.print("Exits: ");
-			for (Connection e: ra.getExits()) {
-				e.print();
-			}
-			System.out.println("");
-			System.out.print("Enters: ");
-			for (Connection e: ra.getEnters()) {
-				e.print();
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-		System.out.println("====== Crossroad names: ======");
-		for (CrossRoad cr: this.crossRoads) {
-			System.out.println("");
-			System.out.println(cr.getName());
-			System.out.print("Exits: ");
-			for (Connection e: cr.getExits()) {
-				e.print();
-			}
-			System.out.println("");
-			System.out.print("Enters: ");
-			for (Connection e: cr.getEnters()) {
-				e.print();
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-		
-		for (AllNetworkRides ANR: this.allNetworkRides) {
-			ANR.print();
-			System.out.println("");
-		}
-		System.out.println("(=^-^=)");
-	}
 	public Road getRoad(String name) {
 		for (Road r: this.getRoads()) {
 			if (r.getName().equals(name)) {
@@ -1097,17 +1040,6 @@ public class Network {
 		}
 		
 		return null;
-	}
-	public Ride selectARide(String roadName) {
-		Ride r = new Ride();
-		for (AllNetworkRides ANR: allNetworkRides) {
-			if (ANR.getRoadName().equals(roadName)) {
-				int length = ANR.getNetworkRides().size();
-				int index = (int) (Math.random() * length) ;
-				return ANR.getNetworkRides().get(index).clone();
-			}
-		}
-		return r;
 	}
 	public ArrayList<Ride> selectRidesWithProbability(String roadName) {
 		ArrayList<Ride> allRides = new ArrayList<Ride>();
@@ -1183,21 +1115,7 @@ public class Network {
 		
 		return allRides;
 	}
-	public Ride selectARide(String startName, String endName) {
-		Ride r = new Ride();
-		for (AllNetworkRides anr: allNetworkRides) {
-			if (anr.getRoadName().equals(startName)) {
-				for (Ride ride: anr.getNetworkRides()) {
-					if (ride.getRoadName().equals(endName)) {
-						return ride.clone();
-					}
-				}
-				
-			}
-		}
-		return r;
-	}
-	public void cleanAllNetworkRides(int x) {
+	private void cleanAllNetworkRides(int x) {
 		if (!this.getAllNetworkRides().isEmpty()) {
 			for (AllNetworkRides ANR: this.getAllNetworkRides()) {
 				ArrayList<Integer> elmtsToChange = new ArrayList<Integer>();
@@ -1228,7 +1146,7 @@ public class Network {
 		}
 	}
 	
-	public void generateAllNetworkRides(int n) {
+	private void generateAllNetworkRides(int n) {
 		Utils.logInfo("Generating Rides ... ");
 		Utils.tick();
 		for (Road r: this.roads) {
@@ -1281,10 +1199,6 @@ public class Network {
 		}
 		Utils.logErrorln("While trying to find " + roadName + " in network");
 		return null;
-	}
-	public void setNetworkSize() {
-		this.setCellWidth((int) (Math.pow(2, 1+sim.getMenuState().getSizeOfNetwork().getCurrentValue())));
-		this.setCellHeight((int) (Math.pow(2, 1+sim.getMenuState().getSizeOfNetwork().getCurrentValue())));
 	}
 	public void restart() {
 		vehicles = new ArrayList<Vehicle>();
@@ -1381,9 +1295,6 @@ public class Network {
 	}
 	public ArrayList<MaxVehicleOutflow> getMaxVehicleOutflows() {
 		return this.maxVehicleOutflows;
-	}
-	public void addRoadtoRoads(Road r) {
-		this.roads.add(r);
 	}
 	public int getCellWidth() {
 		return cellWidth;

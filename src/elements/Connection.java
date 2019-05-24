@@ -27,10 +27,6 @@ public class Connection implements Cloneable {
 		System.out.print("(" + this.position + ", " + this.name + ") ");
 	}
 	
-	public void println() {
-		System.out.println("(" + this.position + ", " + this.name + ") ");
-	}
-
 	// Getters & setters ------------------------------------------------------------------------------------
 	public String getName() {
 		return name;

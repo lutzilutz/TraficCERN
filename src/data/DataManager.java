@@ -15,12 +15,12 @@ import utils.Utils;
 
 public class DataManager {
 
-	public static double[][][] probas = new double[24][9][9]; // for each hour, probability to generate vehicle from an entrance to an exit
-	public static double[][] inputMatrixEntrance = new double[24][9]; // for each hour, quantity of vehicles to generate at an entrance
-	public static double[][] inputMatrixExit = new double[24][9]; // for each hour, quantity of vehicles that should exit at an exit
+	private static double[][][] probas = new double[24][9][9]; // for each hour, probability to generate vehicle from an entrance to an exit
+	private static double[][] inputMatrixEntrance = new double[24][9]; // for each hour, quantity of vehicles to generate at an entrance
+	private static double[][] inputMatrixExit = new double[24][9]; // for each hour, quantity of vehicles that should exit at an exit
 	public static int[][] inputMatrixReports = new int[2][2]; // percentage of vehicles to be transfered from entrance B or A to entrance E and tunnel
 	
-	public static int[][] flowPerExit = new int[24][18]; // for each hour, ...
+	private static int[][] flowPerExit = new int[24][18]; // for each hour, ...
 	
 	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>(); // list of all individual ride time, for transit only
 	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>(); // list of all individual ride time, for CERN employees only
@@ -29,7 +29,7 @@ public class DataManager {
 	public static ArrayList<Integer> distanceTravelledCERN = new ArrayList<Integer>();
 
 	// Initialize the probability matrix with the input matrices (entrance and exit)
-	public static void initProbas() {
+	private static void initProbas() {
 		
 		// Saving input data for entrances ------------------------------------------------------------------
 		// for every hour of the day
@@ -154,7 +154,7 @@ public class DataManager {
 	}
 
 	// Initialize the flow per exit with the input matrices
-	public static void initFlowPerExit() {
+	private static void initFlowPerExit() {
 		
 		for (int i=0; i<inputMatrixEntrance[0].length+inputMatrixExit[0].length; ++i) {
 			for (int j=0; j<24; ++j) {
@@ -167,7 +167,7 @@ public class DataManager {
 		}
 	}
 	
-	public static void initTransfers() {
+	private static void initTransfers() {
 		// Saving input data for transfers ------------------------------------------------------------------
 		// for each entrance (1st line is entrance B, 2nd line is entrance A)
 		for (int i=0; i<2; i++) {
@@ -218,7 +218,7 @@ public class DataManager {
 	}
 	
 	// Apply the data to the rides
-	public static void applyDataToRides(Simulator simulator) {
+	private static void applyDataToRides(Simulator simulator) {
 
 		Network n = simulator.getSimState().getNetwork();
 
@@ -446,7 +446,7 @@ public class DataManager {
 	}
 	
 	// Apply the flow into rides (in : entering road index in probas ; out : exiting road index in probas)
-	public static void saveFlowIntoRide(Ride r, int in, int out) {
+	private static void saveFlowIntoRide(Ride r, int in, int out) {
 		for (int i=0; i<24; i++) {
 			
 			r.setFlow(i, i+1, (float) (Defaults.getGlobalFlowMultiplier()*probas[i][out][in])*flowPerExit[i][in] / (float) (r.getNumberOfSameRide()));
@@ -454,7 +454,7 @@ public class DataManager {
 	}
 	
 	// Apply the flow into roads with the input matrix
-	public static void saveFlowIntoRoad(Road road, int index, int specialCase) {
+	private static void saveFlowIntoRoad(Road road, int index, int specialCase) {
 		for (int i=0; i<24; i++) {
 			
 			// All roads
@@ -475,7 +475,7 @@ public class DataManager {
 	}
 	
 	// Apply the data to the roads
-	public static void applyDataToRoads(Simulator simulator) {
+	private static void applyDataToRoads(Simulator simulator) {
 
 		Network n = simulator.getSimState().getNetwork();
 		for (Road road: n.getRoads()) {
@@ -511,7 +511,7 @@ public class DataManager {
 	}
 	
 	// Is roadName the last road of the ride r ?
-	public static boolean lastRoadIs(Ride r, String roadName) {
+	private static boolean lastRoadIs(Ride r, String roadName) {
 		if (r.getNextConnections().size()>0) {
 			if (r.getNextConnections().get(r.getNextConnections().size()-1).getName().equals(roadName)) {
 				return true;
@@ -524,7 +524,7 @@ public class DataManager {
 	}
 	
 	// Return the number of rides going from "start" to "end" roads
-	public static int numberOfSameRides(Simulator sim, String start, String end) {
+	private static int numberOfSameRides(Simulator sim, String start, String end) {
 		Network n = sim.getSimState().getNetwork();
 		int count = 1;
 		for (AllNetworkRides anr: n.getAllNetworkRides()) {

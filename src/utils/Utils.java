@@ -16,20 +16,20 @@ import java.util.Date;
 
 public class Utils {
 
-	public static PrintStream log;
-	public static PrintStream dataCounters;
-	public static PrintStream dataLeakyBuckets;
-	public static PrintStream dataMeanTimeSpent_transit;
-	public static PrintStream dataMeanTimeSpent_cern;
-	public static String dataStrCounters = "";
-	public static String dataStrLeakyBuckets = "";
-	public static String dataStrMeanTimeSpent_transit = "";
-	public static String dataStrMeanTimeSpent_cern = "";
-	public static String dataDir = "data";
+	private static PrintStream log;
+	private static PrintStream dataCounters;
+	private static PrintStream dataLeakyBuckets;
+	private static PrintStream dataMeanTimeSpent_transit;
+	private static PrintStream dataMeanTimeSpent_cern;
+	private static String dataStrCounters = "";
+	private static String dataStrLeakyBuckets = "";
+	private static String dataStrMeanTimeSpent_transit = "";
+	private static String dataStrMeanTimeSpent_cern = "";
+	private static String dataDir = "data";
 	private static Date date = new Date();
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-	public static String dataDirSim;
-	public static long time = 0;
+	private static String dataDirSim;
+	private static long time = 0;
 	
 	public static void initLog() {
 		try {
@@ -61,7 +61,7 @@ public class Utils {
 		
 		Utils.logInfoln("Initialized simulation folder " + dateFormat.format(date) + "_" + Integer.toString(numberOfSimulations));
 	}
-	public static void initDataLeakyBuckets() {
+	private static void initDataLeakyBuckets() {
 		try {
 			dataLeakyBuckets = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_leakyBuckets.txt", false));
 		} catch (FileNotFoundException e) {
@@ -70,7 +70,7 @@ public class Utils {
 		}
 		dataLeakyBuckets.print("Thoiry-Exp Thoiry-StdDev St-Genis-Exp St-Genis-StdDev Ferney-Exp Ferney-StdDev Tun-Exp Tun-StdDev Geneva-Exp Geneva-StdDev EntranceB-L-Exp EntranceB-L-StdDev EntranceB-R-Exp EntranceB-R-StdDev\n");
 	}
-	public static void initDataCounters() {
+	private static void initDataCounters() {
 		try {
 			dataCounters = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_counters.txt", false));
 		} catch (FileNotFoundException e) {
@@ -80,7 +80,7 @@ public class Utils {
 		dataCounters.print("Number of vehicles per minute passing through counters ---\n");
 		dataCounters.print("Counter1A Counter1B Counter2A Counter2B EntranceBLeft EntranceBRight EntranceELeft EntranceERight EntranceESum\n");
 	}
-	public static void initDataMeanTimeSpent() {
+	private static void initDataMeanTimeSpent() {
 		try {
 			dataMeanTimeSpent_transit = new PrintStream(new FileOutputStream(dataDirSim + "/" + "data_mean_time_transit.txt", false));
 		} catch (FileNotFoundException e) {
@@ -173,22 +173,6 @@ public class Utils {
 		dataStrMeanTimeSpent_transit = "";
 		dataMeanTimeSpent_cern.print(dataStrMeanTimeSpent_cern);
 		dataStrMeanTimeSpent_cern = "";
-	}
-	public static String loadFileInsideJarAsString(String path) {
-		StringBuilder builder = new StringBuilder();
-		
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(Utils.class.getResourceAsStream(path)));
-			String line;
-			while ((line = br.readLine()) != null) {
-				builder.append(line + "\n");
-			}
-			br.close();
-		} catch (IOException e) {
-			Utils.logErrorln("Couldn't read " + path + " and save it into a string");
-			Utils.log(e);
-		}
-		return builder.toString();
 	}
 	public static ArrayList<String> loadFileOutsideJarAsString(String path) {
 		Utils.logInfo("Loading " + path + " ... ");

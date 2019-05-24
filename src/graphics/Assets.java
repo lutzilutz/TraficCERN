@@ -12,7 +12,7 @@ public class Assets {
 	// Dimensions
 	public static int buttonW = 90, buttonH = 34; // default simulation buttons dimensions
 	public static int menuButtonW = 140, menuButtonH = 30; // default menu buttons dimensions
-	public static int smallButtonW = 50; // default small buttons width
+	private static int smallButtonW = 50; // default small buttons width
 	public static int menuXStart = 180, menuYStart = 200;
 	public static int buttonXStart = 20, buttonYStart = 30; // x and y starts of the button inside SimState
 	public static int buttonSpacing = 10; // spacing between buttons

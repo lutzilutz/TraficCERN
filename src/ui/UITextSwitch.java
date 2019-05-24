@@ -21,14 +21,6 @@ public class UITextSwitch extends UIObject {
 		else {chosenArg = 1;}
 		nArgs = 2;
 	}
-	public UITextSwitch(float x, float y, int width, int height, String text1, String text2, int chosenArg, ClickListener clicker) {
-		super(x, y, width, height);
-		this.text1 = text1;
-		this.text2 = text2;
-		this.clicker = clicker;
-		this.chosenArg = chosenArg;
-		nArgs = 2;
-	}
 	public UITextSwitch(float x, float y, int width, int height, String text1, String text2, String text3, int chosenArg, ClickListener clicker) {
 		super(x, y, width, height);
 		this.text1 = text1;

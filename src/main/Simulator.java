@@ -187,7 +187,7 @@ public class Simulator implements Runnable {
 	}
 	
 	// Stop method, stop the current thread
-	public synchronized void stop() {
+	private synchronized void stop() {
 		
 		// thread has already been stopped
 		if (!running) {
@@ -234,11 +234,5 @@ public class Simulator implements Runnable {
 	}
 	public String getVersionID() {
 		return this.versionID;
-	}
-	public void disableUIManager() {
-		mouseManager.setUIManager(null);
-	}
-	public void enableUIManager() {
-		mouseManager.setUIManager(this.uiManager);
 	}
 }

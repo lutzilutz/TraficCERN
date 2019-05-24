@@ -11,7 +11,6 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import elements.CrossRoad;
 import elements.Road;
@@ -25,7 +24,6 @@ import utils.Utils;
 public class NetworkRendering {
 
 	public static Rectangle bounds = new Rectangle(0,0,300,300);
-	public static ArrayList<Polygon> zone = new ArrayList<Polygon>();
 	
 	// One-time operations ##################################################################################
 	// ######################################################################################################
@@ -69,7 +67,7 @@ public class NetworkRendering {
 	}
 	
 	// Render one background image
-	public static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
+	private static void renderBG(Network n, Graphics g, boolean drawColors, boolean drawWire, boolean drawRoadID) {
 		// CERN zone ==================================================================================================
 		g.setColor(Assets.zoneCERNCol);
 		for (Polygon zone: n.getZones()) {
@@ -284,7 +282,7 @@ public class NetworkRendering {
 			renderIDs(n, g);
 		}
 	}
-	public static void renderIDs(Network n, Graphics g) {
+	private static void renderIDs(Network n, Graphics g) {
 		g.setColor(Color.blue);
 		g.setFont(new Font("Arial",Font.BOLD,14));
 		for (Road r: n.getRoads()) {
@@ -335,7 +333,7 @@ public class NetworkRendering {
 		renderCounters(network, g);
 		renderLeakyBuckets(network, g);
 	}
-	public static void renderVehicles(Network n, Graphics g) {
+	private static void renderVehicles(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.black);
@@ -400,7 +398,7 @@ public class NetworkRendering {
 		}
 		gg.dispose();
 	}
-	public static void renderElementName(Network n, Graphics g) {
+	private static void renderElementName(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.red);
@@ -414,7 +412,7 @@ public class NetworkRendering {
 			Text.drawString(gg, r.getName(), Color.red, (int) r.getX(), (int) r.getY(), false, Assets.normalBoldFont);
 		}
 	}
-	public static void renderElementCenter(Network n, Graphics g) {
+	private static void renderElementCenter(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.red);
@@ -507,14 +505,14 @@ public class NetworkRendering {
 			
 		}
 	}
-	public static void renderCounters(Network n, Graphics g) {
+	private static void renderCounters(Network n, Graphics g) {
 		for (Road r: n.getRoads()) {
 			if (r.getVehicleCounter() != null) {
 				r.getVehicleCounter().render(g);
 			}
 		}
 	}
-	public static void renderLeakyBuckets(Network n, Graphics g) {
+	private static void renderLeakyBuckets(Network n, Graphics g) {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.pink);

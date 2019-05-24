@@ -23,20 +23,8 @@ public class CrossRoad {
 	private int maxSpeed;
 	private int direction;
 	private double x,y;
-
-	public CrossRoad(Network n) {
-		this.n = n;
-		
-		initFields();
-	}
 	
-	public CrossRoad(Network n, String name) {
-		this.n = n;
-		this.name = name;
-		
-		initFields();
-	}
-	public void initFields() {
+	private void initFields() {
 		this.maxSpeed = 1;
 		this.x = 0;
 		this.y = 0;
@@ -75,13 +63,6 @@ public class CrossRoad {
 			middleCells[i].setPreviousCell(middleCells[(i+3)%4]);
 		}
 	}
-	public void sortEnters() {
-		Collections.sort(this.enters, new SortByPos());
-	}
-	
-	public void sortExits() {
-		Collections.sort(this.exits, new SortByPos());
-	}
 	
 	public void setAllTrafficLightsRed() {
 		for (Road r: this.roadsIN) {
@@ -102,35 +83,6 @@ public class CrossRoad {
 		this.middleCells[(i+2)%4].setNextCell(this.roadsOUT[(i+2)%4].getRoadCells().get(0));
 	}
 	
-	public void setPositionFromIn(Road r, int i) {
-		i = ((i % 4) + 4) % 4;
-		this.direction = (int) ((r.getDirection()-((3-i)%4)*90)%360);
-		double valInter1 = n.getCellHeight()/2;
-		double valInter2 = n.getCellWidth()*r.getLength()+n.getCellHeight();
-		double angle =  Math.atan(valInter1/valInter2);
-		angle = Math.toDegrees(angle);
-		this.setX((int) (r.getX() + Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.sin(2*Math.PI*(r.getDirection()+90+angle)/360))));
-		this.setY((int) (r.getY() - Math.sqrt(Math.pow(n.getCellWidth()*r.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight()/2, 2) * Math.cos(2*Math.PI*(r.getDirection()+90+angle)/360))));
-		addRoadIn(r, i);
-	}
-	
-	public void setPositionFromOut(Road r, int i) {
-		i = ((i % 4) + 4) % 4;
-		this.direction = (int) ((r.getDirection()+(i % 4)*90)%360);
-		this.setX((int) (r.getX() - (1*n.getCellHeight()/2 * Math.sin(2*Math.PI*r.getDirection()/360.0))));
-		this.setY((int) (r.getY() + (5*n.getCellHeight()/2 * Math.cos(2*Math.PI*r.getDirection()/360.0))));
-		addRoadOut(r, i);
-	}
-	
-	public void connectTo(Road r, int i) {
-		i = ((i % 4) + 4) % 4;
-		this.middleCells[i].setOutCell(r.getRoadCells().get(0));
-		r.getRoadCells().get(0).setInCell(this.middleCells[i]);
-		addRoadOut(r, i);
-		this.addExit(r.getName(), i);
-		r.addEnter(this.getName(), 0);
-	}
-	
 	public void addRoadIn(Road r, int i) {
 		if (this.roadsIN == null) {
 			++ this.numberOfRoadsIn;
@@ -142,7 +94,7 @@ public class CrossRoad {
 		this.roadsOUT[i] = r;
 	}
 	
-	public void addExit(String name, int position) {
+	private void addExit(String name, int position) {
 		exits.add(new Connection(name, position));
 	}	
 	

@@ -43,18 +43,6 @@ public class UISlider extends UIObject {
 		this.clicker = clicker;
 		this.percentage = percentage;
 	}
-	public UISlider(Simulator simulation, float x, float y, int width, String text, int nValues, int defaultValue, boolean percentage, boolean printBothValues, ClickListener clicker) {
-		super(x, y, width, 12);
-		this.simulation = simulation;
-		this.width = width;
-		this.text = text;
-		this.nValues = nValues;
-		this.defaultValue = defaultValue;
-		this.currentValue = defaultValue;
-		this.clicker = clicker;
-		this.percentage = percentage;
-		this.printBothValues = printBothValues;
-	}
 
 	@Override
 	public void tick() {

@@ -140,13 +140,13 @@ public class SimState extends State {
 		lastTick = System.nanoTime();
 		
 	}
-	public void initButtons() {
+	private void initButtons() {
 		
 		initTopButtons();
 		initBottomButtons();
 		
 	}
-	public void initBottomButtons() {
+	private void initBottomButtons() {
 
 		colorOn = new UITextSwitch(Assets.buttonXStart, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Color ON", "Color OFF", Defaults.getDrawColors(), new ClickListener(){
 			@Override
@@ -200,7 +200,7 @@ public class SimState extends State {
 		this.uiManager.addObject(namesOn);
 		this.uiManager.addObject(centersOn);
 	}
-	public void initTopButtons() {
+	private void initTopButtons() {
 		
 		// "Controls" Buttons ===============================================================================
 
@@ -328,7 +328,7 @@ public class SimState extends State {
 		exitN.setVisible(false);
 		this.uiManager.addObject(exitN);
 	}
-	public void renderBG(Network network, BufferedImage[] backgrounds) {
+	private void renderBG(Network network, BufferedImage[] backgrounds) {
 		
 		// create Graphics object for the background, and draw on it
 		Graphics2D g = background.createGraphics();
@@ -347,7 +347,7 @@ public class SimState extends State {
 		if (Defaults.getDrawColors()) {currentBackgroundID += 4;}
 		currentDisplay = this.networkDisplays[currentBackgroundID];
 	}
-	public void networkTick() {
+	private void networkTick() {
 		// check for the end of a day in-sim and not a "finished" flag
 		step++;
 		if (step >= 86400 && !finished) {
@@ -370,7 +370,7 @@ public class SimState extends State {
 		NetworkComputing.computeEvolution(network);
 		NetworkComputing.evolve(network);
 	}
-	public void checkFirstTick() {
+	private void checkFirstTick() {
 		
 		// if it's the first tick of this SimState, log it
 		if (network.getSimulation().getSimState().getStep()==1 && network.getSimulation().getSimState().getSimulationID()==1) {
@@ -378,7 +378,7 @@ public class SimState extends State {
 			Utils.logInfoln("Simulating ...");
 		}
 	}
-	public void keyboardTick() {
+	private void keyboardTick() {
 		// Offset keys ======================================================================================
 		if (simulator.getKeyManager().right) {
 			network.setxOffset(network.getxOffset()-offsetSpeed*Math.cos(network.getRotation()));
@@ -467,7 +467,7 @@ public class SimState extends State {
 		keyboardTick();
 		
 	}
-	public void increaseOffset() {
+	private void increaseOffset() {
 		if (offsetTime == 0) {
 			offsetTime = System.nanoTime();
 		}
@@ -550,7 +550,7 @@ public class SimState extends State {
 			}
 		}
 	}
-	public void restartNetwork() {
+	private void restartNetwork() {
 		step = 1;
 		network.restart();
 		Utils.initAllData(numberOfSimulations);
@@ -691,13 +691,13 @@ public class SimState extends State {
 	public boolean getPause() {
 		return paused;
 	}
-	public void switchPause() {
+	private void switchPause() {
 		paused = !paused;
 	}
 	public double getSimSpeed() {
 		return this.simSpeed;
 	}
-	public void disableUIManager() {
+	private void disableUIManager() {
 		simulator.getMouseManager().setUIManager(null);
 	}
 	public void enableUIManager() {

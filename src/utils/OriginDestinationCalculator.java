@@ -71,15 +71,6 @@ public class OriginDestinationCalculator {
 		computeCoeff();
 	}
 	
-	public void printl(int k) {
-		for (int i=0; i<probas.length; ++i) {
-			for (int j=0; j<probas[i].length; ++j) {
-				System.out.print(Math.round(10000*probas[i][j][k])/10000.0 + "\t");
-			}
-			System.out.println("");
-		}
-	}
-	
 	// Getters & setters ====================================================================================
 	public double[][][] getProbas() {
 		return probas;

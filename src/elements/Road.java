@@ -50,7 +50,7 @@ public class Road {
 	}
 	
 	
-	public void initFields() {
+	private void initFields() {
 		this.maxSpeed = n.getMaxSpeed();
 		id = idCounter;
 		idCounter++;
@@ -205,33 +205,6 @@ public class Road {
 		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.sin(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
 		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.cos(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
 	}
-	public void setPositionInFrom(CrossRoad CR, int i) {
-		i = i % 4;
-		//this.direction = (int) ((CR.getDirection()+((3-i)%4)*90)%360);
-		setDirection((int) ((CR.getDirection()+((3-i)%4)*90)%360));
-		//System.out.println(this.getReorientations().size());
-		//System.out.println(this.getDirection());
-		double valInter1 = n.getCellHeight()/2;
-		double valInter2 = n.getCellWidth()*this.getLength()+n.getCellHeight();
-		double angle =  Math.atan(valInter1/valInter2);
-		angle = Math.toDegrees(angle);
-		angle = this.getDirection()+180-angle;
-		double posX = (CR.getX() + (Math.sqrt( Math.pow(n.getCellWidth()*this.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight(), 2)/4 ) * Math.sin(2*Math.PI*(angle/360.0)) ));
-		this.setX((int) posX);
-		double posY = (CR.getY() - (Math.sqrt( Math.pow(n.getCellWidth()*this.getLength()+n.getCellHeight(), 2) + Math.pow(n.getCellHeight(), 2)/4 ) * Math.cos(2*Math.PI*(angle/360.0)) ));
-		this.setY((int) posY);
-		CR.addRoadIn(this, i);
-	}
-	public void setPositionOutFrom(CrossRoad CR, int i) {
-		i = i % 4;
-		//this.direction = (int) ((CR.getDirection()-(i % 4)*90)%360);
-		setDirection((int) ((CR.getDirection()-(i % 4)*90)%360));
-		double angle =  Math.atan(2);
-		angle = Math.toDegrees(angle);
-		this.setX((int) (CR.getX() + (n.getCellHeight()/2 * Math.sqrt(5.0) * Math.sin(2*Math.PI*((this.getDirection()+90-angle)%360)/360))));
-		this.setY((int) (CR.getY() - (n.getCellHeight()/2 * Math.sqrt(5.0) * Math.cos(2*Math.PI*((this.getDirection()+90-angle)%360)/360))));
-		CR.addRoadOut(this, i);
-	}
 	
 	// Connect "pointer" of last Cell to Cell i of RoundAbout
 	public void connectTo(Road r, int i) {
@@ -259,13 +232,7 @@ public class Road {
 		this.addExit(ra.getName(), this.getLength()-1);
 		ra.addEnter(this.getName(), i);
 	}
-	public void connectTo(CrossRoad CR, int i) {
-		i = i % 4;
-		this.getRoadCells().get(this.getLength()-1).setOutCell(CR.getMiddleCells()[i]);
-		CR.getMiddleCells()[i].setInCell(this.getRoadCells().get(this.getLength()-1));
-		this.addExit(CR.getName(), this.getLength()-1);
-		CR.addEnter(this.getName(), i);
-	}
+	
 	public void connectTo(MultiLaneRoundAbout MLRA, int i) {
 		int raSize = MLRA.getLanes()[0].getLength();
 		i = ((i % raSize)+raSize)%raSize;
@@ -440,26 +407,6 @@ public class Road {
 			}
 		}
 		return n;
-	}
-	public int getNumberOfVehicles(int speed) {
-		int n = 0;
-		for (Cell cell: roadCells) {
-			if (cell.getVehicle() != null) {
-				if (cell.getVehicle().getSpeed() == speed) {
-					n++;
-				}
-			}
-		}
-		return n;
-	}
-	public void addRoadDirection(Direction d) {
-		this.directions.add(d);
-	}
-	public void removeRoadDirection(Direction d) {
-		this.directions.remove(d);
-	}
-	public void removeAllRoadDirections() {
-		this.directions.clear();
 	}
 	public void addExit(String name, int position) {
 		exits.add(new Connection(name, position));

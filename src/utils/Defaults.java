@@ -21,15 +21,6 @@ public class Defaults {
 	private static int[] lightPhaseDuration = {0, 15, 0, 35, 0, 15, 0, 15}; // pairs of min/max light phase duration (4 phases)
 	
 	// Switchers
-	public static void switchDrawWire() {
-		drawWire = !drawWire;
-	}
-	public static void switchDrawColors() {
-		drawColors = !drawColors;
-	}
-	public static void switchDrawRoadID() {
-		drawRoadID = !drawRoadID;
-	}
 	public static void switchDrawCenters() {
 		drawCenters = !drawCenters;
 	}

@@ -23,18 +23,6 @@ public class ExpVarCalculator {
 		}
 	}
 	
-	// Custom println() method
-	public void println() {
-		for(long xi : values) {
-			System.out.print(xi + "\t");
-		}
-		System.out.println("");
-		for(long xi : valuesSquared) {
-			System.out.print(xi + "\t");
-		}
-		System.out.println("");
-	}
-	
 	// Add values "tempValue" to "tempValues"
 	public void addTemp(Integer tempValue) {
 		if (tempValues.size() < this.size) {

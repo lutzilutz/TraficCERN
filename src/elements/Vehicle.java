@@ -99,12 +99,6 @@ public class Vehicle {
 			}
 		}
 	}
-	public int checkNextCells(int nCells) {
-		int i = 0;
-		i += this.getCell().checkNextCells(nCells, i);
-		return i;
-	}
-	
 	
 	public boolean checkPreviousCells(int nCells, Cell cell) {
 		Cell tmp = cell;
@@ -125,7 +119,7 @@ public class Vehicle {
 		return true;
 	}
 	
-	public boolean checkInCell(Cell c) {
+	private boolean checkInCell(Cell c) {
 		if (c.getInCell() == null || c.getInCell().getVehicle() == null || !(c.getInCell().getVehicle().getRide().get(getIdCurrentRide()).getNextConnections().get(0).getPosition()==c.getPosition())) {
 			return true;
 		}
@@ -171,10 +165,6 @@ public class Vehicle {
 	public void stayHere() {
 		nextLocation = cell;
 	}
-	public void goToNextCell() {
-		nextLocation = cell.getNextCell();
-		distance++;
-	}
 	public void goToOutCell( ) {
 		nextLocation = cell.getOutCell();
 		if (!ride.isEmpty()) {
@@ -201,12 +191,6 @@ public class Vehicle {
 		}
 		this.setNextPlace(ci);
 	}
-	public void accelerate() {
-		++speed;
-	}
-	public void decelerate() {
-		--speed;
-	}
 	public void removeCurrentConnection() {
 		for (int i=0 ; i<ride.size() ; i++) {
 			if (i != idCurrentRide) {
@@ -222,7 +206,7 @@ public class Vehicle {
 			this.getRide().get(idCurrentRide).getNextConnections().remove(0);
 		}
 	}
-	public int distanceFromNextConnection() {
+	private int distanceFromNextConnection() {
 		int i = -1;
 		if (this.getCell() != null && !this.getRide().get(idCurrentRide).getNextConnections().isEmpty()) {
 			if (this.getCell() != null && this.getCell().isInRoundAbout()) {
@@ -236,7 +220,7 @@ public class Vehicle {
 		}
 		return i;
 	}
-	public int distFromNextVehicle() {
+	private int distFromNextVehicle() {
 		int i = -1;
 		Cell tmp = this.getCell();
 		if (tmp != null && tmp.isInRoundAbout()) {
@@ -255,25 +239,6 @@ public class Vehicle {
 			}
 		}
 		return i;
-	}
-	public int numberOfVhcAhead(Road r) {
-		int n = 0;
-		Cell tmp;
-		if (this.currentRoadName.equals(r.getName())) {
-			tmp = this.getCell();
-		} else {
-			tmp = r.getRoadCells().get(0);
-		}
-		
-		if (tmp != null) {
-			for (int j=1; j<tmp.getRoadLength()-this.getCell().getPosition();++j) {
-				if (tmp.getNextCell().getVehicle() != null) {
-					n++;
-				}
-				tmp = tmp.getNextCell();
-			}
-		}
-		return n;
 	}
 	public void nextSpeed() {
 		int distToNextConnection = this.distanceFromNextConnection();
@@ -338,9 +303,6 @@ public class Vehicle {
 	public void setDstColor(Color dstColor) {
 		this.dstColor = dstColor;
 	}
-	public boolean inBucket() {
-		return inBucket;
-	}
 	public void setInBucket(boolean inBucket) {
 		this.inBucket = inBucket;
 	}
@@ -387,8 +349,5 @@ public class Vehicle {
 		for (Ride tmp: ride) {
 			this.ride.add(tmp);
 		}
-	}
-	public void addRide(Ride ride) {
-		this.ride.add(ride);
 	}
 }

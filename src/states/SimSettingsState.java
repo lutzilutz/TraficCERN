@@ -162,14 +162,11 @@ public class SimSettingsState extends State {
 	public UISlider timePerVhcEntrance() {
 		return timePerVhcEntrance;
 	}
-	public void disableUIManager() {
+	private void disableUIManager() {
 		simulator.getMouseManager().setUIManager(null);
 	}
 	public void enableUIManager() {
 		simulator.getMouseManager().setUIManager(this.uiManager);
-	}
-	public void enableUIManager(UIManager uiManager) {
-		simulator.getMouseManager().setUIManager(uiManager);
 	}
 	public void setLoading(boolean loading) {
 		this.loading = loading;
