@@ -1,10 +1,8 @@
 package elements;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import network.Network;
-import utils.SortByPos;
 
 public class CrossRoad {
 	private Network n;
@@ -24,7 +22,7 @@ public class CrossRoad {
 	private int direction;
 	private double x,y;
 	
-	private void initFields() {
+	/*private void initFields() {
 		this.maxSpeed = 1;
 		this.x = 0;
 		this.y = 0;
@@ -62,7 +60,7 @@ public class CrossRoad {
 		for (int i=0; i<4; ++i) {
 			middleCells[i].setPreviousCell(middleCells[(i+3)%4]);
 		}
-	}
+	}*/
 	
 	public void setAllTrafficLightsRed() {
 		for (Road r: this.roadsIN) {
@@ -94,9 +92,9 @@ public class CrossRoad {
 		this.roadsOUT[i] = r;
 	}
 	
-	private void addExit(String name, int position) {
+	/*private void addExit(String name, int position) {
 		exits.add(new Connection(name, position));
-	}	
+	}*/
 	
 	public void addEnter(String name, int position) {
 		enters.add(new Connection(name, position));
