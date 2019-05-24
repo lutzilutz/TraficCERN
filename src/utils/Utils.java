@@ -117,6 +117,12 @@ public class Utils {
 	public static void logInfo(String text) {
 		log("  INFO     : " + text);
 	}
+	public static void logTabln(String text) {
+		logln("             " + text);
+	}
+	public static void logTab(String text) {
+		log("             " + text);
+	}
 	public static void logln(String text) {
 		log.print(text + "\n");
 		System.out.println(text);

@@ -69,7 +69,7 @@ public class MenuState extends State {
 		this.uiManager.addObject(sizeOfNetwork);
 
 		globalMultiplier = new UISlider(simulator, Assets.menuXStart, Assets.menuYStart + 4 * (Assets.sliderHeight + buttonYMargin),
-				Assets.sliderWidth, "Additionnal flow", 100, 0, (int) (Defaults.getGlobalFlowMultiplier() * 100 - 100),
+				Assets.sliderWidth, "Additional flow", 100, 0, (int) (Defaults.getGlobalFlowMultiplier() * 100 - 100),
 				true, new ClickListener() {
 					@Override
 					public void onClick() {

@@ -54,7 +54,7 @@ public class SimState extends State {
 	private UIImageButton playPause;
 	
 	// Bottom screen buttons
-	private UITextSwitch colorOn, wireOn, idOn, ridesOn, namesOn, centersOn;
+	private UITextSwitch colorOn, wireOn, idOn, namesOn, centersOn, ridesOn;
 	
 	private BufferedImage[] networkDisplays; // list of all network images depending on color, wire, ...
 	private BufferedImage currentDisplay; // current network image
@@ -172,21 +172,21 @@ public class SimState extends State {
 				currentDisplay = networkDisplays[currentBackgroundID];
 			}
 		});
-		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", Defaults.getDrawCenters(), new ClickListener(){
+		ridesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Rides ON", "Rides OFF", Defaults.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				ridesOn.switchIt();
 				Defaults.switchDrawRides();
 			}
 		});
-		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", Defaults.getDrawCenters(), new ClickListener(){
+		namesOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*3, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Names ON", "Names OFF", Defaults.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				namesOn.switchIt();
 				Defaults.switchDrawNames();
 			}
 		});
-		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*5, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", Defaults.getDrawCenters(), new ClickListener(){
+		centersOn = new UITextSwitch(Assets.buttonXStart+(Assets.buttonW+Assets.buttonSpacing)*4, simulator.getHeight()-Assets.buttonH-20, Assets.buttonW, Assets.buttonH, "Centers ON", "Centers OFF", Defaults.getDrawCenters(), new ClickListener(){
 			@Override
 			public void onClick() {
 				centersOn.switchIt();

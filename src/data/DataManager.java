@@ -24,7 +24,6 @@ public class DataManager {
 	
 	public static ArrayList<Integer> timeSpentTransit = new ArrayList<Integer>(); // list of all individual ride time, for transit only
 	public static ArrayList<Integer> timeSpentCERN = new ArrayList<Integer>(); // list of all individual ride time, for CERN employees only
-	public static double meanTime = 0; // expected value on the ride time
 	
 	public static ArrayList<Integer> distanceTravelledTransit = new ArrayList<Integer>();
 	public static ArrayList<Integer> distanceTravelledCERN = new ArrayList<Integer>();
@@ -80,6 +79,26 @@ public class DataManager {
 			}
 		}
 		
+		// Check sum for each hour --------------------------------------------------------------------------
+		ArrayList<Integer> sums = new ArrayList<Integer>();
+		boolean correctSums = true;
+		for (int i=0; i<24; i++) {
+			int tmpSum = 0;
+			for (int j=0; j<9; j++) {
+				tmpSum += inputMatrixEntrance[i][j] - inputMatrixExit[i][j];
+			}
+			if (tmpSum != 0) {
+				correctSums = false;
+			}
+			sums.add(tmpSum);
+		}
+		if (!correctSums) {
+			Utils.logWarningln("Sum by hour isn't null, sum for each hour is :");
+			for (int i=0; i<sums.size(); i++) {
+				Utils.logTabln(i + " : " + sums.get(i));
+			}
+		}
+		
 		// loop on all i,j elements of the matrix
 		for (int i=0; i<inputMatrixExit.length; ++i) {
 			for (int j=0; j<inputMatrixExit[i].length; ++j) {
@@ -92,6 +111,7 @@ public class DataManager {
 			}
 		}
 		
+		// Increase values by 1 million, and avoid null values ----------------------------------------------
 		// loop on all i,j elements of the matrix
 		for (int i=0; i<inputMatrixEntrance.length; ++i) {
 			for (int j=0; j<inputMatrixEntrance[i].length; ++j) {
@@ -177,7 +197,8 @@ public class DataManager {
 	// Apply data to the simulator (rides, roads)
 	public static void applyData(Simulator simulator) {
 
-		Utils.logInfo("Applying data (proba) to Network ... ");
+		Utils.logInfoln("Applying data to Network ... ");
+		Utils.tick();
 		initProbas();
 		initFlowPerExit();
 		initTransfers();
@@ -192,7 +213,8 @@ public class DataManager {
 			}
 		}
 		
-		Utils.logln("done");
+		Utils.logInfo("Data applied to Network");
+		Utils.logTime();
 	}
 	
 	// Apply the data to the rides
