@@ -90,13 +90,6 @@ public class MultiLaneRoundAbout {
 								this.removeLastGoInGoOutConnections(ride);
 							}
 						}
-						for (CrossRoad cr: this.n.getCrossRoads()) {
-							if (e.getName().equals(cr.getName())) {
-								ride.addNextConnection(e.clone());
-								cr.generateRidesAux(n-1, ride);
-								this.removeLastGoInGoOutConnections(ride);
-							}
-						}
 						this.removeLastGoInGoOutConnections(ride);
 
 						++ laneInt;
@@ -129,13 +122,6 @@ public class MultiLaneRoundAbout {
 							if (e.getName().equals(ra.getName())) {
 								ride.addNextConnection(e.clone());
 								ra.generateRidesAux(n-1, ride);
-								this.removeLastGoInGoOutConnections(ride);
-							}
-						}
-						for (CrossRoad cr: this.n.getCrossRoads()) {
-							if (e.getName().equals(cr.getName())) {
-								ride.addNextConnection(e.clone());
-								cr.generateRidesAux(n-1, ride);
 								this.removeLastGoInGoOutConnections(ride);
 							}
 						}

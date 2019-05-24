@@ -8,7 +8,6 @@ import java.util.HashSet;
 
 import elements.Cell;
 import elements.Connection;
-import elements.CrossRoad;
 import elements.MaxVehicleOutflow;
 import elements.MultiLaneRoundAbout;
 import elements.Phase;
@@ -31,7 +30,6 @@ public class Network {
 	private ArrayList<Road> roads = new ArrayList<Road>(); // list of all roads
 	private ArrayList<MultiLaneRoundAbout> multiLaneRoundAbouts = new ArrayList<MultiLaneRoundAbout>(); // list of all multilane round-abouts
 	private ArrayList<RoundAbout> roundAbouts = new ArrayList<RoundAbout>(); // list of all round-abouts
-	private ArrayList<CrossRoad> crossRoads = new ArrayList<CrossRoad>(); // list of all cross-roads
 	private ArrayList<TrafficLightsSystem> trafficLightsSystems = new ArrayList<TrafficLightsSystem>(); // list of all traffic lights
 	private ArrayList<AllNetworkRides> allNetworkRides = new ArrayList<AllNetworkRides>(); // list of all rides
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>(); // list of all vehicles
@@ -1213,11 +1211,6 @@ public class Network {
 				cell.setVehicle(null);
 			}
 		}
-		for (CrossRoad cr: crossRoads) {
-			for (Cell cell: cr.getMiddleCells()) {
-				cell.setVehicle(null);
-			}
-		}
 		numberOfVehicles = 0;
 	}
 	// Getters & setters ====================================================================================
@@ -1280,9 +1273,6 @@ public class Network {
 	}
 	public Simulator getSimulation() {
 		return this.sim;
-	}
-	public ArrayList<CrossRoad> getCrossRoads() {
-		return this.crossRoads;
 	}
 	public ArrayList<Road> getRoads() {
 		return this.roads;

@@ -12,7 +12,6 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
-import elements.CrossRoad;
 import elements.Road;
 import elements.RoundAbout;
 import elements.Vehicle;
@@ -79,35 +78,6 @@ public class NetworkRendering {
 		Text.drawString(g, "Entrance A", Assets.zoneCERNtextCol, 210*n.getCellWidth(), 119*n.getCellWidth(), true, Assets.largeFont);
 		Text.drawString(g, "Inter-site", Assets.zoneCERNtextCol, 126*n.getCellWidth(), 71*n.getCellWidth(), true, Assets.largeFont);
 		
-		// CrossRoads =================================================================================================
-		for (CrossRoad cr: n.getCrossRoads()) {
-			Graphics2D gg = (Graphics2D) g.create();
-			gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			gg.rotate(((cr.getDirection())/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
-			
-			// Background ---------------------------------------------------------------------------------------------
-			if (drawColors) {
-				gg.setColor(Color.cyan);
-			} else {
-				if (drawWire) {
-					gg.setColor(Color.gray);
-				} else {
-					gg.setColor(Color.white);
-				}
-			}
-			gg.fillRect((int) (cr.getX()-n.getCellWidth()), (int) (cr.getY()-n.getCellHeight()), n.getCellHeight()*2, n.getCellHeight()*2);
-			gg.drawRect((int) (cr.getX()-n.getCellWidth()), (int) (cr.getY()-n.getCellHeight()), n.getCellHeight()*2, n.getCellHeight()*2);
-			
-			// Wires --------------------------------------------------------------------------------------------------
-			if (drawWire) {
-				gg.setColor(Color.white);
-				gg.drawRect((int) (cr.getX()), (int) (cr.getY() - n.getCellHeight()), n.getCellHeight(), n.getCellHeight());
-				gg.drawRect((int) (cr.getX() - n.getCellWidth()), (int) (cr.getY() -n.getCellHeight() ), n.getCellHeight(), n.getCellHeight());
-				gg.drawRect((int) (cr.getX() - n.getCellWidth()), (int) (cr.getY()), n.getCellHeight(), n.getCellHeight());
-				gg.drawRect((int) (cr.getX()), (int) (cr.getY()), n.getCellHeight(), n.getCellHeight());
-			}
-			gg.dispose();
-		}
 		// Roads ======================================================================================================
 		for (Road r: n.getRoads()) {
 			double firstAngle = (r.getDirection()/360.0)*2*Math.PI- Math.PI/2;
@@ -337,25 +307,6 @@ public class NetworkRendering {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.black);
-		for (CrossRoad cr: n.getCrossRoads()) {
-			for (int i=0; i<4; ++i) {
-				if (cr.getMiddleCells()[i].getVehicle() != null) {
-					Vehicle v = cr.getMiddleCells()[i].getVehicle();
-					if (Defaults.getDrawVehicleColor()) {
-						int newSize = (int) (n.getCellWidth()*1.5);
-						int newOffset = (int) ((newSize-n.getCellWidth())/2.0);
-						gg.setColor(v.getDstColor());
-						gg.fillOval((int) (cr.getMiddleCells()[i].getX()-newOffset), (int) (cr.getMiddleCells()[i].getY()-newOffset), newSize, newSize);
-						int smallOffset = newSize/4;
-						gg.setColor(v.getSrcColor());
-						gg.fillOval((int) (cr.getMiddleCells()[i].getX()-newOffset+smallOffset), (int) (cr.getMiddleCells()[i].getY()-newOffset+smallOffset), newSize/2, newSize/2);
-					} else {
-						gg.setColor(Color.black);
-						gg.fillOval((int) (cr.getMiddleCells()[i].getX()), (int) (cr.getMiddleCells()[i].getY()), n.getCellWidth(), n.getCellHeight());
-					}
-				}
-			}
-		}
 		for (Road r: n.getRoads()) {
 			for (int i=0 ; i<r.getLength() ; i++) {
 				if (r.getRoadCells().get(i).getVehicle() != null) {
@@ -402,9 +353,6 @@ public class NetworkRendering {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.red);
-		for (CrossRoad cr: n.getCrossRoads()) {
-			Text.drawString(gg, cr.getName(), Color.red, (int) cr.getX(), (int) cr.getY(), false, Assets.normalBoldFont);
-		}
 		for (Road r: n.getRoads()) {
 			Text.drawString(gg, r.getName(), Color.red, (int) r.getX(), (int) r.getY(), false, Assets.normalBoldFont);
 		}
@@ -416,14 +364,6 @@ public class NetworkRendering {
 		Graphics2D gg = (Graphics2D) g.create();
 		gg.translate(-bounds.x, -bounds.y);
 		gg.setColor(Color.red);
-		for (CrossRoad cr: n.getCrossRoads()) {
-			gg.fillRect((int) (cr.getX()-1), (int) (cr.getY()-5), 2, 10);
-			gg.fillRect((int) (cr.getX()-5), (int) (cr.getY()-1), 10, 2);
-			Graphics2D ggg = (Graphics2D) gg.create();
-			ggg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			ggg.rotate((cr.getDirection()/360.0)*2*Math.PI- Math.PI/2, cr.getX(), cr.getY());
-			ggg.fillRect((int) (cr.getX()), (int) cr.getY()-1, 30, 2);
-		}
 		for (Road r: n.getRoads()) {
 			gg.fillRect((int) (r.getX()-1), (int) (r.getY()-5), 2, 10);
 			gg.fillRect((int) (r.getX()-5), (int) (r.getY()-1), 10, 2);

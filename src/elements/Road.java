@@ -2,7 +2,6 @@ package elements;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.EnumSet;
 
 import data.VehicleCounter;
 import network.Network;
@@ -22,7 +21,6 @@ public class Road {
 	private ArrayList<Cell> roadCells = new ArrayList<Cell>(); // list of cells that compose the road
 	private ArrayList<Float> flow = new ArrayList<Float>(); 
 	private boolean isTrafficLightRed = false; // if there is a traffic light on road and is red: true
-	private EnumSet<Direction> directions; 
 	private ArrayList<Point> reorientations = new ArrayList<Point>();
 	private int maxOutflow = 0; // maximum outflow, in seconds between 2 vehicles
 	private int outflowCounter = 0; // outflow counter
@@ -366,22 +364,6 @@ public class Road {
 						}
 					}
 				}
-				for (CrossRoad cr: this.n.getCrossRoads()) {
-					if (e.getName().equals(cr.getName())) {
-						for(Connection c: ride.getNextConnections()) {
-							if (c.getName().equals(cr.getName())) {
-								if (!ride.getNextConnections().isEmpty()) {
-									ride.removeLastConnection();
-									this.removeLastGoInGoOutConnections(ride);
-								}
-								return;
-							}
-						}
-						
-						ride.addNextConnection(e.clone());
-						cr.generateRidesAux(n-1, ride);
-					}
-				}	
 			}
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
 				this.n.addARideToAllNetworkRides(ride.clone());
@@ -503,12 +485,6 @@ public class Road {
 	}
 	public void setTrafficLightRed(boolean isTrafficLightRed) {
 		this.isTrafficLightRed = isTrafficLightRed;
-	}
-	public EnumSet<Direction> getDirections() {
-		return directions;
-	}
-	public void setDirections(EnumSet<Direction> directions) {
-		this.directions = directions;
 	}
 	public String getName() {
 		return name;

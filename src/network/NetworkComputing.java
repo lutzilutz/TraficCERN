@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import data.DataManager;
 import elements.Cell;
-import elements.CrossRoad;
 import elements.MaxVehicleOutflow;
 import elements.Ride;
 import elements.Road;
@@ -32,12 +31,7 @@ public class NetworkComputing {
 		Utils.tick();
 		
 		margin = n.getCellWidth()*10;
-		for (CrossRoad cr: n.getCrossRoads()) {
-			for (int i=0 ; i<4 ; i++) {
-				cr.getMiddleCells()[i].setX(cr.getX() - n.getCellWidth()/2 - n.getCellWidth()/2*Math.sqrt(2.0)*Math.sin(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360));
-				cr.getMiddleCells()[i].setY(cr.getY() - n.getCellHeight()/2 - n.getCellWidth()/2*Math.sqrt(2.0)*Math.cos(2*Math.PI*(-cr.getDirection() - 90 + 45 + i*90)/360));
-			}
-		}
+		
 		for (Road r: n.getRoads()) {
 			int tmp = 0;
 			double x = r.getX() - n.getCellWidth()/2.0;
@@ -300,12 +294,6 @@ public class NetworkComputing {
 			maxVhcOutflow.tick();
 		}
 		
-		for (CrossRoad cr: n.getCrossRoads()) {
-			if (!cr.getRoadsIN()[(cr.getStateOfTrafficLight()+1)%4].isTrafficLightRed()) {
-				cr.setTrafficLightState(cr.getStateOfTrafficLight()%4);
-			}
-		}
-		
 		for (Vehicle v: n.getVehicles()) {
 			v.nextSpeed();
 		}
@@ -388,19 +376,6 @@ public class NetworkComputing {
 					v.setSpeed(0);
 					Utils.logWarningln("else block called in NetworkComputing.computeEvolution() that shouldn't be called");
 				}	
-			}
-		}
-		
-		for (CrossRoad cr: n.getCrossRoads()) {
-			cr.setCounter(cr.getCounter()+1);
-			if (cr.getCounter()>=cr.getTimeTrafficLight()) {
-				if (cr.getCounter()>=cr.getTimeTrafficLight()+5) {
-					cr.setStateOfTrafficLight((cr.getStateOfTrafficLight()+1)%4);
-					cr.setTrafficLightState(cr.getStateOfTrafficLight());
-					cr.setCounter(0);
-				} else if (cr.getCounter()==cr.getTimeTrafficLight()) {
-					cr.setAllTrafficLightsRed();
-				}
 			}
 		}
 		
