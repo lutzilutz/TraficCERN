@@ -526,17 +526,7 @@ public class NetworkComputing {
 			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2A().getEsperance().get(i)) + " ");
 			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2A().getEcartType().get(i)) + " ");
 			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2B().getEsperance().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2B().getEcartType().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceBLeft().getEsperance().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceBLeft().getEcartType().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceBRight().getEsperance().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceBRight().getEcartType().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceELeft().getEsperance().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceELeft().getEcartType().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceERight().getEsperance().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceERight().getEcartType().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceESum().getEsperance().get(i)) + " ");
-			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounterEntranceESum().getEcartType().get(i)) + "\n");
+			Utils.writeDataCountersAll(Float.toString(n.getSimulation().getSimState().getCounter2B().getEcartType().get(i)) + "\n");
 		}
 		
 		Utils.saveDataCountersAll();
@@ -563,11 +553,6 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getCounter1B().saveTemp();
 		n.getSimulation().getSimState().getCounter2A().saveTemp();
 		n.getSimulation().getSimState().getCounter2B().saveTemp();
-		n.getSimulation().getSimState().getCounterEntranceBLeft().saveTemp();
-		n.getSimulation().getSimState().getCounterEntranceBRight().saveTemp();
-		n.getSimulation().getSimState().getCounterEntranceELeft().saveTemp();
-		n.getSimulation().getSimState().getCounterEntranceERight().saveTemp();
-		n.getSimulation().getSimState().getCounterEntranceESum().saveTemp();
 	}
 	// Write data every hour
 	private static void writeDataHours(Network n) {
@@ -626,10 +611,5 @@ public class NetworkComputing {
 		n.getSimulation().getSimState().getCounter1B().addTemp(n.selectARoad("rD984FNW").getVehicleCounter().getCounter());
 		n.getSimulation().getSimState().getCounter2A().addTemp(n.selectARoad("rD984FSES").getVehicleCounter().getCounter());
 		n.getSimulation().getSimState().getCounter2B().addTemp(n.selectARoad("rD984FNWS").getVehicleCounter().getCounter());
-		n.getSimulation().getSimState().getCounterEntranceBLeft().addTemp(n.selectARoad("rRoutePauliSouthNELeft").getVehicleCounter().getCounter());
-		n.getSimulation().getSimState().getCounterEntranceBRight().addTemp(n.selectARoad("rRoutePauliSouthNERight").getVehicleCounter().getCounter());
-		n.getSimulation().getSimState().getCounterEntranceELeft().addTemp(n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
-		n.getSimulation().getSimState().getCounterEntranceERight().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter());
-		n.getSimulation().getSimState().getCounterEntranceESum().addTemp(n.selectARoad("rSortieCERNSE").getVehicleCounter().getCounter() + n.selectARoad("rD884CERN").getVehicleCounter().getCounter());
 	}
 }

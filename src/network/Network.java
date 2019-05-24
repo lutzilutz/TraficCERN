@@ -387,7 +387,6 @@ public class Network {
 		roads.add(rSortieCERNSE);
 		raPorteDeFrance.connectTo(rSortieCERNSE, raPorteDeFrance.getLanes()[0].getLength()-23);
 		rSortieCERNSE.setMaxOutflow(8);
-		rSortieCERNSE.setCounter(0.5, "counter EntranceE right");
 		return rSortieCERNSE;
 	}
 	private Road genSortieCERNNW(MultiLaneRoundAbout raPorteDeFrance) {
@@ -415,7 +414,6 @@ public class Network {
 		rD884CERN.getRoadCells().get(0).setInCell(rD884NE.getRoadCells().get(27));
 		rD884CERN.addEnter("rD884NE", 0);
 		rD884CERN.setMaxOutflow(8);
-		rD884CERN.setCounter(0.5, "counter EntranceE left");
 		
 		MaxVehicleOutflow outflowEntranceE = new MaxVehicleOutflow(rD884CERN, 4);
 		outflowEntranceE.addRoad(rSortieCERNSE);
@@ -696,7 +694,6 @@ public class Network {
 			rRoutePauliSouthNERight.connectTo(raEntreeB, 8);
 		}
 		rRoutePauliSouthNERight.setGenerateVehicules(50);
-		rRoutePauliSouthNERight.setCounter(0.5, "counter EntranceB right");
 		return rRoutePauliSouthNERight;
 	}
 	private Road genRoutePauliSouthNELeft(Road rRoutePauliSouthNERight, MultiLaneRoundAbout raEntreeB) {
@@ -709,7 +706,6 @@ public class Network {
 			rRoutePauliSouthNELeft.connectTo(raEntreeB, 7);
 		}
 		rRoutePauliSouthNELeft.setGenerateVehicules(50);
-		rRoutePauliSouthNELeft.setCounter(0.5, "counter EntranceB left");
 		return rRoutePauliSouthNELeft;
 	}
 	private Road genRoutePauliSouthSW(Road rRoutePauliSouthNELeft, MultiLaneRoundAbout raEntreeB) {

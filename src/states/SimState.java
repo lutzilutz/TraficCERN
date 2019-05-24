@@ -83,11 +83,6 @@ public class SimState extends State {
 	private ExpVarCalculator counter1BEVC;
 	private ExpVarCalculator counter2AEVC;
 	private ExpVarCalculator counter2BEVC;
-	private ExpVarCalculator counterEntranceBLeftEVC;
-	private ExpVarCalculator counterEntranceBRightEVC;
-	private ExpVarCalculator counterEntranceELeftEVC;
-	private ExpVarCalculator counterEntranceERightEVC;
-	private ExpVarCalculator counterEntranceESumEVC;
 	
 	// state of the writing phase : 0 before, 1 when begins ... , -1 if finished
 	private int finalDataWritingState = 0;
@@ -130,11 +125,6 @@ public class SimState extends State {
 		counter1BEVC = new ExpVarCalculator(24*60-1);
 		counter2AEVC = new ExpVarCalculator(24*60-1);
 		counter2BEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceBLeftEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceBRightEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceELeftEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceERightEVC = new ExpVarCalculator(24*60-1);
-		counterEntranceESumEVC = new ExpVarCalculator(24*60-1);
 		
 		// save time of current tick
 		lastTick = System.nanoTime();
@@ -634,21 +624,6 @@ public class SimState extends State {
 	}
 	public ExpVarCalculator getCounter2B() {
 		return this.counter2BEVC;
-	}
-	public ExpVarCalculator getCounterEntranceBLeft() {
-		return this.counterEntranceBLeftEVC;
-	}
-	public ExpVarCalculator getCounterEntranceBRight() {
-		return this.counterEntranceBRightEVC;
-	}
-	public ExpVarCalculator getCounterEntranceELeft() {
-		return this.counterEntranceELeftEVC;
-	}
-	public ExpVarCalculator getCounterEntranceERight() {
-		return this.counterEntranceERightEVC;
-	}
-	public ExpVarCalculator getCounterEntranceESum() {
-		return this.counterEntranceESumEVC;
 	}
 	public int getSimulationID() {
 		return this.simulationID;
