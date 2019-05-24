@@ -46,7 +46,7 @@ public class Simulator implements Runnable {
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.versionID = "v 1.0";
+		this.versionID = "v 1.0.1";
 		
 		// initialize mouse, keyboard and UI managers
 		this.uiManager = new UIManager(this);
