@@ -15,7 +15,7 @@ import ui.UITextButton;
 import utils.Defaults;
 import utils.Utils;
 
-public class SimSettingsState extends State {
+public class SettingsState extends State {
 	
 	// UI manager
 	private UIManager uiManager;
@@ -35,7 +35,7 @@ public class SimSettingsState extends State {
 	
 	private boolean loading = false;
 	
-	public SimSettingsState(Simulator simulator) {
+	public SettingsState(Simulator simulator) {
 		super(simulator);
 		this.uiManager = new UIManager(simulator);
 		this.network = simulator.getSimState().getNetwork();

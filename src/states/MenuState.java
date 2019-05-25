@@ -122,7 +122,7 @@ public class MenuState extends State {
 	public void tick(int n) {
 
 		// sim settings aren't loading anymore
-		simulator.getSimSettingsState().setLoading(false);
+		simulator.getSettingsState().setLoading(false);
 
 		// tick the UIManager
 		this.uiManager.tick();
@@ -216,8 +216,8 @@ public class MenuState extends State {
 		DataManager.applyData(simulator);
 
 		// enable UIManager for the next state, switch state
-		simulator.getSimSettingsState().enableUIManager();
-		State.setState(simulator.getSimSettingsState());
+		simulator.getSettingsState().enableUIManager();
+		State.setState(simulator.getSettingsState());
 	}
 
 	// Getters & setters

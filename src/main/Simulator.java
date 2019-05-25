@@ -9,7 +9,7 @@ import graphics.Display;
 import input.KeyManager;
 import input.MouseManager;
 import states.MenuState;
-import states.SimSettingsState;
+import states.SettingsState;
 import states.SimState;
 import states.State;
 import ui.UIManager;
@@ -38,7 +38,7 @@ public class Simulator implements Runnable {
 	
 	// States (in order of execution)
 	private MenuState menuState; // state of the program when it's on the main menu
-	private SimSettingsState simSettingsState; // state of the program when it's on the settings menu
+	private SettingsState settingsState; // state of the program when it's on the settings menu
 	private SimState simState; // state of the program when it runs simulations
 	
 	// Constructor
@@ -72,7 +72,7 @@ public class Simulator implements Runnable {
 		
 		// instantiate all states of the program
 		simState = new SimState(this);
-		simSettingsState = new SimSettingsState(this);
+		settingsState = new SettingsState(this);
 		menuState = new MenuState(this);
 		
 		// go to the menu state
@@ -211,8 +211,8 @@ public class Simulator implements Runnable {
 	public SimState getSimState() {
 		return this.simState;
 	}
-	public SimSettingsState getSimSettingsState() {
-		return this.simSettingsState;
+	public SettingsState getSettingsState() {
+		return this.settingsState;
 	}
 	public MenuState getMenuState() {
 		return this.menuState;
