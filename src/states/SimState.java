@@ -424,7 +424,7 @@ public class SimState extends State {
 	}
 	public void tick(int n) {
 		
-		
+		// If not paused, not in restart, and one frame has passed since last update
 		if (!getPause() && !restarting && (System.nanoTime()-lastTick >= 1000000000/simSpeed)) {
 			
 			// if simulation speed is set to be maximum

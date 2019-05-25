@@ -92,9 +92,6 @@ public class Simulator implements Runnable {
 			State.getState().tick(n);
 		}
 		
-		// the the keyboard manager
-		keyManager.tick();
-		
 	}
 	
 	// Render method, create the environment and render the actual state if exists
@@ -147,7 +144,7 @@ public class Simulator implements Runnable {
 			delta += (now - lastTime) / timePerTick;
 			lastTime = System.nanoTime();
 			
-			// if one tick of delay has passed
+			// if at least one tick of delay has passed
 			if (delta >= 1) {
 				
 				// compute number of ticks to do, and tick
@@ -157,14 +154,6 @@ public class Simulator implements Runnable {
 				render(); // call the render method
 				Toolkit.getDefaultToolkit().sync(); // used to avoid graphics lag (see official documentation)
 				delta--;
-			}
-			
-			// try to sleep until next tick
-			try {
-				Thread.sleep(Math.max(0, (int) ((now - System.nanoTime() + timePerTick) / 1000000)));
-			} catch (InterruptedException e) {
-				Utils.logErrorln("Couldn't sleep in Simulator.run()");
-				Utils.log(e);
 			}
 		}
 		

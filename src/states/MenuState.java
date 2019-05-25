@@ -18,7 +18,6 @@ import utils.Defaults;
 public class MenuState extends State {
 
 	private UIManager uiManager;
-	private Network network;
 
 	private int buttonYMargin = 20; // margin between buttons
 	private int descriptionMargin = 20; // margin between buttons and descriptions
@@ -33,7 +32,6 @@ public class MenuState extends State {
 	public MenuState(Simulator simulator) {
 		super(simulator);
 		this.uiManager = new UIManager(simulator); // initialize the user interface manager
-		this.network = simulator.getSimState().getNetwork();
 
 		// Network selection buttons
 		// ========================================================================
@@ -120,6 +118,12 @@ public class MenuState extends State {
 	}
 
 	public void tick(int n) {
+		
+		tick();
+		
+	}
+
+	public void tick() {
 
 		// sim settings aren't loading anymore
 		simulator.getSettingsState().setLoading(false);
@@ -139,10 +143,6 @@ public class MenuState extends State {
 
 		// update the repartition of transfers between entrance E and tunnel
 		Defaults.setRepartitionETunnel(repartition_E_tunnel.getCurrentValue());
-	}
-
-	public void tick() {
-
 	}
 
 	public void render(Graphics g) {
@@ -189,8 +189,8 @@ public class MenuState extends State {
 			g.setColor(Assets.bgAlphaCol);
 			g.fillRect(0, 0, 1000, 700);
 			g.setColor(Color.white);
-			Text.drawString(g, "Please wait, processing ...", Color.white, network.getSimulation().getWidth() / 2,
-					network.getSimulation().getHeight() / 2, true, Assets.largeFont);
+			Text.drawString(g, "Please wait, processing ...", Color.white, simulator.getWidth() / 2,
+					simulator.getHeight() / 2, true, Assets.largeFont);
 		}
 	}
 

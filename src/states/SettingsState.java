@@ -112,6 +112,11 @@ public class SettingsState extends State {
 	
 	public void tick(int n) {
 		
+		tick();
+		
+	}
+	public void tick() {
+		
 		// menu aren't loading anymore
 		simulator.getMenuState().setLoading(false);
 		
@@ -126,9 +131,6 @@ public class SettingsState extends State {
 				isLeftPressed = false;
 			}
 		}
-	}
-	public void tick() {
-		
 	}
 	public void render(Graphics g) {
 		g.setColor(Assets.bgCol);
