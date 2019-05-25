@@ -6,7 +6,6 @@ import data.DataManager;
 import graphics.Assets;
 import graphics.Text;
 import main.Simulator;
-import network.Network;
 import ui.ClickListener;
 import ui.UIManager;
 import ui.UISlider;
@@ -19,7 +18,6 @@ public class SettingsState extends State {
 	
 	// UI manager
 	private UIManager uiManager;
-	private Network network;
 	
 	private int buttonYMargin = 5; // vertical margin between buttons
 	private int buttonXMargin = 15; // horizontal margin between buttons
@@ -38,7 +36,6 @@ public class SettingsState extends State {
 	public SettingsState(Simulator simulator) {
 		super(simulator);
 		this.uiManager = new UIManager(simulator);
-		this.network = simulator.getSimState().getNetwork();
 		
 		// control duration button
 		timePerVhcEntrance = new UISlider(simulator, Assets.menuXStart, Assets.menuYStart+1*(Assets.sliderHeight+buttonYMargin), Assets.sliderWidth, "Control duration", 30, Defaults.getControlDuration(), false, new ClickListener(){
@@ -143,7 +140,7 @@ public class SettingsState extends State {
 			g.setColor(Assets.bgAlphaCol);
 			g.fillRect(0, 0, 1000, 700);
 			g.setColor(Color.white);
-			Text.drawString(g, "Please wait, processing ...", Color.white, network.getSimulation().getWidth()/2, network.getSimulation().getHeight()/2, true, Assets.largeFont);
+			Text.drawString(g, "Please wait, processing ...", Color.white, simulator.getWidth()/2, simulator.getHeight()/2, true, Assets.largeFont);
 		}
 	}
 	
