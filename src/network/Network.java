@@ -462,7 +462,7 @@ public class Network {
 	private Road genD984FSES3_Scenario1(Road rD984FSES2) {
 		Road rD984FSES3 = new Road(this, 46, "rD984FSES3");
 		rD984FSES3.setStartPositionFrom(rD984FSES2, 1, 113, 1, (113+90));
-		rD984FSES2.connectFromiTo(rD984FSES3, 0);
+		rD984FSES2.connectFromiToj(rD984FSES3, 0, 0);
 		roads.add(rD984FSES3);
 		return rD984FSES3;
 	}
@@ -574,7 +574,7 @@ public class Network {
 				rRouteDeMeyrinNorthSE2.connectFromiToj(rRouteDeMeyrinNorthSE1_2, 32+i, i);
 			}
 		} else if (this.n == 1) {
-			rRouteDeMeyrinNorthSE2.connectFromiTo(rRouteDeMeyrinNorthSE1_2, 32);
+			rRouteDeMeyrinNorthSE2.connectFromiToj(rRouteDeMeyrinNorthSE1_2, 32, 0);
 		}
 		return rRouteDeMeyrinNorthSE1_2;
 	}

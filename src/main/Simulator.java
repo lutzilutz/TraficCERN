@@ -92,6 +92,8 @@ public class Simulator implements Runnable {
 			State.getState().tick(n);
 		}
 		
+		keyManager.tick();
+		
 	}
 	
 	// Render method, create the environment and render the actual state if exists

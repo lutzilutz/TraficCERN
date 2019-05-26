@@ -47,7 +47,6 @@ public class Road {
 		initFields();
 	}
 	
-	
 	private void initFields() {
 		this.maxSpeed = n.getMaxSpeed();
 		id = idCounter;
@@ -72,7 +71,6 @@ public class Road {
 			flow.add(0f);
 		}
 	}
-	
 	
 	public void outflowTick() {
 		
@@ -100,20 +98,13 @@ public class Road {
 			roadCells.get(roadCells.size()-1).setBlocked(isBlocked);
 		}
 	}
-	public void setCounter(double location, String name) {
-		vehicleCounter = new VehicleCounter(n, this, location, name);
-	}
-	public void setUnderground(int i, int j, boolean isUnderground) {
-		for (int k=i ; k<=j ; k++) {
-			this.getRoadCells().get(k).setUnderground(isUnderground);
-		}
-	}
 	public static void resetID() {
 		idCounter = 1;
 	}
 	public void addPoint(Point point) {
 		reorientations.add(point);
 	}
+	// Positioning methods ==================================================================================
 	// Set position and direction from a RoundAbout cell (out road)
 	public void setStartPositionFrom(RoundAbout ra, int i) {
 		if (this.getReorientations().size() == 0) {
@@ -122,7 +113,7 @@ public class Road {
 		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.sin(2*Math.PI*this.getDirection()/360.0)));
 		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2) * Math.cos(2*Math.PI*this.getDirection()/360.0)));
 	}
-	// Set position and direction from a Road cell (out road)
+	// Set position from a Road cell (out road) with a given direction
 	public void setStartPositionFrom(Road r, int i, int direction) {
 		if (this.getReorientations().size() == 0) {
 			setDirection(direction);
@@ -130,6 +121,7 @@ public class Road {
 		this.setX((int) (1*n.getCellWidth()/2 * Math.sin(2*Math.PI*this.getDirection()/360.0) + r.getX() + (i*n.getCellWidth() + n.getCellHeight()/2) * Math.sin(2*Math.PI*r.getDirection()/360.0)));
 		this.setY((int) (-1*n.getCellWidth()/2 * Math.cos(2*Math.PI*this.getDirection()/360.0) + r.getY() - (i*n.getCellWidth() + n.getCellHeight()/2) * Math.cos(2*Math.PI*r.getDirection()/360.0)));
 	}
+	// Set position and direction from a Road cell (out road) with an offset in a given direction
 	public void setStartPositionFrom(Road r, int i, int direction, double offsetNumberOfCells, double offsetDirection) {
 		if (this.getReorientations().size() == 0) {
 			setDirection(direction);
@@ -172,6 +164,12 @@ public class Road {
 		
 	}
 	// Set position and direction from a RoundAbout cell (in road)
+	public void setEndPositionFrom(RoundAbout ra, int i) {
+		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360 + 180);
+		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.sin(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
+		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.cos(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
+	}
+	// Set position from a RoundAbout cell (in road) with a given direction
 	public void setEndPositionFrom(RoundAbout ra, int i, int direction) {
 		if (this.getReorientations().size()==0) {
 			setDirection(direction);
@@ -197,25 +195,13 @@ public class Road {
 		this.setX(x);
 		this.setY(y);
 	}
-	// Set position and direction from a RoundAbout cell (in road)
-	public void setEndPositionFrom(RoundAbout ra, int i) {
-		this.direction = (int) (ra.getDirection() - i/(float)(ra.getLength()) * 360 + 180);
-		this.setX((int) (ra.getX() + (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.sin(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
-		this.setY((int) (ra.getY() - (ra.getLength()*n.getCellWidth()/(2*Math.PI) + n.getCellHeight()/2 + length*n.getCellWidth()) * Math.cos(Math.PI + 2*Math.PI*this.getDirection()/360.0) ));
-	}
-	
+	// Connecting methods ===================================================================================
 	// Connect "pointer" of last Cell to Cell i of RoundAbout
 	public void connectTo(Road r, int i) {
 		this.getRoadCells().get(this.getLength()-1).setOutCell(r.getRoadCells().get(i));
 		r.getRoadCells().get(i).setInCell(this.getRoadCells().get(this.getLength()-1));
 		this.addExit(r.getName(), this.getLength()-1);
 		r.addEnter(this.getName(), i);
-	}
-	public void connectFromiTo(Road r, int i) {
-		this.getRoadCells().get(i).setOutCell(r.getRoadCells().get(0));
-		r.getRoadCells().get(0).setInCell(this.getRoadCells().get(i));
-		this.addExit(r.getName(), i);
-		r.addEnter(this.getName(), 0);
 	}
 	public void connectFromiToj(Road r, int i, int j) {
 		this.getRoadCells().get(i).setOutCell(r.getRoadCells().get(j));
@@ -234,8 +220,6 @@ public class Road {
 	public void connectTo(MultiLaneRoundAbout MLRA, int i) {
 		int raSize = MLRA.getLanes()[0].getLength();
 		i = ((i % raSize)+raSize)%raSize;
-		//int i1 = i;
-		//int i2 = i+1;
 		
 		this.getRoadCells().get(this.getLength()-1).setOutCell(MLRA.getLanes()[0].getRoadCells().get(i));
 		MLRA.getLanes()[0].getRoadCells().get(i).setInCell(this.getRoadCells().get(this.getLength()-1));
@@ -243,12 +227,8 @@ public class Road {
 		MLRA.addEnter(this.getName(), i);
 		
 		for (int j=1; j<MLRA.getLanes().length; ++j) {
-			//i1 = ((i1 % raSize)+raSize)%raSize;
-			//i2 = ((i2 % raSize)+raSize)%raSize;
 			MLRA.getLanes()[j-1].getRoadCells().get(i).setOutCell(MLRA.getLanes()[j].getRoadCells().get(i));
 			MLRA.getLanes()[j].getRoadCells().get(i).setInCell(MLRA.getLanes()[j-1].getRoadCells().get(i));
-			//i1 = i2;
-			//i2 = i2+1;
 		}
 	}
 	
@@ -259,7 +239,7 @@ public class Road {
 		}
 	}
 	
-	// method that generate all rides that starts with this road (n connections max)
+	// Generate all rides that starts with this road (n connections max)
 	public void generateRides(int n) {
 		this.generateRidesAux(n, new Ride(this.getName()));
 	}
@@ -274,7 +254,7 @@ public class Road {
 		}
 		
 		
-		if(n==0) {
+		if (n==0) {
 			
 			// if n = 0 and if the road quit the network
 			if (this.getRoadCells().get(this.getLength()-1).getNextCell() == null && this.getRoadCells().get(this.getLength()-1).getOutCell() == null) {
@@ -398,6 +378,14 @@ public class Road {
 	}
 	
 	// Getters & setters ====================================================================================
+	public void setCounter(double location, String name) {
+		vehicleCounter = new VehicleCounter(n, this, location, name);
+	}
+	public void setUnderground(int i, int j, boolean isUnderground) {
+		for (int k=i ; k<=j ; k++) {
+			this.getRoadCells().get(k).setUnderground(isUnderground);
+		}
+	}
 	public ArrayList<Point> getReorientations() {
 		return this.reorientations;
 	}
