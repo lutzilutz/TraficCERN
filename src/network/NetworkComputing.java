@@ -27,11 +27,33 @@ public class NetworkComputing {
 	
 	// Compute position on-screen of all cells
 	public static void computeCellsPosition(Network n) {
+		
+		// Log beginning
 		Utils.logInfo("Computing Cells position ... ");
 		Utils.tick();
 		
-		margin = n.getCellWidth()*10;
+		// Compute offset and all cells position
+		computeOffset(n);
+		computeRoadCellsPosition(n);
+		computeRoundaboutCellsPosition(n);
 		
+		// Log ending
+		Utils.log("done");
+		Utils.logTime();
+	}
+	private static void computeOffset(Network n) {
+		margin = n.getCellWidth()*10;
+		n.setxDefaultOffset(NetworkRendering.bounds.x);
+		n.setyDefaultOffset(NetworkRendering.bounds.y);
+		n.setxOffset(n.getxDefaultOffset());
+		n.setyOffset(n.getyDefaultOffset());
+		for (int j=0 ; j<n.getZones().size() ; j++) {
+			for (int i=0 ; i<n.getZones().get(j).npoints ; i++) {
+				correctBounds(n.getZones().get(j).xpoints[i], n.getZones().get(j).ypoints[i]);
+			}
+		}
+	}
+	private static void computeRoadCellsPosition(Network n) {
 		for (Road r: n.getRoads()) {
 			int tmp = 0;
 			double x = r.getX() - n.getCellWidth()/2.0;
@@ -53,6 +75,8 @@ public class NetworkComputing {
 				correctBounds(x, y);
 			}
 		}
+	}
+	private static void computeRoundaboutCellsPosition(Network n) {
 		for (RoundAbout r: n.getRoundAbouts()) {
 			double radius = (r.getLength()*n.getCellWidth())/(2*Math.PI) - r.getInnerLane()*n.getCellWidth();
 			for (int i=0 ; i<r.getLength() ; i++) {
@@ -64,19 +88,6 @@ public class NetworkComputing {
 				correctBounds(x, y);
 			}
 		}
-		
-		for (int j=0 ; j<n.getZones().size() ; j++) {
-			for (int i=0 ; i<n.getZones().get(j).npoints ; i++) {
-				correctBounds(n.getZones().get(j).xpoints[i], n.getZones().get(j).ypoints[i]);
-			}
-		}
-		n.setxDefaultOffset(NetworkRendering.bounds.x);
-		n.setyDefaultOffset(NetworkRendering.bounds.y);
-		n.setxOffset(n.getxDefaultOffset());
-		n.setyOffset(n.getyDefaultOffset());
-		
-		Utils.log("done");
-		Utils.logTime();
 	}
 	// Corrects bounds of the network image
 	private static void correctBounds(double x, double y) {
@@ -98,14 +109,6 @@ public class NetworkComputing {
 	// Computing operations #################################################################################
 	// ######################################################################################################
 	
-	// Updates vehicle counter of roads
-	private static void computeFlows(Network n) {
-		for (Road r: n.getRoads()) {
-			if (r.getVehicleCounter() != null) {
-				r.getVehicleCounter().computeFlow();
-			}
-		}
-	}
 	// Update Cell of the Road according to the next state
 	public static void evolve(Network n) {
 		
@@ -137,6 +140,14 @@ public class NetworkComputing {
 				
 				iter.remove();
 				n.increaseNumberOfVehicles(-1);
+			}
+		}
+	}
+	// Updates vehicle counter of roads
+	private static void computeFlows(Network n) {
+		for (Road r: n.getRoads()) {
+			if (r.getVehicleCounter() != null) {
+				r.getVehicleCounter().computeFlow();
 			}
 		}
 	}

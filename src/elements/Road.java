@@ -38,16 +38,16 @@ public class Road {
 	public Road(Network n, int length) {
 		this.n = n;
 		this.length = length;
-		initFields();
+		init();
 	}
 	public Road(Network n, int length, String name) {
 		this.n = n;
 		this.length = length;
 		this.name = name;
-		initFields();
+		init();
 	}
 	
-	private void initFields() {
+	private void init() {
 		this.maxSpeed = n.getMaxSpeed();
 		id = idCounter;
 		idCounter++;
